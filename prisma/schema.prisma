@@ -30,5 +30,5 @@ model user {
   firstname String
   lastname  String
   email     String @unique
-  clubs     club[]
+  club     club[]
 }
