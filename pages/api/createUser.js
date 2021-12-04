@@ -2,11 +2,13 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const createUser = async (req, res) => {
+  const user = req.body;
+
   let resp = await prisma.user.create({
     data: {
-      firstname: "Abhinav",
-      lastname: "Palacharla",
-      email: "abhinav.palacharla@gmail.com",
+      firstname: user.firstname,
+      lastname: user.lastname,
+      email: user.email,
     },
   });
 

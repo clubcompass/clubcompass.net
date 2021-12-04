@@ -1,12 +1,12 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-const addClub = async (req, res) => {
-  let club = req.query;
+const createClub = async (req, res) => {
+  let club = req.body;
 
   let tags = [];
 
-  club.tags.split(", ").map((tag) => {
+  club.tags.map((tag) => {
     tags.push({ name: tag });
   });
 
@@ -28,4 +28,4 @@ const addClub = async (req, res) => {
   res.status(200).json({ response: resp });
 };
 
-export default addClub;
+export default createClub;

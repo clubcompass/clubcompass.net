@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const getByTag = async (req, res) => {
-  const tag_name = req.query.tag;
+  const tag_name = req.body.tag;
 
   let resp = await prisma.tag.findMany({
     where: {

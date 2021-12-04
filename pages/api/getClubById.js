@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const getClubById = async (req, res) => {
-  const club_id = req.query.club;
+  const club_id = req.body.club;
 
   let resp = await prisma.club.findMany({
     where: {
