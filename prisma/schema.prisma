@@ -8,8 +8,8 @@ generator client {
 }
 
 model club {
-  id           String @id @default(cuid())
-  name         String @unique
+  id           String  @id @default(cuid())
+  name         String  @unique
   description  String
   president    String
   meeting_time String
@@ -20,15 +20,16 @@ model club {
 }
 
 model tag {
-  name   String @id @unique
+  name   String  @id @unique
   club   club?   @relation(fields: [clubId], references: [id])
   clubId String?
 }
 
 model user {
-  id        String @id @default(cuid())
-  firstname String
-  lastname  String
-  email     String @unique
-  club     club[]
+  id          String @id @default(cuid())
+  firstname   String
+  lastname    String
+  profile_pic String
+  email       String @unique
+  club        club[]
 }
