@@ -2,7 +2,6 @@ import React from "react";
 import { tagSchema } from ".";
 export const Tag = ({ tag }) => {
   const clr = tagSchema[tag];
-  console.log(clr);
   return (
     <div
       style={{ backgroundColor: `${clr}20` }}
