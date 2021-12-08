@@ -28,7 +28,7 @@ const Header = ({ name, primaryTag, tags }) => (
       <div className="w-[38px] h-[38px]">{Icons[primaryTag]}</div>
       <Tags tags={tags} />
     </div>
-    <div className="mt-2">
+    <div className="my-2">
       <h3 className="font-bold text-[30px] leading-tight">{name}</h3>
     </div>
   </div>
