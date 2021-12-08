@@ -6,11 +6,11 @@ export const Tag = ({ tag }) => {
   return (
     <div
       style={{ backgroundColor: `${clr}20` }}
-      className="flex justify-center items-center px-2 py-0.5 rounded-md"
+      className="flex justify-center items-center px-2.5 py-[0.05rem] rounded-md"
     >
       <span
         style={{ color: clr }}
-        className="uppercase font-bold text-[0.5rem]"
+        className="uppercase font-extrabold text-[0.7rem]"
       >
         {tag}
       </span>
