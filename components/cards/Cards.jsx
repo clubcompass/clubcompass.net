@@ -19,7 +19,7 @@ export const Cards = () => {
     {
       name: "Algorithmic Programming and Problem Solving Club",
       description:
-        "Write complex algorithms and solve real world problems with the power of computer science.",
+        "Write complex algorithms and solve real world problems with the power of computer science. And other things too so we can test the truncating",
       primaryTag: "cs",
       tags: ["cs", "math", "tech", "stem"],
     },
