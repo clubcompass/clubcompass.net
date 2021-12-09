@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { FiLogOut } from "react-icons/fi";
 import { HiPlusSm } from "react-icons/hi";
@@ -9,7 +9,7 @@ export const Card = ({ name, description, primaryTag, tags, slug }) => {
     <Container>
       <div>
         <Header primaryTag={primaryTag} tags={tags} name={name} />
-        <Content description={description} />
+        <Content description={description} name={name} />
       </div>
       <Footer slug={name.replace(/\s+/g, "-").toLowerCase()} />
     </Container>
@@ -29,18 +29,35 @@ const Header = ({ name, primaryTag, tags }) => (
       <Tags tags={tags} />
     </div>
     <div className="my-2">
-      <h3 className="font-bold text-[30px] leading-tight">{name}</h3>
+      <h3 id={name} className="font-bold text-[30px] leading-tight">
+        {name}
+      </h3>
     </div>
   </div>
 );
 
-const Content = ({ description }) => (
-  <div className="mt-1">
-    <h3 className="font-bold text-left text-[17px] text-[#DFE3EA]">
-      {description}
-    </h3>
-  </div>
-);
+const Content = ({ name, description }) => {
+  const [lineClamp, setLineClamp] = useState(false);
+  useEffect(() => {
+    if (document.getElementById(name).clientHeight > 38) {
+      setLineClamp(true);
+    }
+  }, []);
+
+  console.log(name, lineClamp);
+
+  return (
+    <div className="mt-1">
+      <h3
+        className={`${
+          lineClamp ? "line-clamp-2" : "line-clamp-3"
+        } font-bold text-left text-[17px] text-[#DFE3EA]`}
+      >
+        {description}
+      </h3>
+    </div>
+  );
+};
 
 const Footer = ({ slug }) => (
   <div className="w-full flex flex-row justify-between">
