@@ -1,8 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-const removeSignup = async (req, res) => {
-  const { userID, clubID } = req.body;
+const signup = async (req, res) => {
+  const { userID, connectionID } = req.body;
 
   let resp = await prisma.user.update({
     where: {
@@ -10,7 +10,9 @@ const removeSignup = async (req, res) => {
     },
     data: {
       clubs: {
-        disconnect: { id: clubID },
+        disconnect: {
+          id: connectionID,
+        },
       },
     },
     include: {
@@ -21,4 +23,4 @@ const removeSignup = async (req, res) => {
   res.status(200).json({ response: resp });
 };
 
-export default removeSignup;
+export default signup;

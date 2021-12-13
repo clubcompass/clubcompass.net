@@ -1,11 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-//takes array of tag names and pushes to database
-
 const createTag = async (req, res) => {
   const tag_names = req.body.tags;
-
   let tags = [];
 
   tag_names.map((tag) => {
