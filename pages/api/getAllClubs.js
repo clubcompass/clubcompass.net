@@ -28,6 +28,19 @@ const getClubs = async (req, res) => {
       },
     },
   });
+
+  let members = [];
+
+  resp.map((club) => {
+    club.members.map((member, i) => {
+      if (member.user !== null) {
+        members.push(member);
+      }
+    });
+    club.members = members;
+    members = [];
+  });
+
   res.status(200).json({ response: resp });
 };
 
