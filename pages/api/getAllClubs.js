@@ -1,13 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-const getClubById = async (req, res) => {
-  const id = req.body.id;
-
-  let resp = await prisma.club.findUnique({
-    where: {
-      id: id,
-    },
+const getClubs = async (req, res) => {
+  let resp = await prisma.club.findMany({
     include: {
       tags: {
         select: {
@@ -26,7 +21,7 @@ const getClubById = async (req, res) => {
       },
     },
     include: {
-      users: {
+      members: {
         select: {
           user: true,
         },
@@ -34,7 +29,19 @@ const getClubById = async (req, res) => {
     },
   });
 
+  let members = [];
+
+  resp.map((club) => {
+    club.members.map((member, i) => {
+      if (member.user !== null) {
+        members.push(member);
+      }
+    });
+    club.members = members;
+    members = [];
+  });
+
   res.status(200).json({ response: resp });
 };
 
-export default getClubById;
+export default getClubs;
