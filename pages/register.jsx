@@ -77,7 +77,7 @@ const RegistrationForm = () => {
   }
 
   return (
-    <div className="w-4/6 flex flex-col">
+    <div className="relative w-full mx-6 lg:mx-0 lg:w-4/6 flex flex-col">
       <div className="w-full flex flex-col">
         <div className="!mx-0 mb-6">
           <Image src="/cc-auth.svg" alt="auth" width={40} height={40} />
@@ -140,13 +140,13 @@ const RegistrationForm = () => {
           </FormWrapper>
         </Form>
       </Formik>
-      <p className="font-medium mt-2">
+      <p className="font-medium mt-6">
         Already have an account?{" "}
         <Link href="/login">
           <a className="text-cc">Login</a>
         </Link>
       </p>
-      <p className="font-medium mt-6 opacity-50">
+      <p className="absolute -bottom-12 font-medium text-xs">
         Having trouble?{" "}
         <Link href="/contact">
           <a className="text-cc">Contact the team</a>

@@ -42,7 +42,7 @@ const Content = ({ name, description }) => {
     if (document.getElementById(name).clientHeight > 38) {
       setLineClamp(true);
     }
-  }, []);
+  }, [name]);
 
   console.log(name, lineClamp);
 
