@@ -29,7 +29,7 @@ model tag {
 }
 
 model user {
-  id          String        @unique
+  id          String        @id @unique
   firstname   String
   lastname    String
   email       String        @unique
@@ -50,5 +50,5 @@ model clubsOnUser {
   user   user?   @relation(fields: [userId], references: [id])
   club   club?   @relation(fields: [clubId], references: [id])
   userId String?
-  clubId String?  
+  clubId String?
 }
