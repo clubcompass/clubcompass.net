@@ -10,7 +10,13 @@ const signup = async (req, res) => {
     },
     data: {
       clubs: {
-        connect: { id: clubID },
+        create: {
+          club: {
+            connect: {
+              id: clubID,
+            },
+          },
+        },
       },
     },
     include: {
