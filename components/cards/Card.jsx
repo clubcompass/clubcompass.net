@@ -3,7 +3,7 @@ import Link from "next/link";
 import { FiLogOut } from "react-icons/fi";
 import { HiPlusSm } from "react-icons/hi";
 import { Tags } from "../tags";
-import { Icons } from "./icons";
+import { Icons } from "../icons";
 export const Card = ({ name, description, primaryTag, tags, slug }) => {
   return (
     <Container>
@@ -68,7 +68,7 @@ const Footer = ({ slug }) => (
   </div>
 );
 
-const CardButton = () => {
+export const CardButton = () => {
   const [joined, setJoined] = useState(false);
 
   return (
