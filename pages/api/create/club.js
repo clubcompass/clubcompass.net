@@ -1,8 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-const createClub = async (req, res) => {
-  let {
+const club = async (req, res) => {
+  const {
     name,
     email,
     meeting_time,
@@ -14,19 +14,17 @@ const createClub = async (req, res) => {
     president_id,
   } = req.body;
 
-  let tags = [];
-
-  tag_names.map((tag_name) => {
-    tags.push({
+  const tags = Array.from([...tag_names], (tag) => {
+    return {
       tag: {
         connect: {
-          name: tag_name,
+          name: tag,
         },
       },
-    });
+    };
   });
 
-  let resp = await prisma.club.create({
+  const response = await prisma.club.create({
     data: {
       name: name,
       email: email,
@@ -48,13 +46,13 @@ const createClub = async (req, res) => {
     data: {
       presidentOf: {
         connect: {
-          id: resp.id,
+          id: response.id,
         },
       },
     },
   });
 
-  res.status(200).json({ response: resp });
+  res.status(200).json({ ...response });
 };
 
-export default createClub;
+export default club;

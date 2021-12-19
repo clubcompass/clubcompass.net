@@ -1,10 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-const getClubById = async (req, res) => {
-  const id = req.body.id;
+const club = async (req, res) => {
+  const { id } = req.body;
 
-  let resp = await prisma.club.findUnique({
+  const response = await prisma.club.findUnique({
     where: {
       id: id,
     },
@@ -34,7 +34,7 @@ const getClubById = async (req, res) => {
     },
   });
 
-  res.status(200).json({ response: resp });
+  res.status(200).json({ ...response });
 };
 
-export default getClubById;
+export default club;
