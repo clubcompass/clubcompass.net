@@ -1,12 +1,12 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-const getByTag = async (req, res) => {
-  const id = req.body.id;
+const clubsByTag = async (req, res) => {
+  const { tag_id } = req.body;
 
-  let resp = await prisma.tag.findUnique({
+  let { clubs } = await prisma.tag.findUnique({
     where: {
-      id: id,
+      id: tag_id,
     },
     include: {
       clubs: {
@@ -18,6 +18,7 @@ const getByTag = async (req, res) => {
                   tag: true,
                 },
               },
+              president: true,
             },
           },
         },
@@ -25,16 +26,11 @@ const getByTag = async (req, res) => {
     },
   });
 
-  let clubs = resp.clubs;
-  let clean_clubs = [];
-
-  clubs.map((club) => {
-    if (club.club !== null) {
-      clean_clubs.push(club);
-    }
+  clubs = clubs.filter((club) => {
+    return club.club !== null;
   });
 
-  res.status(200).json({ response: clean_clubs });
+  res.status(200).json([...clubs]);
 };
 
-export default getByTag;
+export default clubsByTag;

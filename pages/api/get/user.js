@@ -1,10 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-const getUser = async (req, res) => {
-  const user_id = req.body.id;
+const user = async (req, res) => {
+  const { user_id } = req.body;
 
-  let resp = await prisma.user.findUnique({
+  const response = await prisma.user.findUnique({
     where: {
       id: user_id,
     },
@@ -16,7 +16,7 @@ const getUser = async (req, res) => {
       },
     },
   });
-  res.status(200).json({ response: resp });
+  res.status(200).json({ ...response });
 };
 
-export default getUser;
+export default user;
