@@ -9,8 +9,6 @@ const clubs = async (req, res) => {
           tag: true,
         },
       },
-    },
-    include: {
       president: {
         select: {
           id: true,
@@ -19,8 +17,6 @@ const clubs = async (req, res) => {
           email: true,
         },
       },
-    },
-    include: {
       members: {
         select: {
           user: true,
@@ -35,7 +31,7 @@ const clubs = async (req, res) => {
     });
   });
 
-  res.status(200).json({ ...response });
+  res.status(200).json([...response]);
 };
 
 export default clubs;

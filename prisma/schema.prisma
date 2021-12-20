@@ -16,6 +16,8 @@ model club {
   description      String
   link             String?
   link_name        String?
+  image_link       String?
+  image_caption    String?
   tags             tagsOnClub[]
   members          clubsOnUser[]
   president        user?         @relation(fields: [presidentId], references: [id])

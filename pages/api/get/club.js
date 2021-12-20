@@ -2,11 +2,11 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const club = async (req, res) => {
-  const { id } = req.body;
+  const { club_id } = req.body;
 
   const response = await prisma.club.findUnique({
     where: {
-      id: id,
+      id: club_id,
     },
     include: {
       tags: {
@@ -14,19 +14,8 @@ const club = async (req, res) => {
           tag: true,
         },
       },
-    },
-    include: {
-      president: {
-        select: {
-          id: true,
-          firstname: true,
-          lastname: true,
-          email: true,
-        },
-      },
-    },
-    include: {
-      users: {
+      president: true,
+      members: {
         select: {
           user: true,
         },
