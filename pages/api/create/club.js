@@ -5,6 +5,7 @@ const club = async (req, res) => {
   const {
     name,
     email,
+    teacher,
     meeting_time,
     meeting_location,
     description,
@@ -29,6 +30,7 @@ const club = async (req, res) => {
   let data = {
     name: name,
     email: email,
+    teacher: teacher,
     meeting_time: meeting_time,
     meeting_location: meeting_location,
     description: description,
@@ -56,18 +58,6 @@ const club = async (req, res) => {
         },
       },
     },
-    // data: {
-    //   name: name,
-    //   email: email,
-    //   meeting_time: meeting_time,
-    //   meeting_location: meeting_location,
-    //   description: description,
-    //   link: link,
-    //   link_name: link_name,
-    //   tags: {
-    //     create: tags,
-    //   },
-    // },
   });
 
   await prisma.user.update({
