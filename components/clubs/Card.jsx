@@ -61,7 +61,7 @@ const Content = ({ name, description }) => {
 
 const Footer = ({ slug }) => (
   <div className="w-full flex flex-row justify-between">
-    <Link href={`/clubs/${slug}`}>
+    <Link href={`/club/${slug}`}>
       <a className="font-bold text-[#2575E5]">View details</a>
     </Link>
     <CardButton />
