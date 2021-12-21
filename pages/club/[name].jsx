@@ -40,7 +40,9 @@ const Header = ({ name, members }) => {
   return (
     <div className="mb-9 flex flex-col text-center">
       <div className="mb-1">
-        <h1 className="text-3xl font-bold">{name}</h1>
+        <h1 className="text-3xl font-bold capitalize">
+          {name.replace(/-/g, " ")}
+        </h1>
       </div>
       <div>
         <Link href="/">
@@ -67,9 +69,7 @@ const Content = ({
 }) => {
   return (
     <div className="lg:grid lg:grid-cols-2 w-[70vw] mx-auto">
-      <div>
-        <Carousel image={image} caption={caption} />
-      </div>
+      <div>{/* <Carousel image={image} caption={caption} /> */}</div>
       <div className="flex flex-col">
         <Info
           president={president}
