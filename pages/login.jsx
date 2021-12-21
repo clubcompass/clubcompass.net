@@ -67,7 +67,11 @@ const LoginForm = () => {
     <div className="relative w-full mx-6 lg:mx-0 lg:w-4/6 flex flex-col">
       <div className="w-full flex flex-col">
         <div className="!mx-0 mb-6">
-          <Image src="/cc-auth.svg" alt="auth" width={40} height={40} />
+          <Link href="/">
+            <a>
+              <Image src="/cc-auth.svg" alt="auth" width={40} height={40} />
+            </a>
+          </Link>
         </div>
         <h1 className="text-4xl font-extrabold mb-2">Login</h1>
         <p className="w-full md:w-[70%] mb-3 font-medium text-[#797D83]">

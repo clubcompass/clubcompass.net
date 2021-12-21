@@ -1,10 +1,11 @@
 import React from "react";
-import { Cards } from "../components/cards";
+import { Cards } from "../components/clubs";
 
 export default function Home() {
   return (
-    <div className="w-[100vw] h-[100vh] bg-[#FCFEFF] p-8">
-      <Cards />
+    <div>
+      <h1>Homepage</h1>
+      {/* <Cards /> */}
     </div>
   );
 }
