@@ -1,11 +1,13 @@
 import React from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { MdLocationOn } from "react-icons/md";
 import { BsClock, BsFillPersonFill } from "react-icons/bs";
 import { IoMdMail } from "react-icons/io";
 import { BsClockFill } from "react-icons/bs";
 import { FiExternalLink } from "react-icons/fi";
-import { CardButton } from "../../components/cards/Card";
+import { CardButton } from "../../components/clubs/Card";
 
 const Club = () => {
   const router = useRouter();
@@ -41,12 +43,11 @@ const Header = ({ name, members }) => {
         <h1 className="text-3xl font-bold">{name}</h1>
       </div>
       <div>
-        <a
-          href="/"
-          className="text-lg font-semibold text-[#BABEC4] underline underline-offset-2 decoration-2"
-        >
-          {members.length} Members
-        </a>
+        <Link href="/">
+          <a className="text-lg font-semibold text-[#BABEC4] underline underline-offset-2 decoration-2">
+            {members.length} Members
+          </a>
+        </Link>
       </div>
     </div>
   );
@@ -67,7 +68,7 @@ const Content = ({
   return (
     <div className="lg:grid lg:grid-cols-2 w-[70vw] mx-auto">
       <div>
-        <Image image={image} caption={caption} />
+        <Carousel image={image} caption={caption} />
       </div>
       <div className="flex flex-col">
         <Info
@@ -83,12 +84,14 @@ const Content = ({
   );
 };
 
-const Image = ({ image, caption }) => {
+const Carousel = ({ image, caption }) => {
   return (
     <div className="mb-3 sm:mr-5 sm:min-h-full">
-      <img
+      <Image
         className="w-full mb-1 sm:min-w-full sm:min-h-full rounded-lg"
         src={image}
+        alt="img"
+        layout="fill"
       />
       <p className="text-sm text-[#BABEC4]">{caption}</p>
     </div>

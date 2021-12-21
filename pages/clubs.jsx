@@ -1,6 +1,6 @@
 import React from "react";
-import { Card, CardContainer } from ".";
-export const Cards = () => {
+import { Card, CardContainer } from "../components/clubs";
+const Cards = () => {
   const mockData = [
     {
       name: "Engineering",
@@ -32,3 +32,5 @@ export const Cards = () => {
     </CardContainer>
   );
 };
+
+export default Cards;
