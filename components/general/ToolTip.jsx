@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
-export const ToolTip = (props) => {
+export const ToolTip = ({children, delay, content}) => {
   let timeout;
   const [active, setActive] = useState(false);
 
   const showTip = () => {
     timeout = setTimeout(() => {
       setActive(true);
-    }, props.delay || 100);
+    }, delay || 100);
   };
 
   const hideTip = () => {
@@ -17,10 +17,10 @@ export const ToolTip = (props) => {
 
   return (
     <div className="relative" onMouseEnter={showTip} onMouseLeave={hideTip}>
-      {props.children}
+      {children}
       {active && (
         <div className="absolute ml-[100%] translate-y-[-100%] translate-x-[10px] bg-black/50 text-white text-sm font-base px-2 py-1 rounded">
-          {props.content}
+          {content}
         </div>
       )}
     </div>
