@@ -1,10 +1,25 @@
-import { FaTools } from "react-icons/fa";
-import { BsFillPeopleFill, BsTerminalFill } from "react-icons/bs";
-
-const b = "text-[#2575E5] text-[2.3rem]";
+import { FaTools, FaPaintBrush } from "react-icons/fa";
+import { ImTrophy } from "react-icons/im";
+import { HiAcademicCap } from "react-icons/hi";
+import { MdSell, MdCalculate } from "react-icons/md";
+import { RiHandCoinFill } from "react-icons/ri";
+import {
+  BsFillPeopleFill,
+  BsTerminalFill,
+  BsLightbulbFill,
+} from "react-icons/bs";
+import { BiAtom } from "react-icons/bi";
 
 export const Icons = {
-  stem: <FaTools className={b} />,
-  team: <BsFillPeopleFill className={b} />,
-  cs: <BsTerminalFill className={b} />,
+  math: ({ ...props }) => <MdCalculate {...props} />,
+  science: ({ ...props }) => <BiAtom {...props} />,
+  "computer science": ({ ...props }) => <BsTerminalFill {...props} />,
+  art: ({ ...props }) => <FaPaintBrush {...props} />,
+  creativity: ({ ...props }) => <BsLightbulbFill {...props} />,
+  teamwork: ({ ...props }) => <BsFillPeopleFill {...props} />,
+  competition: ({ ...props }) => <ImTrophy {...props} />,
+  charity: ({ ...props }) => <RiHandCoinFill {...props} />,
+  business: ({ ...props }) => <MdSell {...props} />,
+  history: ({ ...props }) => <FaTools {...props} />,
+  "academic aid": ({ ...props }) => <HiAcademicCap {...props} />,
 };

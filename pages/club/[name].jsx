@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -7,6 +7,7 @@ import { BsClock, BsFillPersonFill } from "react-icons/bs";
 import { IoMdMail } from "react-icons/io";
 import { BsClockFill } from "react-icons/bs";
 import { FiExternalLink } from "react-icons/fi";
+import { db } from "../../lib/database";
 import { CardButton } from "../../components/clubs/Card";
 
 const Club = () => {
@@ -28,6 +29,12 @@ const Club = () => {
     link_name: "Website",
     tag_names: ["math", "tech", "stem"],
   };
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     await db.get.club
+  //   }
+  // }, [])
   return (
     <div className="flex flex-col">
       <Header name={name} members={mockData.members} />

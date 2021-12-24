@@ -8,6 +8,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.4.2",
     "@prisma/client": "^3.6.0",
     "@supabase/supabase-js": "^1.28.5",
     "@tailwindcss/line-clamp": "^0.3.0",

@@ -12,10 +12,13 @@ module.exports = {
         "cc-light": "#4B8FEF",
       },
       gridTemplateColumns: {
-        cards: "repeat(auto-fill,minmax(464px,1fr))",
+        cards: "repeat(auto-fill,minmax(443px,1fr))",
       },
       animation: {
         "spin-slow": "spin 50s linear infinite",
+      },
+      transitionProperty: {
+        height: "height",
       },
     },
   },
