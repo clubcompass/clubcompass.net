@@ -10,6 +10,7 @@ generator client {
 model club {
   id               String        @id @default(cuid())
   name             String        @unique
+  slug String
   email            String
   teacher          String
   meeting_time     String
