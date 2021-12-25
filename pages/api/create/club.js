@@ -4,6 +4,7 @@ const prisma = new PrismaClient();
 const club = async (req, res) => {
   const {
     name,
+    slug,
     email,
     teacher,
     meeting_time,
@@ -29,6 +30,7 @@ const club = async (req, res) => {
 
   let data = {
     name: name,
+    slug: slug,
     email: email,
     teacher: teacher,
     meeting_time: meeting_time,
