@@ -1,5 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { prisma } from "../../../config/prisma";
 
 const signup = async (req, res) => {
   const { user_id, club_id } = req.body;
@@ -10,12 +9,8 @@ const signup = async (req, res) => {
     },
     data: {
       clubs: {
-        create: {
-          club: {
-            connect: {
-              id: club_id,
-            },
-          },
+        connect: {
+          id: club_id,
         },
       },
     },

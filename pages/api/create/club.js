@@ -1,7 +1,6 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { prisma } from "../../../config/prisma";
 
-const club = async (req, res) => {
+const clubb = async (req, res) => {
   const {
     name,
     email,
@@ -9,33 +8,80 @@ const club = async (req, res) => {
     meeting_time,
     meeting_location,
     description,
+    membership_requirements,
+    duties_of_members,
+    titles_and_duties_of_officers,
+    selection_of_officers,
+    officer_minimum_gpa,
+    minimum_percent_of_members_for_meeting,
+    minimum_percent_of_members_for_approving_decision,
+    president_contact,
     link,
     link_name,
     image_link,
     image_caption,
     tag_ids,
     president_id,
+    vice_president_id,
+    secretary_id,
+    treasurer_id,
   } = req.body;
 
   const tags = Array.from([...tag_ids], (tag_id) => {
     return {
-      tag: {
-        connect: {
-          id: tag_id,
-        },
-      },
+      id: tag_id,
     };
   });
 
+  // console.log(tags);
+
   let data = {
     name: name,
+    slug: name
+      .toString()
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^\w\-]+/g, "")
+      .replace(/\-\-+/g, "-")
+      .replace(/^-+/, "")
+      .replace(/-+$/, ""),
     email: email,
     teacher: teacher,
     meeting_time: meeting_time,
     meeting_location: meeting_location,
     description: description,
+    membership_requirements: membership_requirements,
+    duties_of_members: duties_of_members,
+    titles_and_duties_of_officers: titles_and_duties_of_officers,
+    selection_of_officers: selection_of_officers,
+    officer_minimum_gpa: officer_minimum_gpa,
+    minimum_percent_of_members_for_meeting:
+      minimum_percent_of_members_for_meeting,
+    minimum_percent_of_members_for_approving_decision:
+      minimum_percent_of_members_for_approving_decision,
+    president_contact: president_contact,
     tags: {
-      create: tags,
+      connect: tags,
+    },
+    president: {
+      connect: {
+        id: president_id,
+      },
+    },
+    vicePresident: {
+      connect: {
+        id: vice_president_id,
+      },
+    },
+    secretary: {
+      connect: {
+        id: secretary_id,
+      },
+    },
+    treasurer: {
+      connect: {
+        id: treasurer_id,
+      },
     },
   };
 
@@ -52,28 +98,15 @@ const club = async (req, res) => {
   const response = await prisma.club.create({
     data: data,
     include: {
-      tags: {
-        select: {
-          tag: true,
-        },
-      },
-    },
-  });
-
-  await prisma.user.update({
-    where: {
-      id: president_id,
-    },
-    data: {
-      presidentOf: {
-        connect: {
-          id: response.id,
-        },
-      },
+      tags: true,
+      president: true,
+      vicePresident: true,
+      secretary: true,
+      treasurer: true,
     },
   });
 
   res.status(200).json({ ...response });
 };
 
-export default club;
+export default clubb;

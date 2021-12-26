@@ -1,17 +1,16 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { prisma } from "../../../config/prisma";
 
 const user = async (req, res) => {
-  const { user_id, connection_id } = req.body;
+  const { user_id, club_id } = req.body;
 
-  let response = await prisma.user.update({
+  const response = await prisma.user.update({
     where: {
       id: user_id,
     },
     data: {
       clubs: {
         disconnect: {
-          id: connection_id,
+          id: club_id,
         },
       },
     },

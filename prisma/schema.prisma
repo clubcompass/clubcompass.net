@@ -1,87 +1,115 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://postgres:clubstestpassword123456@db.hpojtgueitwzskrkfxsz.supabase.co:5432/postgres?connection_limit=0&pool_timeout=0&max_connections=0"
 }
 
 generator client {
   provider = "prisma-client-js"
 }
 
-model club {
-  id               String        @id @default(cuid())
-  name             String        @unique
-  email            String
-  teacher          String
-  meeting_time     String
-  meeting_location String
-  description      String
-  link             String?
-  link_name        String?
-  image_link       String?
-  image_caption    String?
-  tags             tagsOnClub[]
-  members          clubsOnUser[]
-  president        user?         @relation(fields: [presidentId], references: [id])
-  presidentId      String?
+model Club {
+  id                                                String    @id @default(cuid())
+  name                                              String    @unique
+  slug                                              String    @unique
+  email                                             String
+  teacher                                           String
+  meeting_time                                      String
+  meeting_location                                  String
+  description                                       String
+  membership_requirements                           String
+  duties_of_members                                 String
+  titles_and_duties_of_officers                     String
+  selection_of_officers                             String
+  officer_minimum_gpa                               Float
+  minimum_percent_of_members_for_meeting            Int
+  minimum_percent_of_members_for_approving_decision Int
+  president_contact                                 String
+  link                                              String?
+  link_name                                         String?
+  image_link                                        String?
+  image_caption                                     String?
+  tags                                              Tag[]
+  members                                           User[]
+  president                                         User?      @relation("president_relation", fields: [presidentID], references: [id])
+  vicePresident                                     User?      @relation("vicePresident_relation", fields: [vicePresidentID], references: [id])
+  secretary                                         User?      @relation("secretary_relation", fields: [secretaryID], references: [id])
+  treasurer                                         User?      @relation("treasurer_relation", fields: [treasurerID], references: [id])
+  presidentID                                       String?    
+  vicePresidentID                                   String?    
+  secretaryID                                       String?    
+  treasurerID                                       String?    
+  meetings                                          Meeting[]
 }
 
-model tag {
-  id    String       @id @default(cuid())
-  name  String       @unique
-  clubs tagsOnClub[]
+model Tag {
+  id           String        @id @default(cuid())
+  name         String        @unique
+  clubs        Club[]
+  clubRequests ClubRequest[]
 }
 
-model user {
-  id          String        @id @unique
-  firstname   String
-  lastname    String
-  email       String        @unique
-  clubs       clubsOnUser[]
-  presidentOf club[]
+model Meeting {
+  id                  String    @id @default(cuid())
+  location            String
+  purpose             String
+  summary             String?
+  actions_taken       String?
+  result_of_any_votes String?
+  author              String?
+  status              String    @default("open")
+  code                String    @unique
+  startTime           DateTime  @default(now())
+  endTime             DateTime?
+  attendance          User[]
+  club                Club      @relation(fields: [clubID], references: [id])
+  clubID              String
 }
 
-model tagsOnClub {
-  id     String  @id @default(cuid())
-  club   club?   @relation(fields: [clubId], references: [id])
-  tag    tag?    @relation(fields: [tagId], references: [id])
-  clubId String?
-  tagId  String?
+model User {
+  id                     String        @id @default(cuid())
+  firstname              String
+  lastname               String
+  email                  String
+  clubs                  Club[]
+  presidentOf            Club[]         @relation("president_relation")
+  vicePresidentOf        Club[]         @relation("vicePresident_relation")
+  secretaryOf            Club[]         @relation("secretary_relation")
+  treasurerOf            Club[]         @relation("treasurer_relation")
+  initialPresidentOf     ClubRequest[] @relation("club_request_president_relation")
+  initialVicePresidentOf ClubRequest[] @relation("club_request_vice_president_relation")
+  initialSecretaryOf     ClubRequest[] @relation("club_request_secretary")
+  initialTreasurerOf     ClubRequest[] @relation("club_request_treasurer")
+  initialMemberList      ClubRequest[]
+  meetings               Meeting[]
 }
 
-model clubsOnUser {
-  id     String  @id @default(cuid())
-  user   user?   @relation(fields: [userId], references: [id])
-  club   club?   @relation(fields: [clubId], references: [id])
-  userId String?
-  clubId String?
+model ClubRequest {
+  id                                                String  @id @default(cuid())
+  name                                              String  @unique
+  teacher                                           String
+  meeting_time                                      String
+  meeting_location                                  String
+  description                                       String
+  membership_requirements                           String
+  duties_of_members                                 String
+  titles_and_duties_of_officers                     String
+  selection_of_officers                             String
+  officer_minimum_gpa                               Int
+  minimum_percent_of_members_for_meeting            Int
+  minimum_percent_of_members_for_approving_decision Int
+  president_contact                                 String
+  link                                              String?
+  link_name                                         String?
+  image_link                                        String?
+  image_caption                                     String?
+  president                                         User?    @relation("club_request_president_relation", fields: [presidentID], references: [id])
+  vicePresident                                     User?    @relation("club_request_vice_president_relation", fields: [vicePresidentID], references: [id])
+  secretary                                         User?    @relation("club_request_secretary", fields: [secretaryID], references: [id])
+  treasurer                                         User?    @relation("club_request_treasurer", fields: [treasurerID], references: [id])
+  presidentID                                       String
+  vicePresidentID                                   String
+  secretaryID                                       String
+  treasurerID                                       String
+  members                                           User[]
+  tags                                              Tag[]
 }
-
-// model clubRequest {
-//   id                                                String   @id @default(cuid())
-//   date                                              DateTime @default(now())
-//   name                                              String   @unique
-//   email                                             String
-//   teacher                                           String
-//   teacher_email                                     String
-//   meeting_time                                      String
-//   meeting_location                                  String
-//   description                                       String
-//   link                                              String?
-//   link_name                                         String?
-//   image_link                                        String?
-//   image_caption                                     String?
-//   tag_ids                                           String[]
-//   presidentId                                       String
-//   vicePresidentId                                   String
-//   secretaryId                                       String
-//   treasurerId                                       String
-//   president_contact                                 String
-//   initialMembers                                    String[]
-//   membership_requirements                           String
-//   duties_of_members                                 String
-//   titles_and_duties_of_officers                     String
-//   selection_of_officers                             String
-//   officer_minimum_gpa                               String
-//   minimum_percent_of_members_for_meeting            String
-//   minimum_percent_of_members_for_approving_decision String
-// }

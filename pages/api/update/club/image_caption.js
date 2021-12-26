@@ -1,5 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { prisma } from "../../../../config/prisma";
 
 const image_caption = async (req, res) => {
   const { club_id, image_caption } = req.body;
@@ -10,10 +9,6 @@ const image_caption = async (req, res) => {
     },
     data: {
       image_caption: image_caption,
-    },
-    include: {
-      president: true,
-      members: true,
     },
   });
 
