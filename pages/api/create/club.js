@@ -3,6 +3,7 @@ import { prisma } from "../../../config/prisma";
 const clubb = async (req, res) => {
   const {
     name,
+    slug,
     email,
     teacher,
     meeting_time,
