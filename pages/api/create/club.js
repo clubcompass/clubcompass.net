@@ -1,6 +1,6 @@
 import { prisma } from "../../../config/prisma";
 
-const clubb = async (req, res) => {
+const club = async (req, res) => {
   const {
     name,
     slug,
@@ -110,4 +110,4 @@ const clubb = async (req, res) => {
   res.status(200).json({ ...response });
 };
 
-export default clubb;
+export default club;
