@@ -1,8 +1,7 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { prisma } from "../../../config/prisma";
 
 const user = async (req, res) => {
-  const { user_id } = req.body;
+  const { user_id } = req.query;
 
   const response = await prisma.user.findUnique({
     where: {
@@ -10,10 +9,15 @@ const user = async (req, res) => {
     },
     include: {
       clubs: {
-        select: {
-          club: true,
+        include: {
+          tags: true,
         },
       },
+      presidentOf: true,
+      vicePresidentOf: true,
+      secretaryOf: true,
+      treasurerOf: true,
+      meetings: true,
     },
   });
   res.status(200).json({ ...response });
