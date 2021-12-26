@@ -1,16 +1,11 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { prisma } from "../../../../config/prisma";
 
 const tags = async (req, res) => {
   const { club_id, tag_ids } = req.body;
 
   const tags = Array.from([...tag_ids], (tag_id) => {
     return {
-      tag: {
-        connect: {
-          id: tag_id,
-        },
-      },
+      id: tag_id,
     };
   });
 
@@ -21,19 +16,34 @@ const tags = async (req, res) => {
     data: {
       tags: {
         set: [],
-        create: tags,
+        connect: tags,
       },
     },
     include: {
-      tags: {
-        select: {
-          tag: true,
-        },
-      },
-      president: true,
-      members: true,
+      tags: true,
     },
   });
+
+  // const response = await prisma.club.update({
+  //   where: {
+  //     id: club_id,
+  //   },
+  //   data: {
+  //     tags: {
+  //       set: [],
+  //       create: tags,
+  //     },
+  //   },
+  //   include: {
+  //     tags: {
+  //       select: {
+  //         tag: true,
+  //       },
+  //     },
+  //     president: true,
+  //     members: true,
+  //   },
+  // });
 
   res.status(200).json({ ...response });
 };

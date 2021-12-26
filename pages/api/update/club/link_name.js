@@ -1,5 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { prisma } from "../../../../config/prisma";
 
 const link_name = async (req, res) => {
   const { club_id, link_name } = req.body;
@@ -10,10 +9,6 @@ const link_name = async (req, res) => {
     },
     data: {
       link_name: link_name,
-    },
-    include: {
-      president: true,
-      members: true,
     },
   });
 

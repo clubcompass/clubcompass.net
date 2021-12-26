@@ -1,5 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { prisma } from "../../../../config/prisma";
 
 const email = async (req, res) => {
   const { user_id, email } = req.body;
@@ -10,13 +9,6 @@ const email = async (req, res) => {
     },
     data: {
       email: email,
-    },
-    include: {
-      clubs: {
-        select: {
-          club: true,
-        },
-      },
     },
   });
 
