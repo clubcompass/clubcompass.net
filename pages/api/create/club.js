@@ -34,8 +34,6 @@ const club = async (req, res) => {
     };
   });
 
-  // console.log(tags);
-
   let data = {
     name: name,
     slug: name
