@@ -68,6 +68,14 @@ const club = async (req, res) => {
 
     res.status(200).json([...clubs]);
   }
+
+  const response = await prisma.club.findMany({
+    include: {
+      tags: true,
+    },
+  });
+
+  res.status(200).json([...response]);
 };
 
 export default club;
