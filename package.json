@@ -5,10 +5,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "node ./seed_script/seed.js"
   },
   "dependencies": {
-    "@prisma/client": "^3.6.0",
+    "@prisma/client": "^3.7.0",
     "@supabase/supabase-js": "^1.28.5",
     "@tailwindcss/line-clamp": "^0.3.0",
     "@tailwindcss/typography": "^0.5.0",
@@ -16,6 +17,7 @@
     "blobs": "^2.2.1-beta.1",
     "formik": "^2.2.9",
     "next": "12.0.4",
+    "prisma": "^3.7.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-icons": "^4.3.1",
@@ -27,7 +29,6 @@
     "eslint": "7.32.0",
     "eslint-config-next": "12.0.4",
     "postcss": "^8.4.5",
-    "prisma": "^3.6.0",
     "tailwindcss": "^3.0.7"
   }
 }
