@@ -26,18 +26,18 @@ model Club {
   president_contact                                 String
   link                                              String?
   link_name                                         String?
-  image_link                                        String?
-  image_caption                                     String?
+  image_links                                       String[]
+  image_captions                                    String[]
   tags                                              Tag[]
   members                                           User[]
-  president                                         User?      @relation("president_relation", fields: [presidentID], references: [id])
-  vicePresident                                     User?      @relation("vicePresident_relation", fields: [vicePresidentID], references: [id])
-  secretary                                         User?      @relation("secretary_relation", fields: [secretaryID], references: [id])
-  treasurer                                         User?      @relation("treasurer_relation", fields: [treasurerID], references: [id])
-  presidentID                                       String?    
-  vicePresidentID                                   String?    
-  secretaryID                                       String?    
-  treasurerID                                       String?    
+  president                                         User?     @relation("president_relation", fields: [presidentID], references: [id])
+  vicePresident                                     User?     @relation("vicePresident_relation", fields: [vicePresidentID], references: [id])
+  secretary                                         User?     @relation("secretary_relation", fields: [secretaryID], references: [id])
+  treasurer                                         User?     @relation("treasurer_relation", fields: [treasurerID], references: [id])
+  presidentID                                       String?
+  vicePresidentID                                   String?
+  secretaryID                                       String?
+  treasurerID                                       String?
   meetings                                          Meeting[]
 }
 
@@ -71,10 +71,10 @@ model User {
   lastname               String
   email                  String
   clubs                  Club[]
-  presidentOf            Club[]         @relation("president_relation")
-  vicePresidentOf        Club[]         @relation("vicePresident_relation")
-  secretaryOf            Club[]         @relation("secretary_relation")
-  treasurerOf            Club[]         @relation("treasurer_relation")
+  presidentOf            Club[]        @relation("president_relation")
+  vicePresidentOf        Club[]        @relation("vicePresident_relation")
+  secretaryOf            Club[]        @relation("secretary_relation")
+  treasurerOf            Club[]        @relation("treasurer_relation")
   initialPresidentOf     ClubRequest[] @relation("club_request_president_relation")
   initialVicePresidentOf ClubRequest[] @relation("club_request_vice_president_relation")
   initialSecretaryOf     ClubRequest[] @relation("club_request_secretary")
@@ -102,10 +102,10 @@ model ClubRequest {
   link_name                                         String?
   image_link                                        String?
   image_caption                                     String?
-  president                                         User?    @relation("club_request_president_relation", fields: [presidentID], references: [id])
-  vicePresident                                     User?    @relation("club_request_vice_president_relation", fields: [vicePresidentID], references: [id])
-  secretary                                         User?    @relation("club_request_secretary", fields: [secretaryID], references: [id])
-  treasurer                                         User?    @relation("club_request_treasurer", fields: [treasurerID], references: [id])
+  president                                         User?   @relation("club_request_president_relation", fields: [presidentID], references: [id])
+  vicePresident                                     User?   @relation("club_request_vice_president_relation", fields: [vicePresidentID], references: [id])
+  secretary                                         User?   @relation("club_request_secretary", fields: [secretaryID], references: [id])
+  treasurer                                         User?   @relation("club_request_treasurer", fields: [treasurerID], references: [id])
   presidentID                                       String
   vicePresidentID                                   String
   secretaryID                                       String

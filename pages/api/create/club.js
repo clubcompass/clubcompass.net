@@ -19,8 +19,8 @@ const club = async (req, res) => {
     president_contact,
     link,
     link_name,
-    image_link,
-    image_caption,
+    image_links,
+    image_captions,
     tag_ids,
     president_id,
     vice_president_id,
@@ -89,9 +89,9 @@ const club = async (req, res) => {
     data.link_name = link_name;
   }
 
-  if (image_link !== undefined) {
-    data.image_link = image_link;
-    data.image_caption = image_caption;
+  if (image_links !== undefined) {
+    data.image_links = image_links;
+    data.image_captions = image_captions;
   }
 
   const response = await prisma.club.create({
