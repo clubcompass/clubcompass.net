@@ -1,7 +1,7 @@
 import { prisma } from "../../../config/prisma";
 
 const club = async (req, res) => {
-  const { club_id, slug, tag_ids } = req.query;
+  let { club_id, slug, tag_ids } = req.query;
 
   if (club_id !== undefined) {
     const response = await prisma.club.findUnique({
@@ -30,52 +30,39 @@ const club = async (req, res) => {
   }
 
   if (tag_ids !== undefined) {
-    const { meeting_code, tag_ids } = req.query;
-
-    const tags = Array.from([...tag_ids.split(", ")], (tag_id) => {
+    const query = Array.from([...tag_ids.split(", ")], (tag_id) => {
       return {
-        id: {
-          equals: tag_id,
+        tags: {
+          some: {
+            id: {
+              equals: tag_id,
+            },
+          },
         },
       };
     });
 
-    const unformatted_response = await prisma.tag.findMany({
+    const response = await prisma.club.findMany({
       where: {
-        OR: tags,
+        OR: query,
       },
-      select: {
-        clubs: {
-          include: {
-            tags: true,
-          },
-        },
+      include: {
+        tags: true,
       },
     });
 
-    let clubs = [];
-
-    unformatted_response.map((collection) => {
-      collection.clubs.map((club) => {
-        clubs.push(club);
-      });
-    });
-
-    clubs = clubs.filter(
-      (value, index, self) =>
-        index === self.findIndex((club) => club.id === value.id)
-    );
-
-    res.status(200).json([...clubs]);
+    res.status(200).json([...response]);
   }
 
-  const response = await prisma.club.findMany({
-    include: {
-      tags: true,
-    },
-  });
+  if (club_id === undefined && slug === undefined && tag_ids === undefined) {
+    const response = await prisma.club.findMany({
+      include: {
+        tags: true,
+      },
+    });
 
-  res.status(200).json([...response]);
+    res.status(200).json([...response]);
+  }
 };
 
 export default club;
