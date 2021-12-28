@@ -6,7 +6,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed": "node ./seed_script/seed.js"
   },
   "dependencies": {
     "@prisma/client": "^3.7.0",
