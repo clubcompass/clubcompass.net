@@ -7,11 +7,8 @@ import { tagSchema } from "../tags";
 import { Icons } from "../icons";
 export const Card = ({ name, description, tags, slug }) => {
   return (
-    // <div>
-    //   <h1>{name}</h1>
-    // </div>
     <Container>
-      <Header primaryTag={tags[0].tag.name} tags={tags} name={name} />
+      <Header primaryTag={tags[0].name} tags={tags} name={name} />
       <Content description={description} name={name} />
       <Footer slug={name.replace(/\s+/g, "-").toLowerCase()} />
     </Container>
