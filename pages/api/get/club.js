@@ -10,6 +10,11 @@ const club = async (req, res) => {
       },
       include: {
         tags: true,
+        president: true,
+        vicePresident: true,
+        secretary: true,
+        treasurer: true,
+        members: true,
       },
     });
 
@@ -23,6 +28,11 @@ const club = async (req, res) => {
       },
       include: {
         tags: true,
+        president: true,
+        vicePresident: true,
+        secretary: true,
+        treasurer: true,
+        members: true,
       },
     });
 
@@ -48,6 +58,11 @@ const club = async (req, res) => {
       },
       include: {
         tags: true,
+        president: true,
+        vicePresident: true,
+        secretary: true,
+        treasurer: true,
+        members: true,
       },
     });
 
@@ -58,6 +73,11 @@ const club = async (req, res) => {
     const response = await prisma.club.findMany({
       include: {
         tags: true,
+        president: true,
+        vicePresident: true,
+        secretary: true,
+        treasurer: true,
+        members: true,
       },
     });
 
