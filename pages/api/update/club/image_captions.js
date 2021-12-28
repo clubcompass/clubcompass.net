@@ -1,18 +1,18 @@
 import { prisma } from "../../../../config/prisma";
 
-const image_caption = async (req, res) => {
-  const { club_id, image_caption } = req.body;
+const image_captions = async (req, res) => {
+  const { club_id, image_captions } = req.body;
 
   const response = await prisma.club.update({
     where: {
       id: club_id,
     },
     data: {
-      image_caption: image_caption,
+      image_captions: image_captions,
     },
   });
 
   res.status(200).json({ ...response });
 };
 
-export default image_caption;
+export default image_captions;
