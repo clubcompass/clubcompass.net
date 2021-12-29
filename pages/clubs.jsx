@@ -11,15 +11,12 @@ const Cards = () => {
     const url = `${process.env.NEXT_PUBLIC_URL}/api/get/club?${
       tag_id !== null
         ? tag_id.length === 1
-          ? `tag_id=${tag_id[0]}`
+          ? `tag_ids=${tag_id[0]}`
           : `tag_ids=${tag_id.join(",")}`
         : ""
     }`;
     console.log(url);
     const { data: response } = await axios.get(url);
-
-    // response is an array of clubs with each club having an array of tags
-    // filter response for clubs with the current tag
 
     const clubs = response.filter((club) => {
       return club.tags.some((tag) => tag.id === "ckxnyghbr00079vq3yyztnswm");

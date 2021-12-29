@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useQuery } from "react-query";
 import { MdLocationOn } from "react-icons/md";
 import { BsClock, BsFillPersonFill } from "react-icons/bs";
 import { IoMdMail } from "react-icons/io";
@@ -12,33 +13,37 @@ import { CardButton } from "../../components/clubs/Card";
 
 const Club = () => {
   const router = useRouter();
+  const [nameLoaded, setNameLoaded] = useState(false);
   const { name } = router.query;
-  const mockData = {
-    name: "Engineering Applied",
-    president: "Jon Zimmerman",
-    members: ["Jon Zimmeran", "Markus Balls", "Richard Sucka"],
-    image:
-      "https://www.chemengonline.com/wp-content/uploads/2018/01/manual-workers-working.jpg",
-    caption: "Students participating in engineering.",
-    email: "johnny.appleseed@gmail.com",
-    meeting_time: "Wednesday, 11:30 - 12:30, Biweekly",
-    meeting_location: "A101",
-    description:
-      "To identify a real-world problem and develop a solution to it. Equips students to become tech entrepreneurs and leaders. Our focus is to teach students about engineering related things blah blah blah. We blah, then blah but also blah.",
-    link: "http://clubcompass.net/delnorte",
-    link_name: "Website",
-    tag_names: ["math", "tech", "stem"],
-  };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     await db.get.club
-  //   }
-  // }, [])
+  const {
+    data: club,
+    error: clubError,
+    isLoading: clubLoading,
+  } = useQuery("club", async () => await db.get.club.by.slug({ slug: name }), {
+    enabled: nameLoaded,
+  });
+
+  console.log("name", nameLoaded);
+  console.log("clubs", clubLoading);
+
+  useEffect(() => {
+    name === undefined ? setNameLoaded(false) : setNameLoaded(true);
+  }, [name]);
+
+  if (clubLoading === true) return "Loading...";
+
+  if (clubError) return "An error has occurred: " + clubError.message;
+
+  console.log(club);
   return (
     <div className="flex flex-col">
-      <Header name={name} members={mockData.members} />
-      <Content {...mockData} />
+      {club && (
+        <>
+          <Header name={club.name} members={club.members.length} />
+          <Content {...club} />
+        </>
+      )}
     </div>
   );
 };
@@ -54,7 +59,7 @@ const Header = ({ name, members }) => {
       <div>
         <Link href="/">
           <a className="text-lg font-semibold text-[#BABEC4] underline underline-offset-2 decoration-2">
-            {members.length} Members
+            {members} Members
           </a>
         </Link>
       </div>
@@ -111,7 +116,9 @@ const Info = ({ president, email, meeting_time, meeting_location }) => {
     <div className="text-[#0077ED] font-bold mb-1">
       <div className={z}>
         <BsFillPersonFill className="text-[1.4rem] mr-[.3rem] translate-y-[0.1rem] translate-x-[-0.1rem]" />
-        <h4>{president}</h4>
+        <h4>
+          {president.firstname} {president.lastname}
+        </h4>
       </div>
       <div className={z}>
         <IoMdMail className="text-[1.3rem] mr-[.5rem] translate-y-[0.15rem]" />
