@@ -40,7 +40,7 @@ const club = async (req, res) => {
   }
 
   if (tag_ids !== undefined) {
-    const query = Array.from([...tag_ids.split(", ")], (tag_id) => {
+    const query = Array.from([...tag_ids.split(",")], (tag_id) => {
       return {
         tags: {
           some: {
