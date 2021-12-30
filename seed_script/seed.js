@@ -5,6 +5,8 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const { exit } = require("process");
 
+const args = process.argv.slice(2);
+
 const seed_tags = async () => {
   await axios.post("http://localhost:3000/api/create/tags", {
     tag_names: [
@@ -36,14 +38,23 @@ const seed_tags = async () => {
 };
 
 const seed_users = async () => {
+  let formatted_user_list = [];
+
   users.map(async (user) => {
-    await axios.post("http://localhost:3000/api/create/user", {
+    formatted_user_list.push({
       id: user.cuid,
       firstname: user.name,
       lastname: user.lastname,
       email: user.email,
     });
   });
+
+  for (let i = 0; i < formatted_user_list.length; i++) {
+    await axios.post(
+      "http://localhost:3000/api/create/user",
+      formatted_user_list[i]
+    );
+  }
 };
 
 const seed_clubs = async () => {
@@ -112,11 +123,16 @@ const seed_clubs = async () => {
       });
   });
 
-  clubs.map(async (club) => {
+  // clubs.map(async (club) => {
+  //   await prisma.club.create({
+  //     data: club,
+  //   });
+  // });
+  for (let i = 0; i < clubs.length; i++) {
     await prisma.club.create({
-      data: club,
+      data: clubs[i],
     });
-  });
+  }
 };
 
 const seed_club_members = async () => {
@@ -125,11 +141,11 @@ const seed_club_members = async () => {
   const user_ids = Array.from([...users], (user) => {
     return user.id;
   });
-  const club_ids = Array.from([...clubs], (club) => {
-    return club.id;
+  const formatted_clubs = Array.from([...clubs], (club) => {
+    return { club_id: club.id };
   });
 
-  club_ids.map(async (club_id) => {
+  formatted_clubs.map(async (club) => {
     let members = [];
     for (let i = 0; i < 20; i++) {
       let id = user_ids[Math.floor(Math.random() * user_ids.length)];
@@ -144,17 +160,21 @@ const seed_club_members = async () => {
       }
     }
 
+    club.members = members;
+  });
+
+  for (let i = 0; i < formatted_clubs.length; i++) {
     await prisma.club.update({
       where: {
-        id: club_id,
+        id: formatted_clubs[i].club_id,
       },
       data: {
         members: {
-          connect: members,
+          connect: formatted_clubs[i].members,
         },
       },
     });
-  });
+  }
 };
 
 const clear_database = async () => {
@@ -164,6 +184,46 @@ const clear_database = async () => {
 };
 
 const main = async () => {
+  const OPTION = parseInt(args);
+
+  switch (OPTION) {
+    case 1: {
+      console.log("Seeding tags...");
+      await seed_tags();
+      console.log("Done.");
+      break;
+    }
+    case 2: {
+      console.log("Seeding users...");
+      await seed_users();
+      console.log("Done.");
+      break;
+    }
+    case 3: {
+      console.log("Seeding clubs...");
+      await seed_clubs();
+      console.log("Done.");
+      break;
+    }
+    case 4: {
+      console.log("Seeding club members...");
+      await seed_club_members();
+      console.log("Done.");
+      break;
+    }
+    case 5: {
+      console.log("Clearing database...");
+      await clear_database();
+      console.log("Done.");
+      break;
+    }
+    default: {
+      console.log("Invalid option selected");
+    }
+  }
+
+  process.exit();
+
   // await seed_tags();
   // await seed_users();
   // await seed_clubs();
