@@ -9,7 +9,7 @@ export const Layout = ({ children }) => {
       className={`${
         router.pathname === "/register" || router.pathname === "/login"
           ? ""
-          : "flex flex-col justify-between bg-[#FCFEFF] p-8"
+          : "flex flex-col justify-between bg-[#FCFEFF]"
       }`}
     >
       {router.pathname === "/" && <Navigation />}
