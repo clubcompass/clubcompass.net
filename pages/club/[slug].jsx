@@ -62,13 +62,13 @@ const Club = () => {
     link_name: "Website",
     image_links: [
       "https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80",
-      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80",
-      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80",
+      "https://bestlifeonline.com/wp-content/uploads/sites/3/2019/04/weird-dog-lizard-hybrid.jpg?quality=82&strip=all",
+      "http://www.onextrapixel.com/wp-content/uploads/2013/07/shutterstock-1.jpg",
     ],
     image_captions: [
       "This is the team programming and being productive and doing work.",
-      "This is the team programming and being productive and doing work.",
-      "This is the team programming and being productive and doing work.",
+      "Green tree frog dog.",
+      "Intense political debate between two intellectuals.",
     ],
     presidentID: "cc386a57-e963-4370-bd88-2fee59d24c31",
     vicePresidentID: "7358b08f-a146-4e0d-a16d-47046140e4e3",
@@ -235,6 +235,13 @@ const Club = () => {
       {/* {club && ( */}
       <ClubComponent>
         <ClubComponent.Wrapper>
+          <ClubComponent.Header name={club.name} tags={club.tags} />
+          <ClubComponent.Carousel
+            images={club.image_links}
+            captions={club.image_captions}
+          />
+          <ClubComponent.Header name={club.name} tags={club.tags} />
+          <ClubComponent.Header name={club.name} tags={club.tags} />
           <ClubComponent.Header name={club.name} tags={club.tags} />
         </ClubComponent.Wrapper>
       </ClubComponent>
