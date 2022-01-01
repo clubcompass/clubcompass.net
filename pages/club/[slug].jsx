@@ -76,7 +76,7 @@ const Club = () => {
     treasurerID: "c55b9d0d-d8ef-4b41-8334-277b30a69a41",
     tags: [
       {
-        id: "ckxr00ic42145rbq33trn971i",
+        id: "ckxteyszp00069fq3gvtawa3d",
         name: "writing",
       },
       {
@@ -254,7 +254,7 @@ const Club = () => {
             treasurer={club.treasurer}
             members={club.members}
           />
-          <ClubComponent.Header name={club.name} tags={club.tags} />
+          <ClubComponent.SimilarClubs tag={club.tags[0].id} />
         </ClubComponent.Wrapper>
       </ClubComponent>
 
