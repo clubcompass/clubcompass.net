@@ -19,7 +19,7 @@ export const ClubCarousel = ({ images, captions }) => {
 
   return (
     <div className="relative">
-      <div className="relative right-6 flex flex-row items-center gap-4 w-[458.19px] h-[305.13px]">
+      <div className="relative right-6 flex flex-row items-center gap-4 w-full h-[305.13px]">
         <div className="flex flex-col gap-3 h-1/2">
           <span
             className={`${

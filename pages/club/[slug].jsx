@@ -247,12 +247,12 @@ const Club = () => {
             description={club.description}
             website={{ name: club.link_name, link: club.link }}
           />
-          <ClubComponent.Content
-            email={club.president.email}
-            time={club.meeting_time}
-            location={club.meeting_location}
-            description={club.description}
-            website={{ name: club.link_name, link: club.link }}
+          <ClubComponent.Members
+            president={club.president}
+            vicePresident={club.vicePresident}
+            secretary={club.secretary}
+            treasurer={club.treasurer}
+            members={club.members}
           />
           <ClubComponent.Header name={club.name} tags={club.tags} />
         </ClubComponent.Wrapper>

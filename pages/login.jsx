@@ -27,10 +27,10 @@ export default Login;
 
 const LoginContainer = ({ children }) => (
   <div className="flex flex-row w-full">
-    <div className="flex w-full h-[100vh] items-center justify-center">
+    <div className="flex w-full h-screen items-center justify-center">
       {children[0]}
     </div>
-    <div className="hidden md:block h-[100vh] w-full">{children[1]}</div>
+    <div className="hidden md:block h-screen w-full">{children[1]}</div>
   </div>
 );
 

@@ -10,7 +10,7 @@ export const ClubContent = ({
   website,
 }) => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="w-full flex flex-col gap-4">
       <div className="flex flex-col gap-2 font-bold">
         <Info content={email} icon={<MdEmail />} />
         <Info content={time} icon={<AiFillClockCircle />} />
