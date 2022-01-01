@@ -240,8 +240,20 @@ const Club = () => {
             images={club.image_links}
             captions={club.image_captions}
           />
-          <ClubComponent.Header name={club.name} tags={club.tags} />
-          <ClubComponent.Header name={club.name} tags={club.tags} />
+          <ClubComponent.Content
+            email={club.president.email}
+            time={club.meeting_time}
+            location={club.meeting_location}
+            description={club.description}
+            website={{ name: club.link_name, link: club.link }}
+          />
+          <ClubComponent.Content
+            email={club.president.email}
+            time={club.meeting_time}
+            location={club.meeting_location}
+            description={club.description}
+            website={{ name: club.link_name, link: club.link }}
+          />
           <ClubComponent.Header name={club.name} tags={club.tags} />
         </ClubComponent.Wrapper>
       </ClubComponent>
