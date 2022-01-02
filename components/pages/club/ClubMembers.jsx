@@ -23,7 +23,7 @@ export const ClubMembers = ({
   ];
 
   return (
-    <div className="flex flex-col gap-2 h-[360px] overflow-y-scroll">
+    <div className="flex flex-col gap-2 h-[360px] pr-[12px] w-[calc(100%+12px)] overflow-y-scroll">
       {allMembers.map((member) => (
         <Member key={member.id} {...member} />
       ))}
