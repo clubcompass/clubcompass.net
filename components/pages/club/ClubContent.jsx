@@ -16,7 +16,7 @@ export const ClubContent = ({
         <Info content={time} icon={<AiFillClockCircle />} />
         <Info content={location} icon={<MdLocationOn />} />
       </div>
-      <div className="h-[150px] w-full pr-[12px] w-[calc(100%+12px)] overflow-y-scroll">
+      <div className="h-[155px] w-full pr-[12px] w-[calc(100%+12px)] overflow-y-scroll">
         <p>{description}</p>
       </div>
       <div className="flex flex-row items-center justify-between">
