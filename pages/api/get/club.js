@@ -1,7 +1,8 @@
 import { prisma } from "../../../config/prisma";
+import { redis } from "../../../config/redis";
 
 const club = async (req, res) => {
-  let { club_id, slug, tag_ids } = req.query;
+  let { club_id, slug, tag_ids, cache } = req.query;
 
   if (club_id !== undefined) {
     const response = await prisma.club.findUnique({
@@ -11,10 +12,6 @@ const club = async (req, res) => {
       include: {
         tags: true,
         president: true,
-        vicePresident: true,
-        secretary: true,
-        treasurer: true,
-        members: true,
       },
     });
 
@@ -29,10 +26,6 @@ const club = async (req, res) => {
       include: {
         tags: true,
         president: true,
-        vicePresident: true,
-        secretary: true,
-        treasurer: true,
-        members: true,
       },
     });
 
@@ -59,25 +52,34 @@ const club = async (req, res) => {
       include: {
         tags: true,
         president: true,
-        vicePresident: true,
-        secretary: true,
-        treasurer: true,
-        members: true,
       },
     });
 
     res.status(200).json([...response]);
   }
 
-  if (club_id === undefined && slug === undefined && tag_ids === undefined) {
+  if (cache !== undefined) {
+    await redis.connect();
+
+    const response = await redis.get("clubs");
+
+    await redis.quit();
+
+    const data = JSON.parse(response);
+
+    res.status(200).json([...data]);
+  }
+
+  if (
+    club_id === undefined &&
+    slug === undefined &&
+    tag_ids === undefined &&
+    cache === undefined
+  ) {
     const response = await prisma.club.findMany({
       include: {
         tags: true,
         president: true,
-        vicePresident: true,
-        secretary: true,
-        treasurer: true,
-        members: true,
       },
     });
 
