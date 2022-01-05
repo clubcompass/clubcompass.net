@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { Card, CardContainer } from "../components/clubs";
-import { Tag } from "../components/tags";
+import { Tag } from "../components/general/tags";
 import { db } from "../lib/database";
 import axios from "axios";
+import { Clubs } from "../components/pages/clubs";
 const Cards = () => {
   const [tag_id, setTagId] = useState(null);
   const [currentTag, setCurrentTag] = useState(null);
@@ -21,8 +22,6 @@ const Cards = () => {
     const clubs = response.filter((club) => {
       return club.tags.some((tag) => tag.id === "ckxnyghbr00079vq3yyztnswm");
     });
-
-    console.log(clubs);
 
     return response;
   };
@@ -44,6 +43,8 @@ const Cards = () => {
 
   if (clubsError) return "An error has occurred: " + clubsError.message;
   if (tagsError) return "An error has occurred: " + tagsError.message;
+
+  console.log(clubs);
 
   return (
     <div className="flex flex-col gap-6">
@@ -70,12 +71,7 @@ const Cards = () => {
         ))}
       </div>
       <h1>{currentTag && currentTag.join(",")}</h1>
-
-      <CardContainer>
-        {clubs.map((club, index) => (
-          <Card key={index} {...club} />
-        ))}
-      </CardContainer>
+      <Clubs clubs={clubs} />
     </div>
   );
 };
