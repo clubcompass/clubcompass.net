@@ -12,7 +12,7 @@ import {
   FormWrapper,
   FormButton,
   Graphic,
-} from "../components/auth";
+} from "../components/pages/auth";
 
 const Register = () => {
   return (
