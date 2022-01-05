@@ -1,7 +1,7 @@
 import React from "react";
 import { db } from "../../../lib/database";
 import { useQuery } from "react-query";
-import { Card } from "../../clubs";
+import { Card as Club } from "../../pages/clubs";
 export const ClubSimilarClubs = ({ tag }) => {
   console.log(tag);
   const { data, isLoading, error } = useQuery(
@@ -19,14 +19,18 @@ export const ClubSimilarClubs = ({ tag }) => {
         ) : (
           data &&
           data.length > 0 &&
-          data.map((club) => (
-            <Card
-              key={club.id}
-              name={club.name}
-              description={club.description}
-              tags={club.tags}
-              slug={club.slug}
-            />
+          data.map((club, index) => (
+            <Club key={club.slug}>
+              <Club.Container>
+                <Club.Header
+                  name={club.name}
+                  primaryTag={club.tags[0].name}
+                  tags={club.tags}
+                />
+                <Club.Content name={club.name} description={club.description} />
+                <Club.Footer slug={club.slug} />
+              </Club.Container>
+            </Club>
           ))
         )}
       </div>

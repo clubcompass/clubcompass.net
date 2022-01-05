@@ -1,6 +1,6 @@
 import React from "react";
-import { Icons } from "../../icons";
-import { tagSchema, Tags } from "../../tags";
+import { Icons } from "../../general/icons";
+import { tagSchema, Tags } from "../../general/tags";
 export const ClubHeader = ({ name, tags }) => {
   return (
     <div className="flex flex-row items-end justify-start">

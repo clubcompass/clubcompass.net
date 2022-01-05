@@ -1,7 +1,6 @@
 import React from "react";
 import { Card as Club, ClubsWrapper } from ".";
 export const Clubs = ({ clubs }) => {
-  console.log(clubs);
   return (
     <ClubsWrapper>
       {clubs.map((club, index) => (

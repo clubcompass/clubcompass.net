@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useQuery } from "react-query";
-import { Card, CardContainer } from "../components/clubs";
 import { Tag } from "../components/general/tags";
 import { db } from "../lib/database";
 import axios from "axios";
@@ -17,7 +16,13 @@ const Cards = () => {
         : ""
     }`;
     console.log(url);
-    const { data: response } = await axios.get(url);
+
+    const { data: response } = await axios.get(url, {
+      headers: {
+        "Content-Type": "application/json",
+        secret_key: process.env.NEXT_PUBLIC_API_AUTHENTICATION_KEY,
+      },
+    });
 
     const clubs = response.filter((club) => {
       return club.tags.some((tag) => tag.id === "ckxnyghbr00079vq3yyztnswm");
