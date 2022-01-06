@@ -35,3 +35,4 @@ yarn-error.log*
 .vercel
 prisma/.env
 requests.http
+commit_message.md
