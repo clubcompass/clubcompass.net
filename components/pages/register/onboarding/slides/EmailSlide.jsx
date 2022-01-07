@@ -1,9 +1,65 @@
 import React from "react";
-
-export const EmailSlide = () => {
+import { Buttons, Header, Container } from "../components";
+import { FormControl } from "../../../../general/input/control";
+export const EmailSlide = ({ next, prev }) => {
+  const config = {
+    header: {
+      title: "What is your email address?",
+      description:
+        "Club Compass requires you to have a valid email address to prevent spamming of account creation.",
+    },
+    buttons: [
+      {
+        disabled: false,
+        primary: false,
+        label: "Back",
+        type: "function",
+        action: prev,
+      },
+      {
+        disabled: false,
+        primary: true,
+        label: "Continue",
+        type: "function",
+        action: next,
+      },
+    ],
+    control: [
+      {
+        general: {
+          visible: true,
+          layout: "3/4",
+        },
+        form: {
+          label: "email",
+        },
+        button: {
+          primary: true,
+          label: "Send", // || send
+          disabled: true,
+        },
+      },
+      {
+        general: {
+          visible: true,
+          layout: "3/4",
+        },
+        form: {
+          label: "confirmation code",
+        },
+        button: {
+          primary: true,
+          label: "Verify",
+          disabled: false, // || disabled
+        },
+      },
+    ],
+  };
   return (
-    <div>
-      <h1>Email</h1>
-    </div>
+    <Container>
+      <Header {...config.header} />
+      <FormControl config={config.control} />
+      <Buttons buttons={config.buttons} />
+    </Container>
   );
 };
