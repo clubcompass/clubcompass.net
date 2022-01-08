@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export const Field = ({ label }) => {
+export const Field = ({ label, type }) => {
   const [touched, setTouched] = useState(false);
   const [isContent, setIsContent] = useState(false);
 
@@ -18,6 +18,7 @@ export const Field = ({ label }) => {
         {label}
       </label>
       <input
+        type={type}
         className={`${
           isContent || touched
             ? touched

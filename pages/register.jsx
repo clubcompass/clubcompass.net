@@ -6,9 +6,10 @@ import {
 import {
   IntroSlide,
   EmailSlide,
+  PasswordSlide,
 } from "../components/pages/register/onboarding/slides";
 const Register = () => {
-  const [slide, setSlide] = useState(2);
+  const [slide, setSlide] = useState(3);
   console.log(slide);
   const maxSlides = 6;
 
@@ -27,7 +28,7 @@ const Register = () => {
   const slides = [
     <IntroSlide key={1} {...handlePagination} />,
     <EmailSlide key={2} {...handlePagination} />,
-    <IntroSlide key={3} {...handlePagination} />,
+    <PasswordSlide key={3} {...handlePagination} />,
     <IntroSlide key={4} {...handlePagination} />,
     <IntroSlide key={5} {...handlePagination} />,
   ];

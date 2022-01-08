@@ -32,6 +32,7 @@ export const EmailSlide = ({ next, prev }) => {
         },
         form: {
           label: "email",
+          type: "text",
         },
         button: {
           primary: true,
@@ -43,9 +44,11 @@ export const EmailSlide = ({ next, prev }) => {
         general: {
           visible: true,
           layout: "3/4",
+          justForm: false,
         },
         form: {
           label: "confirmation code",
+          type: "text",
         },
         button: {
           primary: true,

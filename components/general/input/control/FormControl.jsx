@@ -19,7 +19,7 @@ const ControlGroup = ({ general, form, button }) => {
   );
 };
 
-const Container = ({ children, visible, layout }) => {
+const Container = ({ children, visible, layout, justForm }) => {
   const [field, button] = children;
   return (
     <div
@@ -40,19 +40,21 @@ const Container = ({ children, visible, layout }) => {
       >
         {field}
       </div>
-      <div
-        className={`${
-          layout === "1/2"
-            ? "col-span-3"
-            : layout === "3/4"
-            ? "col-span-2"
-            : layout === "full"
-            ? "col-span-6"
-            : "col-span-6"
-        }`}
-      >
-        {button}
-      </div>
+      {!justForm && (
+        <div
+          className={`${
+            layout === "1/2"
+              ? "col-span-3"
+              : layout === "3/4"
+              ? "col-span-2"
+              : layout === "full"
+              ? "col-span-6"
+              : "col-span-6"
+          }`}
+        >
+          {button}
+        </div>
+      )}
     </div>
   );
 };
