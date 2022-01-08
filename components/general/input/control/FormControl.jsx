@@ -3,9 +3,14 @@ import { Field, FieldButton as Button } from ".";
 export const FormControl = ({ config }) => {
   return (
     <div className="w-[495px] flex flex-col gap-3">
-      {config.map((config, index) => (
-        <ControlGroup key={index} {...config} />
-      ))}
+      {config[0].general.split ? (
+        <div className="grid grid-cols-2 gap-3">
+          <Field {...config[0].form} />
+          <Field {...config[1].form} />
+        </div>
+      ) : (
+        config.map((config, index) => <ControlGroup key={index} {...config} />)
+      )}
     </div>
   );
 };
