@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigation, Footer } from ".";
+import { Nav, Footer } from ".";
 import { useRouter } from "next/router";
 export const Layout = ({ children }) => {
   const router = useRouter();
@@ -12,8 +12,8 @@ export const Layout = ({ children }) => {
           : "flex flex-col justify-between bg-[#FCFEFF]"
       }`}
     >
-      {router.pathname === "/" && <Navigation />}
-      <div>{children}</div>
+      <Nav />
+      <div className="px-16">{children}</div>
       {router.pathname === "/" && <Footer />}
     </div>
   );
