@@ -7,9 +7,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        cc: "#2575E5",
+        cc: "#3668FF",
         "cc-temp": "#3681EA",
-        "cc-light": "#4B8FEF",
+        "cc-light": "#E4ECFF",
+        ccDark: "#1653E3",
+        ccGrey: "#F8FAFB",
+        ccGreyDark: "#F2F2F2",
       },
       gridTemplateColumns: {
         cards: "repeat(auto-fill,minmax(443px,1fr))",
