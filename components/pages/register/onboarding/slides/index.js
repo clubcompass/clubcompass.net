@@ -3,4 +3,5 @@ export * from "./EmailSlide";
 export * from "./InformationSlide";
 export * from "./InterestsSlide";
 export * from "./PasswordSlide";
+export * from "./SummarySlide";
 export * from "./IntroSlide";

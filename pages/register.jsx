@@ -11,11 +11,12 @@ import {
   PasswordSlide,
   InformationSlide,
   InterestsSlide,
+  SummarySlide,
   ClosingSlide,
 } from "../components/pages/register/onboarding/slides";
 
 const Register = () => {
-  const [slide, setSlide] = useState(1);
+  const [slide, setSlide] = useState(6);
 
   const {
     data: tags,
@@ -45,7 +46,24 @@ const Register = () => {
       tagInfo={{ tags, tagsLoading, tagError }}
       {...handlePagination}
     />,
-    <ClosingSlide key={6} />,
+    <SummarySlide
+      key={6}
+      {...handlePagination}
+      information={{
+        firstname: "Paul",
+        lastname: "Bokelman",
+        email: "myemail@gmail.com",
+        password: "password",
+        grade: "Senior",
+        interests: [
+          { name: "volunteering", id: "ckxteyszp00009fq3knmqn20j" },
+          { name: "charity", id: "ckxteyszp00019fq38fwsvphm" },
+          { name: "science", id: "ckxteyszp00029fq3qqa3dq3l" },
+          { name: "tech", id: "ckxteyszp00039fq387ogl6de" },
+        ],
+      }}
+    />,
+    <ClosingSlide key={7} />,
   ];
 
   return (
