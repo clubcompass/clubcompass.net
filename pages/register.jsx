@@ -8,11 +8,10 @@ import {
   EmailSlide,
   PasswordSlide,
   InformationSlide,
+  InterestsSlide,
 } from "../components/pages/register/onboarding/slides";
 const Register = () => {
-  const [slide, setSlide] = useState(4);
-  console.log(slide);
-  const maxSlides = 6;
+  const [slide, setSlide] = useState(5);
 
   const handlePagination = {
     next: () => {
@@ -31,13 +30,14 @@ const Register = () => {
     <EmailSlide key={2} {...handlePagination} />,
     <PasswordSlide key={3} {...handlePagination} />,
     <InformationSlide key={4} {...handlePagination} />,
-    <IntroSlide key={5} {...handlePagination} />,
+    <InterestsSlide key={5} {...handlePagination} />,
+    <InterestsSlide key={6} {...handlePagination} />,
   ];
 
   return (
     <Container>
       <Pagination
-        slides={6}
+        slides={slides.length}
         currentSlide={slide}
         direct={handlePagination.direct}
       />
