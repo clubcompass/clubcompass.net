@@ -1,8 +1,8 @@
 import React from "react";
 import { Buttons, Header, Container } from "../components";
-import { FormControl } from "../../../../general/input/control";
 import { TagSelection } from "../../../../general/input";
-export const InterestsSlide = ({ next, prev }) => {
+export const InterestsSlide = ({ next, prev, tagInfo }) => {
+  const { tags, tagsLoading, tagError } = tagInfo;
   const config = {
     header: {
       title: "What subject(s) interests you?",
@@ -25,45 +25,11 @@ export const InterestsSlide = ({ next, prev }) => {
         action: next,
       },
     ],
-    control: [
-      {
-        general: {
-          visible: true,
-          layout: "full",
-          justForm: true,
-        },
-        form: {
-          label: "password",
-          type: "password",
-        },
-        button: {
-          primary: true,
-          label: "Send", // || send
-          disabled: true,
-        },
-      },
-      {
-        general: {
-          visible: true,
-          layout: "full",
-          justForm: true,
-        },
-        form: {
-          label: "confirm password",
-          type: "password",
-        },
-        button: {
-          primary: true,
-          label: "Verify",
-          disabled: false, // || disabled
-        },
-      },
-    ],
   };
   return (
     <Container>
       <Header {...config.header} />
-      <TagSelection />
+      <TagSelection tags={tags} loading={tagsLoading} error={tagError} />
       <Buttons buttons={config.buttons} />
     </Container>
   );

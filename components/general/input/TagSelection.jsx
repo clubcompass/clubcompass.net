@@ -1,16 +1,7 @@
 import React, { useState } from "react";
-import { useQuery } from "react-query";
-
-import { db } from "../../../lib/database";
 import { tagSchema } from "../tags";
-export const TagSelection = () => {
+export const TagSelection = ({ tags, loading, error }) => {
   const [selected, setSelected] = useState([]);
-  console.log(selected);
-  const {
-    data: tags,
-    isLoading,
-    isError,
-  } = useQuery("tags", async () => await db.get.tags());
 
   const select = ({ tag }) => {
     if (selected.includes(tag.id)) {
@@ -20,7 +11,8 @@ export const TagSelection = () => {
     }
   };
 
-  if (isLoading) return "Loading...";
+  if (loading) return "Loading...";
+  if (error) return `An error has occurred: ${error.message}`;
 
   return (
     <Container>
