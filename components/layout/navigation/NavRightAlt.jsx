@@ -4,12 +4,11 @@ import Link from "next/link";
 import { Menu, Transition } from "@headlessui/react";
 import { FiSettings } from "react-icons/fi";
 import { MdLogout } from "react-icons/md";
-import { BsChevronDown } from "react-icons/bs";
+import { FaChevronDown } from "react-icons/fa";
 
 export const NavRightAlt = ({ name, profileColor }) => {
-  const fullName = name.split(" ");
   const initials = (
-    fullName.shift().charAt(0) + fullName.pop().charAt(0)
+    name.split(" ").shift().charAt(0) + name.split(" ").pop().charAt(0)
   ).toUpperCase();
   return (
     <div className="">
@@ -20,11 +19,13 @@ export const NavRightAlt = ({ name, profileColor }) => {
               style={{ backgroundColor: profileColor }}
               className="flex w-[40px] h-[40px] justify-center items-center rounded-md"
             >
-              <p>{initials}</p>
+              <p className="text-[1.1rem] w-[40px]">{initials}</p>
             </div>
-            <div className="font-normal">{name}</div>
+            <div className="pl-1 font-semibold tracking-wide truncate">
+              {name}
+            </div>
             <div className="pr-3">
-              <BsChevronDown />
+              <FaChevronDown />
             </div>
           </Menu.Button>
         </div>
