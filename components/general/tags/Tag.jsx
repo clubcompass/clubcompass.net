@@ -5,7 +5,7 @@ export const Tag = ({ tag }) => {
   return (
     <span
       style={{ backgroundColor: clr }}
-      className="flex items-center px-2.5 py-[0.05rem] rounded-sm uppercase font-extrabold text-[0.6rem] text-[#344357]"
+      className="flex items-center px-2.5 py-[0.05rem] rounded-sm uppercase font-extrabold text-[0.6rem] text-[#344357] tracking-wider"
     >
       {tag}
     </span>
