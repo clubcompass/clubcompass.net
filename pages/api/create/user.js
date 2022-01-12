@@ -1,7 +1,7 @@
 import { prisma } from "../../../config/prisma";
 
 const user = async (req, res) => {
-  const { id, firstname, lastname, email } = req.body;
+  const { id, firstname, lastname, email, grade, interests } = req.body;
 
   const response = await prisma.user.create({
     data: {
@@ -9,6 +9,8 @@ const user = async (req, res) => {
       firstname,
       lastname,
       email,
+      grade,
+      interests,
     },
   });
 
