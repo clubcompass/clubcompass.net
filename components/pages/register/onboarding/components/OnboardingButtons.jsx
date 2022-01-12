@@ -1,15 +1,15 @@
 import React from "react";
 import Link from "next/link";
 
-export const Buttons = ({ buttons }) => {
+export const Buttons = ({ buttons, asSubmission }) => {
   return (
-    <div className="max-w-[495px]">
+    <div className="w-full col-span-6 max-w-[495px]">
       <div className="flex flex-row gap-2">
         {buttons.map((btn, index) => {
           if (btn.type === "link") {
             return (
               <Link href={btn.action} key={index}>
-                <a>
+                <a className="w-full">
                   <Button primary={btn.primary} label={btn.label} />
                 </a>
               </Link>
@@ -22,6 +22,7 @@ export const Buttons = ({ buttons }) => {
                 label={btn.label}
                 onClick={() => btn.action()}
                 disabled={btn.disabled}
+                asSubmission={asSubmission}
               />
             );
           }
@@ -31,7 +32,7 @@ export const Buttons = ({ buttons }) => {
   );
 };
 
-const Button = ({ primary, label, onClick, disabled }) => {
+const Button = ({ primary, label, onClick, disabled, asSubmission }) => {
   const p = {
     active: "bg-[#1C5EF9] text-white hover:bg-[#457dff]",
     disabled: "bg-opacity-30 cursor-not-allowed bg-[#1C5EF9] text-white",
@@ -43,6 +44,7 @@ const Button = ({ primary, label, onClick, disabled }) => {
   };
   return (
     <button
+      type={primary && asSubmission ? "submit" : "button"}
       disabled={disabled}
       onClick={onClick}
       className={`${
@@ -53,7 +55,7 @@ const Button = ({ primary, label, onClick, disabled }) => {
           : primary
           ? p.active
           : s.active
-      } w-[240px] py-2 font-[600] rounded-lg transition duration-200 ease-in-out`}
+      } w-full py-2 font-[600] rounded-lg transition duration-200 ease-in-out`}
     >
       {label}
     </button>

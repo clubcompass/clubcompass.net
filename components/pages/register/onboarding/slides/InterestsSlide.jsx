@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Buttons, Header, Container } from "../components";
 import { TagSelection } from "../../../../general/input";
-export const InterestsSlide = ({ next, prev, tagInfo }) => {
+export const InterestsSlide = ({ next, prev, tagInfo, set, data }) => {
+  const [selectedTags, setSelectedTags] = useState(data.interests);
   const { tags, tagsLoading, tagError } = tagInfo;
   const config = {
     header: {
@@ -22,14 +23,25 @@ export const InterestsSlide = ({ next, prev, tagInfo }) => {
         primary: true,
         label: "Continue",
         type: "function",
-        action: next,
+        action: () => {
+          set({ interests: selectedTags });
+          next();
+        },
       },
     ],
   };
+
   return (
     <Container>
       <Header {...config.header} />
-      <TagSelection tags={tags} loading={tagsLoading} error={tagError} />
+      <TagSelection
+        tags={tags}
+        loading={tagsLoading}
+        error={tagError}
+        initial={selectedTags}
+        set={(selected) => setSelectedTags(selected)}
+        limit={4}
+      />
       <Buttons buttons={config.buttons} />
     </Container>
   );

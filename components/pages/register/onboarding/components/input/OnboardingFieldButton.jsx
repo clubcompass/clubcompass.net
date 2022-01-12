@@ -1,6 +1,6 @@
 import React from "react";
-import { CgSpinner } from "react-icons/cg";
-export const FieldButton = ({ primary, disabled, label, loading }) => {
+
+export const OnboardingFieldButton = ({ primary, disabled, label }) => {
   const p = {
     active: "bg-[#1C5EF9] text-white hover:bg-[#457dff]",
     disabled: "bg-opacity-30 cursor-not-allowed bg-[#1C5EF9] text-white",
@@ -13,7 +13,6 @@ export const FieldButton = ({ primary, disabled, label, loading }) => {
   return (
     <button
       disabled={disabled}
-      type="submit"
       className={`${
         disabled
           ? primary
@@ -22,13 +21,9 @@ export const FieldButton = ({ primary, disabled, label, loading }) => {
           : primary
           ? p.active
           : s.active
-      } flex items-center justify-center w-full py-2 font-[600] rounded-xl transition duration-200 ease-in-out`}
+      } w-full py-2 font-[600] rounded-lg transition duration-200 ease-in-out`}
     >
-      {loading ? (
-        <CgSpinner className="animate-spin text-[26px] p-0.5" />
-      ) : (
-        label
-      )}
+      {label}
     </button>
   );
 };

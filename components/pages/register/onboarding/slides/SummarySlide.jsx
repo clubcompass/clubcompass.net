@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { AiFillEye } from "react-icons/ai";
 import { tagSchema } from "../../../../general/tags";
 import { Buttons, Header, Container } from "../components";
-export const SummarySlide = ({ next, prev, information }) => {
+export const SummarySlide = ({ next, prev, information, confirm }) => {
   const config = {
     header: {
       title: "Here's what we gathered.",
@@ -22,7 +22,10 @@ export const SummarySlide = ({ next, prev, information }) => {
         primary: true,
         label: "Submit",
         type: "function",
-        action: next,
+        action: () => {
+          confirm();
+          next();
+        },
       },
     ],
   };

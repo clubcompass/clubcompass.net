@@ -1,7 +1,7 @@
 import React from "react";
 import { Tab } from "@headlessui/react";
 
-export const OptionSelection = ({ options }) => {
+export const OptionSelection = ({ options, current, setCurrent }) => {
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
@@ -9,7 +9,9 @@ export const OptionSelection = ({ options }) => {
   return (
     <div className="w-full max-w-[495px] sm:px-0">
       <Tab.Group
+        defaultIndex={options.indexOf(current)}
         onChange={(index) => {
+          setCurrent({ value: options[index] });
           console.log("Changed selected tab to:", options[index]);
         }}
       >

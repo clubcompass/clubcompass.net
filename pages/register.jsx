@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { db } from "../lib/database";
 import {
@@ -16,13 +16,26 @@ import {
 } from "../components/pages/register/onboarding/slides";
 
 const Register = () => {
-  const [slide, setSlide] = useState(6);
+  const [slide, setSlide] = useState(1);
+  const [data, setData] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+    grade: "",
+    interests: [],
+  });
 
   const {
     data: tags,
     tagsLoading,
     tagError,
   } = useQuery("tags", async () => await db.get.tags());
+
+  const handleConfirmation = async () => {
+    console.log("Confirming...");
+    console.log("user data: ", data);
+  };
 
   const handlePagination = {
     next: () => {
@@ -36,43 +49,52 @@ const Register = () => {
     },
   };
 
+  const updateData = (values) => {
+    setData({
+      ...data,
+      ...values,
+    });
+  };
+
   const slides = [
     <IntroSlide key={1} {...handlePagination} />,
-    <EmailSlide key={2} {...handlePagination} />,
-    <PasswordSlide key={3} {...handlePagination} />,
-    <InformationSlide key={4} {...handlePagination} />,
+    <EmailSlide key={2} {...handlePagination} set={updateData} data={data} />,
+    <PasswordSlide
+      key={3}
+      {...handlePagination}
+      set={updateData}
+      data={data}
+    />,
+    <InformationSlide
+      key={4}
+      {...handlePagination}
+      set={updateData}
+      data={data}
+    />,
     <InterestsSlide
       key={5}
       tagInfo={{ tags, tagsLoading, tagError }}
       {...handlePagination}
+      set={updateData}
+      data={data}
     />,
     <SummarySlide
       key={6}
       {...handlePagination}
-      information={{
-        firstname: "Paul",
-        lastname: "Bokelman",
-        email: "myemail@gmail.com",
-        password: "password",
-        grade: "Senior",
-        interests: [
-          { name: "volunteering", id: "ckxteyszp00009fq3knmqn20j" },
-          { name: "charity", id: "ckxteyszp00019fq38fwsvphm" },
-          { name: "science", id: "ckxteyszp00029fq3qqa3dq3l" },
-          { name: "tech", id: "ckxteyszp00039fq387ogl6de" },
-        ],
-      }}
+      information={data}
+      set={updateData}
+      confirm={handleConfirmation}
     />,
-    <ClosingSlide key={7} />,
+    <ClosingSlide key={7} data={data} />,
   ];
+
+  useEffect(() => {
+    console.log("DATA UPDATED", data);
+  }, [data]);
 
   return (
     <Container>
-      <Pagination
-        slides={slides.length}
-        currentSlide={slide}
-        direct={handlePagination.direct}
-      />
+      <Pagination slides={slides.length} currentSlide={slide} />
       {slides[slide - 1]}
     </Container>
   );

@@ -1,9 +1,9 @@
 import React from "react";
 import { Buttons, Header, Container } from "../components";
-export const ClosingSlide = () => {
+export const ClosingSlide = ({ data: { firstname } }) => {
   const config = {
     header: {
-      title: "Thanks Paul, thats all we needed!",
+      title: `Thanks ${firstname}, thats all we needed!`,
       description:
         "With a Club Compass account you can explore and find clubs of interest or create your own!",
     },

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useTransition, animated, config } from "react-spring";
+import { useTransition, animated } from "react-spring";
 
 export const Container = ({ children }) => {
   const [visible, setVisible] = useState(false);
