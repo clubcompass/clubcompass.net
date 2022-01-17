@@ -9,7 +9,7 @@
     "seed": "node ./seed_script/seed.js"
   },
   "dependencies": {
-    "@headlessui/react": "^1.4.2",
+    "@headlessui/react": "^1.4.3",
     "@prisma/client": "^3.8.1",
     "@supabase/supabase-js": "^1.28.5",
     "@tailwindcss/line-clamp": "^0.3.0",
