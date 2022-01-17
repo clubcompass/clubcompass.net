@@ -39,7 +39,7 @@ const seed_tags = async () => {
     },
     {
       headers: {
-        secret_key: "ain1voo5s0isek5mkorp",
+        secret_key: process.env.NEXT_PUBLIC_API_AUTHENTICATION_KEY,
       },
     }
   );
@@ -50,7 +50,7 @@ const seed_users = async () => {
 
   const resp = await axios.get("http://localhost:3000/api/get/tags", {
     headers: {
-      secret_key: "ain1voo5s0isek5mkorp",
+      secret_key: process.env.NEXT_PUBLIC_API_AUTHENTICATION_KEY,
     },
   });
 
@@ -80,7 +80,7 @@ const seed_users = async () => {
       formatted_user_list[i],
       {
         headers: {
-          secret_key: "ain1voo5s0isek5mkorp",
+          secret_key: process.env.NEXT_PUBLIC_API_AUTHENTICATION_KEY,
         },
       }
     );
