@@ -8,51 +8,81 @@ const { exit } = require("process");
 const args = process.argv.slice(2);
 
 const seed_tags = async () => {
-  await axios.post("http://localhost:3000/api/create/tags", {
-    tag_names: [
-      "volunteering",
-      "charity",
-      "science",
-      "tech",
-      "math",
-      "engineering",
-      "writing",
-      "sports",
-      "health",
-      "politics",
-      "music",
-      "arts",
-      "performing arts",
-      "academic competition",
-      "tutoring",
-      "culture",
-      "socializing",
-      "debate",
-      "business",
-      "community",
-      "education",
-      "public speaking",
-      "social activism",
-    ],
-  });
+  await axios.post(
+    "http://localhost:3000/api/create/tags",
+    {
+      tag_names: [
+        "volunteering",
+        "charity",
+        "science",
+        "tech",
+        "math",
+        "engineering",
+        "writing",
+        "sports",
+        "health",
+        "politics",
+        "music",
+        "arts",
+        "performing arts",
+        "academic competition",
+        "tutoring",
+        "culture",
+        "socializing",
+        "debate",
+        "business",
+        "community",
+        "education",
+        "public speaking",
+        "social activism",
+      ],
+    },
+    {
+      headers: {
+        secret_key: process.env.NEXT_PUBLIC_API_AUTHENTICATION_KEY,
+      },
+    }
+  );
 };
 
 const seed_users = async () => {
   let formatted_user_list = [];
 
-  users.map(async (user) => {
+  const resp = await axios.get("http://localhost:3000/api/get/tags", {
+    headers: {
+      secret_key: process.env.NEXT_PUBLIC_API_AUTHENTICATION_KEY,
+    },
+  });
+
+  const tags = resp.data;
+
+  users.map((user) => {
     formatted_user_list.push({
       id: user.cuid,
       firstname: user.name,
       lastname: user.lastname,
       email: user.email,
+      grade: user.grade,
+      password: "tae&&c9x56n@b&vr9gyp",
+      emailVerified: true,
+      tag_ids: [
+        tags[Math.floor(Math.random() * tags.length)].id,
+        tags[Math.floor(Math.random() * tags.length)].id,
+        tags[Math.floor(Math.random() * tags.length)].id,
+        tags[Math.floor(Math.random() * tags.length)].id,
+      ],
     });
   });
 
   for (let i = 0; i < formatted_user_list.length; i++) {
     await axios.post(
       "http://localhost:3000/api/create/user",
-      formatted_user_list[i]
+      formatted_user_list[i],
+      {
+        headers: {
+          secret_key: process.env.NEXT_PUBLIC_API_AUTHENTICATION_KEY,
+        },
+      }
     );
   }
 };
@@ -123,11 +153,6 @@ const seed_clubs = async () => {
       });
   });
 
-  // clubs.map(async (club) => {
-  //   await prisma.club.create({
-  //     data: club,
-  //   });
-  // });
   for (let i = 0; i < clubs.length; i++) {
     await prisma.club.create({
       data: clubs[i],
@@ -223,11 +248,6 @@ const main = async () => {
   }
 
   process.exit();
-
-  // await seed_tags();
-  // await seed_users();
-  // await seed_clubs();
-  // await seed_club_members();
 };
 
 main();

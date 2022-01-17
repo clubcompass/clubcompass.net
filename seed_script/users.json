@@ -3,600 +3,700 @@
     "name": "Bonner",
     "lastname": "Mercado",
     "email": "bonnermercado@turnling.com",
+    "grade": "junior",
     "cuid": "6a47c08a-8382-4695-9987-770723fea3bf"
   },
   {
     "name": "Parsons",
     "lastname": "Combs",
     "email": "parsonscombs@turnling.com",
+    "grade": "junior",
     "cuid": "f3bb3a6d-fb3c-416b-9278-8a0416af0851"
   },
   {
     "name": "Sheila",
     "lastname": "Johnston",
     "email": "sheilajohnston@turnling.com",
+    "grade": "junior",
     "cuid": "30038583-8925-40d6-ae78-38afa468e564"
   },
   {
     "name": "Corina",
     "lastname": "King",
     "email": "corinaking@turnling.com",
+    "grade": "junior",
     "cuid": "95ebe6b5-ea33-4479-babd-55fead07235b"
   },
   {
     "name": "Morrison",
     "lastname": "Booth",
     "email": "morrisonbooth@turnling.com",
+    "grade": "junior",
     "cuid": "4122b541-60f3-41b7-98e6-c620fc5bc103"
   },
   {
     "name": "Erika",
     "lastname": "Frye",
     "email": "erikafrye@turnling.com",
+    "grade": "junior",
     "cuid": "8a927d9d-4f07-451a-a324-7206f390e3c3"
   },
   {
     "name": "Sabrina",
     "lastname": "Cotton",
     "email": "sabrinacotton@turnling.com",
+    "grade": "junior",
     "cuid": "fdb6bd67-4e80-4826-8a1f-cffff88b39ab"
   },
   {
     "name": "Dixie",
     "lastname": "Maddox",
     "email": "dixiemaddox@turnling.com",
+    "grade": "junior",
     "cuid": "2cacd023-db5b-4dc0-9cca-6a1565a652a2"
   },
   {
     "name": "Tyler",
     "lastname": "Stanton",
     "email": "tylerstanton@turnling.com",
+    "grade": "junior",
     "cuid": "2343744c-9f81-47bf-a584-441dcd4b0539"
   },
   {
     "name": "Josie",
     "lastname": "Huff",
     "email": "josiehuff@turnling.com",
+    "grade": "junior",
     "cuid": "7736aaee-8bd6-4a2a-864a-a4cd6625f61e"
   },
   {
     "name": "Kristen",
     "lastname": "Harding",
     "email": "kristenharding@turnling.com",
+    "grade": "junior",
     "cuid": "733e46be-9136-4983-8210-ff7be92c3d58"
   },
   {
     "name": "Kerr",
     "lastname": "Norton",
     "email": "kerrnorton@turnling.com",
+    "grade": "junior",
     "cuid": "8995ac27-9d72-4f36-9912-6bfbac2167ed"
   },
   {
     "name": "Celina",
     "lastname": "Ewing",
     "email": "celinaewing@turnling.com",
+    "grade": "junior",
     "cuid": "428a2fa2-0c3c-4cd3-9ccd-f97372a79129"
   },
   {
     "name": "Hoffman",
     "lastname": "Hawkins",
     "email": "hoffmanhawkins@turnling.com",
+    "grade": "junior",
     "cuid": "e3dd12d9-d9eb-473f-9b2c-bb9038e785cf"
   },
   {
     "name": "Ethel",
     "lastname": "Campbell",
     "email": "ethelcampbell@turnling.com",
+    "grade": "junior",
     "cuid": "249a175a-a414-435f-8b1d-3f5a07e123b2"
   },
   {
     "name": "Willie",
     "lastname": "Yang",
     "email": "willieyang@turnling.com",
+    "grade": "junior",
     "cuid": "f3564ea0-8b18-484f-a7e1-bdab1ac02929"
   },
   {
     "name": "Allie",
     "lastname": "Henson",
     "email": "alliehenson@turnling.com",
+    "grade": "junior",
     "cuid": "8f891c77-ae41-493a-bc52-d0c16da0354d"
   },
   {
     "name": "Patricia",
     "lastname": "Davis",
     "email": "patriciadavis@turnling.com",
+    "grade": "junior",
     "cuid": "ac4858ca-c6fd-4619-8f59-04cae75beea1"
   },
   {
     "name": "Larson",
     "lastname": "Vargas",
     "email": "larsonvargas@turnling.com",
+    "grade": "junior",
     "cuid": "62863ee8-ec88-4080-830b-c61acdb8d37c"
   },
   {
     "name": "Hays",
     "lastname": "Hebert",
     "email": "hayshebert@turnling.com",
+    "grade": "junior",
     "cuid": "70ecb9b6-1e54-4b0c-a114-63c4d7498103"
   },
   {
     "name": "Singleton",
     "lastname": "Sawyer",
     "email": "singletonsawyer@turnling.com",
+    "grade": "junior",
     "cuid": "9a81fba2-9d7b-4619-998c-8bd5b0ce3703"
   },
   {
     "name": "Reese",
     "lastname": "Wong",
     "email": "reesewong@turnling.com",
+    "grade": "junior",
     "cuid": "b0e89ea9-b3c0-44ec-81a9-90776dfd2d12"
   },
   {
     "name": "Loraine",
     "lastname": "Gamble",
     "email": "lorainegamble@turnling.com",
+    "grade": "junior",
     "cuid": "17d947fb-ab41-4699-9d64-0ff619121a2f"
   },
   {
     "name": "Celeste",
     "lastname": "Mckee",
     "email": "celestemckee@turnling.com",
+    "grade": "junior",
     "cuid": "6ecf646f-9bb3-4260-9b82-78ef3e046963"
   },
   {
     "name": "Mcmillan",
     "lastname": "Sargent",
     "email": "mcmillansargent@turnling.com",
+    "grade": "junior",
     "cuid": "e8061956-fb45-4647-a6c5-f6d896da1416"
   },
   {
     "name": "Dillon",
     "lastname": "Daniel",
     "email": "dillondaniel@turnling.com",
+    "grade": "junior",
     "cuid": "c22708d1-82c3-4dd5-b31c-39a35d5cc694"
   },
   {
     "name": "Marta",
     "lastname": "Lambert",
     "email": "martalambert@turnling.com",
+    "grade": "junior",
     "cuid": "fc89de75-7f17-4512-aaf9-09a094447321"
   },
   {
     "name": "Adrienne",
     "lastname": "Graves",
     "email": "adriennegraves@turnling.com",
+    "grade": "junior",
     "cuid": "c58e7a4e-7763-4577-be9d-3127617aa085"
   },
   {
     "name": "Newman",
     "lastname": "Wagner",
     "email": "newmanwagner@turnling.com",
+    "grade": "junior",
     "cuid": "7ca72e22-36bb-49bb-812d-19a9c868a5b3"
   },
   {
     "name": "Mcgowan",
     "lastname": "Heath",
     "email": "mcgowanheath@turnling.com",
+    "grade": "junior",
     "cuid": "ed50396e-2fcd-4557-ac50-977b41afc6cb"
   },
   {
     "name": "Leila",
     "lastname": "Gilbert",
     "email": "leilagilbert@turnling.com",
+    "grade": "junior",
     "cuid": "8ae4e5c1-4f69-47d3-8130-2b0e3ab03f2f"
   },
   {
     "name": "Richardson",
     "lastname": "Valencia",
     "email": "richardsonvalencia@turnling.com",
+    "grade": "junior",
     "cuid": "8ed07685-8cea-4196-af3b-b66880c7fc42"
   },
   {
     "name": "Paul",
     "lastname": "Warren",
     "email": "paulwarren@turnling.com",
+    "grade": "junior",
     "cuid": "07999534-26f3-42d0-bc77-ff7f905385dd"
   },
   {
     "name": "Erickson",
     "lastname": "Frederick",
     "email": "ericksonfrederick@turnling.com",
+    "grade": "junior",
     "cuid": "18c35896-b894-4b15-a098-d35b6b174bbc"
   },
   {
     "name": "Sanchez",
     "lastname": "Lynch",
     "email": "sanchezlynch@turnling.com",
+    "grade": "junior",
     "cuid": "a01d2b27-7623-49b3-a088-1f0e69b3c8a4"
   },
   {
     "name": "Rhea",
     "lastname": "Young",
     "email": "rheayoung@turnling.com",
+    "grade": "junior",
     "cuid": "626767c2-2c9f-4feb-858c-b6c653cd86f4"
   },
   {
     "name": "Witt",
     "lastname": "Boyle",
     "email": "wittboyle@turnling.com",
+    "grade": "junior",
     "cuid": "be5171ee-aadf-4182-896e-a3d830a94fc1"
   },
   {
     "name": "Jami",
     "lastname": "Kirkland",
     "email": "jamikirkland@turnling.com",
+    "grade": "junior",
     "cuid": "10592315-7ac9-4d72-b950-e059f264a26f"
   },
   {
     "name": "Laura",
     "lastname": "Good",
     "email": "lauragood@turnling.com",
+    "grade": "junior",
     "cuid": "493a6599-ce1e-4503-b7ed-dc475454d365"
   },
   {
     "name": "Daugherty",
     "lastname": "Bentley",
     "email": "daughertybentley@turnling.com",
+    "grade": "junior",
     "cuid": "db20ef09-93bb-491a-8897-d79d0051c1a3"
   },
   {
     "name": "Latasha",
     "lastname": "Downs",
     "email": "latashadowns@turnling.com",
+    "grade": "junior",
     "cuid": "3ca2cc22-0336-466b-93b7-c9bdccd8ec51"
   },
   {
     "name": "Hancock",
     "lastname": "Snider",
     "email": "hancocksnider@turnling.com",
+    "grade": "junior",
     "cuid": "bf9e2687-102c-43c6-ad15-6c06c2b64f2d"
   },
   {
     "name": "Mcneil",
     "lastname": "Blanchard",
     "email": "mcneilblanchard@turnling.com",
+    "grade": "junior",
     "cuid": "cc386a57-e963-4370-bd88-2fee59d24c31"
   },
   {
     "name": "Debra",
     "lastname": "Obrien",
     "email": "debraobrien@turnling.com",
+    "grade": "junior",
     "cuid": "c9d834d0-c826-447b-a30d-2ccd8de97313"
   },
   {
     "name": "Hester",
     "lastname": "Talley",
     "email": "hestertalley@turnling.com",
+    "grade": "junior",
     "cuid": "d6078447-4fc0-4c11-b15b-808a190e928b"
   },
   {
     "name": "Moss",
     "lastname": "Dalton",
     "email": "mossdalton@turnling.com",
+    "grade": "junior",
     "cuid": "6f6a0f97-90d1-4a93-a712-76706abca5bd"
   },
   {
     "name": "Paige",
     "lastname": "Nixon",
     "email": "paigenixon@turnling.com",
+    "grade": "junior",
     "cuid": "ccba790c-53f2-47db-9b5e-521c52e2b2d5"
   },
   {
     "name": "Strickland",
     "lastname": "Sullivan",
     "email": "stricklandsullivan@turnling.com",
+    "grade": "junior",
     "cuid": "c55b9d0d-d8ef-4b41-8334-277b30a69a41"
   },
   {
     "name": "Carly",
     "lastname": "Rojas",
     "email": "carlyrojas@turnling.com",
+    "grade": "junior",
     "cuid": "d3943eab-911d-4b1b-aca9-a43affae41ac"
   },
   {
     "name": "Cervantes",
     "lastname": "Tate",
     "email": "cervantestate@turnling.com",
+    "grade": "junior",
     "cuid": "413feec6-91c7-45d1-b831-f6517763159b"
   },
   {
     "name": "Owen",
     "lastname": "Jefferson",
     "email": "owenjefferson@turnling.com",
+    "grade": "junior",
     "cuid": "76d310c9-464f-4216-8b82-3fac625dcc38"
   },
   {
     "name": "Gallegos",
     "lastname": "Hinton",
     "email": "gallegoshinton@turnling.com",
+    "grade": "junior",
     "cuid": "8aab9fd9-3fdd-4cf7-83ce-1e70ebbd7a36"
   },
   {
     "name": "Lillie",
     "lastname": "Ruiz",
     "email": "lillieruiz@turnling.com",
+    "grade": "junior",
     "cuid": "57c8af9d-9bcd-4c38-b6d5-11f15bf6d9a7"
   },
   {
     "name": "Wyatt",
     "lastname": "Gilliam",
     "email": "wyattgilliam@turnling.com",
+    "grade": "junior",
     "cuid": "7358b08f-a146-4e0d-a16d-47046140e4e3"
   },
   {
     "name": "Mendez",
     "lastname": "Walter",
     "email": "mendezwalter@turnling.com",
+    "grade": "junior",
     "cuid": "1ff59e27-cd1b-4904-b20e-fd28953daf44"
   },
   {
     "name": "Ingram",
     "lastname": "Dennis",
     "email": "ingramdennis@turnling.com",
+    "grade": "junior",
     "cuid": "bf39f293-695a-4fbf-bf99-c8f718f643c7"
   },
   {
     "name": "Marjorie",
     "lastname": "Albert",
     "email": "marjoriealbert@turnling.com",
+    "grade": "junior",
     "cuid": "9eb8cac7-e1ea-45ac-9fa4-5813d08d7d65"
   },
   {
     "name": "Walter",
     "lastname": "Collins",
     "email": "waltercollins@turnling.com",
+    "grade": "junior",
     "cuid": "38a72592-9465-4ffb-a455-9971e12e4b3f"
   },
   {
     "name": "Concepcion",
     "lastname": "Klein",
     "email": "concepcionklein@turnling.com",
+    "grade": "junior",
     "cuid": "74978a35-fbf3-48c3-a7d6-57439715a60f"
   },
   {
     "name": "Christie",
     "lastname": "Hendrix",
     "email": "christiehendrix@turnling.com",
+    "grade": "junior",
     "cuid": "74acab97-d120-4da6-8a31-e9d94ee87c9a"
   },
   {
     "name": "Mason",
     "lastname": "Mathews",
     "email": "masonmathews@turnling.com",
+    "grade": "junior",
     "cuid": "5ea9842a-6961-4d1c-94cf-09bbd9070660"
   },
   {
     "name": "Erin",
     "lastname": "Lester",
     "email": "erinlester@turnling.com",
+    "grade": "junior",
     "cuid": "2cee9b6c-55c1-4118-8766-2ed39d13c639"
   },
   {
     "name": "Winters",
     "lastname": "Huffman",
     "email": "wintershuffman@turnling.com",
+    "grade": "junior",
     "cuid": "91b1b943-93e5-443d-a670-564bb830b11c"
   },
   {
     "name": "Edith",
     "lastname": "Giles",
     "email": "edithgiles@turnling.com",
+    "grade": "junior",
     "cuid": "81bd9322-76de-4d95-9afa-469860fb0475"
   },
   {
     "name": "Helga",
     "lastname": "Adams",
     "email": "helgaadams@turnling.com",
+    "grade": "junior",
     "cuid": "46177c55-d434-4197-acd9-5cad8eb47dc5"
   },
   {
     "name": "Nannie",
     "lastname": "Carpenter",
     "email": "nanniecarpenter@turnling.com",
+    "grade": "junior",
     "cuid": "a7e61241-50c6-4b93-945e-bebc2368a9b1"
   },
   {
     "name": "Fry",
     "lastname": "Perry",
     "email": "fryperry@turnling.com",
+    "grade": "junior",
     "cuid": "3d993c26-f513-412a-9f13-21c29263a2ad"
   },
   {
     "name": "Dunlap",
     "lastname": "Suarez",
     "email": "dunlapsuarez@turnling.com",
+    "grade": "junior",
     "cuid": "9cf2e046-3c52-40dd-a4f1-6d11575c16ff"
   },
   {
     "name": "May",
     "lastname": "Blankenship",
     "email": "mayblankenship@turnling.com",
+    "grade": "junior",
     "cuid": "6964629b-6970-4e8f-bc83-31762322bcfd"
   },
   {
     "name": "Bray",
     "lastname": "Ashley",
     "email": "brayashley@turnling.com",
+    "grade": "junior",
     "cuid": "d5c80abe-0430-481f-86f6-102fff9e765d"
   },
   {
     "name": "Louella",
     "lastname": "Eaton",
     "email": "louellaeaton@turnling.com",
+    "grade": "junior",
     "cuid": "172e7596-95e3-451b-a54b-633252879487"
   },
   {
     "name": "Acevedo",
     "lastname": "Houston",
     "email": "acevedohouston@turnling.com",
+    "grade": "junior",
     "cuid": "d460247a-ec3d-4027-968e-25ec647d07b0"
   },
   {
     "name": "Andrews",
     "lastname": "Boone",
     "email": "andrewsboone@turnling.com",
+    "grade": "junior",
     "cuid": "2e0a0e0e-e6a8-4b81-bc2c-5b2ecc36d31c"
   },
   {
     "name": "Alyce",
     "lastname": "Gentry",
     "email": "alycegentry@turnling.com",
+    "grade": "junior",
     "cuid": "73616fa9-b226-448d-8acf-a8aa23ffb457"
   },
   {
     "name": "Austin",
     "lastname": "Ochoa",
     "email": "austinochoa@turnling.com",
+    "grade": "junior",
     "cuid": "0ecb040d-6b3e-48ba-82d8-7366d9b14191"
   },
   {
     "name": "Hudson",
     "lastname": "Gregory",
     "email": "hudsongregory@turnling.com",
+    "grade": "junior",
     "cuid": "b7853501-3bac-4a70-b681-d84226d7c155"
   },
   {
     "name": "Molina",
     "lastname": "Stevens",
     "email": "molinastevens@turnling.com",
+    "grade": "junior",
     "cuid": "36bce5eb-3e45-415d-bbc6-c64c20f28e08"
   },
   {
     "name": "Della",
     "lastname": "Calderon",
     "email": "dellacalderon@turnling.com",
+    "grade": "junior",
     "cuid": "6e10c769-d4a6-4af2-956c-0c0e6cd63e04"
   },
   {
     "name": "Laverne",
     "lastname": "Maynard",
     "email": "lavernemaynard@turnling.com",
+    "grade": "junior",
     "cuid": "698574d9-11d6-4344-9948-0ab2ce885b04"
   },
   {
     "name": "Mathews",
     "lastname": "Rasmussen",
     "email": "mathewsrasmussen@turnling.com",
+    "grade": "junior",
     "cuid": "a79b4cac-1079-4163-bdf8-cadf6be405c7"
   },
   {
     "name": "Stevenson",
     "lastname": "Griffin",
     "email": "stevensongriffin@turnling.com",
+    "grade": "junior",
     "cuid": "e5ab967d-46ef-4df2-bf1f-6b6d6a00d39f"
   },
   {
     "name": "Hinton",
     "lastname": "Joyce",
     "email": "hintonjoyce@turnling.com",
+    "grade": "junior",
     "cuid": "e99d9583-9f0c-4b6e-8756-d86b9af68201"
   },
   {
     "name": "Higgins",
     "lastname": "Haney",
     "email": "higginshaney@turnling.com",
+    "grade": "junior",
     "cuid": "466683f8-f466-4d92-981c-0239ecb3d72d"
   },
   {
     "name": "Yates",
     "lastname": "Pope",
     "email": "yatespope@turnling.com",
+    "grade": "junior",
     "cuid": "3c713fd7-81ed-48eb-a5da-162036ec734c"
   },
   {
     "name": "Edwina",
     "lastname": "Rice",
     "email": "edwinarice@turnling.com",
+    "grade": "junior",
     "cuid": "04c4efd4-1cb2-405a-92ec-ca4be3ab6a97"
   },
   {
     "name": "Haley",
     "lastname": "Sims",
     "email": "haleysims@turnling.com",
+    "grade": "junior",
     "cuid": "9606c327-3065-42fa-b10c-d2d9efe1692a"
   },
   {
     "name": "Odom",
     "lastname": "Hopkins",
     "email": "odomhopkins@turnling.com",
+    "grade": "junior",
     "cuid": "7013b6e7-f6e7-47eb-815a-0304066fc319"
   },
   {
     "name": "Darlene",
     "lastname": "Burnett",
     "email": "darleneburnett@turnling.com",
+    "grade": "junior",
     "cuid": "dbaceafd-a7d5-47d6-acd9-44877415932a"
   },
   {
     "name": "Sondra",
     "lastname": "Hobbs",
     "email": "sondrahobbs@turnling.com",
+    "grade": "junior",
     "cuid": "59a1e890-79a3-48b0-967b-bac82c36540f"
   },
   {
     "name": "Neal",
     "lastname": "Sanders",
     "email": "nealsanders@turnling.com",
+    "grade": "junior",
     "cuid": "7b91861a-ef52-4064-90fe-a7317bc0d930"
   },
   {
     "name": "Paulette",
     "lastname": "Reese",
     "email": "paulettereese@turnling.com",
+    "grade": "junior",
     "cuid": "f1e75d76-0e57-4d18-be5b-df5937ffe4b1"
   },
   {
     "name": "Jenkins",
     "lastname": "Dawson",
     "email": "jenkinsdawson@turnling.com",
+    "grade": "junior",
     "cuid": "86dffedb-8887-4b0b-aa9d-d628cef53673"
   },
   {
     "name": "Janell",
     "lastname": "Yates",
     "email": "janellyates@turnling.com",
+    "grade": "junior",
     "cuid": "ab8dec92-600a-4060-8d7c-c97b5abd0b55"
   },
   {
     "name": "Cannon",
     "lastname": "Oneal",
     "email": "cannononeal@turnling.com",
+    "grade": "junior",
     "cuid": "f49c3f09-335b-4408-9a33-5a97664d9c26"
   },
   {
     "name": "Linda",
     "lastname": "Andrews",
     "email": "lindaandrews@turnling.com",
+    "grade": "junior",
     "cuid": "967e89bd-e5a3-40c7-9ed9-8fe22c98617f"
   },
   {
     "name": "Andrea",
     "lastname": "Noble",
     "email": "andreanoble@turnling.com",
+    "grade": "junior",
     "cuid": "9d2a3d91-3ce5-4332-927f-508524a8237f"
   },
   {
     "name": "Lorie",
     "lastname": "Watson",
     "email": "loriewatson@turnling.com",
+    "grade": "junior",
     "cuid": "b352716b-d2db-4ca8-9f59-56f793c6107b"
   },
   {
     "name": "Conway",
     "lastname": "Whitfield",
     "email": "conwaywhitfield@turnling.com",
+    "grade": "junior",
     "cuid": "97724fb8-0973-4eac-91ea-ab26370e889a"
   },
   {
     "name": "Golden",
     "lastname": "Hewitt",
     "email": "goldenhewitt@turnling.com",
+    "grade": "junior",
     "cuid": "a26c7e5b-fd57-43c0-8cf9-f551469e90db"
   },
   {
     "name": "Nadine",
     "lastname": "Crane",
     "email": "nadinecrane@turnling.com",
+    "grade": "junior",
     "cuid": "0c07e828-ce8b-4a8f-a557-90490124a8e8"
   }
 ]
