@@ -4,9 +4,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-
-import { useAuth } from "../context/auth";
-
+import axios from "axios";
+import { login } from "../lib/auth";
 import {
   AuthField,
   FormWrapper,
@@ -37,7 +36,6 @@ const LoginContainer = ({ children }) => (
 const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { signIn } = useAuth();
   const validationSchema = Yup.object({
     email: Yup.string().email().required(),
     password: Yup.string().required("No password provided").min(8),
@@ -49,19 +47,16 @@ const LoginForm = () => {
     password: "",
   };
 
-  async function onSubmit(values) {
+  const onSubmit = async (values) => {
     setLoading(true);
-    const { email, password, remember } = values;
-
-    const { error } = await signIn({ email, password });
-
+    const { error } = await login({ ...values });
     if (error) {
-      setLoading(false);
-      alert(error.message, error.status);
+      console.log(error);
     } else {
       router.push("/dashboard");
     }
-  }
+    setLoading(false);
+  };
 
   return (
     <div className="relative w-full mx-6 lg:mx-0 lg:w-4/6 flex flex-col">

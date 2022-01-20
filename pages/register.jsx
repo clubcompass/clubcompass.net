@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { db } from "../lib/database";
+import { register } from "../lib/auth";
 import {
   RegisterPagination as Pagination,
   RegisterContainer as Container,
@@ -17,6 +18,7 @@ import {
 
 const Register = () => {
   const [slide, setSlide] = useState(1);
+  const [error, setError] = useState(null);
   const [data, setData] = useState({
     firstname: "",
     lastname: "",
@@ -26,16 +28,20 @@ const Register = () => {
     interests: [],
   });
 
+  // const [data, setData] = useState({
+  //   firstname: "Test",
+  //   lastname: "User",
+  //   email: "test@gmail.com",
+  //   password: "Test123!",
+  //   grade: "Junior",
+  //   interests: [],
+  // });
+
   const {
     data: tags,
     tagsLoading,
     tagError,
   } = useQuery("tags", async () => await db.get.tags());
-
-  const handleConfirmation = async () => {
-    console.log("Confirming...");
-    console.log("user data: ", data);
-  };
 
   const handlePagination = {
     next: () => {
@@ -47,6 +53,18 @@ const Register = () => {
     direct: ({ slide }) => {
       setSlide(slide);
     },
+  };
+
+  const handleConfirmation = async () => {
+    const { error } = await register({ data });
+
+    if (error !== null) {
+      console.log(error);
+      setError(error);
+      return error;
+    } else {
+      handlePagination.next();
+    }
   };
 
   const updateData = (values) => {
@@ -84,6 +102,7 @@ const Register = () => {
       information={data}
       set={updateData}
       confirm={handleConfirmation}
+      error={error}
     />,
     <ClosingSlide key={7} data={data} />,
   ];

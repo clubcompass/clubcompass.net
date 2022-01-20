@@ -8,7 +8,7 @@ export const InterestsSlide = ({ next, prev, tagInfo, set, data }) => {
     header: {
       title: "What subject(s) interests you?",
       description:
-        "Club Compass uses your interests in order to filter and find clubs that fit your interests.",
+        "You can choose up to 4 interests to help Club Compass filter and find clubs just for you.",
     },
     buttons: [
       {

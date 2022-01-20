@@ -14,10 +14,12 @@ export const OnboardingForm = ({
   usePaginationAsSubmission,
   buttons,
 }) => {
-  return (
-    <Form className="w-full grid grid-cols-6 gap-3 items-center">
-      {Array.isArray(form) ? (
-        form.map((form) => {
+  const multipleFields = Array.isArray(form);
+
+  if (multipleFields) {
+    return (
+      <Form className="w-full grid grid-cols-6 gap-3 items-center">
+        {form.map((form) => {
           if (!form.custom) {
             return (
               <React.Fragment key={form.name}>
@@ -53,44 +55,51 @@ export const OnboardingForm = ({
               </div>
             );
           }
-        })
-      ) : (
-        <>
-          {form.custom ? (
+        })}
+        {usePaginationAsSubmission && (
+          <Buttons buttons={buttons} asSubmission />
+        )}
+      </Form>
+    );
+  } else {
+    return (
+      <Form className="w-full grid grid-cols-6 gap-3 items-center">
+        {form.custom ? (
+          <div style={{ gridColumn: `span ${form.span}` }}>
+            {form.component}
+          </div>
+        ) : (
+          <React.Fragment>
             <div style={{ gridColumn: `span ${form.span}` }}>
-              {form.component}
+              <Field
+                label={form.label}
+                id={`${form.name}-input`}
+                name={form.name}
+                type={form.type}
+                component={
+                  form.option === "custom" ? form.component : CustomField
+                }
+                value={values[form.name]}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
             </div>
-          ) : (
-            <React.Fragment>
-              <div style={{ gridColumn: `span ${form.span}` }}>
-                <Field
-                  label={form.label}
-                  id={`${form.name}-input`}
-                  name={form.name}
-                  type={form.type}
-                  component={
-                    form.option === "custom" ? form.component : CustomField
-                  }
-                  value={values[form.name]}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
+            {form.button && (
+              <div style={{ gridColumn: `span ${6 - form.span}` }}>
+                <FieldButton
+                  primary={form.button.primary}
+                  disabled={form.button.disabled}
+                  label={form.button.label}
+                  loading={isSubmitting}
                 />
               </div>
-              {form.button && (
-                <div style={{ gridColumn: `span ${6 - form.span}` }}>
-                  <FieldButton
-                    primary={form.button.primary}
-                    disabled={form.button.disabled}
-                    label={form.button.label}
-                    loading={isSubmitting}
-                  />
-                </div>
-              )}
-            </React.Fragment>
-          )}
-        </>
-      )}
-      {usePaginationAsSubmission && <Buttons buttons={buttons} asSubmission />}
-    </Form>
-  );
+            )}
+          </React.Fragment>
+        )}
+        {usePaginationAsSubmission && (
+          <Buttons buttons={buttons} asSubmission />
+        )}
+      </Form>
+    );
+  }
 };

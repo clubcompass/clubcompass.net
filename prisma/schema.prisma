@@ -70,9 +70,11 @@ model User {
   id                     String        @id @default(cuid())
   firstname              String
   lastname               String
-  email                  String
-  grade                  String
+  email                  String @unique
+  password               String
   interests              Tag[]
+  emailVerified          Boolean
+  grade                  String
   clubs                  Club[]
   presidentOf            Club[]        @relation("president_relation")
   vicePresidentOf        Club[]        @relation("vicePresident_relation")
@@ -85,6 +87,7 @@ model User {
   initialMemberList      ClubRequest[]
   meetings               Meeting[]
 
+  @@map(name: "users")
 }
 
 model ClubRequest {

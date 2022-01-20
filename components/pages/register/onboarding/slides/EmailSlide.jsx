@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useTransition, animated } from "react-spring";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -7,12 +8,15 @@ import { OnboardingForm } from "../components/input/OnboardingForm";
 import { Field } from "../../../../general/input/control";
 export const EmailSlide = ({ next, prev, set, data }) => {
   const [email, setEmail] = useState(data.email);
+  const [coolingDown, setCooldown] = useState({ status: false, time: 0 });
   const [sent, setSent] = useState(false);
   const [disabled, setDisabled] = useState(true);
+  const [code, setCode] = useState(null);
   const [confirmationCode, setConfirmationCode] = useState("");
   const [confirmationCodeError, setConfirmationCodeError] = useState({
     confirmation: "Confirmation code is required",
   });
+
   const config = {
     header: {
       title: "What is your email address?",
@@ -26,13 +30,14 @@ export const EmailSlide = ({ next, prev, set, data }) => {
         type: "text",
         span: 4,
         button: {
-          label: "Send",
+          label: sent
+            ? coolingDown.status
+              ? coolingDown.time
+              : "Send again"
+            : "Send",
           primary: true,
-          disabled: false,
+          disabled: coolingDown.status,
           type: "function",
-          action: () => {
-            setSent(true);
-          },
         },
       },
       confirmation: {
@@ -71,18 +76,42 @@ export const EmailSlide = ({ next, prev, set, data }) => {
     leave: { opacity: 0, transform: "translate(30px, 0px)" },
   });
 
-  const sendEmail = ({ email, setSubmitting }) => {
+  const sendEmail = async ({ email, setSubmitting }) => {
     setEmail(email);
-    console.log("sending email to ", email);
-    setTimeout(() => {
-      setSubmitting(false);
+    try {
+      const response = await axios.post(
+        "/api/auth/mail",
+        { email },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            secret_key: process.env.NEXT_PUBLIC_API_AUTHENTICATION_KEY,
+          },
+        }
+      );
+      //# Use server to confirm code
+      setCode(response.data.code);
       setSent(true);
-    }, 1000);
+      setSubmitting(false);
+      setCooldown({ status: true, time: 60 });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {
-    const code = "123456";
-    if (confirmationCode === code) {
+    if (coolingDown.time === 0) {
+      setCooldown({ status: false, time: 0 });
+    }
+    if (!coolingDown.time) return;
+    const intervalId = setInterval(() => {
+      setCooldown((prev) => ({ ...prev, time: coolingDown.time - 1 }));
+    }, 1000);
+    return () => clearInterval(intervalId);
+  }, [coolingDown.time]);
+
+  useEffect(() => {
+    if (confirmationCode.replace(/-/g, "") === code) {
       setConfirmationCodeError({});
       setDisabled(false);
     } else {
@@ -96,7 +125,7 @@ export const EmailSlide = ({ next, prev, set, data }) => {
       setDisabled(true);
     }
     return () => setDisabled(false);
-  }, [confirmationCode]);
+  }, [code, confirmationCode]);
 
   return (
     <Container>
@@ -116,7 +145,7 @@ export const EmailSlide = ({ next, prev, set, data }) => {
           }}
         </Formik>
 
-        {sent && (
+        {sent && code && (
           <>
             {transition(
               (style, item) =>
@@ -129,7 +158,19 @@ export const EmailSlide = ({ next, prev, set, data }) => {
                       }}
                       value={confirmationCode}
                       {...config.control.confirmation}
-                      onChange={(e) => setConfirmationCode(e.target.value)}
+                      onChange={(e) => {
+                        const value = e.target.value.match(/^\d|-$/)
+                          ? e.target.value
+                          : "";
+                        if (value.length === 0) {
+                          setConfirmationCode(value);
+                        } else {
+                          const v = value.split("-").join("");
+                          const finalVal = v.match(/.{1,3}/g).join("-");
+                          setConfirmationCode(finalVal);
+                        }
+                      }}
+                      maxLength={7}
                       form={{
                         touched: { confirmation: true },
                         errors: confirmationCodeError,
