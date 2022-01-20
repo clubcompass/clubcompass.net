@@ -15,7 +15,7 @@ export const NavCenter = () => {
   ];
 
   return (
-    <div className="flex flex-row items-center gap-4 justify-evenly text-cc w-1/4">
+    <div className="hidden lg:flex flex-col lg:flex-row items-center gap-4 justify-evenly text-cc w-1/4">
       {links.map((link, index) => (
         <NavLink key={index} {...link} />
       ))}

@@ -2,10 +2,12 @@ import { NavCenter } from "./NavCenter";
 import { NavLeft } from "./NavLeft";
 import { NavRight } from "./NavRight";
 import { NavRightAlt } from "./NavRightAlt";
+import { NavHamburger } from "./NavHamburger";
 
 export const NavWrapper = ({ name, profileColor }) => {
   return (
-    <div className="w-screen px-16 py-10 flex justify-between items-center">
+    <div className="flex flex-row px-6 lg:px-16 py-10 justify-between items-center  w-screen">
+      <NavHamburger />
       <NavLeft />
       <NavCenter />
       {/* <NavRight /> */}

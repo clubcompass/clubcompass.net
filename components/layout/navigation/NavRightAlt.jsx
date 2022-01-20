@@ -12,7 +12,7 @@ export const NavRightAlt = ({ name, profileColor }) => {
   ).toUpperCase();
   return (
     <div className="">
-      <Menu as="div" className="w-[219px] relative inline-block">
+      <Menu as="div" className="lg:w-[219px] relative inline-block">
         <div>
           <Menu.Button className="bg-ccGrey hover:bg-ccGreyDark text-sm font-medium text-black inline-flex w-full rounded-md items-center justify-between focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
             <div
@@ -21,10 +21,10 @@ export const NavRightAlt = ({ name, profileColor }) => {
             >
               <p className="text-[1.1rem] w-[40px]">{initials}</p>
             </div>
-            <div className="pl-1 font-semibold tracking-wide truncate">
+            <div className="hidden lg:flex pl-1 text-left font-semibold tracking-wide truncate">
               {name}
             </div>
-            <div className="pr-3">
+            <div className="hidden lg:flex pr-3">
               <FaChevronDown />
             </div>
           </Menu.Button>
@@ -38,7 +38,7 @@ export const NavRightAlt = ({ name, profileColor }) => {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="absolute right-0 w-full mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Menu.Items className="absolute w-[150px] lg:w-full right-0 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div className="px-1 py-1 ">
               <Menu.Item>
                 {({ active }) => (

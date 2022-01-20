@@ -13,7 +13,7 @@ export const Layout = ({ children }) => {
       }`}
     >
       <Nav />
-      <div className="px-16">{children}</div>
+      <div className="px-6 lg:px-16">{children}</div>
       {router.pathname === "/" && <Footer />}
     </div>
   );
