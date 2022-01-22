@@ -9,7 +9,6 @@ export const NavLink = ({ mobile, target, name, icon }) => {
     router.asPath === target
       ? "bg-cc hover:bg-ccDark text-white"
       : "bg-ccGrey hover:bg-ccGreyDark text-black";
-  console.log(mobile);
   return (
     <Link href={target}>
       <a
