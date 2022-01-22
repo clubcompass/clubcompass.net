@@ -1,10 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
 
+import { CloseMenu } from "..";
+
 export const NavLogo = () => {
   return (
     <Link href="/">
-      <a className="flex items-center">
+      <a onClick={CloseMenu} className="flex items-center">
         <a className="w-[40px] h-[40px] md:mr-4">
           <Image src="/cc-auth.svg" alt="cc" width={40} height={40} />
         </a>
