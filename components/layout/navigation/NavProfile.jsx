@@ -6,7 +6,7 @@ import { FiSettings } from "react-icons/fi";
 import { MdLogout } from "react-icons/md";
 import { FaChevronDown } from "react-icons/fa";
 
-export const NavRightAlt = ({ name, profileColor }) => {
+export const NavProfile = ({ name, profileColor }) => {
   const initials = (
     name.split(" ").shift().charAt(0) + name.split(" ").pop().charAt(0)
   ).toUpperCase();

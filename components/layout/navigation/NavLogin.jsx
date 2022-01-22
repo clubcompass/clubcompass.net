@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export const NavRight = () => {
+export const NavLogin = () => {
   const Button =
     "px-7 py-[.3rem] rounded-lg border-2 font-semibold border-cc items-center justify-center";
   return (
