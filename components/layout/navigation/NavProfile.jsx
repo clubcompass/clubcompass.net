@@ -42,28 +42,32 @@ export const NavProfile = ({ name, profileColor }) => {
             <div className="px-1 py-1 ">
               <Menu.Item>
                 {({ active }) => (
-                  <button
-                    className={`${
-                      active ? "bg-ccGreyDark" : ""
-                    } group flex gap-2 rounded-md items-center w-full px-2 py-2 text-sm text-[#919191]`}
-                  >
-                    <FiSettings />
-                    Edit profile
-                  </button>
+                  <Link href="/">
+                    <a
+                      className={`${
+                        active ? "bg-ccGreyDark" : ""
+                      } group flex gap-2 rounded-md items-center w-full px-2 py-2 text-sm text-[#919191]`}
+                    >
+                      <FiSettings />
+                      Edit profile
+                    </a>
+                  </Link>
                 )}
               </Menu.Item>
             </div>
             <div className="px-1 py-1">
               <Menu.Item>
                 {({ active }) => (
-                  <button
-                    className={`${
-                      active ? "bg-[#E86464] text-white" : "text-[#E86464]"
-                    } group flex gap-2 rounded-md items-center w-full px-2 py-2 text-sm`}
-                  >
-                    <MdLogout />
-                    Log out
-                  </button>
+                  <Link href="/">
+                    <a
+                      className={`${
+                        active ? "bg-[#E86464] text-white" : "text-[#E86464]"
+                      } group flex gap-2 rounded-md items-center w-full px-2 py-2 text-sm`}
+                    >
+                      <MdLogout />
+                      Log out
+                    </a>
+                  </Link>
                 )}
               </Menu.Item>
             </div>

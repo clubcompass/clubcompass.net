@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export const NavLogin = () => {
   const Button =
-    "px-7 py-[.3rem] rounded-lg border-2 font-semibold border-cc items-center justify-center";
+    "z-10 px-2 md:px-7 py-[.3rem] text-sm lg:text-md rounded-lg border-2 font-semibold border-cc items-center justify-center";
   return (
     <div className="flex gap-4 items-center">
       <Link href="/login">
