@@ -18,7 +18,22 @@ module.exports = {
         cards: "repeat(auto-fill,minmax(443px,1fr))",
       },
       animation: {
+        drop: "drop .3s ease",
         "spin-slow": "spin 50s linear infinite",
+      },
+      keyframes: {
+        drop: {
+          from: {
+            transformOrigin: "top",
+            transform: "scale(.9)",
+            opacity: "0",
+          },
+          to: {
+            transformOrigin: "top",
+            transform: "scale(1)",
+            opacity: "1",
+          },
+        },
       },
       transitionProperty: {
         height: "height",

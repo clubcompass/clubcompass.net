@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment } from "react";
 import Link from "next/link";
 
 import { Menu, Transition } from "@headlessui/react";
@@ -41,34 +41,25 @@ export const NavProfile = ({ name, profileColor }) => {
           <Menu.Items className="absolute w-[150px] lg:w-full right-0 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div className="px-1 py-1 ">
               <Menu.Item>
-                {({ active }) => (
-                  <Link href="/">
-                    <a
-                      className={`${
-                        active ? "bg-ccGreyDark" : ""
-                      } group flex gap-2 rounded-md items-center w-full px-2 py-2 text-sm text-[#919191]`}
-                    >
-                      <FiSettings />
-                      Edit profile
-                    </a>
-                  </Link>
-                )}
+                <Link href="/">
+                  <a className="hover:bg-ccGreyDark group flex gap-2 rounded-md items-center w-full px-2 py-2 text-sm text-[#919191]">
+                    <FiSettings />
+                    Edit profile
+                  </a>
+                </Link>
               </Menu.Item>
             </div>
             <div className="px-1 py-1">
               <Menu.Item>
-                {({ active }) => (
-                  <Link href="/">
-                    <a
-                      className={`${
-                        active ? "bg-[#E86464] text-white" : "text-[#E86464]"
-                      } group flex gap-2 rounded-md items-center w-full px-2 py-2 text-sm`}
-                    >
-                      <MdLogout />
-                      Log out
-                    </a>
-                  </Link>
-                )}
+                <Link href="/">
+                  <a
+                    className="hover:bg-[#E86464] hover:text-white text-[#E86464]
+                      } group flex gap-2 rounded-md items-center w-full px-2 py-2 text-sm"
+                  >
+                    <MdLogout />
+                    Log out
+                  </a>
+                </Link>
               </Menu.Item>
             </div>
           </Menu.Items>

@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { NavHamburger } from "./NavHamburger";
+
 import { CloseMenu } from "./NavHamburger";
 
 export const NavLink = ({ mobile, target, name, icon }) => {
@@ -16,7 +16,7 @@ export const NavLink = ({ mobile, target, name, icon }) => {
         className={
           mobile
             ? navStyle +
-              " first:mt-8 last:border-b-0 flex items-center ml-3 mr-6 pl-7 py-2 gap-4 border-b-2 rounded-md"
+              " first:mt-8 flex items-center ml-3 mr-6 pl-7 py-2 gap-4 rounded-md"
             : navStyle + " flex items-center gap-2 px-3 py-1 rounded-md"
         }
       >

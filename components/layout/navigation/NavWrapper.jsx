@@ -9,7 +9,7 @@ export const NavWrapper = ({ name, profileColor }) => {
     <div className="flex flex-row px-6 lg:px-16 py-6 lg:py-10 justify-between items-center  w-screen">
       <NavHamburger />
       <NavLogo />
-      <NavItems mobile={false} />
+      <NavItems />
       {/* <NavLogin /> */}
       <NavProfile name={name} profileColor={profileColor} />
     </div>
