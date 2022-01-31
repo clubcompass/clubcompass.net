@@ -13,6 +13,7 @@ const user = async (req, res) => {
           tags: true,
         },
       },
+      interests: true,
       presidentOf: true,
       vicePresidentOf: true,
       secretaryOf: true,
