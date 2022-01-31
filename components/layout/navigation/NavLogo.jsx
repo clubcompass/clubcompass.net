@@ -1,16 +1,24 @@
+import React from "react";
 import Link from "next/link";
-import Image from "next/image";
-
-import { CloseMenu } from "..";
+import { useLayoutContext } from "../../../context";
+import { CCIcon } from "../../custom";
 
 export const NavLogo = () => {
+  const { menuOpen, setMenuState } = useLayoutContext();
   return (
     <Link href="/">
-      <a onClick={CloseMenu} className="flex items-center">
-        <a className="w-[40px] h-[40px] md:mr-4">
-          <Image src="/cc-auth.svg" alt="cc" width={40} height={40} />
-        </a>
-        <h1 className="hidden md:flex z-10 text-2xl tracking-wider font-bold">
+      <a
+        onClick={menuOpen ? () => setMenuState(false) : null}
+        className="flex items-center"
+      >
+        <div className="md:mr-4 w-[40px] h-[40px] z-50">
+          <CCIcon color={`${menuOpen ? "#fff" : "cc"}`} />
+        </div>
+        <h1
+          className={`hidden md:flex z-10 text-2xl tracking-wider font-bold ${
+            menuOpen && "text-white"
+          }`}
+        >
           Club Compass
         </h1>
       </a>

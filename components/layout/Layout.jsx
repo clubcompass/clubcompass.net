@@ -1,20 +1,31 @@
 import React from "react";
-import { Nav, Footer } from ".";
 import { useRouter } from "next/router";
+import { LayoutProvider, useLayoutContext } from "../../context";
+import { Nav, Footer } from ".";
 export const Layout = ({ children }) => {
   const router = useRouter();
-  // w-[100vw] h-[100vh]
+  return (
+    <LayoutProvider>
+      <LayoutContainer router={router}>
+        <Nav />
+        <div className="px-6 lg:px-16">{children}</div>
+        {router.pathname === "/" && <Footer />}
+      </LayoutContainer>
+    </LayoutProvider>
+  );
+};
+
+const LayoutContainer = ({ children, router }) => {
+  const { menuOpen } = useLayoutContext();
   return (
     <div
       className={`${
         router.pathname === "/register" || router.pathname === "/login"
           ? ""
-          : "flex flex-col justify-between bg-[#FCFEFF]"
-      }`}
+          : "flex flex-col justify-between"
+      } ${menuOpen && "fixed h-full overflow-hidden"}`}
     >
-      <Nav />
-      <div className="px-6 lg:px-16">{children}</div>
-      {router.pathname === "/" && <Footer />}
+      {children}
     </div>
   );
 };

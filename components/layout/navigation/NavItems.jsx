@@ -1,9 +1,8 @@
-import { NavLink } from "./NavLink";
-
 import { AiFillHome } from "react-icons/ai";
 import { FaCompass } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { BsPeopleFill } from "react-icons/bs";
+import { NavLink } from "./NavLink";
 
 export const NavItems = ({ mobile }) => {
   const links = [
@@ -17,12 +16,12 @@ export const NavItems = ({ mobile }) => {
     <div
       className={
         mobile
-          ? "mt-4 bg-ccGrey animate-drop"
+          ? "flex flex-col items-start justify-center w-full h-1/2"
           : "hidden lg:flex flex-col lg:flex-row items-center gap-4 justify-evenly text-cc w-1/4"
       }
     >
       {links.map((link, index) => (
-        <NavLink mobile={mobile} key={index} {...link} />
+        <NavLink key={index} {...link} />
       ))}
     </div>
   );
