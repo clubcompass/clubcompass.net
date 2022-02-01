@@ -137,7 +137,7 @@ export const Tag = ({ tag }) => {
   return (
     <span
       style={{ backgroundColor: clr }}
-      className="flex items-center justify-center py-2 rounded-sm uppercase font-extrabold text-[0.6rem] text-[#344357]"
+      className="flex text-center items-center justify-center py-2 rounded uppercase font-extrabold text-[0.6rem] text-[#344357]"
     >
       {tag.name}
     </span>

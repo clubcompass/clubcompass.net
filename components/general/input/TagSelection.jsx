@@ -72,7 +72,7 @@ export const Tag = ({ tag, select, limitReached, selected }) => {
           : limitReached
           ? "cursor-disabled pointer-events-none"
           : "cursor-pointer"
-      } flex items-center justify-center py-2 rounded-sm uppercase font-extrabold text-[0.6rem]`}
+      } flex items-center justify-center py-2 rounded uppercase font-extrabold text-[0.6rem]`}
       onClick={() => {
         setToggled(!toggled);
         select({ tag });

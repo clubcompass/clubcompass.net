@@ -3,7 +3,12 @@ import * as nodemailer from "nodemailer";
 // import * as sgTransport from "nodemailer-sendgrid-transport";
 const mail = async (req, res) => {
   const { email } = req.body;
-  const code = Math.floor(Math.random() * 1000000);
+  const nums = "1234567890";
+  let code = "";
+  for (let i = 6; i > 0; i--) {
+    code += nums[Math.floor(Math.random() * nums.length)];
+  }
+
   // const options = {
   //   auth: {
   //     api_user: process.env.SENDGRID_USERNAME,

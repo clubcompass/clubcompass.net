@@ -18,7 +18,7 @@ export const OnboardingForm = ({
 
   if (multipleFields) {
     return (
-      <Form className="w-full grid grid-cols-6 gap-3 items-center">
+      <Form className="w-full grid grid-cols-6 gap-3">
         {form.map((form) => {
           if (!form.custom) {
             return (
@@ -63,7 +63,7 @@ export const OnboardingForm = ({
     );
   } else {
     return (
-      <Form className="w-full grid grid-cols-6 gap-3 items-center">
+      <Form className="w-full grid grid-cols-6 gap-3">
         {form.custom ? (
           <div style={{ gridColumn: `span ${form.span}` }}>
             {form.component}
