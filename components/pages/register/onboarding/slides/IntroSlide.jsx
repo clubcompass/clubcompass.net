@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { Buttons, Header, Container } from "../components";
 export const IntroSlide = ({ next, prev }) => {
   const config = {
@@ -10,9 +11,9 @@ export const IntroSlide = ({ next, prev }) => {
     buttons: [
       {
         primary: false,
-        label: "Back",
-        type: "function",
-        action: prev,
+        label: "Home",
+        type: "link",
+        action: "/",
       },
       {
         primary: true,
@@ -26,6 +27,12 @@ export const IntroSlide = ({ next, prev }) => {
     <Container>
       <Header {...config.header} />
       <Buttons buttons={config.buttons} />
+      <p className="text-sm">
+        Already have an account?{" "}
+        <Link href="/login">
+          <a className="text-cc">Login.</a>
+        </Link>
+      </p>
     </Container>
   );
 };

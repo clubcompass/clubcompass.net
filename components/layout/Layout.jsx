@@ -3,12 +3,17 @@ import { useRouter } from "next/router";
 import { LayoutProvider, useLayoutContext } from "../../context";
 import { Nav, Footer } from ".";
 export const Layout = ({ children }) => {
+  const blacklist = ["/register", "/login"];
   const router = useRouter();
   return (
     <LayoutProvider>
       <LayoutContainer router={router}>
-        <Nav />
-        <div className="px-6 lg:px-16">{children}</div>
+        {!blacklist.includes(router.pathname) && <Nav />}
+        {!blacklist.includes(router.pathname) ? (
+          <div className="px-6 lg:px-16">{children}</div>
+        ) : (
+          <div>{children}</div>
+        )}
         {router.pathname === "/" && <Footer />}
       </LayoutContainer>
     </LayoutProvider>
