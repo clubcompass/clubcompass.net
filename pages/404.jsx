@@ -4,7 +4,7 @@ import Image from "next/image";
 const Custom404 = () => {
   return (
     <div className="flex flex-col justify-center items-center h-screen">
-      <div className="mb-6 p-3 relative bg-[#E7EEFF] rounded-xl">
+      <div className="mb-10 p-3 relative bg-[#E7EEFF] rounded-xl">
         <div className="mt-[4px] mx-[5px]">
           <Image src="/cc-404.svg" alt="logo" width={64} height={64} />
         </div>

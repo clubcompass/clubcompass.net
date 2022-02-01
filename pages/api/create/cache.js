@@ -1,5 +1,4 @@
 import { prisma } from "../../../config/prisma";
-// import { createClient } from "redis";
 import { redis } from "../../../config/redis";
 
 const cache = async (req, res) => {
@@ -9,8 +8,6 @@ const cache = async (req, res) => {
       president: true,
     },
   });
-
-  // console.log(clubs);
 
   await redis.connect();
 

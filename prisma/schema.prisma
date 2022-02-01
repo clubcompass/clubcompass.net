@@ -101,7 +101,7 @@ model ClubRequest {
   duties_of_members                                 String
   titles_and_duties_of_officers                     String
   selection_of_officers                             String
-  officer_minimum_gpa                               Int
+  officer_minimum_gpa                               Float
   minimum_percent_of_members_for_meeting            Int
   minimum_percent_of_members_for_approving_decision Int
   president_contact                                 String
