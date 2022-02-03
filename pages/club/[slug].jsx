@@ -2,11 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { db } from "../../lib/database";
-import {
-  Club as ClubComponent,
-  ClubWrapper,
-  Title,
-} from "../../components/pages/club";
+import { Club as ClubComponent } from "../../components/pages/club";
 
 // import { MdLocationOn } from "react-icons/md";
 // import { BsClock, BsFillPersonFill } from "react-icons/bs";
@@ -59,7 +55,10 @@ const Club = () => {
     minimum_percent_of_members_for_approving_decision: 51,
     president_contact: "somepresidentemail@gmail.com",
     link: "https://www.apple.com",
-    link_name: "Website",
+    link_name: "Our Website",
+    instagram_link: "https://www.instagram.com",
+    instagram_name: "@poopyface",
+    new_members: "Open to new members",
     image_links: [
       "https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80",
       "https://bestlifeonline.com/wp-content/uploads/sites/3/2019/04/weird-dog-lizard-hybrid.jpg?quality=82&strip=all",
@@ -236,17 +235,17 @@ const Club = () => {
       <ClubComponent>
         <ClubComponent.Wrapper>
           <ClubComponent.Header name={club.name} tags={club.tags} />
-          <ClubComponent.Carousel
-            images={club.image_links}
-            captions={club.image_captions}
-          />
-          <ClubComponent.Content
+          <ClubComponent.Contact
             email={club.president.email}
+            website={{ name: club.link_name, link: club.link }}
+            instagram={{ name: club.instagram_name, link: club.instagram_link }}
+          />
+          <ClubComponent.Meeting
             time={club.meeting_time}
             location={club.meeting_location}
-            description={club.description}
-            website={{ name: club.link_name, link: club.link }}
+            new_members={club.new_members}
           />
+          <ClubComponent.Content description={club.description} />
           <ClubComponent.Members
             president={club.president}
             vicePresident={club.vicePresident}
