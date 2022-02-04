@@ -12,7 +12,14 @@ export const ClubWrapper = ({ children }) => {
       <div className="grid grid-cols-6 gap-8">
         <div className="col-span-4">
           <Card title="Description">{content}</Card>
-          <Card title={`Members (${"number of members"})`}>{members}</Card>
+          <div className="grid grid-cols-2 gap-8">
+            <div className="col-span-1">
+              <Card title={`Leaders (${"number of leaders"})`}>{members}</Card>
+            </div>
+            <div className="col-span-1">
+              <Card title={`Members (${"number of members"})`}>{members}</Card>
+            </div>
+          </div>
         </div>
         <div className="col-span-2">
           <Card title="Contact Information">{contact}</Card>
