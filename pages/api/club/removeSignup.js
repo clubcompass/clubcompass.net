@@ -1,0 +1,63 @@
+import { prisma } from "../../../config/prisma";
+
+export default async (req, res) => {
+  const { userId, clubId } = req.body;
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    include: {
+      roles: true,
+    },
+  });
+
+  const roles = Array.from([...user.roles], (role) => {
+    if (role.clubId !== clubId) {
+      return {
+        id: role.id,
+      };
+    }
+  });
+
+  const response = await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      clubs: {
+        disconnect: {
+          id: clubId,
+        },
+      },
+      roles: {
+        set: [],
+        connect: roles,
+      },
+      canEdit: {
+        disconnect: {
+          id: clubId,
+        },
+      },
+    },
+    include: {
+      clubs: true,
+      roles: true,
+    },
+  });
+
+  // const response = await prisma.user.update({
+  //   where: {
+  //     id: userId,
+  //   },
+  //   data: {
+  //     clubs: {
+  //       disconnect: {
+  //         id: clubId,
+  //       },
+  //     },
+  //   },
+  // });
+
+  return res.status(200).json({ ...response });
+};

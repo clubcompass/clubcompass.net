@@ -8,115 +8,78 @@ generator client {
 }
 
 model Club {
-  id                                                String    @id @default(cuid())
-  name                                              String    @unique
-  slug                                              String    @unique
-  email                                             String
-  teacher                                           String
-  meeting_time                                      String
-  meeting_location                                  String
-  description                                       String
-  membership_requirements                           String
-  duties_of_members                                 String
-  titles_and_duties_of_officers                     String
-  selection_of_officers                             String
-  officer_minimum_gpa                               Float
-  minimum_percent_of_members_for_meeting            Int
-  minimum_percent_of_members_for_approving_decision Int
-  president_contact                                 String
-  link                                              String?
-  link_name                                         String?
-  image_links                                       String[]
-  image_captions                                    String[]
-  tags                                              Tag[]
-  members                                           User[]
-  president                                         User?     @relation("president_relation", fields: [presidentID], references: [id])
-  vicePresident                                     User?     @relation("vicePresident_relation", fields: [vicePresidentID], references: [id])
-  secretary                                         User?     @relation("secretary_relation", fields: [secretaryID], references: [id])
-  treasurer                                         User?     @relation("treasurer_relation", fields: [treasurerID], references: [id])
-  presidentID                                       String?
-  vicePresidentID                                   String?
-  secretaryID                                       String?
-  treasurerID                                       String?
-  meetings                                          Meeting[]
+  id              String               @id @default(cuid())
+  name            String               @unique
+  slug            String               @unique
+  description     String
+  email           String
+  meetingDate     String
+  location        String
+  approval        String               @default("UNAPPROVED") //alternate value APPROVED
+  status          String               @default("DRAFT") //alternate values REVIEW / APPROVED
+  links           Link[]
+  applicationInfo ClubApplicationInfo?
+  tags            Tag[]
+  members         User[]               @relation("members")
+  editors         User[]               @relation("editors")
+  roles           Role[]
+}
+
+model Link {
+  id     String  @id @default(cuid())
+  club   Club    @relation(fields: [clubId], references: [id])
+  clubId String
+  name   String?
+  link   String
+  type   String //can take values like WEBSITE / DISCORD / INSTAGRAM / SNAPCHAT
+}
+
+model ClubApplicationInfo {
+  id      String @id @default(cuid())
+  teacher User   @relation(fields: [userId], references: [id])
+  userId  String
+  club    Club   @relation(fields: [clubId], references: [id])
+  clubId  String @unique
+
+  purpose                             String
+  membershipRequirements              String
+  dutiesOfMembers                     String
+  titlesAndDutiesOfOfficers           String
+  selectionOfOfficers                 String
+  officerMinimumGPA                   Float
+  percentAttendanceForOfficialMeeting Int
+  percentAttendanceToApproveDecision  Int
 }
 
 model Tag {
-  id             String        @id @default(cuid())
-  name           String        @unique
-  clubs          Club[]
-  clubRequests   ClubRequest[]
-  user_interests User[]
-}
-
-model Meeting {
-  id                  String    @id @default(cuid())
-  location            String
-  purpose             String
-  summary             String?
-  actions_taken       String?
-  result_of_any_votes String?
-  author              String?
-  status              String    @default("open")
-  code                String    @unique
-  startTime           DateTime  @default(now())
-  endTime             DateTime?
-  attendance          User[]
-  club                Club      @relation(fields: [clubID], references: [id])
-  clubID              String
+  id              String @id @default(cuid())
+  name            String @unique
+  clubs           Club[]
+  interestedUsers User[]
 }
 
 model User {
-  id                     String        @id @default(cuid())
-  firstname              String
-  lastname               String
-  email                  String @unique
-  password               String
-  interests              Tag[]
-  emailVerified          Boolean
-  grade                  String
-  clubs                  Club[]
-  presidentOf            Club[]        @relation("president_relation")
-  vicePresidentOf        Club[]        @relation("vicePresident_relation")
-  secretaryOf            Club[]        @relation("secretary_relation")
-  treasurerOf            Club[]        @relation("treasurer_relation")
-  initialPresidentOf     ClubRequest[] @relation("club_request_president_relation")
-  initialVicePresidentOf ClubRequest[] @relation("club_request_vice_president_relation")
-  initialSecretaryOf     ClubRequest[] @relation("club_request_secretary")
-  initialTreasurerOf     ClubRequest[] @relation("club_request_treasurer")
-  initialMemberList      ClubRequest[]
-  meetings               Meeting[]
-
-  @@map(name: "users")
+  id            String                @id @default(cuid())
+  firstname     String
+  lastname      String
+  email         String
+  emailVerified Boolean
+  password      String
+  grade         String //values: FRESHMAN, SOPHMORE, JUNIOR, SENIOr< TEACHER
+  type          String                @default("STUDENT") //alternative value: TEACHER
+  interests     Tag[]
+  clubs         Club[]                @relation("members")
+  canEdit       Club[]                @relation("editors")
+  advisor       ClubApplicationInfo[]
+  roles         Role[]
 }
 
-model ClubRequest {
-  id                                                String  @id @default(cuid())
-  name                                              String  @unique
-  teacher                                           String
-  meeting_time                                      String
-  meeting_location                                  String
-  description                                       String
-  membership_requirements                           String
-  duties_of_members                                 String
-  titles_and_duties_of_officers                     String
-  selection_of_officers                             String
-  officer_minimum_gpa                               Float
-  minimum_percent_of_members_for_meeting            Int
-  minimum_percent_of_members_for_approving_decision Int
-  president_contact                                 String
-  link                                              String?
-  link_name                                         String?
-  image_link                                        String?
-  image_caption                                     String?
-  president                                         User?   @relation("club_request_president_relation", fields: [presidentID], references: [id])
-  vicePresident                                     User?   @relation("club_request_vice_president_relation", fields: [vicePresidentID], references: [id])
-  secretary                                         User?   @relation("club_request_secretary", fields: [secretaryID], references: [id])
-  treasurer                                         User?   @relation("club_request_treasurer", fields: [treasurerID], references: [id])
-  presidentID                                       String
-  vicePresidentID                                   String
-  secretaryID                                       String
-  treasurerID                                       String
-  members                                           User[]
-  tags                                              Tag[]
+model Role {
+  id     String @id @default(cuid())
+  name   String
+  color  String
+  users  User[]
+  club   Club   @relation(fields: [clubId], references: [id])
+  clubId String
+  type   String @default("MEMBER") //alternate value: LEADER
 }
