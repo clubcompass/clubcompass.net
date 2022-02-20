@@ -15,6 +15,12 @@ export default async (req, res) => {
     },
   });
 
+  await prisma.link.delete({
+    where: {
+      clubId: id,
+    },
+  });
+
   const response = await prisma.club.delete({
     where: {
       id: id,
