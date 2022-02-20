@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("DEVELOPMENT_DATABASE_URL")
 }
 
 generator client {
@@ -9,14 +9,14 @@ generator client {
 
 model Club {
   id              String               @id @default(cuid())
-  name            String               @unique
-  slug            String               @unique
-  description     String
-  email           String
-  meetingDate     String
-  location        String
-  approval        String               @default("UNAPPROVED") //alternate value APPROVED
-  status          String               @default("DRAFT") //alternate values REVIEW / APPROVED
+  name            String?               @unique
+  slug            String?               @unique
+  description     String?
+  email           String?
+  meetingDate     String?
+  location        String?
+  approval        String?               @default("UNAPPROVED") //alternate value APPROVED
+  status          String?               @default("DRAFT") //alternate values REVIEW / APPROVED
   links           Link[]
   applicationInfo ClubApplicationInfo?
   tags            Tag[]
