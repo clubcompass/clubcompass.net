@@ -1,2 +1,2 @@
 export * from "./newUserSchema";
-export * from "./userSchema";
+export * from "./loginSchema";

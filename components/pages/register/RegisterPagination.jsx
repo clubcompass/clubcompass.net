@@ -16,7 +16,7 @@ const Dot = ({ currentSlide, slide }) => {
   return (
     <div
       className={`w-[10px] h-[10px] rounded-full ${
-        currentSlide === slide ? "bg-[#1C5EF9]" : "bg-[#E2EAFF]"
+        currentSlide === slide ? "bg-cc" : "bg-[#E2EAFF]"
       }`}
     />
   );

@@ -4,10 +4,11 @@ import { Menu, Transition } from "@headlessui/react";
 import { FiSettings } from "react-icons/fi";
 import { MdLogout } from "react-icons/md";
 import { FaChevronDown } from "react-icons/fa";
-import { useLayoutContext } from "../../../context";
+import { useLayoutContext, useAuthContext } from "../../../context";
 
 export const NavProfile = ({ name }) => {
   const { menuOpen } = useLayoutContext();
+  const { logout } = useAuthContext();
   const initials = (
     name.split(" ").shift().charAt(0) + name.split(" ").pop().charAt(0)
   ).toUpperCase();
@@ -67,12 +68,13 @@ export const NavProfile = ({ name }) => {
             </div>
             <div className="px-1 py-1">
               <Menu.Item>
-                <Link href="/">
-                  <a className="bg-red-500 text-white lg:bg-white lg:text-red-500 lg:hover:bg-red-500 hover:text-white group flex gap-2 rounded-md items-center w-full px-2 py-2 text-sm">
-                    <MdLogout />
-                    Log out
-                  </a>
-                </Link>
+                <div
+                  onClick={logout}
+                  className="bg-red-500 text-white lg:bg-white lg:text-red-500 lg:hover:bg-red-500 hover:text-white group flex gap-2 rounded-md items-center w-full px-2 py-2 text-sm cursor-pointer"
+                >
+                  <MdLogout />
+                  Log out
+                </div>
               </Menu.Item>
             </div>
           </Menu.Items>

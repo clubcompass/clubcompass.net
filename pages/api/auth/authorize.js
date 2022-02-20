@@ -1,8 +1,9 @@
 import * as jwt from "jsonwebtoken";
+import { prisma } from "../../../config/prisma";
 
 const JWT_SECRET = process.env.JWT;
 
-const authorization = (req, res) => {
+const authorization = async (req, res) => {
   const token = req.cookies.refreshToken;
   if (!token) {
     return res
@@ -10,11 +11,18 @@ const authorization = (req, res) => {
       .json({ status: "error", message: "Not authorized." });
   }
   try {
-    const data = jwt.verify(token, JWT_SECRET);
+    const {
+      user: { id },
+    } = jwt.verify(token, JWT_SECRET);
+    const user = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
     return res.status(200).json({
       status: "success",
       message: "Authorized.",
-      data: { id: data.user.id, email: data.user.email },
+      user,
     });
   } catch {
     return res

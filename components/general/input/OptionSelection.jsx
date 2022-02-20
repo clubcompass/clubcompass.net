@@ -12,7 +12,6 @@ export const OptionSelection = ({ options, current, setCurrent }) => {
         defaultIndex={options.indexOf(current)}
         onChange={(index) => {
           setCurrent({ value: options[index] });
-          console.log("Changed selected tab to:", options[index]);
         }}
       >
         <Tab.List className="flex p-1 space-x-1 border-2 rounded-xl">
@@ -24,7 +23,7 @@ export const OptionSelection = ({ options, current, setCurrent }) => {
                   "w-full py-2 text-sm leading-5 font-medium rounded-lg",
                   "focus:outline-none focus:ring-2 ring-offset-2 ring-offset-[#A0C0FC] ring-white ring-opacity-60 capitalize",
                   selected
-                    ? "bg-[#1C5EF9] shadow text-white"
+                    ? "bg-cc shadow text-white"
                     : "hover:bg-[#EEEFEF] text-black"
                 )
               }

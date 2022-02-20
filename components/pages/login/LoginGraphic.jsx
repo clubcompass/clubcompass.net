@@ -1,26 +1,50 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import Image from "next/image";
 import blobs from "blobs";
-import { useSpring, animated, config } from "react-spring";
+import { useTrail, useSpring, animated, config } from "react-spring";
 
 export const Graphic = () => {
+  const items = [
+    <Text key={1} />,
+    <People key={2} />,
+    <Blobs key={3} />,
+    <Cards key={4} />,
+    <Circles key={5} />,
+    <DottedCircles key={6} />,
+  ];
+
+  const trail = useTrail(items.length, {
+    from: { opacity: 0, transform: "translate(30px, 0px)" },
+    to: { opacity: 1, transform: "translate(0px, 0px)" },
+    config: config.wobbly,
+  });
+
   return (
-    <div className="hidden overflow-hidden relative md:flex items-center justify-center w-full h-full bg-gradient-to-bl from-cc to-cc-temp">
+    <div className="hidden overflow-hidden relative md:flex items-center justify-center w-full h-full bg-gradient-to-bl from-cc-temp to-cc">
       <div className="flex flex-col items-center justify-center text-white">
-        <Image src="/cc.svg" alt="cc" width={65} height={65} className="z-20" />
-        <h2 className="uppercase text-5xl font-extrabold my-4 z-20">
-          Club Compass
-        </h2>
-        <p className="uppercase font-bold z-20">Redefining club discovery</p>
-        <People />
-        <Blobs />
-        <Cards />
-        <Circles />
-        <DottedCircles />
+        {trail.map(({ x, ...otherProps }, i) => (
+          <animated.div
+            className="absolute"
+            key={i}
+            style={{
+              ...otherProps,
+            }}
+          >
+            {items[i]}
+          </animated.div>
+        ))}
       </div>
     </div>
   );
 };
+
+const Text = () => (
+  <div className="text-center z-50">
+    <Image src="/cc.svg" alt="cc" width={65} height={65} />
+    <h2 className="uppercase text-5xl font-extrabold my-4">Club Compass</h2>
+    <p className="uppercase font-bold">Redefining club discovery</p>
+  </div>
+);
 
 const Blobs = () => {
   const { maxOpacity, minOpacity } = { maxOpacity: 0.06, minOpacity: 0.03 };
@@ -185,7 +209,7 @@ const People = () => {
           data-name="Path 133"
           d="M9.654,93.847S2,93.847,2,86.193,9.654,55.578,47.924,55.578,93.847,78.54,93.847,86.193s-7.654,7.654-7.654,7.654Zm38.27-45.924A22.962,22.962,0,1,0,24.962,24.962,22.962,22.962,0,0,0,47.924,47.924Z"
           transform="translate(-2 -2)"
-          fill="#66ADFF"
+          fill="#3c77ff"
         />
       </svg>
     );
@@ -207,7 +231,7 @@ const Cards = () => {
       stray: { x: 20, y: 20 },
     },
     {
-      start: { x: 220, y: 80 },
+      start: { x: 220, y: 110 },
       stray: { x: 30, y: 30 },
     },
     {
@@ -264,7 +288,7 @@ const Cards = () => {
             height="157"
             rx="17"
             transform="translate(1597 842)"
-            fill="#4792fd"
+            fill="#3470fa"
           />
           <rect
             id="Rectangle_1512"
@@ -273,7 +297,7 @@ const Cards = () => {
             height="21"
             rx="10.5"
             transform="translate(1615 900)"
-            fill="rgba(255,255,255,0.4)"
+            fill="rgba(255,255,255,0.25)"
           />
           <rect
             id="Rectangle_1513"
@@ -282,7 +306,7 @@ const Cards = () => {
             height="11"
             rx="5.5"
             transform="translate(1615 930)"
-            fill="rgba(255,255,255,0.16)"
+            fill="rgba(255,255,255,0.11)"
           />
           <rect
             id="Rectangle_1514"
@@ -291,7 +315,7 @@ const Cards = () => {
             height="11"
             rx="5.5"
             transform="translate(1615 946)"
-            fill="rgba(255,255,255,0.16)"
+            fill="rgba(255,255,255,0.11)"
           />
           <rect
             id="Rectangle_1516"
@@ -300,7 +324,7 @@ const Cards = () => {
             height="11"
             rx="5.5"
             transform="translate(1615 973)"
-            fill="rgba(255,255,255,0.16)"
+            fill="rgba(255,255,255,0.11)"
           />
           <rect
             id="Rectangle_1517"
@@ -309,7 +333,7 @@ const Cards = () => {
             height="11"
             rx="5.5"
             transform="translate(1771 973)"
-            fill="#97bef3"
+            fill="#4c80fc"
           />
           <rect
             id="Rectangle_1518"
@@ -318,7 +342,7 @@ const Cards = () => {
             height="34"
             rx="17"
             transform="translate(1615 858)"
-            fill="rgba(255,255,255,0.4)"
+            fill="rgba(255,255,255,0.25)"
           />
           <rect
             id="Rectangle_1519"
@@ -327,7 +351,7 @@ const Cards = () => {
             height="9"
             rx="4.5"
             transform="translate(1783 858)"
-            fill="rgba(255,255,255,0.16)"
+            fill="rgba(255,255,255,0.11)"
           />
           <rect
             id="Rectangle_1520"
@@ -336,7 +360,7 @@ const Cards = () => {
             height="9"
             rx="4.5"
             transform="translate(1790 871)"
-            fill="rgba(255,255,255,0.16)"
+            fill="rgba(255,255,255,0.11)"
           />
           <rect
             id="Rectangle_1521"
@@ -345,7 +369,7 @@ const Cards = () => {
             height="9"
             rx="4.5"
             transform="translate(1751 858)"
-            fill="rgba(255,255,255,0.16)"
+            fill="rgba(255,255,255,0.11)"
           />
           <rect
             id="Rectangle_1522"
@@ -354,7 +378,7 @@ const Cards = () => {
             height="9"
             rx="4.5"
             transform="translate(1751 871)"
-            fill="rgba(255,255,255,0.16)"
+            fill="rgba(255,255,255,0.11)"
           />
         </g>
       </svg>
@@ -373,7 +397,6 @@ const Cards = () => {
 const Circles = () => {
   const frames = [
     {
-      // bottom left
       start: { x: -260, y: 160 },
       stray: { x: 20, y: 20 },
       constraints: {
@@ -501,7 +524,6 @@ const Circles = () => {
 const DottedCircles = () => {
   const frames = [
     {
-      // top right
       start: { x: 120, y: -370 },
       stray: { x: 15, y: 15 },
       constraints: {

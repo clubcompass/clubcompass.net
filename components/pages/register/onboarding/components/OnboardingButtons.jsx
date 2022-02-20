@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-
+import { OnboardingFieldButton as Button } from "./input/OnboardingFieldButton";
 export const Buttons = ({ buttons, asSubmission }) => {
   return (
     <div className="w-full col-span-6 max-w-[495px]">
@@ -20,44 +20,15 @@ export const Buttons = ({ buttons, asSubmission }) => {
                 key={index}
                 primary={btn.primary}
                 label={btn.label}
-                onClick={() => btn.action()}
+                action={btn.action}
                 disabled={btn.disabled}
                 asSubmission={asSubmission}
+                loading={btn.loading}
               />
             );
           }
         })}
       </div>
     </div>
-  );
-};
-
-const Button = ({ primary, label, onClick, disabled, asSubmission }) => {
-  const p = {
-    active: "bg-[#1C5EF9] text-white hover:bg-[#457dff]",
-    disabled: "bg-opacity-30 cursor-not-allowed bg-[#1C5EF9] text-white",
-  };
-  const s = {
-    active: "bg-[#EFEFEF] text-black hover:bg-[#f7f7f7]",
-    disabled:
-      "bg-opacity-30 cursor-not-allowed bg-[#EFEFEF] text-black text-opacity-30",
-  };
-  return (
-    <button
-      type={primary && asSubmission ? "submit" : "button"}
-      disabled={disabled}
-      onClick={onClick}
-      className={`${
-        disabled
-          ? primary
-            ? p.disabled
-            : s.disabled
-          : primary
-          ? p.active
-          : s.active
-      } w-full py-2 font-[600] rounded-lg transition duration-200 ease-in-out`}
-    >
-      {label}
-    </button>
   );
 };

@@ -10,7 +10,7 @@ export const OnboardingField = ({ label, type }) => {
         className={`transform ${
           isContent || touched
             ? touched
-              ? "-translate-y-[19px] uppercase text-xs text-[#1C5EF9]"
+              ? "-translate-y-[19px] uppercase text-xs text-cc"
               : "-translate-y-[19px] uppercase text-xs text-[#3f3f3f]"
             : "translate-y-0 text-disabled capitalize text-[#686868]"
         } absolute top-[15px] left-[18px] font-semibold transition duration-200 ease-in-out bg-white px-1 leading-[0.9] pointer-events-none`}
@@ -22,7 +22,7 @@ export const OnboardingField = ({ label, type }) => {
         className={`${
           isContent || touched
             ? touched
-              ? "border-[#1C5EF9] ring-2"
+              ? "border-cc ring-2"
               : "border-[#E3E7EA]"
             : ""
         } outline-none px-4 py-2 font-bold text-base border-2 rounded-xl w-full`}

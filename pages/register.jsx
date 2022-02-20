@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { db } from "../lib/database";
-import { register } from "../lib/auth";
+import { useAuthContext } from "../context";
 import {
   RegisterPagination as Pagination,
   RegisterContainer as Container,
@@ -17,6 +17,7 @@ import {
 } from "../components/pages/register/onboarding/slides";
 
 const Register = () => {
+  const { register, login } = useAuthContext();
   const [slide, setSlide] = useState(1);
   const [error, setError] = useState(null);
   const [data, setData] = useState({
@@ -28,20 +29,11 @@ const Register = () => {
     interests: [],
   });
 
-  // const [data, setData] = useState({
-  //   firstname: "Test",
-  //   lastname: "User",
-  //   email: "test@gmail.com",
-  //   password: "Test123!",
-  //   grade: "Junior",
-  //   interests: [],
-  // });
-
   const {
     data: tags,
     tagsLoading,
     tagError,
-  } = useQuery("tags", async () => await db.get.tags());
+  } = useQuery("tags", async () => await db.tags.get());
 
   const handlePagination = {
     next: () => {
@@ -56,13 +48,13 @@ const Register = () => {
   };
 
   const handleConfirmation = async () => {
-    const { error } = await register({ data });
-
+    const { user, error } = await register({ data });
     if (error !== null) {
-      console.log(error);
-      setError(error);
-      return error;
+      return setError(error);
     } else {
+      await login({
+        user: { email: user.email, password: data.password, remember: true },
+      });
       handlePagination.next();
     }
   };
@@ -106,10 +98,6 @@ const Register = () => {
     />,
     <ClosingSlide key={7} data={data} />,
   ];
-
-  useEffect(() => {
-    console.log("DATA UPDATED", data);
-  }, [data]);
 
   return (
     <Container>

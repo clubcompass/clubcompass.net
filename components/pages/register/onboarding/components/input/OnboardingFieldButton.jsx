@@ -1,9 +1,17 @@
 import React from "react";
+import { CgSpinner } from "react-icons/cg";
 
-export const OnboardingFieldButton = ({ primary, disabled, label }) => {
+export const OnboardingFieldButton = ({
+  primary,
+  label,
+  action,
+  disabled,
+  asSubmission,
+  loading,
+}) => {
   const p = {
-    active: "bg-[#1C5EF9] text-white hover:bg-[#457dff]",
-    disabled: "bg-opacity-30 cursor-not-allowed bg-[#1C5EF9] text-white",
+    active: "bg-cc text-white hover:bg-[#457dff]",
+    disabled: "bg-opacity-30 cursor-not-allowed bg-cc text-white",
   };
   const s = {
     active: "bg-[#EFEFEF] text-black hover:bg-[#f7f7f7]",
@@ -12,9 +20,11 @@ export const OnboardingFieldButton = ({ primary, disabled, label }) => {
   };
   return (
     <button
-      disabled={disabled}
+      type={primary && asSubmission ? "submit" : "button"}
+      disabled={disabled || loading}
+      onClick={action}
       className={`${
-        disabled
+        disabled || loading
           ? primary
             ? p.disabled
             : s.disabled
@@ -23,7 +33,7 @@ export const OnboardingFieldButton = ({ primary, disabled, label }) => {
           : s.active
       } w-full py-2 font-[600] rounded-lg transition duration-200 ease-in-out`}
     >
-      {label}
+      {loading ? <CgSpinner className="animate-spin text-lg mx-auto" /> : label}
     </button>
   );
 };

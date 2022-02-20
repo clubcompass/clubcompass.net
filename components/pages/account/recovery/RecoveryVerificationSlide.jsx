@@ -4,13 +4,17 @@ import axios from "axios";
 import { useTransition, animated } from "react-spring";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { db } from "../../../../../lib/database";
-import { Buttons, Header, Container } from "../components";
-import { OnboardingForm } from "../components/input/OnboardingForm";
-import { Field } from "../../../../general/input/control";
-export const EmailSlide = ({ next, prev, set, data }) => {
+import { db } from "../../../../lib/database";
+import {
+  Buttons,
+  Header,
+  Container,
+} from "../../register/onboarding/components";
+import { OnboardingForm } from "../../register/onboarding/components/input/OnboardingForm";
+import { Field } from "../../../general/input/control";
+export const VerificationSlide = ({ prev, data, handleEmailConfirmation }) => {
   const [email, setEmail] = useState(data.email);
-  const [user, setUser] = useState(false);
+  const [user, setUser] = useState(true);
   const [coolingDown, setCooldown] = useState({ status: false, time: 0 });
   const [sent, setSent] = useState(false);
   const [disabled, setDisabled] = useState(true);
@@ -22,10 +26,11 @@ export const EmailSlide = ({ next, prev, set, data }) => {
   });
 
   const config = {
+    usePaginationAsSubmission: true,
     header: {
-      title: "What is your email address?",
+      title: "Find your email",
       description:
-        "Club Compass requires you to have a valid email address to prevent spamming of account creation.",
+        "Enter your email address and we'll send you a confirmation code.",
     },
     control: {
       email: {
@@ -65,12 +70,9 @@ export const EmailSlide = ({ next, prev, set, data }) => {
         label: "Continue",
         type: "function",
         loading: loading,
-        action: () => {
+        action: async () => {
           setLoading(true);
-          set({
-            email: email,
-          });
-          next();
+          await handleEmailConfirmation({ email });
           setLoading(false);
         },
       },
@@ -84,10 +86,10 @@ export const EmailSlide = ({ next, prev, set, data }) => {
   });
 
   const sendEmail = async ({ email, setSubmitting }) => {
-    setUser(false);
+    setUser(true);
     const user = await db.users.get({ email });
-    if (user) {
-      setUser(true);
+    if (!user) {
+      setUser(false);
       return setSubmitting(false);
     }
     setEmail(email);
@@ -195,12 +197,14 @@ export const EmailSlide = ({ next, prev, set, data }) => {
           </>
         )}
       </div>
-      {user && (
+      {!user && (
         <p className="text-red-500 text-sm">
-          An account with this email address already exists,{" "}
-          <Link href="/login">
-            <a className="text-cc underline">Login.</a>
+          We couldn&apos;t find an account with that email. Enter a different
+          email or{" "}
+          <Link href="/register">
+            <a className="text-cc underline">register</a>
           </Link>
+          .
         </p>
       )}
       <Buttons buttons={config.buttons} />
