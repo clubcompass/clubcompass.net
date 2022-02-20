@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Loading } from "../Loading";
 import { tagSchema } from "../tags";
 export const TagSelection = ({ tags, loading, error, limit, set, initial }) => {
   const [selected, setSelected] = useState(initial);
@@ -26,7 +27,7 @@ export const TagSelection = ({ tags, loading, error, limit, set, initial }) => {
     }
   }, [limit, selected]);
 
-  if (loading) return "Loading...";
+  if (loading) return <Loading />;
   if (error) return `An error has occurred: ${error.message}`;
 
   return (

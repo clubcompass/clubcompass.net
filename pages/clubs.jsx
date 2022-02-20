@@ -4,6 +4,7 @@ import { Tag } from "../components/general/tags";
 import { db } from "../lib/database";
 import axios from "axios";
 import { Clubs } from "../components/pages/clubs";
+import { Loading } from "../components/general/Loading";
 const Cards = () => {
   const [tag_id, setTagId] = useState(null);
   const [currentTag, setCurrentTag] = useState(null);
@@ -43,8 +44,8 @@ const Cards = () => {
     isLoading: tagsLoading,
   } = useQuery("tags", async () => await db.get.tags());
 
-  if (clubsLoading) return "Loading...";
-  if (tagsLoading) return "Loading...";
+  if (clubsLoading) return <Loading />;
+  if (tagsLoading) return <Loading />;
 
   if (clubsError) return "An error has occurred: " + clubsError.message;
   if (tagsError) return "An error has occurred: " + tagsError.message;
