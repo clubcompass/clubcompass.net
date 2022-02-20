@@ -9,19 +9,14 @@ const Custom404 = () => {
           <Image src="/cc-404.svg" alt="logo" width={64} height={64} />
         </div>
       </div>
-      <p className="font-bold text-[#1C5EF9] tracking-wider text-lg">
-        404 ERROR
-      </p>
+      <p className="font-bold text-cc tracking-wider text-lg">404 ERROR</p>
       <h1 className="font-extrabold text-black text-5xl mb-2">
         Page not found.
       </h1>
       <p className="text-[#6D7481] tracking-wider mb-6 text-md">
-        Sorry, we couldn't find the page you're looking for.
+        Sorry, we couldn&apos;t find the page you&apos;re looking for.
       </p>
-      <a
-        href="/ "
-        className="font-semibold text-[#1C5EF9] tracking-wide text-lg"
-      >
+      <a href="/ " className="font-semibold text-cc tracking-wide text-lg">
         Go back home &rarr;
       </a>
     </div>

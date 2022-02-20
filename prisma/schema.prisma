@@ -62,7 +62,7 @@ model User {
   id            String                @id @default(cuid())
   firstname     String
   lastname      String
-  email         String
+  email         String                @unique
   emailVerified Boolean
   password      String
   grade         String //values: FRESHMAN, SOPHMORE, JUNIOR, SENIOr< TEACHER

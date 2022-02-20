@@ -14,7 +14,6 @@ export const InformationSlide = ({ next, prev, set, data }) => {
       description:
         "To help identify users, Club Compass uses first and last names and not customized usernames.",
     },
-
     control: [
       {
         option: "field",
@@ -72,8 +71,16 @@ export const InformationSlide = ({ next, prev, set, data }) => {
   };
 
   const informationSchema = Yup.object().shape({
-    firstname: Yup.string().required("Please provide a first name."),
-    lastname: Yup.string().required("Please provide a last name."),
+    firstname: Yup.string()
+      .required()
+      .test("is-alpha", "Firstname cannot contain numbers.", (value) =>
+        /^[a-zA-Z]+$/.test(value)
+      ),
+    lastname: Yup.string()
+      .required()
+      .test("is-alpha", "Lastname cannot contain numbers.", (value) =>
+        /^[a-zA-Z]+$/.test(value)
+      ),
   });
 
   return (

@@ -1,19 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { useTransition, animated } from "react-spring";
+import React from "react";
+import { useTransition, animated, config } from "react-spring";
 
 export const Container = ({ children }) => {
-  const [visible, setVisible] = useState(false);
-
+  const visible = true;
   const transition = useTransition(visible, {
     from: { opacity: 0, transform: "translate(30px, 0px)" },
     enter: { opacity: 1, transform: "translate(0px, 0px)" },
     leave: { opacity: 0, transform: "translate(30px, 0px)" },
+    config: config.wobbly,
   });
-
-  useEffect(() => {
-    setVisible(true);
-  }, []);
-
   return (
     <>
       {transition(

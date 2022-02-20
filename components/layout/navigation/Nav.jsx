@@ -1,10 +1,10 @@
 import React from "react";
-import { useLayoutContext } from "../../../context";
+import { useAuthContext } from "../../../context";
 import { useBreakpoints } from "../../../hooks";
 import { NavItems, NavLogo, NavLogin, NavProfile, NavHamburger } from ".";
 
 export const Nav = () => {
-  const { user } = useLayoutContext();
+  const { user } = useAuthContext();
   const { isMd, isSm, isXs } = useBreakpoints();
   const isMobile = isMd || isSm || isXs;
   return (
@@ -12,7 +12,11 @@ export const Nav = () => {
       {isMobile && <NavHamburger />}
       <NavLogo />
       <NavItems />
-      {user === null ? <NavLogin /> : <NavProfile name={user.name} />}
+      {user === null ? (
+        <NavLogin />
+      ) : (
+        <NavProfile name={`${user.firstname} ${user.lastname}`} />
+      )}
     </Container>
   );
 };

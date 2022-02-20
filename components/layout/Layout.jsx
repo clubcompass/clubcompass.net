@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { LayoutProvider, useLayoutContext } from "../../context";
 import { Nav, Footer } from ".";
 export const Layout = ({ children }) => {
-  const blacklist = ["/register", "/login"];
+  const blacklist = ["/register", "/login", "/account/recovery"];
   const router = useRouter();
   return (
     <LayoutProvider>

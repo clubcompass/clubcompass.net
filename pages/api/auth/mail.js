@@ -8,6 +8,8 @@ const mail = async (req, res) => {
   for (let i = 6; i > 0; i--) {
     code += nums[Math.floor(Math.random() * nums.length)];
   }
+  console.log(code); //! REMOVE WHEN GOING INTO PRODUCTION
+  // TODO: Should be replaced with JWT magic link
 
   // const options = {
   //   auth: {

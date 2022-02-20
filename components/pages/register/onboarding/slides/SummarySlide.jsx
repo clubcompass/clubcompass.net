@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { tagSchema } from "../../../../general/tags";
 import { Buttons, Header, Container } from "../components";
 export const SummarySlide = ({ direct, prev, information, confirm, error }) => {
+  const [loading, setLoading] = useState(false);
   const config = {
     header: {
       title: "Here's what we gathered.",
@@ -22,16 +23,25 @@ export const SummarySlide = ({ direct, prev, information, confirm, error }) => {
         primary: true,
         label: "Submit",
         type: "function",
-        action: confirm,
+        loading: loading,
+        action: async () => {
+          setLoading(true);
+          await confirm();
+          setLoading(false);
+        },
       },
     ],
   };
+
+  useEffect(() => {
+    return () => {
+      setLoading(false);
+    };
+  }, []);
   return (
     <Container>
       <Header {...config.header} />
-      {error && (
-        <p className="text-red-500 leading-tight text-sm">{error.error}</p>
-      )}
+      {error && <p className="text-red-500 leading-tight text-sm">{error}</p>}
       <Summary information={information} direct={direct} />
       <Buttons buttons={config.buttons} />
     </Container>
@@ -73,12 +83,12 @@ const Summary = ({
                 </h3>
                 <button
                   onClick={() => direct({ slide: 3 })}
-                  className="ml-1 px-1 uppercase text-[8px] font-bold bg-[#1C5EF9]/10 text-[#1C5EF9] rounded-sm"
+                  className="ml-1 px-1 uppercase text-[8px] font-bold bg-cc/10 text-cc rounded-sm"
                 >
                   Edit
                 </button>
                 <div
-                  className="ml-1 px-1 cursor-pointer transition duration-200 ease-in-out transform text-xs bg-[#1C5EF9]/10 text-[#1C5EF9] rounded-sm"
+                  className="ml-1 px-1 cursor-pointer transition duration-200 ease-in-out transform text-xs bg-cc/10 text-cc rounded-sm"
                   onClick={() => setShown(!shown)}
                 >
                   {shown ? <AiFillEye /> : <AiFillEyeInvisible />}
@@ -121,7 +131,7 @@ const SummaryGroup = ({ title, children, direct }) => {
         <h3 className="text-xs text-[#5D5E5E] font-semibold">{title}</h3>
         <button
           onClick={direct}
-          className="ml-1 px-1 uppercase text-[8px] font-bold bg-[#1C5EF9]/10 text-[#1C5EF9] rounded-sm"
+          className="ml-1 px-1 uppercase text-[8px] font-bold bg-cc/10 text-cc rounded-sm"
         >
           Edit
         </button>

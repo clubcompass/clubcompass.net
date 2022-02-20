@@ -2,8 +2,8 @@ import React from "react";
 import { CgSpinner } from "react-icons/cg";
 export const FieldButton = ({ primary, disabled, label, loading }) => {
   const p = {
-    active: "bg-[#1C5EF9] text-white hover:bg-[#457dff]",
-    disabled: "bg-opacity-30 cursor-not-allowed bg-[#1C5EF9] text-white",
+    active: "bg-cc text-white hover:bg-[#457dff]",
+    disabled: "bg-opacity-30 cursor-not-allowed bg-cc text-white",
   };
   const s = {
     active: "bg-[#EFEFEF] text-black hover:bg-[#f7f7f7]",
