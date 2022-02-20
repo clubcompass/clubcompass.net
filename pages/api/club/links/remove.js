@@ -1,11 +1,11 @@
 import { prisma } from "../../../../config/prisma";
 
 export default async (req, res) => {
-  const { linkId } = req.body;
+  const { id } = req.body;
 
   const response = await prisma.link.delete({
     where: {
-      id: linkId,
+      id: id,
     },
   });
 
