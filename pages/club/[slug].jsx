@@ -73,30 +73,44 @@ const Club = () => {
       {
         id: "ckzumjrg30014cfq3riiat1f2",
         clubId: "ckzui2z4g0086znq3rxkjr5zc",
-        name: "Instagram1",
-        link: "instagram.com",
+        name: "Instagram",
+        link: "https://instagram.com",
         type: "INSTAGRAM",
       },
       {
         id: "ckzumn3sw0028cfq3632qn0up",
         clubId: "ckzui2z4g0086znq3rxkjr5zc",
-        name: "Instagram1",
-        link: "instagram.com",
-        type: "INSTAGRAM",
+        name: "Twitter",
+        link: "https://twitter.com",
+        type: "TWITTER",
       },
       {
         id: "ckzunpy6r0033mhq33u81z4sd",
         clubId: "ckzui2z4g0086znq3rxkjr5zc",
-        name: "Instagram2",
-        link: "instagram.com",
-        type: "INSTAGRAM",
+        name: "Discord",
+        link: "https://discord.com",
+        type: "DISCORD",
       },
       {
         id: "ckzunqn9l0047mhq3vi93jb95",
         clubId: "ckzui2z4g0086znq3rxkjr5zc",
-        name: "Instagram2",
-        link: "instagram.com",
-        type: "INSTAGRAM",
+        name: "Youtube",
+        link: "https://google.com",
+        type: "YOUTUBE",
+      },
+      {
+        id: "ckzunqn9l0047mhq3vi93jb95",
+        clubId: "ckzui2z4g0086znq3rxkjr5zc",
+        name: "Facebook",
+        link: "https://facebook.com",
+        type: "FACEBOOK",
+      },
+      {
+        id: "ckzunqn9l0047mhq3vi93jb95",
+        clubId: "ckzui2z4g0086znq3rxkjr5zc",
+        name: "Website",
+        link: "https://google.com",
+        type: "OTHER",
       },
     ],
     tags: [
@@ -334,24 +348,14 @@ const Club = () => {
       <ClubComponent>
         <ClubComponent.Wrapper>
           <ClubComponent.Header name={club.name} tags={club.tags} />
-          <ClubComponent.Contact
-            email={club.members[1].email}
-            website={{ name: club.link_name, link: club.link }}
-            instagram={{ name: club.instagram_name, link: club.instagram_link }}
-          />
+          <ClubComponent.Contact email={club.email} links={club.links} />
           <ClubComponent.Meeting
             time={club.meetingDate}
             location={club.location}
             new_members={club.membershipRequirements}
           />
           <ClubComponent.Content description={club.description} />
-          <ClubComponent.Members
-            president={club.president}
-            vicePresident={club.vicePresident}
-            secretary={club.secretary}
-            treasurer={club.treasurer}
-            members={club.members}
-          />
+          <ClubComponent.Members members={club.members} />
           <ClubComponent.SimilarClubs tag={club.tags[0].id} />
         </ClubComponent.Wrapper>
       </ClubComponent>

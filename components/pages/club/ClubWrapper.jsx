@@ -15,8 +15,8 @@ export const ClubWrapper = ({ children }) => {
           {members}
         </div>
         <div className="col-span-2">
-          <Card title="Contact Information">{contact}</Card>
-          <Card title="Meeting Information">{meeting}</Card>
+          <Card title="Socials">{contact}</Card>
+          <Card title="Meetings">{meeting}</Card>
         </div>
       </div>
       {similar}

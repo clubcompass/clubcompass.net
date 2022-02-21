@@ -1,34 +1,45 @@
 import { CopyText } from "../../general/CopyText";
 
-import { MdEmail } from "react-icons/md";
+import { MdEmail, MdOutlineFacebook } from "react-icons/md";
 import { HiLink } from "react-icons/hi";
 import { RiInstagramFill } from "react-icons/ri";
+import { AiFillYoutube, AiOutlineTwitter } from "react-icons/ai";
+import { FaDiscord, FaGlobe } from "react-icons/fa";
 
-export const ClubContact = ({ email, website, instagram }) => {
+export const ClubContact = ({ email, links }) => {
   return (
-    <div className="flex flex-col gap-2 font-semibold text-[#344457] text-lg underline">
-      <Info icon={<MdEmail />}>
+    <div className="flex flex-col gap-2 font-semibold text-[#344457] text-lg">
+      <Info type="EMAIL">
         <CopyText>{email}</CopyText>
       </Info>
-      <Info icon={<HiLink />} link={website.link} target="blank">
-        {website.name}
-      </Info>
-      <Info icon={<RiInstagramFill />} link={instagram.link} target="blank">
-        {instagram.name}
-      </Info>
+      {links.map((link) => (
+        <Info type={link.type} link={link.link} target="blank">
+          {link.name}
+        </Info>
+      ))}
     </div>
   );
 };
 
-const Info = ({ children, icon, link, target }) => (
+const Info = ({ children, type, link, target }) => (
   <div>
-    <div className="flex flex-row items-center gap-2">
-      <div className="text-lg p-1 text-[#1C5EFF] bg-[#1C5EFF] bg-opacity-10 rounded-md">
-        {icon}
-      </div>
-      <a target={target} href={link}>
+    <div className="flex flex-row gap-2">
+      <a target={target} href={link} className="flex gap-2 items-center">
+        <div className="text-lg p-1 text-[#1C5EFF] bg-[#1C5EFF] bg-opacity-10 rounded-md">
+          <Icon type={type} />
+        </div>
         {children}
       </a>
     </div>
   </div>
 );
+
+const Icon = ({ type }) => {
+  if (type == "EMAIL") return <MdEmail />;
+  if (type == "INSTAGRAM") return <RiInstagramFill />;
+  if (type == "TWITTER") return <AiOutlineTwitter />;
+  if (type == "DISCORD") return <FaDiscord />;
+  if (type == "YOUTUBE") return <AiFillYoutube />;
+  if (type == "FACEBOOK") return <MdOutlineFacebook />;
+  return <FaGlobe />;
+};

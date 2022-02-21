@@ -75,7 +75,7 @@ const Avatar = ({ firstname, lastname, color }) => {
 const Label = ({ role, color }) => {
   return (
     <div
-      className="px-3 py-1 mr-1 rounded-sm"
+      className="px-3 py-1 ml-1 rounded-sm"
       style={{ backgroundColor: color }}
     >
       <p className="uppercase truncate text-[0.6rem] font-semibold">{role}</p>

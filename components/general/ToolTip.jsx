@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export const ToolTip = ({children, delay, content}) => {
+export const ToolTip = ({ children, delay, content }) => {
   let timeout;
   const [active, setActive] = useState(false);
 
