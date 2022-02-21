@@ -4,12 +4,12 @@ import { MdLocationOn } from "react-icons/md";
 import { AiFillClockCircle } from "react-icons/ai";
 import { BsFillPeopleFill } from "react-icons/bs";
 
-export const ClubMeeting = ({ time, location, new_members }) => {
+export const ClubMeeting = ({ time, location }) => {
   return (
     <div className="flex flex-col gap-2 font-semibold text-[#344457] text-lg">
       <Info icon={<MdLocationOn />}>{location}</Info>
       <Info icon={<AiFillClockCircle />}>{time}</Info>
-      <Info icon={<BsFillPeopleFill />}>{new_members}</Info>
+      <Info icon={<BsFillPeopleFill />}>{"Open"}</Info>
     </div>
   );
 };
