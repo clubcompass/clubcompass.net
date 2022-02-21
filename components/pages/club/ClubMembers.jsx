@@ -1,56 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
+import { Card } from ".";
 
-export const ClubMembers = ({
-  president,
-  vicePresident,
-  secretary,
-  treasurer,
-  members,
-}) => {
-  president.role = "president";
-  vicePresident.role = "vice president";
-  secretary.role = "secretary";
-  treasurer.role = "treasurer";
-  const allMembers = [
-    president,
-    vicePresident,
-    secretary,
-    treasurer,
-    ...members.map((member) => {
-      member.role = "member";
-      return member;
-    }),
-  ];
+export const ClubMembers = ({ members: allMembers }) => {
+  const [leaders, members] = allMembers.reduce(
+    ([leaders, members], current) =>
+      current.roles.find((role) => role?.type === "LEADERSHIP")
+        ? [[...leaders, current], members]
+        : [leaders, [...members, current]],
+    [[], []]
+  );
 
   return (
-    <div className="flex flex-col gap-2 h-[305px] pr-[12px] w-[calc(100%+12px)] overflow-y-scroll">
-      {allMembers.map((member) => (
-        <Member key={member.id} {...member} />
-      ))}
+    <div className="grid grid-cols-2 gap-8 w-full">
+      <Card title={`Leaders (${leaders.length})`}>
+        <div className="max-h-[200px] overflow-y-scroll">
+          {leaders.map((member) => (
+            <Member member={member} key={member.id} />
+          ))}
+        </div>
+      </Card>
+      <Card title={`Members (${members.length})`}>
+        <div className="max-h-[192px] overflow-y-scroll">
+          {members.map((member) => (
+            <Member member={member} key={member.id} />
+          ))}
+        </div>
+      </Card>
     </div>
   );
 };
 
-const Member = ({ firstname, lastname, role }) => {
-  const colors = {
-    president: "#C3F4E9",
-    "vice president": "#FFEAB4",
-    secretary: "#FFDCE5",
-    treasurer: "#F3DCFE",
-    member: "#ACDBF9",
-  };
-
-  const color = colors[role];
-
+const Member = ({ member }) => {
   return (
-    <div className="flex flex-row w-full items-center justify-between">
-      <div className="flex flex-row gap-4 items-center">
-        <Avatar firstname={firstname} lastname={lastname} color={color} />
-        <p className="font-medium">
-          {firstname} {lastname}
-        </p>
+    <div className="flex justify-between items-center mb-2">
+      <div className="flex items-center">
+        <Avatar
+          firstname={member.firstname}
+          lastname={member.lastname}
+          color={member.roles[0]?.color}
+        />
+        <span className="ml-3">
+          {member.firstname} {member.lastname}
+        </span>
       </div>
-      <Label role={role} color={color} />
+      <div className="max-w-[110px] overflow-x-scroll scrollbar-hide">
+        {member.roles.length > 0 ? (
+          <span className="flex">
+            {member.roles.map(({ name, type, color }, i) => (
+              <Label role={name} color={color} key={i}>
+                {name}
+              </Label>
+            ))}
+          </span>
+        ) : (
+          <Label role="Member" color="#9FDDFC" />
+        )}
+      </div>
     </div>
   );
 };
@@ -59,7 +64,7 @@ const Avatar = ({ firstname, lastname, color }) => {
   const initials = `${firstname.charAt(0)}${lastname.charAt(0)}`;
   return (
     <div
-      className="flex items-center justify-center w-10 h-10 rounded-lg"
+      className="flex items-center justify-center w-10 h-10 rounded-lg bg-[#9FDDFC]"
       style={{ backgroundColor: color }}
     >
       <p className="text-sm font-medium">{initials}</p>
@@ -69,8 +74,11 @@ const Avatar = ({ firstname, lastname, color }) => {
 
 const Label = ({ role, color }) => {
   return (
-    <div className="px-3 py-1 rounded-sm" style={{ backgroundColor: color }}>
-      <p className="uppercase text-[0.6rem] font-semibold">{role}</p>
+    <div
+      className="px-3 py-1 mr-1 rounded-sm"
+      style={{ backgroundColor: color }}
+    >
+      <p className="uppercase truncate text-[0.6rem] font-semibold">{role}</p>
     </div>
   );
 };

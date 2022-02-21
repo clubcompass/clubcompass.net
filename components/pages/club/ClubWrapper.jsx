@@ -12,14 +12,7 @@ export const ClubWrapper = ({ children }) => {
       <div className="grid grid-cols-6 gap-8">
         <div className="col-span-4">
           <Card title="Description">{content}</Card>
-          <div className="grid grid-cols-2 gap-8">
-            <div className="col-span-1">
-              <Card title={`Leaders (${"number of leaders"})`}>{members}</Card>
-            </div>
-            <div className="col-span-1">
-              <Card title={`Members (${"number of members"})`}>{members}</Card>
-            </div>
-          </div>
+          {members}
         </div>
         <div className="col-span-2">
           <Card title="Contact Information">{contact}</Card>
@@ -31,7 +24,7 @@ export const ClubWrapper = ({ children }) => {
   );
 };
 
-const Card = ({ title, children }) => {
+export const Card = ({ title, children }) => {
   return (
     <div className="py-6 px-8 mb-6 rounded-md border-2 border-[#E6E6E6]">
       <p className="font-bold text-lg mb-2">{title}</p>
