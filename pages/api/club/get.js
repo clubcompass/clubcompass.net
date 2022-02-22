@@ -83,6 +83,11 @@ export default async (req, res) => {
           },
           editors: true,
           roles: true,
+          invites: {
+            include: {
+              user: true,
+            },
+          },
         },
       });
 
@@ -109,6 +114,11 @@ export default async (req, res) => {
           },
           editors: true,
           roles: true,
+          invites: {
+            include: {
+              user: true,
+            },
+          },
         },
       });
 
