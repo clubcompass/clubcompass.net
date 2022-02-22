@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { NavItems } from "./NavItems";
 import { useTransition, animated } from "react-spring";
+import { NavItems } from "./NavItems";
 export const NavMenu = () => {
   const [visible, setVisible] = useState(false);
   const transition = useTransition(visible, {

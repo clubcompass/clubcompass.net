@@ -1,8 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useLayoutContext } from "../../../context";
-import { useBreakpoints } from "../../../hooks";
+import { useLayoutContext } from "../../../../context";
+import { useBreakpoints } from "../../../../hooks";
 
 export const NavLink = ({ target, name, icon }) => {
   const router = useRouter();

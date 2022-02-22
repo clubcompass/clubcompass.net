@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { useLayoutContext } from "../../../context";
-import { useBreakpoints } from "../../../hooks";
+import { useLayoutContext } from "../../../../context";
+import { useBreakpoints } from "../../../../hooks";
 import { BsFillPersonFill } from "react-icons/bs";
 export const NavLogin = () => {
   const { isMd, isSm, isXs } = useBreakpoints();

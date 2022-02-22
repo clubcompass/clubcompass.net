@@ -4,7 +4,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { FiSettings } from "react-icons/fi";
 import { MdLogout } from "react-icons/md";
 import { FaChevronDown } from "react-icons/fa";
-import { useLayoutContext, useAuthContext } from "../../../context";
+import { useLayoutContext, useAuthContext } from "../../../../context";
 
 export const NavProfile = ({ name }) => {
   const { menuOpen } = useLayoutContext();

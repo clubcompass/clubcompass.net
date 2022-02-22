@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { useLayoutContext } from "../../../context";
-import { CCIcon } from "../../custom";
+import { useLayoutContext } from "../../../../context";
+import { CCIcon } from "../../../custom";
 
 export const NavLogo = () => {
   const { menuOpen, setMenuState } = useLayoutContext();

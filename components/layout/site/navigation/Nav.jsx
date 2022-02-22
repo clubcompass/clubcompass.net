@@ -1,6 +1,6 @@
 import React from "react";
-import { useAuthContext } from "../../../context";
-import { useBreakpoints } from "../../../hooks";
+import { useAuthContext } from "../../../../context";
+import { useBreakpoints } from "../../../../hooks";
 import { NavItems, NavLogo, NavLogin, NavProfile, NavHamburger } from ".";
 
 export const Nav = () => {

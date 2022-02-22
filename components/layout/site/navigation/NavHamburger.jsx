@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSpring, animated } from "react-spring";
-import { useLayoutContext } from "../../../context";
+import { useLayoutContext } from "../../../../context";
 import { NavMenu } from ".";
 
 export const NavHamburger = () => {
