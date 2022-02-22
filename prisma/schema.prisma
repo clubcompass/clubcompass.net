@@ -9,14 +9,15 @@ generator client {
 
 model Club {
   id              String               @id @default(cuid())
-  name            String?               @unique
-  slug            String?               @unique
+  name            String?              @unique
+  slug            String?              @unique
   description     String?
   email           String?
   meetingDate     String?
   location        String?
-  approval        String?               @default("UNAPPROVED") //alternate value APPROVED
-  status          String?               @default("DRAFT") //alternate values REVIEW / APPROVED
+  approval        String?              @default("UNAPPROVED") //alternate value APPROVED
+  status          String?              @default("DRAFT") //alternate values REVIEW / APPROVED
+  availability    String               @default("OPEN") //alternate value CLOSED
   links           Link[]
   applicationInfo ClubApplicationInfo?
   tags            Tag[]
