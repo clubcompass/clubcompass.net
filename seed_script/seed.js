@@ -1,214 +1,224 @@
 const axios = require("axios");
 const users = require("./users.json");
 const clubs = require("./clubs.json");
+require("dotenv").config();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const { exit } = require("process");
-
-const args = process.argv.slice(2);
 
 const seed_tags = async () => {
-  await axios.post(
-    "http://localhost:3000/api/create/tags",
-    {
-      tag_names: [
-        "volunteering",
-        "charity",
-        "science",
-        "tech",
-        "math",
-        "engineering",
-        "writing",
-        "sports",
-        "health",
-        "politics",
-        "music",
-        "arts",
-        "performing arts",
-        "academic competition",
-        "tutoring",
-        "culture",
-        "socializing",
-        "debate",
-        "business",
-        "community",
-        "education",
-        "public speaking",
-        "social activism",
-      ],
-    },
-    {
-      headers: {
-        secret_key: process.env.NEXT_PUBLIC_API_AUTHENTICATION_KEY,
-      },
-    }
-  );
+  await axios.post("http://localhost:3000/api/tag/create", {
+    names: [
+      "volunteering",
+      "charity",
+      "science",
+      "tech",
+      "math",
+      "engineering",
+      "writing",
+      "sports",
+      "health",
+      "politics",
+      "music",
+      "arts",
+      "performing arts",
+      "academic competition",
+      "tutoring",
+      "culture",
+      "socializing",
+      "debate",
+      "business",
+      "community",
+      "education",
+      "public speaking",
+      "social activism",
+    ],
+  });
 };
 
 const seed_users = async () => {
   let formatted_user_list = [];
 
-  const resp = await axios.get("http://localhost:3000/api/get/tags", {
-    headers: {
-      secret_key: process.env.NEXT_PUBLIC_API_AUTHENTICATION_KEY,
-    },
-  });
+  const resp = await axios.get("http://localhost:3000/api/tag/get");
 
   const tags = resp.data;
 
+  // console.log(resp);
+
   users.map((user) => {
-    formatted_user_list.push({
-      id: user.cuid,
+    let formatted_user = {
       firstname: user.name,
       lastname: user.lastname,
       email: user.email,
       grade: user.grade,
       password: "tae&&c9x56n@b&vr9gyp",
       emailVerified: true,
-      tag_ids: [
+      tagIds: [
         tags[Math.floor(Math.random() * tags.length)].id,
         tags[Math.floor(Math.random() * tags.length)].id,
         tags[Math.floor(Math.random() * tags.length)].id,
         tags[Math.floor(Math.random() * tags.length)].id,
       ],
-    });
+    };
+
+    if (Math.floor(Math.random() * 10) === 7) {
+      formatted_user.type = "TEACHER";
+    }
+
+    formatted_user_list.push(formatted_user);
   });
 
   for (let i = 0; i < formatted_user_list.length; i++) {
     await axios.post(
-      "http://localhost:3000/api/create/user",
-      formatted_user_list[i],
-      {
-        headers: {
-          secret_key: process.env.NEXT_PUBLIC_API_AUTHENTICATION_KEY,
-        },
-      }
+      "http://localhost:3000/api/user/create",
+      formatted_user_list[i]
     );
   }
 };
 
 const seed_clubs = async () => {
-  const users = await prisma.user.findMany();
-  const user_ids = Array.from([...users], (user) => {
+  const students = await prisma.user.findMany({
+    where: {
+      type: "STUDENT",
+    },
+  });
+
+  const teachers = await prisma.user.findMany({
+    where: {
+      type: "TEACHER",
+    },
+  });
+
+  const tags = (await axios.get("http://localhost:3000/api/tag/get")).data;
+
+  const studentIds = Array.from([...students], (user) => {
     return user.id;
   });
 
-  const tags = await prisma.tag.findMany();
+  const teacherIds = Array.from([...teachers], (user) => {
+    return user.id;
+  });
+
   const tag_ids = Array.from([...tags], (tag) => {
     return tag.id;
   });
 
+  // console.log(tagIds);
+
+  let formatted_clubs = [];
+
   clubs.map((club) => {
-    (club.slug = club.name
-      .toString()
-      .toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^\w\-]+/g, "")
-      .replace(/\-\-+/g, "-")
-      .replace(/^-+/, "")
-      .replace(/-+$/, "")),
-      (club.membership_requirements = "must attend DNHS"),
-      (club.duties_of_members = "attend meetings and build stuff"),
-      (club.titles_and_duties_of_officers = "sodhfodajfoajofzsjf"),
-      (club.selection_of_officers = "nepotism"),
-      (club.officer_minimum_gpa = 3.8),
-      (club.minimum_percent_of_members_for_meeting = 51),
-      (club.minimum_percent_of_members_for_approving_decision = 51),
-      (club.president_contact = "somepresidentemail@gmail.com"),
-      (club.tags = {
-        connect: [
-          {
-            id: tag_ids[Math.floor(Math.random() * tag_ids.length)],
-          },
-          {
-            id: tag_ids[Math.floor(Math.random() * tag_ids.length)],
-          },
-          {
-            id: tag_ids[Math.floor(Math.random() * tag_ids.length)],
-          },
-          {
-            id: tag_ids[Math.floor(Math.random() * tag_ids.length)],
-          },
-        ],
-      }),
-      (club.president = {
-        connect: {
-          id: user_ids[Math.floor(Math.random() * user_ids.length)],
-        },
-      }),
-      (club.vicePresident = {
-        connect: {
-          id: user_ids[Math.floor(Math.random() * user_ids.length)],
-        },
-      }),
-      (club.secretary = {
-        connect: {
-          id: user_ids[Math.floor(Math.random() * user_ids.length)],
-        },
-      }),
-      (club.treasurer = {
-        connect: {
-          id: user_ids[Math.floor(Math.random() * user_ids.length)],
-        },
-      });
-  });
+    const data = {
+      name: club.name,
+      email: club.email,
+      description: club.description,
+      meetingDate: club.meetingTime,
+      location: club.location,
+      president: {
+        id: studentIds[Math.floor(Math.random() * studentIds.length)],
+        color: "#75aff8",
+      },
+      vicePresident: {
+        id: studentIds[Math.floor(Math.random() * studentIds.length)],
+        color: "#75aff8",
+      },
+      secretary: {
+        id: studentIds[Math.floor(Math.random() * studentIds.length)],
+        color: "#75aff8",
+      },
+      treasurer: {
+        id: studentIds[Math.floor(Math.random() * studentIds.length)],
+        color: "#75aff8",
+      },
+      memberIds: [
+        studentIds[Math.floor(Math.random() * studentIds.length)],
+        studentIds[Math.floor(Math.random() * studentIds.length)],
+        studentIds[Math.floor(Math.random() * studentIds.length)],
+        studentIds[Math.floor(Math.random() * studentIds.length)],
+        studentIds[Math.floor(Math.random() * studentIds.length)],
+      ],
+      tagIds: [
+        tag_ids[Math.floor(Math.random() * tag_ids.length)],
+        tag_ids[Math.floor(Math.random() * tag_ids.length)],
+        tag_ids[Math.floor(Math.random() * tag_ids.length)],
+        tag_ids[Math.floor(Math.random() * tag_ids.length)],
+      ],
+      teacherId: teacherIds[Math.floor(Math.random() * teacherIds.length)],
+      purpose: "purpose of the club",
+      membershipRequirements: "must be in good standing",
+      dutiesOfMembers: "attend meetings and participate in club events",
+      titlesAndDutiesOfOfficers: "idek what this is",
+      selectionOfOfficers: "nepotism",
+      officerMinimumGPA: 3.2,
+      percentAttendanceForOfficialMeeting: 40,
+      percentAttendanceToApproveDecision: 51,
+    };
 
-  for (let i = 0; i < clubs.length; i++) {
-    await prisma.club.create({
-      data: clubs[i],
-    });
-  }
-};
-
-const seed_club_members = async () => {
-  const clubs = await prisma.club.findMany();
-  const users = await prisma.user.findMany();
-  const user_ids = Array.from([...users], (user) => {
-    return user.id;
-  });
-  const formatted_clubs = Array.from([...clubs], (club) => {
-    return { club_id: club.id };
-  });
-
-  formatted_clubs.map(async (club) => {
-    let members = [];
-    for (let i = 0; i < 20; i++) {
-      let id = user_ids[Math.floor(Math.random() * user_ids.length)];
-      if (members.includes({ id: id })) {
-        while (members.includes({ id: id }) === true) {
-          id = user_ids[Math.floor(Math.random() * user_ids.length)];
-        }
-
-        members.push({ id: id });
-      } else {
-        members.push({ id: id });
-      }
-    }
-
-    club.members = members;
+    formatted_clubs.push(data);
   });
 
   for (let i = 0; i < formatted_clubs.length; i++) {
+    await axios.post(
+      "http://localhost:3000/api/club/create",
+      formatted_clubs[i]
+    );
+  }
+};
+
+const seed_statuses = async () => {
+  const clubs = await prisma.club.findMany();
+
+  const statuses = ["DRAFT", "REVIEW", "APPROVED"];
+
+  for (let i = 0; i < clubs.length; i++) {
+    const status = statuses[Math.floor(Math.random() * statuses.length)];
+    let approval = null;
+
+    if (status == "DRAFT" || status == "REVIEW") {
+      console.log("hello");
+      approval = "UNAPPROVED";
+    }
+
+    if (status == "APPROVED") {
+      approval = "APPROVED";
+    }
+
+    console.log(status);
+    console.log(approval);
+
     await prisma.club.update({
       where: {
-        id: formatted_clubs[i].club_id,
+        id: clubs[i].id,
       },
       data: {
-        members: {
-          connect: formatted_clubs[i].members,
-        },
+        approval: approval,
+        status: status,
       },
     });
   }
 };
 
-const clear_database = async () => {
-  await prisma.tag.deleteMany();
-  await prisma.user.deleteMany();
-  await prisma.club.deleteMany();
+const seed_links = async () => {
+  const clubs = await prisma.club.findMany();
+
+  for (let i = 0; i < clubs.length; i++) {
+    await axios.post("http://localhost:3000/api/club/links/add", {
+      id: clubs[i].id,
+      name: "Instagram",
+      link: "https://www.instagram.com",
+      type: "INSTAGRAM",
+    });
+
+    await axios.post("http://localhost:3000/api/club/links/add", {
+      id: clubs[i].id,
+      name: "Discord",
+      link: "https://www.discord.com",
+      type: "DISCORD",
+    });
+  }
 };
 
 const main = async () => {
+  const args = process.argv.slice(2);
   const OPTION = parseInt(args);
 
   switch (OPTION) {
@@ -228,22 +238,16 @@ const main = async () => {
       console.log("Seeding clubs...");
       await seed_clubs();
       console.log("Done.");
-      break;
     }
     case 4: {
-      console.log("Seeding club members...");
-      await seed_club_members();
+      console.log("Seeding statuses...");
+      await seed_statuses();
       console.log("Done.");
-      break;
     }
     case 5: {
-      console.log("Clearing database...");
-      await clear_database();
+      console.log("Seeding links...");
+      await seed_links();
       console.log("Done.");
-      break;
-    }
-    default: {
-      console.log("Invalid option selected");
     }
   }
 
