@@ -24,6 +24,7 @@ model Club {
   members         User[]               @relation("members")
   editors         User[]               @relation("editors")
   roles           Role[]
+  invites         Invite[]
 }
 
 model Link {
@@ -73,6 +74,16 @@ model User {
   canEdit       Club[]                @relation("editors")
   advisor       ClubApplicationInfo[]
   roles         Role[]
+  invites       Invite[]
+}
+
+model Invite {
+  id     String @id @default(cuid())
+  status String @default("PENDING") //alternate values: ACCEPTED, DECLINED
+  club   Club   @relation(fields: [clubId], references: [id])
+  clubId String
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
 }
 
 model Role {
