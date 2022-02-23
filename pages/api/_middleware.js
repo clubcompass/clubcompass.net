@@ -1,13 +1,19 @@
 const middleware = async (req) => {
+  // const secret_key = req.headers.authorization.replace("Bearer ", "");
   const secret_key = req.headers.get("secret_key");
 
-  if (secret_key !== process.env.NEXT_PUBLIC_API_AUTHENTICATION_KEY) {
-    return new Response(JSON.stringify({ message: "Authentication failed" }), {
-      status: 403,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  if (process.env.NEXT_STATUS !== "DEVELOPMENT") {
+    if (secret_key !== process.env.NEXT_PUBLIC_API_AUTHENTICATION_KEY) {
+      return new Response(
+        JSON.stringify({ message: "Authentication failed" }),
+        {
+          status: 403,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
   }
 };
 

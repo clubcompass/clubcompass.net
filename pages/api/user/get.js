@@ -17,6 +17,9 @@ export default async (req, res) => {
             tags: true,
           },
         },
+        invites: {
+          club: true,
+        },
       },
     });
 
@@ -33,6 +36,9 @@ export default async (req, res) => {
         roles: true,
         canEdit: true,
         advisor: true,
+        invites: {
+          club: true,
+        },
       },
     });
 
@@ -49,6 +55,9 @@ export default async (req, res) => {
         roles: true,
         canEdit: true,
         advisor: true,
+        invites: {
+          club: true,
+        },
       },
     });
 
