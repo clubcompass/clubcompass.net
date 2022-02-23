@@ -1,5 +1,6 @@
 const middleware = async (req) => {
-  const secret_key = req.headers.authorization.replace("Bearer ", "");
+  // const secret_key = req.headers.authorization.replace("Bearer ", "");
+  const secret_key = req.headers.get("secret_key");
 
   if (process.env.NEXT_STATUS !== "DEVELOPMENT") {
     if (secret_key !== process.env.NEXT_PUBLIC_API_AUTHENTICATION_KEY) {
