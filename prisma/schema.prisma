@@ -17,6 +17,7 @@ model Club {
   location        String?
   approval        String?              @default("UNAPPROVED") //alternate value APPROVED
   status          String?              @default("DRAFT") //alternate values REVIEW / APPROVED
+  availability    String               @default("OPEN") //alternate value CLOSED
   links           Link[]
   applicationInfo ClubApplicationInfo?
   tags            Tag[]
