@@ -11,7 +11,7 @@ export const ClubMembers = ({ members: allMembers }) => {
   );
 
   return (
-    <div className="grid grid-cols-2 gap-8 w-full">
+    <div className="grid md:grid-cols-2 md:gap-8 w-full">
       <Card title={`Leaders (${leaders.length})`}>
         <div className="max-h-[200px] overflow-y-scroll">
           {leaders.map((member) => (

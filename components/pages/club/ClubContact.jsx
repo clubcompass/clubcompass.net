@@ -1,10 +1,9 @@
 import { CopyText } from "../../general/CopyText";
 
 import { MdEmail, MdOutlineFacebook } from "react-icons/md";
-import { HiLink } from "react-icons/hi";
 import { RiInstagramFill } from "react-icons/ri";
 import { AiFillYoutube, AiOutlineTwitter } from "react-icons/ai";
-import { FaDiscord, FaGlobe } from "react-icons/fa";
+import { FaDiscord, FaGlobeAmericas } from "react-icons/fa";
 
 export const ClubContact = ({ email, links }) => {
   return (
@@ -22,15 +21,13 @@ export const ClubContact = ({ email, links }) => {
 };
 
 const Info = ({ children, type, link, target }) => (
-  <div>
-    <div className="flex flex-row gap-2">
-      <a target={target} href={link} className="flex gap-2 items-center">
-        <div className="text-lg p-1 text-[#1C5EFF] bg-[#1C5EFF] bg-opacity-10 rounded-md">
-          <Icon type={type} />
-        </div>
-        {children}
-      </a>
-    </div>
+  <div className="flex flex-row gap-2">
+    <a target={target} href={link} className="flex gap-2 items-center">
+      <div className="text-lg p-1 text-[#1C5EFF] bg-[#1C5EFF] bg-opacity-10 rounded-md">
+        <Icon type={type} />
+      </div>
+      {children}
+    </a>
   </div>
 );
 
@@ -41,5 +38,5 @@ const Icon = ({ type }) => {
   if (type == "DISCORD") return <FaDiscord />;
   if (type == "YOUTUBE") return <AiFillYoutube />;
   if (type == "FACEBOOK") return <MdOutlineFacebook />;
-  return <FaGlobe />;
+  return <FaGlobeAmericas />;
 };

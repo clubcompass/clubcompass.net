@@ -21,9 +21,6 @@ export const Tags = ({ tags }) => {
           ))}
         </div>
       </div>
-      {overflow && (
-        <HiOutlineDotsHorizontal className="absolute -right-6 top-[0px] text-cc text-md bg-cc/10 rounded-[2.5px]" />
-      )}
     </div>
   );
 };

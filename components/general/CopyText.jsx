@@ -24,7 +24,10 @@ export const CopyText = ({ children }) => {
   return (
     <div>
       <ToolTip content={isCopied ? "Copied!" : "Copy"}>
-        <button onClick={handleCopyClick} className="font-semibold">
+        <button
+          onClick={handleCopyClick}
+          className="font-semibold w-full break-all text-left"
+        >
           {children}
         </button>
       </ToolTip>

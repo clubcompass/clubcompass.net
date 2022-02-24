@@ -40,12 +40,14 @@ const Club = () => {
     id: "ckzui2z4g0086znq3rxkjr5zc",
     name: "Photography Club",
     slug: "photography-club",
-    description: "This is an enginnering club about applying engineering",
+    description:
+      "Photography club is a place for students who are passionate about photography to explore their interests outside of the classroom. All students of any skill level are welcome. No need for any prior experience. Come join our club to take, edit, and display your photography!",
     email: "abhinav.palacharla@gmail.com",
     meetingDate: "Every Wednesday at 3:00pm to 5:00pm",
     location: "A101",
     approval: "UNAPPROVED",
     status: "DRAFT",
+    availability: "OPEN",
     applicationInfo: {
       id: "ckzui2z4g0087znq36co99h48",
       userId: "ckzuhwp8g0032znq3gmfvea9w",
@@ -87,7 +89,7 @@ const Club = () => {
       {
         id: "ckzunpy6r0033mhq33u81z4sd",
         clubId: "ckzui2z4g0086znq3rxkjr5zc",
-        name: "Discord",
+        name: "Our Discord",
         link: "https://discord.com",
         type: "DISCORD",
       },
@@ -346,13 +348,13 @@ const Club = () => {
     <div className="flex flex-col">
       {/* {club && ( */}
       <ClubComponent>
-        <ClubComponent.Wrapper>
+        <ClubComponent.Wrapper availability={club.availability}>
           <ClubComponent.Header name={club.name} tags={club.tags} />
           <ClubComponent.Contact email={club.email} links={club.links} />
           <ClubComponent.Meeting
             time={club.meetingDate}
             location={club.location}
-            new_members={club.membershipRequirements}
+            availability={club.availability}
           />
           <ClubComponent.Content description={club.description} />
           <ClubComponent.Members members={club.members} />
