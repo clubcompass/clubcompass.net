@@ -17,7 +17,7 @@ model Club {
   location        String?
   approval        String?              @default("UNAPPROVED") //alternate value APPROVED
   status          String?              @default("DRAFT") //alternate values REVIEW / APPROVED
-  availability    String               @default("OPEN") //alternate value CLOSED
+  availability    String?              @default("OPEN") //alternate value CLOSED
   links           Link[]
   applicationInfo ClubApplicationInfo?
   tags            Tag[]
@@ -37,12 +37,13 @@ model Link {
 }
 
 model ClubApplicationInfo {
-  id      String @id @default(cuid())
-  teacher User   @relation(fields: [userId], references: [id])
-  userId  String
-  club    Club   @relation(fields: [clubId], references: [id])
-  clubId  String @unique
-
+  id                                  String              @id @default(cuid())
+  teacher                             User                @relation(fields: [userId], references: [id])
+  userId                              String
+  club                                Club                @relation(fields: [clubId], references: [id])
+  clubId                              String              @unique
+  projectedRevenue                    ProjectedRevenue[]
+  projectedExpenses                   ProjectedExpenses[]
   purpose                             String
   membershipRequirements              String
   dutiesOfMembers                     String
@@ -96,4 +97,22 @@ model Role {
   club        Club   @relation(fields: [clubId], references: [id])
   clubId      String
   type        String @default("MEMBER") //alternate value: LEADER
+}
+
+model ProjectedRevenue {
+  id     String              @id @default(cuid())
+  club   ClubApplicationInfo @relation(fields: [clubId], references: [id])
+  clubId String
+  name   String
+  amount Float
+  date   String
+}
+
+model ProjectedExpenses {
+  id     String              @id @default(cuid())
+  club   ClubApplicationInfo @relation(fields: [clubId], references: [id])
+  clubId String
+  name   String
+  amount Float
+  date   String
 }

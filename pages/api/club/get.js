@@ -68,6 +68,8 @@ export default async (req, res) => {
           applicationInfo: {
             include: {
               teacher: true,
+              projectedRevenue: true,
+              projectedExpenses: true,
             },
           },
           links: true,
@@ -103,6 +105,8 @@ export default async (req, res) => {
           applicationInfo: {
             include: {
               teacher: true,
+              projectedRevenue: true,
+              projectedExpenses: true,
             },
           },
           links: true,
@@ -130,6 +134,8 @@ export default async (req, res) => {
         applicationInfo: {
           include: {
             teacher: true,
+            projectedRevenue: true,
+            projectedExpenses: true,
           },
         },
         links: true,
@@ -141,6 +147,11 @@ export default async (req, res) => {
         },
         editors: true,
         roles: true,
+        invites: {
+          include: {
+            user: true,
+          },
+        },
       },
     });
 
