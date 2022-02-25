@@ -3,7 +3,6 @@ import { redis } from "../../../config/redis";
 
 export default async (req, res) => {
   const { source, slug, clubId, tagIds, status } = req.query;
-
   if (source === "DB") {
     if (status === "APPROVED") {
       const response = await prisma.club.findMany({
@@ -128,7 +127,21 @@ export default async (req, res) => {
 
       return res.status(200).json({ ...response });
     }
+  }
 
+  if (source === "CACHE") {
+    await redis.connect();
+
+    const response = await redis.get("clubs");
+
+    await redis.quit();
+
+    const data = JSON.parse(response);
+
+    return res.status(200).json([...data]);
+  }
+
+  if (source === undefined) {
     const response = await prisma.club.findMany({
       include: {
         applicationInfo: {
@@ -154,19 +167,9 @@ export default async (req, res) => {
         },
       },
     });
+    console.log("test");
+    console.log(response);
 
     return res.status(200).json([...response]);
-  }
-
-  if (source === "CACHE") {
-    await redis.connect();
-
-    const response = await redis.get("clubs");
-
-    await redis.quit();
-
-    const data = JSON.parse(response);
-
-    return res.status(200).json([...data]);
   }
 };

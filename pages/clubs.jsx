@@ -8,41 +8,20 @@ import { Loading } from "../components/general/Loading";
 const Cards = () => {
   const [tag_id, setTagId] = useState(null);
   const [currentTag, setCurrentTag] = useState(null);
-  const fetchClubs = async ({ tag_id }) => {
-    const url = `${process.env.NEXT_PUBLIC_URL}/api/get/club?${
-      tag_id !== null
-        ? tag_id.length === 1
-          ? `tag_ids=${tag_id[0]}`
-          : `tag_ids=${tag_id.join(",")}`
-        : ""
-    }`;
-    console.log(url);
-
-    const { data: response } = await axios.get(url, {
-      headers: {
-        "Content-Type": "application/json",
-        secret_key: process.env.NEXT_PUBLIC_API_AUTHENTICATION_KEY,
-      },
-    });
-
-    const clubs = response.filter((club) => {
-      return club.tags.some((tag) => tag.id === "ckxnyghbr00079vq3yyztnswm");
-    });
-
-    return response;
-  };
 
   const {
     data: clubs,
     error: clubsError,
     isLoading: clubsLoading,
-  } = useQuery(["clubs", { tag_id: tag_id }], () => fetchClubs({ tag_id }));
+  } = useQuery("clubs", async () => db.club.get.all(), {
+    refetchOnWindowFocus: false,
+  });
 
   const {
     data: tags,
     error: tagsError,
     isLoading: tagsLoading,
-  } = useQuery("tags", async () => await db.get.tags());
+  } = useQuery("tags", async () => await db.tags.get());
 
   if (clubsLoading) return <Loading />;
   if (tagsLoading) return <Loading />;
@@ -50,7 +29,7 @@ const Cards = () => {
   if (clubsError) return "An error has occurred: " + clubsError.message;
   if (tagsError) return "An error has occurred: " + tagsError.message;
 
-  console.log(clubs);
+  console.log(clubs && clubs);
 
   return (
     <div className="flex flex-col gap-6">
