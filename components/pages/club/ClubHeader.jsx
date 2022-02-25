@@ -5,8 +5,10 @@ export const ClubHeader = ({ name, tags }) => {
   return (
     <div className="flex flex-col md:flex-row">
       <Icon icon={tags[0].name} />
-      <div className="ml-4">
-        <h1 className="text-center font-bold text-4xl mb-2">{name}</h1>
+      <div className="mt-2 md:mt-0 md:ml-4">
+        <h1 className="text-center md:text-left font-bold text-4xl mb-2">
+          {name}
+        </h1>
         <Tags tags={tags} />
       </div>
     </div>
