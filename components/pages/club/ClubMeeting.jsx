@@ -9,7 +9,11 @@ export const ClubMeeting = ({ time, location, availability }) => {
     <div className="flex flex-col gap-2 font-semibold text-[#344457] text-lg">
       <Info icon={<MdLocationOn />}>{location}</Info>
       <Info icon={<AiFillClockCircle />}>{time}</Info>
-      <Info icon={<BsFillPeopleFill />}>{availability.toLowerCase()}</Info>
+      <Info icon={<BsFillPeopleFill />}>
+        {availability.charAt(0).toUpperCase() +
+          availability.slice(1).toLowerCase()}{" "}
+        to new members
+      </Info>
     </div>
   );
 };
@@ -20,7 +24,7 @@ const Info = ({ children, icon }) => (
       <div className="text-lg p-1 text-[#1C5EFF] bg-[#1C5EFF] bg-opacity-10 rounded-md">
         {icon}
       </div>
-      <p className="capitalize">{children}</p>
+      <p>{children}</p>
     </div>
   </div>
 );
