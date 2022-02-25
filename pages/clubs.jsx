@@ -16,7 +16,6 @@ const Cards = () => {
           : `tag_ids=${tag_id.join(",")}`
         : ""
     }`;
-    console.log(url);
 
     const { data: response } = await axios.get(url, {
       headers: {
@@ -49,8 +48,6 @@ const Cards = () => {
 
   if (clubsError) return "An error has occurred: " + clubsError.message;
   if (tagsError) return "An error has occurred: " + tagsError.message;
-
-  console.log(clubs);
 
   return (
     <div className="flex flex-col gap-6">
