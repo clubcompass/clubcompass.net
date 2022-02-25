@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card } from ".";
 
 export const ClubMembers = ({ members: allMembers }) => {

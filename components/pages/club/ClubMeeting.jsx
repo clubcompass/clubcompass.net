@@ -6,7 +6,7 @@ import { BsFillPeopleFill } from "react-icons/bs";
 
 export const ClubMeeting = ({ time, location, availability }) => {
   return (
-    <div className="flex flex-col gap-2 font-semibold  text-[#344457] text-lg">
+    <div className="flex flex-col gap-2 font-semibold text-[#344457] text-lg">
       <Info icon={<MdLocationOn />}>{location}</Info>
       <Info icon={<AiFillClockCircle />}>{time}</Info>
       <Info icon={<BsFillPeopleFill />}>{availability.toLowerCase()}</Info>

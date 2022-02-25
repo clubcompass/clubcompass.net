@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { Tag } from ".";
 export const Tags = ({ tags }) => {
   const [overflow, setOverflow] = useState(false);
