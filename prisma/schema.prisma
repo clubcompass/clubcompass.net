@@ -62,6 +62,7 @@ model Tag {
 
 model User {
   id            String                @id @default(cuid())
+  ccid          String                @unique
   firstname     String
   lastname      String
   email         String                @unique

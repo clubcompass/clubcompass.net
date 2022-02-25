@@ -13,10 +13,17 @@ const user = async (req, res) => {
     tagIds,
   } = req.body;
 
+  const chars = "ABCDEFGHJKLMNOPQRSTUVWXYZ";
+  let ccid = "";
+  for (let i = 6; i > 0; --i) {
+    ccid += chars[Math.floor(Math.random() * chars.length)];
+  }
+
   if (type === "TEACHER") {
     const response = await prisma.user.create({
       data: {
         id: id,
+        ccid: ccid,
         firstname: firstname,
         lastname: lastname,
         email: email,
@@ -39,6 +46,7 @@ const user = async (req, res) => {
   const response = await prisma.user.create({
     data: {
       id: id,
+      ccid: ccid,
       firstname: firstname,
       lastname: lastname,
       email: email,
