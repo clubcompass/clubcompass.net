@@ -153,6 +153,30 @@ const seed_clubs = async () => {
       officerMinimumGPA: 3.2,
       percentAttendanceForOfficialMeeting: 40,
       percentAttendanceToApproveDecision: 51,
+      projectedRevenue: [
+        {
+          name: "Revenue Source #1",
+          amount: 51.21,
+          date: "2/22/22",
+        },
+        {
+          name: "Revenue Source #2",
+          amount: 69.42,
+          date: "2/23/22",
+        },
+      ],
+      projectedExpenses: [
+        {
+          name: "Expense #1",
+          amount: 51.21,
+          date: "2/22/22",
+        },
+        {
+          name: "Expense #2",
+          amount: 69.42,
+          date: "2/23/22",
+        },
+      ],
     };
 
     formatted_clubs.push(data);
