@@ -12,6 +12,7 @@ const Dashboard = () => {
         secret_key: process.env.NEXT_PUBLIC_API_AUTHENTICATION_KEY,
       },
     });
+    console.log(r);
     await authorize();
   };
 
