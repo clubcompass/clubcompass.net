@@ -87,11 +87,12 @@ model Invite {
 }
 
 model Role {
-  id     String @id @default(cuid())
-  name   String
-  color  String
-  users  User[]
-  club   Club   @relation(fields: [clubId], references: [id])
-  clubId String
-  type   String @default("MEMBER") //alternate value: LEADER
+  id          String @id @default(cuid())
+  name        String
+  color       String
+  description String
+  users       User[]
+  club        Club   @relation(fields: [clubId], references: [id])
+  clubId      String
+  type        String @default("MEMBER") //alternate value: LEADER
 }

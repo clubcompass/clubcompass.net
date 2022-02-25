@@ -1,7 +1,7 @@
 import { prisma } from "../../../config/prisma";
 
 export default async (req, res) => {
-  const { id, name, color, type } = req.body;
+  const { id, name, color, description, type } = req.body;
 
   const response = await prisma.club.update({
     where: {
@@ -12,6 +12,7 @@ export default async (req, res) => {
         create: {
           name: name,
           color: color,
+          description: description,
           type: type,
         },
       },
