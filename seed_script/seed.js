@@ -42,8 +42,6 @@ const seed_users = async () => {
 
   const tags = resp.data;
 
-  // console.log(resp);
-
   users.map((user) => {
     let formatted_user = {
       firstname: user.name,
@@ -116,18 +114,22 @@ const seed_clubs = async () => {
       president: {
         id: studentIds[Math.floor(Math.random() * studentIds.length)],
         color: "#75aff8",
+        description: "president description",
       },
       vicePresident: {
         id: studentIds[Math.floor(Math.random() * studentIds.length)],
         color: "#75aff8",
+        description: "vice president description",
       },
       secretary: {
         id: studentIds[Math.floor(Math.random() * studentIds.length)],
         color: "#75aff8",
+        description: "secretary description",
       },
       treasurer: {
         id: studentIds[Math.floor(Math.random() * studentIds.length)],
         color: "#75aff8",
+        description: "treasurer description",
       },
       memberIds: [
         studentIds[Math.floor(Math.random() * studentIds.length)],
@@ -151,6 +153,30 @@ const seed_clubs = async () => {
       officerMinimumGPA: 3.2,
       percentAttendanceForOfficialMeeting: 40,
       percentAttendanceToApproveDecision: 51,
+      projectedRevenue: [
+        {
+          name: "Revenue Source #1",
+          amount: 51.21,
+          date: "2/22/22",
+        },
+        {
+          name: "Revenue Source #2",
+          amount: 69.42,
+          date: "2/23/22",
+        },
+      ],
+      projectedExpenses: [
+        {
+          name: "Expense #1",
+          amount: 51.21,
+          date: "2/22/22",
+        },
+        {
+          name: "Expense #2",
+          amount: 69.42,
+          date: "2/23/22",
+        },
+      ],
     };
 
     formatted_clubs.push(data);
@@ -174,16 +200,12 @@ const seed_statuses = async () => {
     let approval = null;
 
     if (status == "DRAFT" || status == "REVIEW") {
-      console.log("hello");
       approval = "UNAPPROVED";
     }
 
     if (status == "APPROVED") {
       approval = "APPROVED";
     }
-
-    console.log(status);
-    console.log(approval);
 
     await prisma.club.update({
       where: {
@@ -217,6 +239,27 @@ const seed_links = async () => {
   }
 };
 
+const seed_invites = async () => {
+  const clubs = await prisma.club.findMany();
+
+  const students = await prisma.user.findMany({
+    where: {
+      type: "STUDENT",
+    },
+  });
+
+  const studentIds = Array.from([...students], (user) => {
+    return user.id;
+  });
+
+  for (let i = 0; i < clubs.length; i++) {
+    await axios.post("http://localhost:3000/api/invite/create", {
+      userId: studentIds[Math.floor(Math.random() * studentIds.length)],
+      clubId: clubs[i].id,
+    });
+  }
+};
+
 const main = async () => {
   const args = process.argv.slice(2);
   const OPTION = parseInt(args);
@@ -238,16 +281,25 @@ const main = async () => {
       console.log("Seeding clubs...");
       await seed_clubs();
       console.log("Done.");
+      break;
     }
     case 4: {
       console.log("Seeding statuses...");
       await seed_statuses();
       console.log("Done.");
+      break;
     }
     case 5: {
       console.log("Seeding links...");
       await seed_links();
       console.log("Done.");
+      break;
+    }
+    case 6: {
+      console.log("Seeding invites...");
+      await seed_invites();
+      console.log("Done.");
+      break;
     }
   }
 

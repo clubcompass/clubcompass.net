@@ -22,6 +22,9 @@ export default async (req, res) => {
     officerMinimumGPA,
     percentAttendanceForOfficialMeeting,
     percentAttendanceToApproveDecision,
+    projectedRevenue,
+    projectedExpenses,
+    links,
   } = req.body;
 
   const tags = Array.from([...tagIds], (tagId) => {
@@ -42,7 +45,7 @@ export default async (req, res) => {
     { id: secretary.id },
   ];
 
-  const applicationInfo = {
+  let applicationInfo = {
     teacher: {
       connect: {
         id: teacherId,
@@ -58,7 +61,19 @@ export default async (req, res) => {
     percentAttendanceToApproveDecision: percentAttendanceToApproveDecision,
   };
 
-  const initialClub = await prisma.club.create({
+  if (projectedRevenue !== undefined) {
+    applicationInfo.projectedRevenue = {
+      create: projectedRevenue,
+    };
+  }
+
+  if (projectedExpenses !== undefined) {
+    applicationInfo.projectedExpenses = {
+      create: projectedExpenses,
+    };
+  }
+
+  let club = {
     data: {
       name: name,
       slug: name
@@ -82,21 +97,25 @@ export default async (req, res) => {
             name: "president",
             color: president.color,
             type: "LEADERSHIP",
+            description: president.description,
           },
           {
             name: "vice president",
             color: vicePresident.color,
             type: "LEADERSHIP",
+            description: vicePresident.description,
           },
           {
             name: "secretary",
             color: secretary.color,
             type: "LEADERSHIP",
+            description: secretary.description,
           },
           {
             name: "treasurer",
             color: treasurer.color,
             type: "LEADERSHIP",
+            description: treasurer.description,
           },
         ],
       },
@@ -113,7 +132,15 @@ export default async (req, res) => {
     include: {
       roles: true,
     },
-  });
+  };
+
+  if (links !== undefined) {
+    club.data.links = {
+      create: links,
+    };
+  }
+
+  const initialClub = await prisma.club.create(club);
 
   await prisma.user.update({
     where: {
@@ -192,6 +219,13 @@ export default async (req, res) => {
       id: initialClub.id,
     },
     include: {
+      applicationInfo: {
+        include: {
+          teacher: true,
+          projectedRevenue: true,
+          projectedExpenses: true,
+        },
+      },
       tags: true,
       roles: true,
       editors: true,

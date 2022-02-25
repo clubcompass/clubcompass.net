@@ -1,7 +1,7 @@
 import { prisma } from "../../../config/prisma";
 
 export default async (req, res) => {
-  const { id, email, type } = req.query;
+  const { id, email, type, ccid } = req.query;
 
   if (id !== undefined) {
     const response = await prisma.user.findUnique({
@@ -18,7 +18,30 @@ export default async (req, res) => {
           },
         },
         invites: {
-          club: true,
+          include: {
+            club: true,
+          },
+        },
+      },
+    });
+
+    return res.status(200).json(response);
+  }
+
+  if (ccid !== undefined) {
+    const response = await prisma.user.findUnique({
+      where: {
+        ccid: ccid,
+      },
+      include: {
+        clubs: true,
+        roles: true,
+        canEdit: true,
+        advisor: true,
+        invites: {
+          include: {
+            club: true,
+          },
         },
       },
     });
@@ -37,7 +60,9 @@ export default async (req, res) => {
         canEdit: true,
         advisor: true,
         invites: {
-          club: true,
+          include: {
+            club: true,
+          },
         },
       },
     });
@@ -56,7 +81,9 @@ export default async (req, res) => {
         canEdit: true,
         advisor: true,
         invites: {
-          club: true,
+          include: {
+            club: true,
+          },
         },
       },
     });
