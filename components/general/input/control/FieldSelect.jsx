@@ -8,29 +8,7 @@ export const FieldSelect = ({
   z,
   props,
 }) => {
-  //TODO: STYLE REACT-SELECT COMPONENT https://react-select.com/styles#style-object
-  // const colourStyles = {
-  //   control: (styles, { isFocused, isSelected }) => ({
-  //     ...styles,
-  //     backgroundColor: "white",
-  //     border:
-  //       isFocused || isSelected
-  //         ? "1px solid rgb(165 180 252)"
-  //         : "1px solid #d1d5db",
-  //     borderRadius: "6px",
-  //     boxShadow: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
-  //   }),
-  //   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
-  //     return {
-  //       ...styles,
-  //       backgroundColor: isDisabled ? "red" : "blue",
-  //       color: "#FFF",
-  //       cursor: isDisabled ? "not-allowed" : "default",
-  //     };
-  //   },
-  // };
-
-  console.log(field.name, values[field.name]);
+  //TODO: use headless ui
 
   const handleSelection = (selected) => {
     if (props?.isMulti) {
@@ -48,7 +26,6 @@ export const FieldSelect = ({
     <div className="w-full" style={{ zIndex: z || 10 }}>
       <label className="relative block">
         {label && <Label {...label} />}
-        {/* <Select {...props} styles={colourStyles} /> */}
         <div className="mt-1">
           <Select
             {...props}

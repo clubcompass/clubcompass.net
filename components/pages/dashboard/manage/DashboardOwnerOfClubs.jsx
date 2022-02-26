@@ -1,22 +1,11 @@
 import React from "react";
 import Link from "next/link";
-import { useQuery } from "react-query";
 import { useAuthContext } from "../../../../context";
-import { db } from "../../../../lib/database";
+// import { db } from "../../../../lib/database";
 // import { Clubs } from "../../clubs"; //! use club component?
 import { Loading } from "../../../general/Loading";
 export const DashboardOwnerOfClubs = () => {
-  const { user: contextUser } = useAuthContext();
-
-  const {
-    data: user,
-    userLoading,
-    userError,
-  } = useQuery("user", async () => await db.users.get({ id: contextUser.id }), {
-    refetchOnWindowFocus: false,
-  });
-
-  console.log(user && user);
+  const { user } = useAuthContext();
 
   if (!user) return <Loading />;
 
@@ -31,20 +20,25 @@ export const DashboardOwnerOfClubs = () => {
 
   const hasLeadershipIn = user.roles.reduce(
     (acc, role) =>
-      role.type === "LEADERSHIP"
+      role.type === "LEADERSHIP" && role.name !== "president"
         ? acc.concat(user.clubs.find((club) => club.id === role.clubId))
         : acc,
     []
   );
 
+  // const hasEditor = user.canEdit;
+
   return (
     <div className="flex flex-col gap-2">
       {isPresidentOf && isPresidentOf.length !== 0 && (
-        <ContentSection clubs={hasLeadershipIn} />
+        <ContentSection label="President of" clubs={isPresidentOf} />
       )}
       {hasLeadershipIn && hasLeadershipIn.length !== 0 && (
         <ContentSection label="Leadership position" clubs={hasLeadershipIn} />
       )}
+      {/* {hasEditor && hasEditor.length !== 0 && (
+        <ContentSection label="Can edit" clubs={hasEditor} />
+      )} */}
     </div>
   );
 };

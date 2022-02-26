@@ -6,9 +6,9 @@ import { db } from "../../../../../lib/database";
 import {
   TextField,
   FieldSelect as Select,
-} from "../../../../../components/general/input/control";
+} from "../../../../general/input/control";
 
-export const NewClubForm = () => {
+export const ClubForm = ({ initialValues }) => {
   //! Need to check which users selected to filter them out of the list of users
   //# get email from user, set president to user
 
@@ -57,8 +57,6 @@ export const NewClubForm = () => {
       label: `${firstname} ${lastname}`,
     }));
 
-  console.log(userOptions, tagOptions);
-
   const form = [
     {
       component: TextField,
@@ -82,7 +80,7 @@ export const NewClubForm = () => {
     },
     {
       component: TextField,
-      name: "meetingData",
+      name: "meetingDate",
       label: {
         text: "Club Meeting Date",
         required: true,
@@ -206,18 +204,20 @@ export const NewClubForm = () => {
 
   return (
     <Formik
-      initialValues={{
-        name: "",
-        description: "",
-        meetingDate: "",
-        location: "",
-        vicePresident: "",
-        secretary: "",
-        treasurer: "",
-        memberIds: [],
-        tagIds: [],
-        teacher: "",
-      }}
+      initialValues={
+        initialValues || {
+          name: "",
+          description: "",
+          meetingDate: "",
+          location: "",
+          vicePresident: "",
+          secretary: "",
+          treasurer: "",
+          memberIds: [],
+          tagIds: [],
+          teacher: "",
+        }
+      }
       onSubmit={async (values, { setFieldError }) => {
         const data = { ...values };
         console.log(data);

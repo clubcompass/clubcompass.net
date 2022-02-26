@@ -1,5 +1,5 @@
 import React from "react";
-import { DashboardNewClub as NewClub } from "../../components/pages/dashboard/new";
+import { DashboardNewClub as NewClub } from "../../../../components/pages/dashboard/manage/new";
 const New = () => {
   return (
     <div className="flex flex-col gap-4">

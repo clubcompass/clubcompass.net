@@ -2,7 +2,9 @@ import { prisma } from "../../../config/prisma";
 import { redis } from "../../../config/redis";
 
 export default async (req, res) => {
+  console.log("running");
   const { source, slug, clubId, tagIds, status } = req.query;
+  console.log(source, slug);
 
   if (source === "DB") {
     if (status === "APPROVED") {
@@ -129,33 +131,35 @@ export default async (req, res) => {
       return res.status(200).json({ ...response });
     }
 
-    const response = await prisma.club.findMany({
-      include: {
-        applicationInfo: {
-          include: {
-            teacher: true,
-            projectedRevenue: true,
-            projectedExpenses: true,
+    if (slug === undefined && clubId === undefined && tagIds === undefined) {
+      const response = await prisma.club.findMany({
+        include: {
+          applicationInfo: {
+            include: {
+              teacher: true,
+              projectedRevenue: true,
+              projectedExpenses: true,
+            },
+          },
+          links: true,
+          tags: true,
+          members: {
+            include: {
+              roles: true,
+            },
+          },
+          editors: true,
+          roles: true,
+          invites: {
+            include: {
+              user: true,
+            },
           },
         },
-        links: true,
-        tags: true,
-        members: {
-          include: {
-            roles: true,
-          },
-        },
-        editors: true,
-        roles: true,
-        invites: {
-          include: {
-            user: true,
-          },
-        },
-      },
-    });
+      });
 
-    return res.status(200).json([...response]);
+      return res.status(200).json([...response]);
+    }
   }
 
   if (source === "CACHE") {

@@ -18,6 +18,20 @@ const authorization = async (req, res) => {
       where: {
         id,
       },
+      include: {
+        canEdit: true,
+        roles: true,
+        clubs: {
+          include: {
+            tags: true,
+          },
+        },
+        invites: {
+          include: {
+            club: true,
+          },
+        },
+      },
     });
     return res.status(200).json({
       status: "success",
