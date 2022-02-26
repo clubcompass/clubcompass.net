@@ -4,15 +4,13 @@ import { useQuery } from "react-query";
 import { Card as Club } from "../../pages/clubs";
 import { Loading } from "../../general/Loading";
 export const ClubSimilarClubs = ({ tag }) => {
-  console.log(tag);
   const { data, isLoading, error } = useQuery(
     "clubs",
     async () => await db.get.clubs.by.tag({ tag_id: tag })
   );
 
-  console.log(data && data);
   return (
-    <div className="flex flex-col gap-1 mt-2 h-[271px]">
+    <div className="flex flex-col gap-1 h-[271px]">
       <h2 className="font-semibold text-2xl">Similar Clubs</h2>
       <div className="grid grid-flow-col gap-6 overflow-x-scroll">
         {isLoading ? (
