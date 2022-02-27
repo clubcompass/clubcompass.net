@@ -15,7 +15,7 @@ module.exports = {
         ccGreyDark: "#F2F2F2",
       },
       gridTemplateColumns: {
-        cards: "repeat(auto-fill,minmax(443px,1fr))",
+        cards: "repeat(auto-fill,minmax(420px,1fr))",
       },
       animation: {
         drop: "drop .3s ease",
