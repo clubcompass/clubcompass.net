@@ -42,31 +42,42 @@ const Button = ({ isMember, userId, clubId }) => {
     }
   };
 
-  return (
-    <button
-      className={`${joined ? "bg-[#FF5555]" : "bg-cc"} ${
-        loading && "cursor-not-allowed bg-opacity-50"
-      } flex flex-row justify-center items-center gap-1 rounded-md px-8 py-1`}
-      onClick={() => handleClubAction()}
-      disabled={loading}
-    >
-      <span className="font-semibold text-sm text-white">
-        {loading ? (
-          joined ? (
-            <span className="flex flex-row items-center gap-2">
-              <CgSpinner className="animate-spin" /> Leaving...
-            </span>
+  if (userId) {
+    return (
+      <button
+        className={`${joined ? "bg-[#FF5555]" : "bg-cc"} ${
+          loading && "cursor-not-allowed bg-opacity-50"
+        } flex flex-row justify-center items-center gap-1 rounded-md px-8 py-1`}
+        onClick={() => handleClubAction()}
+        disabled={loading}
+      >
+        <span className="font-semibold text-sm text-white">
+          {loading ? (
+            joined ? (
+              <span className="flex flex-row items-center gap-2">
+                <CgSpinner className="animate-spin" /> Leaving...
+              </span>
+            ) : (
+              <span className="flex flex-row items-center gap-2">
+                <CgSpinner className="animate-spin" /> Joining...
+              </span>
+            )
+          ) : joined ? (
+            "Leave"
           ) : (
-            <span className="flex flex-row items-center gap-2">
-              <CgSpinner className="animate-spin" /> Joining...
-            </span>
-          )
-        ) : joined ? (
-          "Leave"
-        ) : (
-          "Join"
-        )}
-      </span>
-    </button>
+            "Join"
+          )}
+        </span>
+      </button>
+    );
+  } else {
+  }
+
+  return (
+    <Link href="/login">
+      <a className="bg-cc flex flex-row justify-center items-center gap-1 rounded-md px-8 py-1">
+        <span className="font-semibold text-sm text-white">Join</span>
+      </a>
+    </Link>
   );
 };
