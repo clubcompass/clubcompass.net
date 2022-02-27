@@ -39,7 +39,7 @@ const Member = ({ member }) => {
           lastname={member.lastname}
           color={member.roles[0]?.color}
         />
-        <span className="ml-3">
+        <span className="ml-3 font-medium">
           {member.firstname} {member.lastname}
         </span>
       </div>
@@ -67,7 +67,7 @@ const Avatar = ({ firstname, lastname, color }) => {
       className="flex items-center justify-center w-10 h-10 rounded-lg bg-[#9FDDFC]"
       style={{ backgroundColor: color }}
     >
-      <p className="text-sm font-medium">{initials}</p>
+      <p className="text-base font-medium">{initials}</p>
     </div>
   );
 };
