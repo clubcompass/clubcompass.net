@@ -8,12 +8,6 @@ import {
   Title,
 } from "../../components/pages/club";
 
-// import { MdLocationOn } from "react-icons/md";
-// import { BsClock, BsFillPersonFill } from "react-icons/bs";
-// import { IoMdMail } from "react-icons/io";
-// import { BsClockFill } from "react-icons/bs";
-// import { FiExternalLink } from "react-icons/fi";
-
 const Club = () => {
   const router = useRouter();
   const [slugLoaded, setSlugLoaded] = useState(false);
