@@ -3,7 +3,6 @@ import { Card as Club, ClubsWrapper } from ".";
 import { useAuthContext } from "../../../context/auth";
 export const Clubs = ({ clubs }) => {
   const { user } = useAuthContext();
-  // check if user is in clubs
 
   return (
     <ClubsWrapper>

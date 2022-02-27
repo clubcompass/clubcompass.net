@@ -10,7 +10,7 @@ export const CardHeader = ({ name, primaryTag, tags }) => (
       >
         {name}
       </h3>
-      <Tags tags={tags} />
+      <Tags tags={tags} clubs />
     </div>
     <div className="absolute right-0">
       <PrimaryTag primaryTag={primaryTag} />
