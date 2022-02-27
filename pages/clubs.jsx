@@ -12,7 +12,7 @@ const Cards = () => {
     data: clubs,
     error: clubsError,
     isLoading: clubsLoading,
-  } = useQuery("clubs", async () => db.club.get.approved(), {
+  } = useQuery("clubs", async () => db.clubs.get.approved(), {
     refetchOnWindowFocus: false,
   });
 

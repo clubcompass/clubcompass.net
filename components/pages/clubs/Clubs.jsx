@@ -17,7 +17,7 @@ export const Clubs = ({ clubs }) => {
             <Club.Content name={club.name} description={club.description} />
             <Club.Footer
               slug={club.slug}
-              userId={user.id}
+              userId={user?.id}
               clubId={club.id}
               members={club.members.map((member) => member.id)}
             />
