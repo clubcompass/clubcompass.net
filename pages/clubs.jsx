@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { Tag } from "../components/general/tags";
 import { db } from "../lib/database";
-import axios from "axios";
 import { Clubs } from "../components/pages/clubs";
 import { Loading } from "../components/general/Loading";
 const Cards = () => {
@@ -13,7 +12,7 @@ const Cards = () => {
     data: clubs,
     error: clubsError,
     isLoading: clubsLoading,
-  } = useQuery("clubs", async () => db.club.get.all(), {
+  } = useQuery("clubs", async () => db.club.get.approved(), {
     refetchOnWindowFocus: false,
   });
 
@@ -21,15 +20,15 @@ const Cards = () => {
     data: tags,
     error: tagsError,
     isLoading: tagsLoading,
-  } = useQuery("tags", async () => await db.tags.get());
+  } = useQuery("tags", async () => await db.tags.get(), {
+    refetchOnWindowFocus: false,
+  });
 
   if (clubsLoading) return <Loading />;
   if (tagsLoading) return <Loading />;
 
   if (clubsError) return "An error has occurred: " + clubsError.message;
   if (tagsError) return "An error has occurred: " + tagsError.message;
-
-  console.log(clubs && clubs);
 
   return (
     <div className="flex flex-col gap-6">
@@ -55,7 +54,8 @@ const Cards = () => {
           </div>
         ))}
       </div>
-      <h1>{currentTag && currentTag.join(",")}</h1>
+      <p>{currentTag && currentTag.join(",")}</p>
+      {/* <ClubToolbar /> */}
       <Clubs clubs={clubs} />
     </div>
   );

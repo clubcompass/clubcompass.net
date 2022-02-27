@@ -11,6 +11,7 @@ export default async (req, res) => {
           status: "APPROVED",
         },
         include: {
+          members: true,
           tags: true,
         },
       });
