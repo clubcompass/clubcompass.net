@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { Tag } from ".";
 export const Tags = ({ tags }) => {
   const [overflow, setOverflow] = useState(false);
@@ -14,16 +13,13 @@ export const Tags = ({ tags }) => {
 
   return (
     <div className="relative">
-      <div ref={ref} className="max-w-[300px] overflow-x-scroll scrollbar-hide">
-        <div className="flex flex-row items-center gap-2 whitespace-nowrap">
+      <div ref={ref} className="overflow-x-scroll scrollbar-hide">
+        <div className="flex flex-wrap md:flex-nowrap justify-center md:justify-start items-center gap-2">
           {tags.map((tag, index) => (
             <Tag key={index} tag={tag.name} />
           ))}
         </div>
       </div>
-      {overflow && (
-        <HiOutlineDotsHorizontal className="absolute -right-6 top-[0px] text-cc text-md bg-cc/10 rounded-[2.5px]" />
-      )}
     </div>
   );
 };
