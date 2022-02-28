@@ -7,15 +7,19 @@ import {
 export const DashboardNav = () => {
   return (
     <Container>
-      <Logo />
+      <div className="mx-auto">
+        <Logo />
+      </div>
       <Items />
-      <Profile />
+      <div className="absolute left-0 right-0 mx-auto w-[200px] bottom-12">
+        <Profile />
+      </div>
     </Container>
   );
 };
 
 const Container = ({ children }) => (
-  <div className="fixed h-screen w-[343px] py-6 px-3 flex flex-col justify-between items-start bg-gray-200">
+  <div className="fixed h-screen w-[250px] py-12 px-3 flex flex-col bg-white">
     {children}
   </div>
 );
