@@ -164,14 +164,16 @@ export default async (req, res) => {
   }
 
   if (source === "CACHE") {
-    await redis.connect();
+    if (status === "APPROVED") {
+      await redis.connect();
 
-    const response = await redis.get("clubs");
+      const response = await redis.get("approved_clubs");
 
-    await redis.quit();
+      await redis.quit();
 
-    const data = JSON.parse(response);
+      const data = JSON.parse(response);
 
-    return res.status(200).json([...data]);
+      return res.status(200).json([...data]);
+    }
   }
 };
