@@ -13,6 +13,11 @@ export default async (req, res) => {
         include: {
           members: true,
           tags: true,
+          _count: {
+            select: {
+              members: true,
+            },
+          },
         },
       });
 
@@ -102,13 +107,6 @@ export default async (req, res) => {
           slug: slug,
         },
         include: {
-          applicationInfo: {
-            include: {
-              teacher: true,
-              projectedRevenue: true,
-              projectedExpenses: true,
-            },
-          },
           links: true,
           tags: true,
           members: {
@@ -172,5 +170,19 @@ export default async (req, res) => {
     console.log(response);
 
     return res.status(200).json([...response]);
+  }
+
+  if (source === "CACHE") {
+    if (status === "APPROVED") {
+      await redis.connect();
+
+      const response = await redis.get("approved_clubs");
+
+      await redis.quit();
+
+      const data = JSON.parse(response);
+
+      return res.status(200).json([...data]);
+    }
   }
 };
