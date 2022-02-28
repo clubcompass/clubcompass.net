@@ -107,13 +107,6 @@ export default async (req, res) => {
           slug: slug,
         },
         include: {
-          applicationInfo: {
-            include: {
-              teacher: true,
-              projectedRevenue: true,
-              projectedExpenses: true,
-            },
-          },
           links: true,
           tags: true,
           members: {
