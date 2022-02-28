@@ -9,6 +9,11 @@ export default async (req, res) => {
     },
     include: {
       tags: true,
+      _count: {
+        select: {
+          members: true,
+        },
+      },
     },
   });
 
