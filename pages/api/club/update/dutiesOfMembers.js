@@ -1,19 +1,23 @@
 import { prisma } from "../../../../config/prisma";
-import { updateClubCache } from "../../../utils/cache/updateClubCache";
 
 export default async (req, res) => {
-  const { id, description } = req.body;
+  const { id, dutiesOfMembers } = req.body;
 
   const response = await prisma.club.update({
     where: {
       id: id,
     },
     data: {
-      description: description,
+      applicationInfo: {
+        update: {
+          dutiesOfMembers: dutiesOfMembers,
+        },
+      },
+    },
+    include: {
+      applicationInfo: true,
     },
   });
-
-  await updateClubCache();
 
   return res.status(200).json({ ...response });
 };

@@ -1,6 +1,6 @@
 import { redis } from "../../config/redis";
 
-export const updateCache = async () => {
+export const updateClubCache = async () => {
   const clubs = await prisma.club.findMany({
     where: {
       approval: "APPROVED",

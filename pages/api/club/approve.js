@@ -1,5 +1,5 @@
 import { prisma } from "../../../config/prisma";
-import { updateCache } from "../../../utils/cache/updateClubCache";
+import { updateClubCache } from "../../../utils/cache/updateClubCache";
 
 export default async (req, res) => {
   const { id } = req.body;
@@ -14,7 +14,7 @@ export default async (req, res) => {
     },
   });
 
-  await updateCache();
+  await updateClubCache();
 
   return res.status(200).json({ ...response });
 };
