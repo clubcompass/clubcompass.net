@@ -1,4 +1,5 @@
 import { redis } from "../../config/redis";
+import { prisma } from "../../config/prisma";
 
 export const updateClubCache = async () => {
   const clubs = await prisma.club.findMany({
