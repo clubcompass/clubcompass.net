@@ -1,4 +1,5 @@
 import { prisma } from "../../../config/prisma";
+import { updateCache } from "../../../utils/cache/updateClubCache";
 
 export default async (req, res) => {
   const { id } = req.body;
@@ -12,6 +13,8 @@ export default async (req, res) => {
       status: "APPROVED",
     },
   });
+
+  await updateCache();
 
   return res.status(200).json({ ...response });
 };

@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { CgSpinner } from "react-icons/cg";
 import { db } from "../../../lib/database";
-export const CardFooter = ({ slug, userId, clubId, members }) => {
-  const isMember = members.includes(userId);
-  if (isMember) {
-    console.log("user is a member of", slug);
-  }
+import { BsPeopleFill } from "react-icons/bs";
+export const CardFooter = ({ slug, userId, clubId, isMember, memberCount }) => {
   return (
     <div className="w-full flex flex-row justify-between">
       <CCLink slug={slug} />
-      <Button isMember={isMember} userId={userId} clubId={clubId} />
+      <div className="flex flex-row gap-2">
+        <MembersCount memberCount={memberCount} />
+        <Button isMember={isMember} userId={userId} clubId={clubId} />
+      </div>
     </div>
   );
 };
@@ -21,6 +21,13 @@ const CCLink = ({ slug }) => (
   </Link>
 );
 
+const MembersCount = ({ memberCount }) => (
+  <div className="flex flex-row items-center gap-1 bg-[#EDEDED] px-3 rounded-md text-black text-xs">
+    <BsPeopleFill />
+    <span className="font-semibold">{memberCount}</span>
+  </div>
+);
+
 const Button = ({ isMember, userId, clubId }) => {
   const [joined, setJoined] = useState(isMember);
   const [loading, setLoading] = useState(false);
@@ -29,10 +36,10 @@ const Button = ({ isMember, userId, clubId }) => {
     try {
       setLoading(true);
       if (joined) {
-        await db.club.removeSignup(userId, clubId);
+        await db.clubs.removeSignup(userId, clubId);
         return setJoined(false);
       } else {
-        await db.club.signup(userId, clubId);
+        await db.clubs.signup(userId, clubId);
         return setJoined(true);
       }
     } catch (error) {
@@ -70,7 +77,6 @@ const Button = ({ isMember, userId, clubId }) => {
         </span>
       </button>
     );
-  } else {
   }
 
   return (

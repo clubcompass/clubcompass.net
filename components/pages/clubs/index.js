@@ -5,3 +5,5 @@ export * from "./CardHeader";
 export * from "./CardFooter";
 export * from "./Card";
 export * from "./ClubsWrapper";
+
+export * from "./toolbar/ClubsToolbar";
