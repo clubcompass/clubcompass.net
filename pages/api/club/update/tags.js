@@ -1,4 +1,5 @@
 import { prisma } from "../../../../config/prisma";
+import { cacheBySlug } from "../../../../utils/cache/cacheBySlug";
 import { updateClubCache } from "../../../../utils/cache/updateClubCache";
 
 export default async (req, res) => {
@@ -21,11 +22,19 @@ export default async (req, res) => {
       },
     },
     include: {
+      links: true,
       tags: true,
+      members: {
+        include: {
+          roles: true,
+        },
+      },
     },
   });
 
   await updateClubCache();
+
+  await cacheBySlug(response);
 
   return res.status(200).json({ ...response });
 };

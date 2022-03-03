@@ -1,5 +1,6 @@
 import { prisma } from "../../../config/prisma";
 import { updateClubCache } from "../../../utils/cache/updateClubCache";
+import { cacheSlugById } from "../../../utils/cache/cacheSlugById";
 
 export default async (req, res) => {
   const { userId, clubId } = req.body;
@@ -48,6 +49,8 @@ export default async (req, res) => {
   });
 
   await updateClubCache();
+
+  await cacheSlugById(clubId);
 
   return res.status(200).json({ ...response });
 };

@@ -114,13 +114,6 @@ export default async (req, res) => {
               roles: true,
             },
           },
-          editors: true,
-          roles: true,
-          invites: {
-            include: {
-              user: true,
-            },
-          },
         },
       });
 
@@ -167,6 +160,17 @@ export default async (req, res) => {
       const data = JSON.parse(response);
 
       return res.status(200).json([...data]);
+    }
+    if (slug !== undefined) {
+      await redis.connect();
+
+      const response = await redis.get(slug);
+
+      await redis.quit();
+
+      const data = JSON.parse(response);
+
+      return res.status(200).json({ ...data });
     }
   }
 };
