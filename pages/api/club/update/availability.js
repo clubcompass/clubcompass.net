@@ -1,5 +1,5 @@
 import { prisma } from "../../../../config/prisma";
-import { cacheBySlug } from "../../../utils/cache/cacheBySlug";
+import { cacheBySlug } from "../../../../utils/cache/cacheBySlug";
 
 export default async (req, res) => {
   const { id, availability } = req.body;
