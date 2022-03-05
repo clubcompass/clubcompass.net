@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { HiChevronDown } from "react-icons/hi";
 export const ToolbarSort = ({
@@ -53,11 +53,16 @@ export const ToolbarSort = ({
   const handleSort = (value) => {
     if (value.category === "alpha") handleAlpha(value);
     if (value.category === "pop") handlePopularity(value);
-    return updateGlobalSearchOptions({
-      category: value.category,
-      order: value.order,
-    });
+    // return updateGlobalSearchOptions({
+    //   category: value.category,
+    //   order: value.order,
+    // });
+    return;
   };
+
+  useEffect(() => {
+    console.log("updated");
+  }, [clubs]);
 
   const MenuItem = ({ value }) => (
     <Menu.Item>

@@ -11,8 +11,8 @@ export const ClubContact = ({ email, links }) => {
       <Info type="EMAIL">
         <CopyText>{email}</CopyText>
       </Info>
-      {links.map((link) => (
-        <Info type={link.type} link={link.link} target="blank">
+      {links.map((link, i) => (
+        <Info key={i} type={link.type} link={link.link} target="blank">
           {link.name}
         </Info>
       ))}
