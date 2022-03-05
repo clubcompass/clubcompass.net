@@ -70,17 +70,15 @@ export const DashboardNavItems = () => {
   return (
     <div className="mt-16">
       {roleSpecificItems[user.type].map((item, i) => (
-        <DashboardItem key={i} {...item} />
+        <DashboardItem key={i} {...item} notifications={user.invites.length} />
       ))}
     </div>
   );
 };
 
-const DashboardItem = ({ label, to, icon }) => {
+const DashboardItem = ({ label, to, icon, notifications }) => {
   const router = useRouter();
   const isActive = router.pathname === to;
-
-  const notifications = "12";
 
   return (
     <Link href={to}>
@@ -93,7 +91,7 @@ const DashboardItem = ({ label, to, icon }) => {
         <a className="">{label}</a>
         {icon == "activity" && (
           <div className="flex w-[23px] h-[23px] bg-[#FCD7D5] items-center justify-center rounded-full">
-            <a className="text-xs font-semibold text-[#F27875]">
+            <a className="text-xs font-semibold text-[#F27875] translate-y-[0.5px] translate-x-[0.3px]">
               {notifications}
             </a>
           </div>

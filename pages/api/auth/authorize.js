@@ -24,6 +24,11 @@ const authorization = async (req, res) => {
         clubs: {
           include: {
             tags: true,
+            _count: {
+              select: {
+                members: true,
+              },
+            },
           },
         },
         invites: {
