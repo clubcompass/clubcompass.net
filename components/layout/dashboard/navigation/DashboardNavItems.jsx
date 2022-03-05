@@ -88,12 +88,12 @@ const DashboardItem = ({ label, to, icon, notifications }) => {
         }`}
       >
         <Icon icon={icon} color={isActive ? "#1C5EF9" : "#787F92"} />
-        <a className="">{label}</a>
-        {icon == "activity" && (
-          <div className="flex w-[23px] h-[23px] bg-[#FCD7D5] items-center justify-center rounded-full">
-            <a className="text-xs font-semibold text-[#F27875] translate-y-[0.5px] translate-x-[0.3px]">
+        <span>{label}</span>
+        {icon === "activity" && (
+          <div className="-ml-1 flex w-[20px] h-[20px] bg-red-500/10 items-center justify-center rounded-full">
+            <span className="text-[8px] font-semibold text-red-500">
               {notifications}
-            </a>
+            </span>
           </div>
         )}
       </a>
