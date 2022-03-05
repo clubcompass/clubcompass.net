@@ -4,9 +4,9 @@ import { useQuery } from "react-query";
 import { Card as Club } from "../../pages/clubs";
 import { Loading } from "../../general/Loading";
 export const ClubSimilarClubs = ({ tag }) => {
-  const { data, isLoading, error } = useQuery(
+  let { data, isLoading, error } = useQuery(
     "clubs",
-    async () => await db.get.clubs.by.tag({ tag_id: tag })
+    async () => await db.clubs.get.by.tags(tag)
   );
 
   return (

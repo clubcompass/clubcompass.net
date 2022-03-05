@@ -11,10 +11,14 @@ export const ToolbarFilter = ({ staticClubs, updateClubs }) => {
   const [strategy, setStrategy] = useState("including"); // including, containing
   const [selectedTags, setSelectedTags] = useState([]);
   const [tags, setTags] = useState([]);
-  const { isLoading } = useQuery("tags", async () => await db.tags.get(), {
-    refetchOnWindowFocus: false,
-    onSuccess: (data) => setTags(data),
-  });
+  const { isLoading } = useQuery(
+    "tags",
+    async () => await db.tags.get.approved(),
+    {
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => setTags(data),
+    }
+  );
 
   const hasTag = (club, selected) => {
     const clubTags = club.tags.map((tag) => tag.id);
@@ -106,7 +110,7 @@ export const ToolbarFilter = ({ staticClubs, updateClubs }) => {
             }}
             className="px-2 py-1.5 rounded-md text-xs font-medium"
           >
-            {tag._count.clubs}
+            {tag._count}
           </span>
         </div>
       </Menu.Item>

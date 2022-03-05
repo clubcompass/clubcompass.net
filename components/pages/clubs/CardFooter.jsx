@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { CgSpinner } from "react-icons/cg";
-import { db } from "../../../lib/database";
 import { BsPeopleFill } from "react-icons/bs";
+import { db } from "../../../lib/database";
 export const CardFooter = ({ slug, userId, clubId, isMember, memberCount }) => {
   return (
     <div className="w-full flex flex-row justify-between">

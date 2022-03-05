@@ -1,8 +1,12 @@
-import React from "react";
 import { useState } from "react";
+import Link from "next/link";
+import { CgSpinner } from "react-icons/cg";
+import { db } from "../../../lib/database";
+import { useAuthContext } from "../../../context/auth.js";
 import { useBreakpoints } from "../../../hooks";
 
-export const ClubWrapper = ({ children, availability }) => {
+export const ClubWrapper = ({ children, id, availability }) => {
+  const { user } = useAuthContext();
   const [header, contact, meeting, content, members, similar] = children;
   const { isMd, isSm, isXs } = useBreakpoints();
   const isMobile = isMd || isSm || isXs;
@@ -11,7 +15,7 @@ export const ClubWrapper = ({ children, availability }) => {
     <div className="mt-4 flex flex-col gap-8">
       <div className="flex flex-col w-full md:flex-row md:justify-between items-center">
         <h1 className="justify-center mb-8 md:mb-0">{header}</h1>
-        <Button availability={availability} />
+        <Button availability={availability} userId={user?.id} clubId={id} />
       </div>
       <div className="grid grid-rows lg:grid-cols-6 lg:gap-8">
         {isMobile && <Card title="Description">{content}</Card>}
@@ -38,10 +42,28 @@ export const Card = ({ title, children }) => {
   );
 };
 
-const Button = ({ availability }) => {
+const Button = ({ availability, userId, clubId }) => {
   const [joined, setJoined] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  if (availability == "CLOSED") {
+  const handleClubAction = async () => {
+    try {
+      setLoading(true);
+      if (joined) {
+        await db.clubs.removeSignup(userId, clubId);
+        return setJoined(false);
+      } else {
+        await db.clubs.signup(userId, clubId);
+        return setJoined(true);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (availability === "CLOSED") {
     return (
       <button className="cursor-default bg-[#E7EEFF] h-10 w-48 font-bold px-8 py-0.5 rounded-lg text-[#707070]">
         Closed
@@ -49,14 +71,41 @@ const Button = ({ availability }) => {
     );
   }
 
+  if (userId) {
+    return (
+      <button
+        className={`${joined ? "bg-[#FF5555]" : "bg-cc"} ${
+          loading && "cursor-not-allowed bg-opacity-50"
+        } flex flex-row justify-center items-center gap-1 h-10 w-48 font-bold px-8 py-0.5 rounded-lg text-white`}
+        onClick={() => handleClubAction()}
+        disabled={loading}
+      >
+        <span className="font-semibold text-white">
+          {loading ? (
+            joined ? (
+              <span className="flex flex-row items-center gap-2">
+                <CgSpinner className="animate-spin" /> Leaving...
+              </span>
+            ) : (
+              <span className="flex flex-row items-center gap-2">
+                <CgSpinner className="animate-spin" /> Joining...
+              </span>
+            )
+          ) : joined ? (
+            "Leave"
+          ) : (
+            "Join"
+          )}
+        </span>
+      </button>
+    );
+  }
+
   return (
-    <button
-      className={`${
-        joined ? "bg-[#FF5555]" : "bg-[#1C5EFF]"
-      } text-base h-10 w-48 font-bold px-8 py-0.5 rounded-lg text-white`}
-      onClick={() => setJoined(!joined)}
-    >
-      {joined ? "Leave" : "Join"}
-    </button>
+    <Link href="/login">
+      <a className="flex flex-row justify-center items-center gap-1 h-10 w-48 font-bold px-8 py-0.5 rounded-lg text-white bg-cc">
+        <span className="font-semibold text-white">Join</span>
+      </a>
+    </Link>
   );
 };

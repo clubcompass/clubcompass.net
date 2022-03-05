@@ -4,12 +4,7 @@ import { useQuery } from "react-query";
 import { db } from "../../lib/database";
 import { Club as ClubComponent } from "../../components/pages/club";
 import { Loading } from "../../components/general/Loading";
-
-// import { MdLocationOn } from "react-icons/md";
-// import { BsClock, BsFillPersonFill } from "react-icons/bs";
-// import { IoMdMail } from "react-icons/io";
-// import { BsClockFill } from "react-icons/bs";
-// import { FiExternalLink } from "react-icons/fi";
+import { tagSchema } from "../../components/general/tags";
 
 const Club = () => {
   const router = useRouter();
@@ -41,7 +36,7 @@ const Club = () => {
     <div className="flex flex-col">
       {club && (
         <ClubComponent>
-          <ClubComponent.Wrapper availability={club.availability}>
+          <ClubComponent.Wrapper availability={club.availability} id={club.id}>
             <ClubComponent.Header name={club.name} tags={club.tags} />
             <ClubComponent.Contact email={club.email} links={club.links} />
             <ClubComponent.Meeting
@@ -50,7 +45,10 @@ const Club = () => {
               availability={club.availability}
             />
             <ClubComponent.Content description={club.description} />
-            <ClubComponent.Members members={club.members} />
+            <ClubComponent.Members
+              members={club.members}
+              primaryColor={tagSchema[club.tags[0].name]}
+            />
             <ClubComponent.SimilarClubs tag={club.tags[0].id} />
           </ClubComponent.Wrapper>
         </ClubComponent>

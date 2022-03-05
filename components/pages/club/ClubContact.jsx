@@ -32,11 +32,11 @@ const Info = ({ children, type, link, target }) => (
 );
 
 const Icon = ({ type }) => {
-  if (type == "EMAIL") return <MdEmail />;
-  if (type == "INSTAGRAM") return <RiInstagramFill />;
-  if (type == "TWITTER") return <AiOutlineTwitter />;
-  if (type == "DISCORD") return <FaDiscord />;
-  if (type == "YOUTUBE") return <AiFillYoutube />;
-  if (type == "FACEBOOK") return <MdOutlineFacebook />;
+  if (type === "EMAIL") return <MdEmail />;
+  if (type === "INSTAGRAM") return <RiInstagramFill />;
+  if (type === "TWITTER") return <AiOutlineTwitter />;
+  if (type === "DISCORD") return <FaDiscord />;
+  if (type === "YOUTUBE") return <AiFillYoutube />;
+  if (type === "FACEBOOK") return <MdOutlineFacebook />;
   return <FaGlobeAmericas />;
 };
