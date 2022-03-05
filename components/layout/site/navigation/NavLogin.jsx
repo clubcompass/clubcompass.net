@@ -14,26 +14,26 @@ export const NavLogin = () => {
 
 const DesktopLogin = ({ register }) => {
   const { menuOpen, setMenuState } = useLayoutContext();
-  const button =
-    "z-10 px-7 py-[.3rem] text-sm rounded-lg border-2 font-semibold border-cc items-center justify-center";
   return (
-    <div className="flex gap-4 items-center">
-      {register && (
-        <Link href="/register">
-          <a className={`${button} hover:bg-[#EAF0FF] text-cc`}>Register</a>
-        </Link>
-      )}
-
+    <div className="flex gap-2 items-center">
       <Link href="/login">
         <a
           onClick={() => setMenuState(false)}
-          className={`${button} ${
-            menuOpen ? "bg-ccDark" : "bg-cc"
-          }  bg-cc hover:bg-ccDark hover:border-ccDark text-white`}
+          className={`z-10 px-4 py-1.5 text-sm rounded-md font-semibold border-cc items-center justify-center ${
+            menuOpen ? "bg-ccDark text-white" : "bg-cc text-gray-600"
+          }  bg-transparent hover:bg-gray-100 `}
         >
           Login
         </a>
       </Link>
+
+      {register && (
+        <Link href="/register">
+          <a className="z-10 px-4 py-1.5 text-sm rounded-md font-semibold items-center justify-center text-white bg-gradient-to-tl hover:bg-gradient-to-br hover:scale-105 from-cc to-[#3771FA]  transition duration-200 ease-in-out">
+            Signup
+          </a>
+        </Link>
+      )}
     </div>
   );
 };
