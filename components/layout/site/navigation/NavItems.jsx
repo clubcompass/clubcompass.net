@@ -1,15 +1,13 @@
-import { AiFillHome } from "react-icons/ai";
-import { FaCompass } from "react-icons/fa";
-import { MdDashboard } from "react-icons/md";
-import { BsPeopleFill } from "react-icons/bs";
+import { useRouter } from "next/router";
 import { NavLink } from "./NavLink";
 
 export const NavItems = ({ mobile }) => {
+  const router = useRouter();
   const links = [
-    { name: "Home", target: "/", icon: <AiFillHome /> },
-    { name: "Clubs", target: "/clubs", icon: <FaCompass /> },
-    { name: "Dashboard", target: "/dashboard", icon: <MdDashboard /> },
-    { name: "About", target: "/about", icon: <BsPeopleFill /> },
+    { name: "Home", target: "/" },
+    { name: "Clubs", target: "/clubs" },
+    { name: "Dashboard", target: "/dashboard" },
+    { name: "About", target: "/about" },
   ];
 
   return (
@@ -17,11 +15,16 @@ export const NavItems = ({ mobile }) => {
       className={
         mobile
           ? "flex flex-col items-start justify-center w-full h-1/2"
-          : "hidden lg:flex flex-col lg:flex-row items-center gap-4 justify-evenly text-cc w-1/4"
+          : "hidden lg:flex flex-col lg:flex-row items-center gap-4 justify-center text-cc w-1/4"
       }
     >
       {links.map((link, index) => (
-        <NavLink key={index} {...link} />
+        <NavLink
+          key={index}
+          name={link.name}
+          target={link.target}
+          isActive={router.pathname === link.target}
+        />
       ))}
     </div>
   );

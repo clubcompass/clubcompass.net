@@ -11,16 +11,16 @@ export const NavLogo = () => {
         onClick={menuOpen ? () => setMenuState(false) : null}
         className="flex items-center"
       >
-        <div className="md:mr-4 w-[40px] h-[40px] z-50">
+        <div className="md:mr-4 md:w-5 w-7 z-50">
           <CCIcon color={`${menuOpen ? "#fff" : "cc"}`} />
         </div>
-        <h1
-          className={`hidden md:flex z-10 text-2xl tracking-wider font-bold ${
+        <span
+          className={`hidden md:flex z-10 text-lg tracking-wider font-semibold ${
             menuOpen && "text-white"
           }`}
         >
           Club Compass
-        </h1>
+        </span>
       </a>
     </Link>
   );

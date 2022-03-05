@@ -52,6 +52,7 @@ const Burger = ({ isOpen, toggle }) => {
       viewBox="0 0 44 44"
       fill={isOpen ? "white" : "black"}
       xmlns="http://www.w3.org/2000/svg"
+      className={`relative ${isOpen && "top-2"}`}
     >
       <animated.rect width="30" height="3.5" rx="2" style={first} />
       <animated.rect width="30" height="3.5" rx="2" style={second} />
