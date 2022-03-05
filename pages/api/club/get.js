@@ -102,6 +102,9 @@ export default async (req, res) => {
     }
 
     if (slug !== undefined) {
+      console.log("hello");
+      console.log(slug);
+
       const response = await prisma.club.findUnique({
         where: {
           slug: slug,
@@ -115,6 +118,12 @@ export default async (req, res) => {
             },
           },
         },
+      });
+
+      const clubId = response.id;
+
+      response.members.map((member) => {
+        member.roles = member.roles.filter((role) => role.clubId === clubId);
       });
 
       return res.status(200).json({ ...response });
