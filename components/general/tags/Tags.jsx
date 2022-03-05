@@ -14,10 +14,7 @@ export const Tags = ({ tags, clubs }) => {
   return (
     <div className="relative">
       {clubs ? (
-        <div
-          ref={ref}
-          className="max-w-[300px] overflow-x-scroll scrollbar-hide"
-        >
+        <div ref={ref} className="max-w-full overflow-x-scroll scrollbar-hide">
           <div className="flex flex-row items-center gap-2 whitespace-nowrap">
             {tags.map((tag, index) => (
               <Tag key={index} tag={tag.name} />

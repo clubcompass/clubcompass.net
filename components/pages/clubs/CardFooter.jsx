@@ -3,13 +3,24 @@ import Link from "next/link";
 import { CgSpinner } from "react-icons/cg";
 import { db } from "../../../lib/database";
 import { BsPeopleFill } from "react-icons/bs";
-export const CardFooter = ({ slug, userId, clubId, isMember, memberCount }) => {
+export const CardFooter = ({
+  slug,
+  userId,
+  clubId,
+  isMember,
+  memberCount,
+  manage,
+}) => {
   return (
-    <div className="w-full flex flex-row justify-between">
+    <div className="w-full flex flex-row items-center justify-between">
       <CCLink slug={slug} />
       <div className="flex flex-row gap-2">
         <MembersCount memberCount={memberCount} />
-        <Button isMember={isMember} userId={userId} clubId={clubId} />
+        {manage ? (
+          <ManageButton slug={slug} />
+        ) : (
+          <Button isMember={isMember} userId={userId} clubId={clubId} />
+        )}
       </div>
     </div>
   );
@@ -27,6 +38,16 @@ const MembersCount = ({ memberCount }) => (
     <span className="font-semibold">{memberCount}</span>
   </div>
 );
+
+const ManageButton = ({ slug }) => {
+  return (
+    <Link href={`/dashboard/manage/edit/${slug}`}>
+      <a className="bg-cc text-white flex justify-center items-center gap-1 rounded-md px-4 py-1">
+        Manage
+      </a>
+    </Link>
+  );
+};
 
 const Button = ({ isMember, userId, clubId }) => {
   const [joined, setJoined] = useState(isMember);

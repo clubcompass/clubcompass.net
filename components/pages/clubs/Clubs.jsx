@@ -2,7 +2,7 @@ import React from "react";
 import { Card as Club, ClubsWrapper } from ".";
 import { useAuthContext } from "../../../context/auth";
 // import { db } from "../../../lib/database"; // get user clubs
-export const Clubs = ({ clubs }) => {
+export const Clubs = ({ clubs, manage }) => {
   const { user } = useAuthContext();
 
   const userClubs = user?.clubs.reduce((acc, club) => {
@@ -29,6 +29,7 @@ export const Clubs = ({ clubs }) => {
               clubId={club.id}
               isMember={!user ? false : userClubs.includes(club.id)}
               memberCount={club._count.members}
+              manage={manage}
             />
           </Club.Container>
         </Club>
