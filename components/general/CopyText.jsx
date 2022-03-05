@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ToolTip } from "./ToolTip";
 
-export const CopyText = ({ children }) => {
+export const CopyText = ({ children, tooltip }) => {
   const [isCopied, setIsCopied] = useState(false);
 
   async function copyTextToClipboard(text) {
@@ -27,7 +27,11 @@ export const CopyText = ({ children }) => {
         onClick={handleCopyClick}
         className="flex items-center font-semibold w-full break-all text-left"
       >
-        <ToolTip content={isCopied ? "Copied!" : "Copy"}>{children}</ToolTip>
+        {tooltip ? (
+          <ToolTip content={isCopied ? "Copied!" : "Copy"}>{children}</ToolTip>
+        ) : (
+          <>{children}</>
+        )}
       </button>
     </div>
   );
