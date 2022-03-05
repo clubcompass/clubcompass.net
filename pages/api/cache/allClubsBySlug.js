@@ -14,6 +14,14 @@ export default async (req, res) => {
     },
   });
 
+  clubs.map((club) => {
+    const clubId = club.id;
+
+    club.members.map((member) => {
+      member.roles = member.roles.filter((role) => role.clubId === clubId);
+    });
+  });
+
   await redis.connect();
 
   for (let i = 0; i < clubs.length; i++) {
