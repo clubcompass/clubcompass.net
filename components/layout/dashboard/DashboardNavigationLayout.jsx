@@ -15,7 +15,7 @@ export const DashboardNavigationLayout = ({ children }) => {
   return (
     <Container>
       <DashboardNav />
-      <div className="bg-[#FAFAFA] py-6 w-full pl-[280px] pr-[30px]">
+      <div className="bg-[#FAFAFA] py-6 min-h-screen w-full pl-[280px] pr-[30px]">
         {children}
       </div>
     </Container>
