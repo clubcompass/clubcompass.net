@@ -1,6 +1,7 @@
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./database.db"
+  // url      = env("DATABASE_URL")
 }
 
 generator client {
@@ -8,7 +9,7 @@ generator client {
 }
 
 model Club {
-  id              String               @id @default(cuid())
+  id              Int                  @id @default(autoincrement())
   name            String?              @unique
   slug            String?              @unique
   description     String?
@@ -28,20 +29,20 @@ model Club {
 }
 
 model Link {
-  id     String  @id @default(cuid())
+  id     Int     @id @default(autoincrement())
   club   Club    @relation(fields: [clubId], references: [id])
-  clubId String
+  clubId Int
   name   String?
   link   String
   type   String //can take values like WEBSITE / DISCORD / INSTAGRAM / SNAPCHAT
 }
 
 model ClubApplicationInfo {
-  id                                  String              @id @default(cuid())
+  id                                  Int                 @id @default(autoincrement())
   teacher                             User                @relation(fields: [userId], references: [id])
-  userId                              String
+  userId                              Int
   club                                Club                @relation(fields: [clubId], references: [id])
-  clubId                              String              @unique
+  clubId                              Int                 @unique
   projectedRevenue                    ProjectedRevenue[]
   projectedExpenses                   ProjectedExpenses[]
   purpose                             String
@@ -55,14 +56,14 @@ model ClubApplicationInfo {
 }
 
 model Tag {
-  id              String @id @default(cuid())
+  id              Int    @id @default(autoincrement())
   name            String @unique
   clubs           Club[]
   interestedUsers User[]
 }
 
 model User {
-  id            String                @id @default(cuid())
+  id            Int                   @id @default(autoincrement())
   ccid          String                @unique
   firstname     String
   lastname      String
@@ -80,38 +81,38 @@ model User {
 }
 
 model Invite {
-  id     String @id @default(cuid())
+  id     Int    @id @default(autoincrement())
   status String @default("PENDING") //alternate values: ACCEPTED, DECLINED
   club   Club   @relation(fields: [clubId], references: [id])
-  clubId String
+  clubId Int
   user   User   @relation(fields: [userId], references: [id])
-  userId String
+  userId Int
 }
 
 model Role {
-  id          String @id @default(cuid())
+  id          Int    @id @default(autoincrement())
   name        String
   color       String
   description String
   users       User[]
   club        Club   @relation(fields: [clubId], references: [id])
-  clubId      String
+  clubId      Int
   type        String @default("MEMBER") //alternate value: LEADER
 }
 
 model ProjectedRevenue {
-  id     String              @id @default(cuid())
+  id     Int                 @id @default(autoincrement())
   club   ClubApplicationInfo @relation(fields: [clubId], references: [id])
-  clubId String
+  clubId Int
   name   String
   amount Float
   date   String
 }
 
 model ProjectedExpenses {
-  id     String              @id @default(cuid())
+  id     Int                 @id @default(autoincrement())
   club   ClubApplicationInfo @relation(fields: [clubId], references: [id])
-  clubId String
+  clubId Int
   name   String
   amount Float
   date   String
