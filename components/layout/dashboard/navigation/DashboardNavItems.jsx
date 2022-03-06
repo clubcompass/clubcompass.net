@@ -94,8 +94,8 @@ const DashboardItem = ({ label, to, icon, notifications }) => {
         <Icon icon={icon} color={isActive ? "#1C5EF9" : "#787F92"} />
         <span>{label}</span>
         {icon === "activity" && (
-          <div className="-ml-1 flex w-[20px] h-[20px] bg-[#FCEEEE] items-center justify-center rounded-full">
-            <span className="text-[10px] font-semibold text-red-500">
+          <div className="-ml-1 flex w-[20px] h-[20px] bg-red-400 items-center justify-center rounded-full">
+            <span className="text-[10px] font-semibold text-white">
               {notifications}
             </span>
           </div>
