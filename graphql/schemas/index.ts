@@ -1,6 +1,7 @@
 import { gql } from "apollo-server-micro";
 import { clubSchema } from "./clubSchema";
 import { userSchema } from "./userSchema";
+import { tagSchema } from "./tagSchema";
 
 const linkSchema = gql`
   type Query {
@@ -12,4 +13,4 @@ const linkSchema = gql`
   }
 `;
 
-export const schemas = [linkSchema, userSchema, clubSchema];
+export const schemas = [linkSchema, userSchema, clubSchema, tagSchema];

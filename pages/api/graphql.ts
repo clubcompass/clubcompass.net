@@ -5,8 +5,8 @@ import cors from "micro-cors";
 import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 import { resolvers as generatedResolvers } from "@generated/type-graphql";
-import { schemas } from "../../apollo/schemas";
-import { resolvers } from "../../apollo/resolvers";
+import { schemas } from "../../graphql/schemas";
+import { resolvers } from "../../graphql/resolvers";
 
 export const config = {
   api: {
