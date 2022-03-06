@@ -32,10 +32,10 @@ export const DashboardOwnerOfClubs = () => {
   return (
     <div className="flex flex-col gap-2">
       {isPresidentOf && isPresidentOf.length !== 0 && (
-        <ContentSection label="President of" clubs={isPresidentOf} />
+        <ContentSection label="Owned" clubs={isPresidentOf} />
       )}
       {hasLeadershipIn && hasLeadershipIn.length !== 0 && (
-        <ContentSection label="Leadership position" clubs={hasLeadershipIn} />
+        <ContentSection label="Leader" clubs={hasLeadershipIn} />
       )}
       {/* {hasEditor && hasEditor.length !== 0 && (
         <ContentSection label="Can edit" clubs={hasEditor} />
@@ -47,7 +47,7 @@ export const DashboardOwnerOfClubs = () => {
 const ContentSection = ({ label, clubs }) => {
   return (
     <div className="flex flex-col gap-2 mt-2">
-      <h2 className="text-lg font-semibold">{label}</h2>
+      <h2 className="font-light">{label}</h2>
       <Clubs clubs={clubs} manage />
     </div>
   );

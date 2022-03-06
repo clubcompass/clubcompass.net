@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 import { useAuthContext } from "../../../../context";
 // import { db } from "../../../../lib/database";
-// import { Clubs } from "../../clubs"; //! use club component?
 import { Loading } from "../../../general/Loading";
 export const DashboardDrafts = () => {
   const { user } = useAuthContext();
@@ -23,11 +22,18 @@ export const DashboardDrafts = () => {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-col gap-2 mt-2">
-        <h2 className="text-lg font-semibold">Drafts</h2>
-        <div className="grid grid-cols-3 gap-4">
+        <h2 className="font-light tracking wide">Drafts</h2>
+        <div className="grid grid-cols-cards gap-4">
           {drafts.map((club) => (
             <DraftCard key={club.id} {...club} />
           ))}
+          <Link href="/dashboard/manage/club/new">
+            <a>
+              <div className="h-[58px] w-full flex flex-col justify-center items-center text-cc text-lg bg-white border-[3px] border-dashed border-cc p-6 rounded-xl transition duration-300 ease-in-out">
+                Create club +
+              </div>
+            </a>
+          </Link>
         </div>
       </div>
     </div>
@@ -35,23 +41,21 @@ export const DashboardDrafts = () => {
 };
 
 const DraftCard = ({ name, slug, tags }) => {
+  const partsCompleted = 3;
+  const completed = partsCompleted === 14;
   return (
-    <Link href={`/dashboard/manage/club/${slug}`}>
-      <a>
-        <div className="flex h-[225px] flex-col items-start justify-between rounded-xl border-2 border-[#E6E6E6] px-8 py-4 transition duration-200 hover:border-blue-500">
-          <div>
-            <h2 className="mb-4 text-2xl font-bold">{name}</h2>
-            <ul>
-              {tags.map(({ id, name }) => (
-                <li key={id} className="text-base">
-                  - {name}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <p className="font-medium italic text-cc">{slug}</p>
-        </div>
-      </a>
-    </Link>
+    <div className="flex flex-row justify-between items-center bg-white border-[1px] rounded-lg py-3 px-6">
+      <h4 className="font-bold text-xl leading-tight">{name}</h4>
+      <div className="flex gap-2">
+        <span
+          className={`${
+            completed ? "bg-[#26d46f50]" : "bg-[#ffc42150]"
+          } flex flex-row items-center px-3 rounded-md text-black text-sm`}
+        >
+          {partsCompleted}/14
+        </span>
+        <button className="bg-cc text-white px-8 py-1 rounded-md">Edit</button>
+      </div>
+    </div>
   );
 };
