@@ -16,7 +16,7 @@ export const DashboardNavProfile = () => {
 
   return (
     <div className="flex flex-row justify-center items-center gap-2">
-      <Link href="dashboard/account">
+      <Link href="/dashboard/account">
         <a className="bg-ccGrey hover:bg-ccGreyDark text-sm font-medium text-black inline-flex w-full rounded-md items-center">
           <div className="flex h-10 justify-center text-center items-center rounded-md bg-[#AFC7FF]">
             <p className={`text-[1.1rem] w-[40px]`}>{initials}</p>

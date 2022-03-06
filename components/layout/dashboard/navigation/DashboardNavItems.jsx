@@ -10,6 +10,8 @@ import { RiSettings5Line } from "react-icons/ri";
 
 export const DashboardNavItems = () => {
   const { user } = useAuthContext();
+  const pending = user.invites.filter((invite) => invite.status === "PENDING");
+
   console.log(user);
 
   const roleSpecificItems = {
@@ -70,7 +72,7 @@ export const DashboardNavItems = () => {
   return (
     <div className="mt-16">
       {roleSpecificItems[user.type].map((item, i) => (
-        <DashboardItem key={i} {...item} notifications={user.invites.length} />
+        <DashboardItem key={i} {...item} notifications={pending.length} />
       ))}
     </div>
   );
@@ -84,14 +86,16 @@ const DashboardItem = ({ label, to, icon, notifications }) => {
     <Link href={to}>
       <a
         className={`flex flex-row items-center mb-6 py-2 px-4 mx-6 rounded-md gap-4 ${
-          isActive ? "text-cc bg-[#1C5EF915]" : "text-[#787F92]"
-        }`}
+          isActive
+            ? "text-cc bg-[#1C5EF915]"
+            : "text-[#787F92] hover:bg-[#FAFAFA]"
+        } `}
       >
         <Icon icon={icon} color={isActive ? "#1C5EF9" : "#787F92"} />
         <span>{label}</span>
         {icon === "activity" && (
-          <div className="-ml-1 flex w-[20px] h-[20px] bg-red-500/10 items-center justify-center rounded-full">
-            <span className="text-[8px] font-semibold text-red-500">
+          <div className="-ml-1 flex w-[20px] h-[20px] bg-[#FCEEEE] items-center justify-center rounded-full">
+            <span className="text-[10px] font-semibold text-red-500">
               {notifications}
             </span>
           </div>
