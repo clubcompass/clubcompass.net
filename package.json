@@ -20,8 +20,10 @@
     "axios": "^0.24.0",
     "bcrypt": "^5.0.1",
     "blobs": "^2.2.1-beta.1",
+    "class-validator": "^0.13.2",
     "cookie": "^0.4.1",
     "formik": "^2.2.9",
+    "graphql": "^15.8.0",
     "jsonwebtoken": "^8.5.1",
     "micro-cors": "^0.1.1",
     "next": "^12.0.8",
@@ -34,7 +36,10 @@
     "react-query": "^3.34.8",
     "react-spring": "^9.4.2",
     "redis": "^4.0.2",
+    "reflect-metadata": "^0.1.13",
     "tailwind-scrollbar-hide": "^1.1.7",
+    "type-graphql": "^1.1.1",
+    "typegraphql-prisma": "^0.19.1",
     "yup": "^0.32.11"
   },
   "devDependencies": {

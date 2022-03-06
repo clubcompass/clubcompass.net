@@ -1,8 +1,10 @@
 import { ApolloServer } from "apollo-server-micro";
+import { PrismaClient } from "@prisma/client";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 import cors from "micro-cors";
-import { schemas } from "../../apollo/schemas";
-import { resolvers } from "../../apollo/resolvers";
+import "reflect-metadata";
+import { buildSchema } from "type-graphql";
+import { resolvers } from "@generated/type-graphql";
 
 export const config = {
   api: {
@@ -12,19 +14,27 @@ export const config = {
 
 const Cors = cors();
 
-const server = new ApolloServer({
-  typeDefs: schemas,
-  resolvers,
-  plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
-});
-
-const startServer = server.start();
-
 export default Cors(async (req, res) => {
   if (req.method === "OPTIONS") {
     res.end();
     return false;
   }
+
+  const schema = await buildSchema({
+    resolvers,
+  });
+
+  const server = new ApolloServer({
+    schema,
+    resolvers: resolvers as any,
+    context: (req) => ({
+      ...req,
+      prisma: new PrismaClient(),
+    }),
+    plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
+  });
+
+  const startServer = server.start();
 
   await startServer;
   await server.createHandler({ path: "/api/graphql" })(req, res);
