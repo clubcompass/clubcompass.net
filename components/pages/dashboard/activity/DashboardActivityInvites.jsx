@@ -82,13 +82,13 @@ const Invite = ({ id, userId, clubId, status, club, revalidateInvites }) => {
       <div className="flex flex-row gap-2">
         <button
           onClick={() => handleChoice("accept")}
-          className="bg-[#12b95820] text-[#12b958] hover:bg-[#00800140] py-1 px-4 rounded"
+          className="bg-[#12b95820] text-[#12b958] hover:bg-[#00800125] py-1 px-4 rounded"
         >
           Accept
         </button>
         <button
           onClick={() => handleChoice("decline")}
-          className="bg-[#FF000020] text-[#FF0000] hover:bg-[#FF000040] py-1 px-4 rounded"
+          className="bg-[#FF000020] text-[#FF0000] hover:bg-[#FF000035] py-1 px-4 rounded"
         >
           Decline
         </button>
