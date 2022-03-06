@@ -5,7 +5,7 @@ const Activity = () => {
   const { user } = useAuthContext();
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">Activity</h1>
+      <h1 className="text-2xl mt-4">Your invites</h1>
       <Invites invites={user.invites} />
     </div>
   );

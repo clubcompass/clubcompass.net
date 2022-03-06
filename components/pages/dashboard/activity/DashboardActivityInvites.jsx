@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import Link from "next/link";
 import { db } from "../../../../lib/database";
+import { BsExclamationLg, BsCheckLg, BsXLg } from "react-icons/bs";
+
 export const DashboardActivityInvites = ({ invites }) => {
   const [invitesList, setInvitesList] = useState(invites);
   const revalidateInvites = async () => {
@@ -11,27 +12,42 @@ export const DashboardActivityInvites = ({ invites }) => {
   const pending = invitesList.filter((invite) => invite.status === "PENDING");
   const accepted = invitesList.filter((invite) => invite.status === "ACCEPTED");
   const declined = invitesList.filter((invite) => invite.status === "DECLINED");
-  // PENDING, ACCEPTED, DECLINED
+
   return (
-    <div>
-      <h2 className="text-xl font-bold mb-2">Invites</h2>
-      <h3 className="mb-2 font-semibold">Pending invites</h3>
-      <div className="flex flex-col gap-3">
-        {pending.map((invite, i) => (
-          <Invite key={i} {...invite} revalidateInvites={revalidateInvites} />
-        ))}
+    <div className="flex flex-col gap-4">
+      <div>
+        {!pending.length && (
+          <div className="flex flex-col gap-4 mt-[20vh] items-center align-center">
+            <div className="flex flex-col items-center gap-1">
+              <p className="text-2xl font-bold">
+                You dont have any invites yet
+              </p>
+              <p className="text-lg">Your invites will appear here</p>
+            </div>
+          </div>
+        )}
+        {pending.length !== 0 && <h3 className="mb-2 font-light">Pending</h3>}
+        <div className="flex flex-col gap-3">
+          {pending.map((invite, i) => (
+            <Invite key={i} {...invite} revalidateInvites={revalidateInvites} />
+          ))}
+        </div>
       </div>
-      <h3 className="mb-2 font-semibold">Accepted invites</h3>
-      <div className="flex flex-col gap-3">
-        {accepted.map((invite, i) => (
-          <Invite key={i} {...invite} />
-        ))}
+      <div>
+        {accepted.length !== 0 && <h3 className="mb-2 font-light">Accepted</h3>}
+        <div className="flex flex-col gap-3">
+          {accepted.map((invite, i) => (
+            <Invite key={i} {...invite} />
+          ))}
+        </div>
       </div>
-      <h3 className="mb-2 font-semibold">Declined invites</h3>
-      <div className="flex flex-col gap-3">
-        {declined.map((invite, i) => (
-          <Invite key={i} {...invite} />
-        ))}
+      <div>
+        {declined.length !== 0 && <h3 className="mb-2 font-light">Declined</h3>}
+        <div className="flex flex-col gap-3">
+          {declined.map((invite, i) => (
+            <Invite key={i} {...invite} />
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -39,9 +55,15 @@ export const DashboardActivityInvites = ({ invites }) => {
 
 const Invite = ({ id, userId, clubId, status, club, revalidateInvites }) => {
   const colors = {
-    PENDING: "yellow",
-    ACCEPTED: "green",
-    DECLINED: "red",
+    PENDING: "#F7B402",
+    ACCEPTED: "#12b958",
+    DECLINED: "#FF0000",
+  };
+
+  const icons = {
+    PENDING: <BsExclamationLg />,
+    ACCEPTED: <BsCheckLg />,
+    DECLINED: <BsXLg />,
   };
 
   const ActionButtons = () => {
@@ -55,17 +77,18 @@ const Invite = ({ id, userId, clubId, status, club, revalidateInvites }) => {
         return revalidateInvites();
       }
     };
+
     return (
       <div className="flex flex-row gap-2">
         <button
           onClick={() => handleChoice("accept")}
-          className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded"
+          className="bg-[#12b95820] text-[#12b958] hover:bg-[#00800140] py-1 px-4 rounded"
         >
           Accept
         </button>
         <button
           onClick={() => handleChoice("decline")}
-          className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+          className="bg-[#FF000020] text-[#FF0000] hover:bg-[#FF000040] py-1 px-4 rounded"
         >
           Decline
         </button>
@@ -73,16 +96,42 @@ const Invite = ({ id, userId, clubId, status, club, revalidateInvites }) => {
     );
   };
 
-  return (
-    <div className="flex flex-row items-center gap-2">
-      <span style={{ backgroundColor: colors[status] }} className="px-2 py-1">
-        {status}
+  const Status = () => {
+    return (
+      <span
+        style={{
+          backgroundColor: colors[status] + "20",
+          color: colors[status],
+        }}
+        className="capitalize py-1 w-[177px] shrink-0 text-center rounded-lg text-white"
+      >
+        {status.toLowerCase()}
       </span>
-      <Link href={`/club/${club.slug}`}>
-        <a className="text-blue-500 underline">{club.name}</a>
-      </Link>
+    );
+  };
 
+  return (
+    <div className="flex flex-row w-full px-4 py-2 bg-white rounded-lg border-[1px] px-4 py-2 justify-between items-center gap-4">
+      <div className="flex gap-4 items-center">
+        <span
+          style={{
+            backgroundColor: colors[status] + "20",
+            color: colors[status],
+          }}
+          className="p-2 rounded-lg"
+        >
+          {icons[status]}
+        </span>
+        <div className="flex flex-col">
+          <a className="font-semibold text-xl">{club.name}</a>
+          <p className="text-sm text-gray-400 line-clamp-1">
+            {club?.description}
+          </p>
+        </div>
+      </div>
       {status === "PENDING" && <ActionButtons />}
+      {status === "ACCEPTED" && <Status status={status} />}
+      {status === "DECLINED" && <Status status={status} />}
     </div>
   );
 };
