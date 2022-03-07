@@ -4,9 +4,9 @@ import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-co
 import cors from "micro-cors";
 import "reflect-metadata";
 import { buildSchema } from "type-graphql";
-import { resolvers as generatedResolvers } from "@generated/type-graphql";
+import { resolvers } from "@generated/type-graphql";
 import { schemas } from "../../graphql/schemas";
-import { resolvers } from "../../graphql/resolvers";
+import { resolvers as customResolvers } from "../../graphql/resolvers";
 
 export const config = {
   api: {
@@ -23,12 +23,13 @@ export default Cors(async (req, res) => {
   }
 
   const generatedSchema = await buildSchema({
-    resolvers: generatedResolvers,
+    resolvers: [...resolvers, ...(customResolvers as any)],
   });
 
   const server = new ApolloServer({
-    typeDefs: [generatedSchema, schemas],
-    resolvers: [generatedResolvers as any, resolvers],
+    // typeDefs: schemas,
+    // resolvers: customResolvers as any,
+    schema: generatedSchema,
     context: (req) => ({
       ...req,
       prisma: new PrismaClient(),
