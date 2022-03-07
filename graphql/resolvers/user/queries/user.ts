@@ -1,13 +1,8 @@
-import { PrismaClient } from "@prisma/client";
-type GetUserInput = {
-  id?: number;
-  ccid?: string;
-  email?: string;
-};
+import { Prisma, PrismaClient } from "@prisma/client";
 
 export const user = async (
   _parent: any,
-  q: GetUserInput,
+  q: Prisma.UserWhereUniqueInput,
   { prisma }: { prisma: PrismaClient }
 ): Promise<typeof user> => {
   const user = await prisma.user.findUnique({

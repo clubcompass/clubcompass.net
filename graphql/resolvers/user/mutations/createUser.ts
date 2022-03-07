@@ -15,11 +15,10 @@ type CreateUserInput = {
 };
 
 export const createUser = async (
-  _: any,
+  _parent: any,
   { user: { interests, ...rest } }: CreateUserInput,
   { prisma }: { prisma: PrismaClient }
 ): Promise<typeof user> => {
-  console.log(interests);
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const nanoid = customAlphabet(alphabet, 6);
 

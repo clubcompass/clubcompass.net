@@ -1,11 +1,11 @@
 import { ApolloServer } from "apollo-server-micro";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 import cors from "micro-cors";
-import { resolvers, createContext } from "../../graphql";
 import { loadSchema } from "@graphql-tools/load";
 import { addResolversToSchema } from "@graphql-tools/schema";
 import { GraphQLFileLoader } from "@graphql-tools/graphql-file-loader";
 import { mergeResolvers } from "@graphql-tools/merge";
+import { resolvers, createContext } from "../../graphql";
 
 const Cors = cors();
 
