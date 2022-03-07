@@ -7,9 +7,13 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
-generator typegraphql {
-  provider = "typegraphql-prisma"
+
+generator graphql {
+  provider = "graphql-schema-generator"
+  createCRUD = "false"
+  output = "../graphql/schemas"
 }
+
 
 model Club {
   id              Int                  @id @default(autoincrement())

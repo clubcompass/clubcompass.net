@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",
+    "@graphql-tools/graphql-file-loader": "^7.3.4",
+    "@graphql-tools/load": "^7.5.2",
     "@headlessui/react": "^1.4.3",
+    "@prisma-korea/graphql-schema-generator": "^0.3.0",
     "@prisma/client": "^3.8.1",
-    "@supabase/supabase-js": "^1.29.2",
     "@tailwindcss/line-clamp": "^0.3.1",
     "@tailwindcss/typography": "^0.5.0",
     "algoliasearch": "^4.12.0",
@@ -26,6 +28,7 @@
     "formik": "^2.2.9",
     "graphql": "^15.8.0",
     "graphql-request": "^4.0.0",
+    "graphql-tools": "^8.2.0",
     "jsonwebtoken": "^8.5.1",
     "micro-cors": "^0.1.1",
     "nanoid": "^3.3.1",
@@ -39,10 +42,7 @@
     "react-query": "^3.34.8",
     "react-spring": "^9.4.2",
     "redis": "^4.0.2",
-    "reflect-metadata": "^0.1.13",
     "tailwind-scrollbar-hide": "^1.1.7",
-    "type-graphql": "^1.1.1",
-    "typegraphql-prisma": "^0.19.1",
     "yup": "^0.32.11"
   },
   "devDependencies": {

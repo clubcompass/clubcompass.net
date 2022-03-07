@@ -1,0 +1,26 @@
+# import User from "schema.graphql"
+# import Tag from "schema.graphql"
+
+type Mutation {
+  createUser(user: UserCreateInput): User
+}
+
+type Query {
+  user(id: Int, ccid: String, email: String): User!
+}
+
+input UserCreateInput {
+  firstname: String!
+  lastname: String!
+  email: String!
+  emailVerified: Boolean!
+  password: String!
+  grade: String!
+  type: String!
+  interests: [Interests!]
+}
+
+input Interests {
+  id: Int
+  name: String
+}

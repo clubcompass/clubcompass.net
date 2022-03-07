@@ -1,18 +1,11 @@
 import { ApolloServer } from "apollo-server-micro";
-import { PrismaClient } from "@prisma/client";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 import cors from "micro-cors";
-import "reflect-metadata";
-import { buildSchema } from "type-graphql";
-import { resolvers } from "@generated/type-graphql";
-import { schemas } from "../../graphql/schemas";
-import { resolvers as customResolvers } from "../../graphql/resolvers";
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+import { resolvers, createContext } from "../../graphql";
+import { loadSchema } from "@graphql-tools/load";
+import { addResolversToSchema } from "@graphql-tools/schema";
+import { GraphQLFileLoader } from "@graphql-tools/graphql-file-loader";
+import { mergeResolvers } from "@graphql-tools/merge";
 
 const Cors = cors();
 
@@ -22,23 +15,28 @@ export default Cors(async (req, res) => {
     return false;
   }
 
-  const generatedSchema = await buildSchema({
-    resolvers: [...resolvers, ...(customResolvers as any)],
+  const schema = await loadSchema("graphql/schemas/*.graphql", {
+    loaders: [new GraphQLFileLoader()],
+  });
+
+  const schemaWithResolvers = addResolversToSchema({
+    schema,
+    resolvers: mergeResolvers(resolvers),
   });
 
   const server = new ApolloServer({
-    // typeDefs: schemas,
-    // resolvers: customResolvers as any,
-    schema: generatedSchema,
-    context: (req) => ({
-      ...req,
-      prisma: new PrismaClient(),
-    }),
+    schema: schemaWithResolvers,
+    context: createContext,
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
   });
 
-  const startServer = server.start();
+  await server.start();
 
-  await startServer;
   await server.createHandler({ path: "/api/graphql" })(req, res);
 });
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};

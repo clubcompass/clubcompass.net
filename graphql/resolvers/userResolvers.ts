@@ -1,5 +1,7 @@
-import { createCustomUser } from "./user";
+import { createUser } from "./user/mutations";
+import { user } from "./user/queries";
 
 export const userResolvers = {
-  Mutation: { createCustomUser },
+  Query: { user },
+  Mutation: { createUser },
 };
