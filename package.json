@@ -14,6 +14,7 @@
     "@graphql-tools/graphql-file-loader": "^7.3.4",
     "@graphql-tools/load": "^7.5.2",
     "@headlessui/react": "^1.4.3",
+    "@paljs/plugins": "^4.0.16",
     "@prisma-korea/graphql-schema-generator": "^0.3.0",
     "@prisma/client": "^3.8.1",
     "@tailwindcss/line-clamp": "^0.3.1",

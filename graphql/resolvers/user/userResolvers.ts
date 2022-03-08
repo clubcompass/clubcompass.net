@@ -1,7 +1,11 @@
-import { createUser } from "./mutations";
-import { user } from "./queries";
+import { createUser, deleteUser } from "./mutations";
+import { user, students, teachers } from "./queries";
+import { club, clubs } from "../club/queries";
 
 export const userResolvers = {
-  Query: { user },
-  Mutation: { createUser },
+  Query: { user, students, teachers },
+  Mutation: { createUser, deleteUser },
+  // User: {
+  //   clubs,
+  // },
 };

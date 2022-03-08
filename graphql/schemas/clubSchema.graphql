@@ -1,0 +1,11 @@
+# import Club from "schema.graphql"
+
+# type Mutation {
+#   createUser(user: UserCreateInput): User
+#   deleteUser(id: Int!): User!
+# }
+
+type Query {
+  club(id: Int, name: String, slug: String): Club!
+  clubs(approved: Boolean!): [Club!]!
+}

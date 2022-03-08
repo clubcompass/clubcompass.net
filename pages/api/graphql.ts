@@ -18,7 +18,6 @@ export default Cors(async (req, res) => {
   const schema = await loadSchema("graphql/schemas/*.graphql", {
     loaders: [new GraphQLFileLoader()],
   });
-
   const schemaWithResolvers = addResolversToSchema({
     schema,
     resolvers: mergeResolvers(resolvers),

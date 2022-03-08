@@ -3,10 +3,13 @@
 
 type Mutation {
   createUser(user: UserCreateInput): User
+  deleteUser(id: Int!): User!
 }
 
 type Query {
   user(id: Int, ccid: String, email: String): User!
+  students: [User!]!
+  teachers: [User!]!
 }
 
 input UserCreateInput {
