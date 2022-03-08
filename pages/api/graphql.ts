@@ -1,13 +1,35 @@
 import { ApolloServer } from "apollo-server-micro";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 import cors from "micro-cors";
-import { loadSchema } from "@graphql-tools/load";
-import { addResolversToSchema } from "@graphql-tools/schema";
-import { GraphQLFileLoader } from "@graphql-tools/graphql-file-loader";
-import { mergeResolvers } from "@graphql-tools/merge";
-import { resolvers, createContext } from "../../graphql";
+import { makeExecutableSchema } from "graphql-tools";
+import { applyMiddleware } from "graphql-middleware";
+import { GraphQLResolveInfo, GraphQLSchema } from "graphql";
+import { createContext, Context } from "../../server/graphql/ctx";
+import { resolvers, typeDefs } from "../../server/graphql";
+import { PrismaSelect } from "@paljs/plugins";
 
 const Cors = cors();
+
+let schema: GraphQLSchema = makeExecutableSchema({ typeDefs, resolvers });
+
+const middleware = async (
+  resolve: any,
+  root: unknown,
+  args: { [key: string]: unknown },
+  context: Context,
+  info: GraphQLResolveInfo
+) => {
+  const result = new PrismaSelect(info).value;
+  if (Object.keys(result.select).length > 0) {
+    args = {
+      ...args,
+      ...result,
+    };
+  }
+  return resolve(root, args, context, info);
+};
+
+schema = applyMiddleware(schema, middleware);
 
 export default Cors(async (req, res) => {
   if (req.method === "OPTIONS") {
@@ -15,16 +37,8 @@ export default Cors(async (req, res) => {
     return false;
   }
 
-  const schema = await loadSchema("graphql/schemas/*.graphql", {
-    loaders: [new GraphQLFileLoader()],
-  });
-  const schemaWithResolvers = addResolversToSchema({
-    schema,
-    resolvers: mergeResolvers(resolvers),
-  });
-
   const server = new ApolloServer({
-    schema: schemaWithResolvers,
+    schema,
     context: createContext,
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
   });

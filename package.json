@@ -11,8 +11,6 @@
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",
-    "@graphql-tools/graphql-file-loader": "^7.3.4",
-    "@graphql-tools/load": "^7.5.2",
     "@headlessui/react": "^1.4.3",
     "@paljs/plugins": "^4.0.16",
     "@prisma-korea/graphql-schema-generator": "^0.3.0",
@@ -28,6 +26,7 @@
     "cookie": "^0.4.1",
     "formik": "^2.2.9",
     "graphql": "^15.8.0",
+    "graphql-middleware": "^6.1.15",
     "graphql-request": "^4.0.0",
     "graphql-tools": "^8.2.0",
     "jsonwebtoken": "^8.5.1",

@@ -1,0 +1,72 @@
+fragment LinkFields on Link {
+  id
+  clubId
+  name
+  link
+  type
+}
+
+fragment Link on Link {
+  ...LinkFields
+  club {
+    ...ClubFields
+  }
+}
+
+query findUniqueLink($where: LinkWhereUniqueInput!) {
+  findUniqueLink(where: $where) {
+    ...Link
+  }
+}
+
+query findManyLink(
+  $where: LinkWhereInput
+  $orderBy: [LinkOrderByWithRelationInput!]
+  $cursor: LinkWhereUniqueInput
+  $skip: Int
+  $take: Int
+) {
+  findManyLink(where: $where, orderBy: $orderBy, cursor: $cursor, skip: $skip, take: $take) {
+    ...Link
+  }
+}
+
+query findManyLinkCount(
+  $where: LinkWhereInput
+  $orderBy: [LinkOrderByWithRelationInput!]
+  $cursor: LinkWhereUniqueInput
+  $skip: Int
+  $take: Int
+) {
+  findManyLinkCount(where: $where, orderBy: $orderBy, cursor: $cursor, skip: $skip, take: $take)
+}
+
+mutation createOneLink($data: LinkCreateInput!) {
+  createOneLink(data: $data) {
+    ...Link
+  }
+}
+
+mutation updateOneLink($where: LinkWhereUniqueInput!, $data: LinkUpdateInput!) {
+  updateOneLink(where: $where, data: $data) {
+    ...Link
+  }
+}
+
+mutation deleteOneLink($where: LinkWhereUniqueInput!) {
+  deleteOneLink(where: $where) {
+    ...Link
+  }
+}
+
+mutation deleteManyLink($where: LinkWhereInput) {
+  deleteManyLink(where: $where) {
+    count
+  }
+}
+
+mutation updateManyLink($where: LinkWhereInput, $data: LinkUpdateManyMutationInput!) {
+  updateManyLink(where: $where, data: $data) {
+    count
+  }
+}

@@ -1,0 +1,5459 @@
+scalar DateTime
+
+type BatchPayload {
+  count: Int!
+}
+
+enum ClubScalarFieldEnum {
+  id
+  name
+  slug
+  description
+  email
+  meetingDate
+  location
+  approval
+  status
+  availability
+}
+
+enum LinkScalarFieldEnum {
+  id
+  clubId
+  name
+  link
+  type
+}
+
+enum ClubApplicationInfoScalarFieldEnum {
+  id
+  userId
+  clubId
+  purpose
+  membershipRequirements
+  dutiesOfMembers
+  titlesAndDutiesOfOfficers
+  selectionOfOfficers
+  officerMinimumGPA
+  percentAttendanceForOfficialMeeting
+  percentAttendanceToApproveDecision
+}
+
+enum TagScalarFieldEnum {
+  id
+  name
+}
+
+enum UserScalarFieldEnum {
+  id
+  ccid
+  firstname
+  lastname
+  email
+  emailVerified
+  password
+  grade
+  type
+}
+
+enum InviteScalarFieldEnum {
+  id
+  status
+  clubId
+  userId
+}
+
+enum RoleScalarFieldEnum {
+  id
+  name
+  color
+  description
+  clubId
+  type
+}
+
+enum ProjectedRevenueScalarFieldEnum {
+  id
+  clubId
+  name
+  amount
+  date
+}
+
+enum ProjectedExpensesScalarFieldEnum {
+  id
+  clubId
+  name
+  amount
+  date
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+input ClubWhereInput {
+  AND: [ClubWhereInput!]
+  OR: [ClubWhereInput!]
+  NOT: [ClubWhereInput!]
+  id: IntFilter
+  name: StringNullableFilter
+  slug: StringNullableFilter
+  description: StringNullableFilter
+  email: StringNullableFilter
+  meetingDate: StringNullableFilter
+  location: StringNullableFilter
+  approval: StringNullableFilter
+  status: StringNullableFilter
+  availability: StringNullableFilter
+  links: LinkListRelationFilter
+  applicationInfo: ClubApplicationInfoWhereInput
+  tags: TagListRelationFilter
+  members: UserListRelationFilter
+  editors: UserListRelationFilter
+  roles: RoleListRelationFilter
+  invites: InviteListRelationFilter
+}
+
+input ClubOrderByWithRelationInput {
+  id: SortOrder
+  name: SortOrder
+  slug: SortOrder
+  description: SortOrder
+  email: SortOrder
+  meetingDate: SortOrder
+  location: SortOrder
+  approval: SortOrder
+  status: SortOrder
+  availability: SortOrder
+  links: LinkOrderByRelationAggregateInput
+  applicationInfo: ClubApplicationInfoOrderByWithRelationInput
+  tags: TagOrderByRelationAggregateInput
+  members: UserOrderByRelationAggregateInput
+  editors: UserOrderByRelationAggregateInput
+  roles: RoleOrderByRelationAggregateInput
+  invites: InviteOrderByRelationAggregateInput
+}
+
+input ClubWhereUniqueInput {
+  id: Int
+  name: String
+  slug: String
+}
+
+input ClubOrderByWithAggregationInput {
+  id: SortOrder
+  name: SortOrder
+  slug: SortOrder
+  description: SortOrder
+  email: SortOrder
+  meetingDate: SortOrder
+  location: SortOrder
+  approval: SortOrder
+  status: SortOrder
+  availability: SortOrder
+  _count: ClubCountOrderByAggregateInput
+  _avg: ClubAvgOrderByAggregateInput
+  _max: ClubMaxOrderByAggregateInput
+  _min: ClubMinOrderByAggregateInput
+  _sum: ClubSumOrderByAggregateInput
+}
+
+input ClubScalarWhereWithAggregatesInput {
+  AND: [ClubScalarWhereWithAggregatesInput!]
+  OR: [ClubScalarWhereWithAggregatesInput!]
+  NOT: [ClubScalarWhereWithAggregatesInput!]
+  id: IntWithAggregatesFilter
+  name: StringNullableWithAggregatesFilter
+  slug: StringNullableWithAggregatesFilter
+  description: StringNullableWithAggregatesFilter
+  email: StringNullableWithAggregatesFilter
+  meetingDate: StringNullableWithAggregatesFilter
+  location: StringNullableWithAggregatesFilter
+  approval: StringNullableWithAggregatesFilter
+  status: StringNullableWithAggregatesFilter
+  availability: StringNullableWithAggregatesFilter
+}
+
+input LinkWhereInput {
+  AND: [LinkWhereInput!]
+  OR: [LinkWhereInput!]
+  NOT: [LinkWhereInput!]
+  id: IntFilter
+  club: ClubWhereInput
+  clubId: IntFilter
+  name: StringNullableFilter
+  link: StringFilter
+  type: StringFilter
+}
+
+input LinkOrderByWithRelationInput {
+  id: SortOrder
+  club: ClubOrderByWithRelationInput
+  clubId: SortOrder
+  name: SortOrder
+  link: SortOrder
+  type: SortOrder
+}
+
+input LinkWhereUniqueInput {
+  id: Int
+}
+
+input LinkOrderByWithAggregationInput {
+  id: SortOrder
+  clubId: SortOrder
+  name: SortOrder
+  link: SortOrder
+  type: SortOrder
+  _count: LinkCountOrderByAggregateInput
+  _avg: LinkAvgOrderByAggregateInput
+  _max: LinkMaxOrderByAggregateInput
+  _min: LinkMinOrderByAggregateInput
+  _sum: LinkSumOrderByAggregateInput
+}
+
+input LinkScalarWhereWithAggregatesInput {
+  AND: [LinkScalarWhereWithAggregatesInput!]
+  OR: [LinkScalarWhereWithAggregatesInput!]
+  NOT: [LinkScalarWhereWithAggregatesInput!]
+  id: IntWithAggregatesFilter
+  clubId: IntWithAggregatesFilter
+  name: StringNullableWithAggregatesFilter
+  link: StringWithAggregatesFilter
+  type: StringWithAggregatesFilter
+}
+
+input ClubApplicationInfoWhereInput {
+  AND: [ClubApplicationInfoWhereInput!]
+  OR: [ClubApplicationInfoWhereInput!]
+  NOT: [ClubApplicationInfoWhereInput!]
+  id: IntFilter
+  teacher: UserWhereInput
+  userId: IntFilter
+  club: ClubWhereInput
+  clubId: IntFilter
+  projectedRevenue: ProjectedRevenueListRelationFilter
+  projectedExpenses: ProjectedExpensesListRelationFilter
+  purpose: StringFilter
+  membershipRequirements: StringFilter
+  dutiesOfMembers: StringFilter
+  titlesAndDutiesOfOfficers: StringFilter
+  selectionOfOfficers: StringFilter
+  officerMinimumGPA: FloatFilter
+  percentAttendanceForOfficialMeeting: IntFilter
+  percentAttendanceToApproveDecision: IntFilter
+}
+
+input ClubApplicationInfoOrderByWithRelationInput {
+  id: SortOrder
+  teacher: UserOrderByWithRelationInput
+  userId: SortOrder
+  club: ClubOrderByWithRelationInput
+  clubId: SortOrder
+  projectedRevenue: ProjectedRevenueOrderByRelationAggregateInput
+  projectedExpenses: ProjectedExpensesOrderByRelationAggregateInput
+  purpose: SortOrder
+  membershipRequirements: SortOrder
+  dutiesOfMembers: SortOrder
+  titlesAndDutiesOfOfficers: SortOrder
+  selectionOfOfficers: SortOrder
+  officerMinimumGPA: SortOrder
+  percentAttendanceForOfficialMeeting: SortOrder
+  percentAttendanceToApproveDecision: SortOrder
+}
+
+input ClubApplicationInfoWhereUniqueInput {
+  id: Int
+  clubId: Int
+}
+
+input ClubApplicationInfoOrderByWithAggregationInput {
+  id: SortOrder
+  userId: SortOrder
+  clubId: SortOrder
+  purpose: SortOrder
+  membershipRequirements: SortOrder
+  dutiesOfMembers: SortOrder
+  titlesAndDutiesOfOfficers: SortOrder
+  selectionOfOfficers: SortOrder
+  officerMinimumGPA: SortOrder
+  percentAttendanceForOfficialMeeting: SortOrder
+  percentAttendanceToApproveDecision: SortOrder
+  _count: ClubApplicationInfoCountOrderByAggregateInput
+  _avg: ClubApplicationInfoAvgOrderByAggregateInput
+  _max: ClubApplicationInfoMaxOrderByAggregateInput
+  _min: ClubApplicationInfoMinOrderByAggregateInput
+  _sum: ClubApplicationInfoSumOrderByAggregateInput
+}
+
+input ClubApplicationInfoScalarWhereWithAggregatesInput {
+  AND: [ClubApplicationInfoScalarWhereWithAggregatesInput!]
+  OR: [ClubApplicationInfoScalarWhereWithAggregatesInput!]
+  NOT: [ClubApplicationInfoScalarWhereWithAggregatesInput!]
+  id: IntWithAggregatesFilter
+  userId: IntWithAggregatesFilter
+  clubId: IntWithAggregatesFilter
+  purpose: StringWithAggregatesFilter
+  membershipRequirements: StringWithAggregatesFilter
+  dutiesOfMembers: StringWithAggregatesFilter
+  titlesAndDutiesOfOfficers: StringWithAggregatesFilter
+  selectionOfOfficers: StringWithAggregatesFilter
+  officerMinimumGPA: FloatWithAggregatesFilter
+  percentAttendanceForOfficialMeeting: IntWithAggregatesFilter
+  percentAttendanceToApproveDecision: IntWithAggregatesFilter
+}
+
+input TagWhereInput {
+  AND: [TagWhereInput!]
+  OR: [TagWhereInput!]
+  NOT: [TagWhereInput!]
+  id: IntFilter
+  name: StringFilter
+  clubs: ClubListRelationFilter
+  interestedUsers: UserListRelationFilter
+}
+
+input TagOrderByWithRelationInput {
+  id: SortOrder
+  name: SortOrder
+  clubs: ClubOrderByRelationAggregateInput
+  interestedUsers: UserOrderByRelationAggregateInput
+}
+
+input TagWhereUniqueInput {
+  id: Int
+  name: String
+}
+
+input TagOrderByWithAggregationInput {
+  id: SortOrder
+  name: SortOrder
+  _count: TagCountOrderByAggregateInput
+  _avg: TagAvgOrderByAggregateInput
+  _max: TagMaxOrderByAggregateInput
+  _min: TagMinOrderByAggregateInput
+  _sum: TagSumOrderByAggregateInput
+}
+
+input TagScalarWhereWithAggregatesInput {
+  AND: [TagScalarWhereWithAggregatesInput!]
+  OR: [TagScalarWhereWithAggregatesInput!]
+  NOT: [TagScalarWhereWithAggregatesInput!]
+  id: IntWithAggregatesFilter
+  name: StringWithAggregatesFilter
+}
+
+input UserWhereInput {
+  AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+  id: IntFilter
+  ccid: StringFilter
+  firstname: StringFilter
+  lastname: StringFilter
+  email: StringFilter
+  emailVerified: BoolFilter
+  password: StringFilter
+  grade: StringFilter
+  type: StringFilter
+  interests: TagListRelationFilter
+  clubs: ClubListRelationFilter
+  canEdit: ClubListRelationFilter
+  advisor: ClubApplicationInfoListRelationFilter
+  roles: RoleListRelationFilter
+  invites: InviteListRelationFilter
+}
+
+input UserOrderByWithRelationInput {
+  id: SortOrder
+  ccid: SortOrder
+  firstname: SortOrder
+  lastname: SortOrder
+  email: SortOrder
+  emailVerified: SortOrder
+  password: SortOrder
+  grade: SortOrder
+  type: SortOrder
+  interests: TagOrderByRelationAggregateInput
+  clubs: ClubOrderByRelationAggregateInput
+  canEdit: ClubOrderByRelationAggregateInput
+  advisor: ClubApplicationInfoOrderByRelationAggregateInput
+  roles: RoleOrderByRelationAggregateInput
+  invites: InviteOrderByRelationAggregateInput
+}
+
+input UserWhereUniqueInput {
+  id: Int
+  ccid: String
+  email: String
+}
+
+input UserOrderByWithAggregationInput {
+  id: SortOrder
+  ccid: SortOrder
+  firstname: SortOrder
+  lastname: SortOrder
+  email: SortOrder
+  emailVerified: SortOrder
+  password: SortOrder
+  grade: SortOrder
+  type: SortOrder
+  _count: UserCountOrderByAggregateInput
+  _avg: UserAvgOrderByAggregateInput
+  _max: UserMaxOrderByAggregateInput
+  _min: UserMinOrderByAggregateInput
+  _sum: UserSumOrderByAggregateInput
+}
+
+input UserScalarWhereWithAggregatesInput {
+  AND: [UserScalarWhereWithAggregatesInput!]
+  OR: [UserScalarWhereWithAggregatesInput!]
+  NOT: [UserScalarWhereWithAggregatesInput!]
+  id: IntWithAggregatesFilter
+  ccid: StringWithAggregatesFilter
+  firstname: StringWithAggregatesFilter
+  lastname: StringWithAggregatesFilter
+  email: StringWithAggregatesFilter
+  emailVerified: BoolWithAggregatesFilter
+  password: StringWithAggregatesFilter
+  grade: StringWithAggregatesFilter
+  type: StringWithAggregatesFilter
+}
+
+input InviteWhereInput {
+  AND: [InviteWhereInput!]
+  OR: [InviteWhereInput!]
+  NOT: [InviteWhereInput!]
+  id: IntFilter
+  status: StringFilter
+  club: ClubWhereInput
+  clubId: IntFilter
+  user: UserWhereInput
+  userId: IntFilter
+}
+
+input InviteOrderByWithRelationInput {
+  id: SortOrder
+  status: SortOrder
+  club: ClubOrderByWithRelationInput
+  clubId: SortOrder
+  user: UserOrderByWithRelationInput
+  userId: SortOrder
+}
+
+input InviteWhereUniqueInput {
+  id: Int
+}
+
+input InviteOrderByWithAggregationInput {
+  id: SortOrder
+  status: SortOrder
+  clubId: SortOrder
+  userId: SortOrder
+  _count: InviteCountOrderByAggregateInput
+  _avg: InviteAvgOrderByAggregateInput
+  _max: InviteMaxOrderByAggregateInput
+  _min: InviteMinOrderByAggregateInput
+  _sum: InviteSumOrderByAggregateInput
+}
+
+input InviteScalarWhereWithAggregatesInput {
+  AND: [InviteScalarWhereWithAggregatesInput!]
+  OR: [InviteScalarWhereWithAggregatesInput!]
+  NOT: [InviteScalarWhereWithAggregatesInput!]
+  id: IntWithAggregatesFilter
+  status: StringWithAggregatesFilter
+  clubId: IntWithAggregatesFilter
+  userId: IntWithAggregatesFilter
+}
+
+input RoleWhereInput {
+  AND: [RoleWhereInput!]
+  OR: [RoleWhereInput!]
+  NOT: [RoleWhereInput!]
+  id: IntFilter
+  name: StringFilter
+  color: StringFilter
+  description: StringFilter
+  users: UserListRelationFilter
+  club: ClubWhereInput
+  clubId: IntFilter
+  type: StringFilter
+}
+
+input RoleOrderByWithRelationInput {
+  id: SortOrder
+  name: SortOrder
+  color: SortOrder
+  description: SortOrder
+  users: UserOrderByRelationAggregateInput
+  club: ClubOrderByWithRelationInput
+  clubId: SortOrder
+  type: SortOrder
+}
+
+input RoleWhereUniqueInput {
+  id: Int
+}
+
+input RoleOrderByWithAggregationInput {
+  id: SortOrder
+  name: SortOrder
+  color: SortOrder
+  description: SortOrder
+  clubId: SortOrder
+  type: SortOrder
+  _count: RoleCountOrderByAggregateInput
+  _avg: RoleAvgOrderByAggregateInput
+  _max: RoleMaxOrderByAggregateInput
+  _min: RoleMinOrderByAggregateInput
+  _sum: RoleSumOrderByAggregateInput
+}
+
+input RoleScalarWhereWithAggregatesInput {
+  AND: [RoleScalarWhereWithAggregatesInput!]
+  OR: [RoleScalarWhereWithAggregatesInput!]
+  NOT: [RoleScalarWhereWithAggregatesInput!]
+  id: IntWithAggregatesFilter
+  name: StringWithAggregatesFilter
+  color: StringWithAggregatesFilter
+  description: StringWithAggregatesFilter
+  clubId: IntWithAggregatesFilter
+  type: StringWithAggregatesFilter
+}
+
+input ProjectedRevenueWhereInput {
+  AND: [ProjectedRevenueWhereInput!]
+  OR: [ProjectedRevenueWhereInput!]
+  NOT: [ProjectedRevenueWhereInput!]
+  id: IntFilter
+  club: ClubApplicationInfoWhereInput
+  clubId: IntFilter
+  name: StringFilter
+  amount: FloatFilter
+  date: StringFilter
+}
+
+input ProjectedRevenueOrderByWithRelationInput {
+  id: SortOrder
+  club: ClubApplicationInfoOrderByWithRelationInput
+  clubId: SortOrder
+  name: SortOrder
+  amount: SortOrder
+  date: SortOrder
+}
+
+input ProjectedRevenueWhereUniqueInput {
+  id: Int
+}
+
+input ProjectedRevenueOrderByWithAggregationInput {
+  id: SortOrder
+  clubId: SortOrder
+  name: SortOrder
+  amount: SortOrder
+  date: SortOrder
+  _count: ProjectedRevenueCountOrderByAggregateInput
+  _avg: ProjectedRevenueAvgOrderByAggregateInput
+  _max: ProjectedRevenueMaxOrderByAggregateInput
+  _min: ProjectedRevenueMinOrderByAggregateInput
+  _sum: ProjectedRevenueSumOrderByAggregateInput
+}
+
+input ProjectedRevenueScalarWhereWithAggregatesInput {
+  AND: [ProjectedRevenueScalarWhereWithAggregatesInput!]
+  OR: [ProjectedRevenueScalarWhereWithAggregatesInput!]
+  NOT: [ProjectedRevenueScalarWhereWithAggregatesInput!]
+  id: IntWithAggregatesFilter
+  clubId: IntWithAggregatesFilter
+  name: StringWithAggregatesFilter
+  amount: FloatWithAggregatesFilter
+  date: StringWithAggregatesFilter
+}
+
+input ProjectedExpensesWhereInput {
+  AND: [ProjectedExpensesWhereInput!]
+  OR: [ProjectedExpensesWhereInput!]
+  NOT: [ProjectedExpensesWhereInput!]
+  id: IntFilter
+  club: ClubApplicationInfoWhereInput
+  clubId: IntFilter
+  name: StringFilter
+  amount: FloatFilter
+  date: StringFilter
+}
+
+input ProjectedExpensesOrderByWithRelationInput {
+  id: SortOrder
+  club: ClubApplicationInfoOrderByWithRelationInput
+  clubId: SortOrder
+  name: SortOrder
+  amount: SortOrder
+  date: SortOrder
+}
+
+input ProjectedExpensesWhereUniqueInput {
+  id: Int
+}
+
+input ProjectedExpensesOrderByWithAggregationInput {
+  id: SortOrder
+  clubId: SortOrder
+  name: SortOrder
+  amount: SortOrder
+  date: SortOrder
+  _count: ProjectedExpensesCountOrderByAggregateInput
+  _avg: ProjectedExpensesAvgOrderByAggregateInput
+  _max: ProjectedExpensesMaxOrderByAggregateInput
+  _min: ProjectedExpensesMinOrderByAggregateInput
+  _sum: ProjectedExpensesSumOrderByAggregateInput
+}
+
+input ProjectedExpensesScalarWhereWithAggregatesInput {
+  AND: [ProjectedExpensesScalarWhereWithAggregatesInput!]
+  OR: [ProjectedExpensesScalarWhereWithAggregatesInput!]
+  NOT: [ProjectedExpensesScalarWhereWithAggregatesInput!]
+  id: IntWithAggregatesFilter
+  clubId: IntWithAggregatesFilter
+  name: StringWithAggregatesFilter
+  amount: FloatWithAggregatesFilter
+  date: StringWithAggregatesFilter
+}
+
+input ClubCreateInput {
+  name: String
+  slug: String
+  description: String
+  email: String
+  meetingDate: String
+  location: String
+  approval: String
+  status: String
+  availability: String
+  links: LinkCreateNestedManyWithoutClubInput
+  applicationInfo: ClubApplicationInfoCreateNestedOneWithoutClubInput
+  tags: TagCreateNestedManyWithoutClubsInput
+  members: UserCreateNestedManyWithoutClubsInput
+  editors: UserCreateNestedManyWithoutCanEditInput
+  roles: RoleCreateNestedManyWithoutClubInput
+  invites: InviteCreateNestedManyWithoutClubInput
+}
+
+input ClubUncheckedCreateInput {
+  id: Int
+  name: String
+  slug: String
+  description: String
+  email: String
+  meetingDate: String
+  location: String
+  approval: String
+  status: String
+  availability: String
+  links: LinkUncheckedCreateNestedManyWithoutClubInput
+  applicationInfo: ClubApplicationInfoUncheckedCreateNestedOneWithoutClubInput
+  tags: TagUncheckedCreateNestedManyWithoutClubsInput
+  members: UserUncheckedCreateNestedManyWithoutClubsInput
+  editors: UserUncheckedCreateNestedManyWithoutCanEditInput
+  roles: RoleUncheckedCreateNestedManyWithoutClubInput
+  invites: InviteUncheckedCreateNestedManyWithoutClubInput
+}
+
+input ClubUpdateInput {
+  name: NullableStringFieldUpdateOperationsInput
+  slug: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  email: NullableStringFieldUpdateOperationsInput
+  meetingDate: NullableStringFieldUpdateOperationsInput
+  location: NullableStringFieldUpdateOperationsInput
+  approval: NullableStringFieldUpdateOperationsInput
+  status: NullableStringFieldUpdateOperationsInput
+  availability: NullableStringFieldUpdateOperationsInput
+  links: LinkUpdateManyWithoutClubInput
+  applicationInfo: ClubApplicationInfoUpdateOneWithoutClubInput
+  tags: TagUpdateManyWithoutClubsInput
+  members: UserUpdateManyWithoutClubsInput
+  editors: UserUpdateManyWithoutCanEditInput
+  roles: RoleUpdateManyWithoutClubInput
+  invites: InviteUpdateManyWithoutClubInput
+}
+
+input ClubUncheckedUpdateInput {
+  id: IntFieldUpdateOperationsInput
+  name: NullableStringFieldUpdateOperationsInput
+  slug: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  email: NullableStringFieldUpdateOperationsInput
+  meetingDate: NullableStringFieldUpdateOperationsInput
+  location: NullableStringFieldUpdateOperationsInput
+  approval: NullableStringFieldUpdateOperationsInput
+  status: NullableStringFieldUpdateOperationsInput
+  availability: NullableStringFieldUpdateOperationsInput
+  links: LinkUncheckedUpdateManyWithoutClubInput
+  applicationInfo: ClubApplicationInfoUncheckedUpdateOneWithoutClubInput
+  tags: TagUncheckedUpdateManyWithoutClubsInput
+  members: UserUncheckedUpdateManyWithoutClubsInput
+  editors: UserUncheckedUpdateManyWithoutCanEditInput
+  roles: RoleUncheckedUpdateManyWithoutClubInput
+  invites: InviteUncheckedUpdateManyWithoutClubInput
+}
+
+input ClubUpdateManyMutationInput {
+  name: NullableStringFieldUpdateOperationsInput
+  slug: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  email: NullableStringFieldUpdateOperationsInput
+  meetingDate: NullableStringFieldUpdateOperationsInput
+  location: NullableStringFieldUpdateOperationsInput
+  approval: NullableStringFieldUpdateOperationsInput
+  status: NullableStringFieldUpdateOperationsInput
+  availability: NullableStringFieldUpdateOperationsInput
+}
+
+input ClubUncheckedUpdateManyInput {
+  id: IntFieldUpdateOperationsInput
+  name: NullableStringFieldUpdateOperationsInput
+  slug: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  email: NullableStringFieldUpdateOperationsInput
+  meetingDate: NullableStringFieldUpdateOperationsInput
+  location: NullableStringFieldUpdateOperationsInput
+  approval: NullableStringFieldUpdateOperationsInput
+  status: NullableStringFieldUpdateOperationsInput
+  availability: NullableStringFieldUpdateOperationsInput
+}
+
+input LinkCreateInput {
+  club: ClubCreateNestedOneWithoutLinksInput!
+  name: String
+  link: String!
+  type: String!
+}
+
+input LinkUncheckedCreateInput {
+  id: Int
+  clubId: Int!
+  name: String
+  link: String!
+  type: String!
+}
+
+input LinkUpdateInput {
+  club: ClubUpdateOneRequiredWithoutLinksInput
+  name: NullableStringFieldUpdateOperationsInput
+  link: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+}
+
+input LinkUncheckedUpdateInput {
+  id: IntFieldUpdateOperationsInput
+  clubId: IntFieldUpdateOperationsInput
+  name: NullableStringFieldUpdateOperationsInput
+  link: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+}
+
+input LinkUpdateManyMutationInput {
+  name: NullableStringFieldUpdateOperationsInput
+  link: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+}
+
+input LinkUncheckedUpdateManyInput {
+  id: IntFieldUpdateOperationsInput
+  clubId: IntFieldUpdateOperationsInput
+  name: NullableStringFieldUpdateOperationsInput
+  link: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+}
+
+input ClubApplicationInfoCreateInput {
+  teacher: UserCreateNestedOneWithoutAdvisorInput!
+  club: ClubCreateNestedOneWithoutApplicationInfoInput!
+  projectedRevenue: ProjectedRevenueCreateNestedManyWithoutClubInput
+  projectedExpenses: ProjectedExpensesCreateNestedManyWithoutClubInput
+  purpose: String!
+  membershipRequirements: String!
+  dutiesOfMembers: String!
+  titlesAndDutiesOfOfficers: String!
+  selectionOfOfficers: String!
+  officerMinimumGPA: Float!
+  percentAttendanceForOfficialMeeting: Int!
+  percentAttendanceToApproveDecision: Int!
+}
+
+input ClubApplicationInfoUncheckedCreateInput {
+  id: Int
+  userId: Int!
+  clubId: Int!
+  projectedRevenue: ProjectedRevenueUncheckedCreateNestedManyWithoutClubInput
+  projectedExpenses: ProjectedExpensesUncheckedCreateNestedManyWithoutClubInput
+  purpose: String!
+  membershipRequirements: String!
+  dutiesOfMembers: String!
+  titlesAndDutiesOfOfficers: String!
+  selectionOfOfficers: String!
+  officerMinimumGPA: Float!
+  percentAttendanceForOfficialMeeting: Int!
+  percentAttendanceToApproveDecision: Int!
+}
+
+input ClubApplicationInfoUpdateInput {
+  teacher: UserUpdateOneRequiredWithoutAdvisorInput
+  club: ClubUpdateOneRequiredWithoutApplicationInfoInput
+  projectedRevenue: ProjectedRevenueUpdateManyWithoutClubInput
+  projectedExpenses: ProjectedExpensesUpdateManyWithoutClubInput
+  purpose: StringFieldUpdateOperationsInput
+  membershipRequirements: StringFieldUpdateOperationsInput
+  dutiesOfMembers: StringFieldUpdateOperationsInput
+  titlesAndDutiesOfOfficers: StringFieldUpdateOperationsInput
+  selectionOfOfficers: StringFieldUpdateOperationsInput
+  officerMinimumGPA: FloatFieldUpdateOperationsInput
+  percentAttendanceForOfficialMeeting: IntFieldUpdateOperationsInput
+  percentAttendanceToApproveDecision: IntFieldUpdateOperationsInput
+}
+
+input ClubApplicationInfoUncheckedUpdateInput {
+  id: IntFieldUpdateOperationsInput
+  userId: IntFieldUpdateOperationsInput
+  clubId: IntFieldUpdateOperationsInput
+  projectedRevenue: ProjectedRevenueUncheckedUpdateManyWithoutClubInput
+  projectedExpenses: ProjectedExpensesUncheckedUpdateManyWithoutClubInput
+  purpose: StringFieldUpdateOperationsInput
+  membershipRequirements: StringFieldUpdateOperationsInput
+  dutiesOfMembers: StringFieldUpdateOperationsInput
+  titlesAndDutiesOfOfficers: StringFieldUpdateOperationsInput
+  selectionOfOfficers: StringFieldUpdateOperationsInput
+  officerMinimumGPA: FloatFieldUpdateOperationsInput
+  percentAttendanceForOfficialMeeting: IntFieldUpdateOperationsInput
+  percentAttendanceToApproveDecision: IntFieldUpdateOperationsInput
+}
+
+input ClubApplicationInfoUpdateManyMutationInput {
+  purpose: StringFieldUpdateOperationsInput
+  membershipRequirements: StringFieldUpdateOperationsInput
+  dutiesOfMembers: StringFieldUpdateOperationsInput
+  titlesAndDutiesOfOfficers: StringFieldUpdateOperationsInput
+  selectionOfOfficers: StringFieldUpdateOperationsInput
+  officerMinimumGPA: FloatFieldUpdateOperationsInput
+  percentAttendanceForOfficialMeeting: IntFieldUpdateOperationsInput
+  percentAttendanceToApproveDecision: IntFieldUpdateOperationsInput
+}
+
+input ClubApplicationInfoUncheckedUpdateManyInput {
+  id: IntFieldUpdateOperationsInput
+  userId: IntFieldUpdateOperationsInput
+  clubId: IntFieldUpdateOperationsInput
+  purpose: StringFieldUpdateOperationsInput
+  membershipRequirements: StringFieldUpdateOperationsInput
+  dutiesOfMembers: StringFieldUpdateOperationsInput
+  titlesAndDutiesOfOfficers: StringFieldUpdateOperationsInput
+  selectionOfOfficers: StringFieldUpdateOperationsInput
+  officerMinimumGPA: FloatFieldUpdateOperationsInput
+  percentAttendanceForOfficialMeeting: IntFieldUpdateOperationsInput
+  percentAttendanceToApproveDecision: IntFieldUpdateOperationsInput
+}
+
+input TagCreateInput {
+  name: String!
+  clubs: ClubCreateNestedManyWithoutTagsInput
+  interestedUsers: UserCreateNestedManyWithoutInterestsInput
+}
+
+input TagUncheckedCreateInput {
+  id: Int
+  name: String!
+  clubs: ClubUncheckedCreateNestedManyWithoutTagsInput
+  interestedUsers: UserUncheckedCreateNestedManyWithoutInterestsInput
+}
+
+input TagUpdateInput {
+  name: StringFieldUpdateOperationsInput
+  clubs: ClubUpdateManyWithoutTagsInput
+  interestedUsers: UserUpdateManyWithoutInterestsInput
+}
+
+input TagUncheckedUpdateInput {
+  id: IntFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  clubs: ClubUncheckedUpdateManyWithoutTagsInput
+  interestedUsers: UserUncheckedUpdateManyWithoutInterestsInput
+}
+
+input TagUpdateManyMutationInput {
+  name: StringFieldUpdateOperationsInput
+}
+
+input TagUncheckedUpdateManyInput {
+  id: IntFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+}
+
+input UserCreateInput {
+  ccid: String!
+  firstname: String!
+  lastname: String!
+  email: String!
+  emailVerified: Boolean!
+  password: String!
+  grade: String!
+  type: String
+  interests: TagCreateNestedManyWithoutInterestedUsersInput
+  clubs: ClubCreateNestedManyWithoutMembersInput
+  canEdit: ClubCreateNestedManyWithoutEditorsInput
+  advisor: ClubApplicationInfoCreateNestedManyWithoutTeacherInput
+  roles: RoleCreateNestedManyWithoutUsersInput
+  invites: InviteCreateNestedManyWithoutUserInput
+}
+
+input UserUncheckedCreateInput {
+  id: Int
+  ccid: String!
+  firstname: String!
+  lastname: String!
+  email: String!
+  emailVerified: Boolean!
+  password: String!
+  grade: String!
+  type: String
+  interests: TagUncheckedCreateNestedManyWithoutInterestedUsersInput
+  clubs: ClubUncheckedCreateNestedManyWithoutMembersInput
+  canEdit: ClubUncheckedCreateNestedManyWithoutEditorsInput
+  advisor: ClubApplicationInfoUncheckedCreateNestedManyWithoutTeacherInput
+  roles: RoleUncheckedCreateNestedManyWithoutUsersInput
+  invites: InviteUncheckedCreateNestedManyWithoutUserInput
+}
+
+input UserUpdateInput {
+  ccid: StringFieldUpdateOperationsInput
+  firstname: StringFieldUpdateOperationsInput
+  lastname: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  emailVerified: BoolFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  grade: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+  interests: TagUpdateManyWithoutInterestedUsersInput
+  clubs: ClubUpdateManyWithoutMembersInput
+  canEdit: ClubUpdateManyWithoutEditorsInput
+  advisor: ClubApplicationInfoUpdateManyWithoutTeacherInput
+  roles: RoleUpdateManyWithoutUsersInput
+  invites: InviteUpdateManyWithoutUserInput
+}
+
+input UserUncheckedUpdateInput {
+  id: IntFieldUpdateOperationsInput
+  ccid: StringFieldUpdateOperationsInput
+  firstname: StringFieldUpdateOperationsInput
+  lastname: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  emailVerified: BoolFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  grade: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+  interests: TagUncheckedUpdateManyWithoutInterestedUsersInput
+  clubs: ClubUncheckedUpdateManyWithoutMembersInput
+  canEdit: ClubUncheckedUpdateManyWithoutEditorsInput
+  advisor: ClubApplicationInfoUncheckedUpdateManyWithoutTeacherInput
+  roles: RoleUncheckedUpdateManyWithoutUsersInput
+  invites: InviteUncheckedUpdateManyWithoutUserInput
+}
+
+input UserUpdateManyMutationInput {
+  ccid: StringFieldUpdateOperationsInput
+  firstname: StringFieldUpdateOperationsInput
+  lastname: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  emailVerified: BoolFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  grade: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+}
+
+input UserUncheckedUpdateManyInput {
+  id: IntFieldUpdateOperationsInput
+  ccid: StringFieldUpdateOperationsInput
+  firstname: StringFieldUpdateOperationsInput
+  lastname: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  emailVerified: BoolFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  grade: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+}
+
+input InviteCreateInput {
+  status: String
+  club: ClubCreateNestedOneWithoutInvitesInput!
+  user: UserCreateNestedOneWithoutInvitesInput!
+}
+
+input InviteUncheckedCreateInput {
+  id: Int
+  status: String
+  clubId: Int!
+  userId: Int!
+}
+
+input InviteUpdateInput {
+  status: StringFieldUpdateOperationsInput
+  club: ClubUpdateOneRequiredWithoutInvitesInput
+  user: UserUpdateOneRequiredWithoutInvitesInput
+}
+
+input InviteUncheckedUpdateInput {
+  id: IntFieldUpdateOperationsInput
+  status: StringFieldUpdateOperationsInput
+  clubId: IntFieldUpdateOperationsInput
+  userId: IntFieldUpdateOperationsInput
+}
+
+input InviteUpdateManyMutationInput {
+  status: StringFieldUpdateOperationsInput
+}
+
+input InviteUncheckedUpdateManyInput {
+  id: IntFieldUpdateOperationsInput
+  status: StringFieldUpdateOperationsInput
+  clubId: IntFieldUpdateOperationsInput
+  userId: IntFieldUpdateOperationsInput
+}
+
+input RoleCreateInput {
+  name: String!
+  color: String!
+  description: String!
+  users: UserCreateNestedManyWithoutRolesInput
+  club: ClubCreateNestedOneWithoutRolesInput!
+  type: String
+}
+
+input RoleUncheckedCreateInput {
+  id: Int
+  name: String!
+  color: String!
+  description: String!
+  users: UserUncheckedCreateNestedManyWithoutRolesInput
+  clubId: Int!
+  type: String
+}
+
+input RoleUpdateInput {
+  name: StringFieldUpdateOperationsInput
+  color: StringFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
+  users: UserUpdateManyWithoutRolesInput
+  club: ClubUpdateOneRequiredWithoutRolesInput
+  type: StringFieldUpdateOperationsInput
+}
+
+input RoleUncheckedUpdateInput {
+  id: IntFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  color: StringFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
+  users: UserUncheckedUpdateManyWithoutRolesInput
+  clubId: IntFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+}
+
+input RoleUpdateManyMutationInput {
+  name: StringFieldUpdateOperationsInput
+  color: StringFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+}
+
+input RoleUncheckedUpdateManyInput {
+  id: IntFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  color: StringFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
+  clubId: IntFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+}
+
+input ProjectedRevenueCreateInput {
+  club: ClubApplicationInfoCreateNestedOneWithoutProjectedRevenueInput!
+  name: String!
+  amount: Float!
+  date: String!
+}
+
+input ProjectedRevenueUncheckedCreateInput {
+  id: Int
+  clubId: Int!
+  name: String!
+  amount: Float!
+  date: String!
+}
+
+input ProjectedRevenueUpdateInput {
+  club: ClubApplicationInfoUpdateOneRequiredWithoutProjectedRevenueInput
+  name: StringFieldUpdateOperationsInput
+  amount: FloatFieldUpdateOperationsInput
+  date: StringFieldUpdateOperationsInput
+}
+
+input ProjectedRevenueUncheckedUpdateInput {
+  id: IntFieldUpdateOperationsInput
+  clubId: IntFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  amount: FloatFieldUpdateOperationsInput
+  date: StringFieldUpdateOperationsInput
+}
+
+input ProjectedRevenueUpdateManyMutationInput {
+  name: StringFieldUpdateOperationsInput
+  amount: FloatFieldUpdateOperationsInput
+  date: StringFieldUpdateOperationsInput
+}
+
+input ProjectedRevenueUncheckedUpdateManyInput {
+  id: IntFieldUpdateOperationsInput
+  clubId: IntFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  amount: FloatFieldUpdateOperationsInput
+  date: StringFieldUpdateOperationsInput
+}
+
+input ProjectedExpensesCreateInput {
+  club: ClubApplicationInfoCreateNestedOneWithoutProjectedExpensesInput!
+  name: String!
+  amount: Float!
+  date: String!
+}
+
+input ProjectedExpensesUncheckedCreateInput {
+  id: Int
+  clubId: Int!
+  name: String!
+  amount: Float!
+  date: String!
+}
+
+input ProjectedExpensesUpdateInput {
+  club: ClubApplicationInfoUpdateOneRequiredWithoutProjectedExpensesInput
+  name: StringFieldUpdateOperationsInput
+  amount: FloatFieldUpdateOperationsInput
+  date: StringFieldUpdateOperationsInput
+}
+
+input ProjectedExpensesUncheckedUpdateInput {
+  id: IntFieldUpdateOperationsInput
+  clubId: IntFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  amount: FloatFieldUpdateOperationsInput
+  date: StringFieldUpdateOperationsInput
+}
+
+input ProjectedExpensesUpdateManyMutationInput {
+  name: StringFieldUpdateOperationsInput
+  amount: FloatFieldUpdateOperationsInput
+  date: StringFieldUpdateOperationsInput
+}
+
+input ProjectedExpensesUncheckedUpdateManyInput {
+  id: IntFieldUpdateOperationsInput
+  clubId: IntFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  amount: FloatFieldUpdateOperationsInput
+  date: StringFieldUpdateOperationsInput
+}
+
+input IntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntFilter
+}
+
+input StringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringNullableFilter
+}
+
+input LinkListRelationFilter {
+  every: LinkWhereInput
+  some: LinkWhereInput
+  none: LinkWhereInput
+}
+
+input ClubApplicationInfoRelationFilter {
+  is: ClubApplicationInfoWhereInput
+  isNot: ClubApplicationInfoWhereInput
+}
+
+input TagListRelationFilter {
+  every: TagWhereInput
+  some: TagWhereInput
+  none: TagWhereInput
+}
+
+input UserListRelationFilter {
+  every: UserWhereInput
+  some: UserWhereInput
+  none: UserWhereInput
+}
+
+input RoleListRelationFilter {
+  every: RoleWhereInput
+  some: RoleWhereInput
+  none: RoleWhereInput
+}
+
+input InviteListRelationFilter {
+  every: InviteWhereInput
+  some: InviteWhereInput
+  none: InviteWhereInput
+}
+
+input LinkOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input TagOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input UserOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input RoleOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input InviteOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input ClubCountOrderByAggregateInput {
+  id: SortOrder
+  name: SortOrder
+  slug: SortOrder
+  description: SortOrder
+  email: SortOrder
+  meetingDate: SortOrder
+  location: SortOrder
+  approval: SortOrder
+  status: SortOrder
+  availability: SortOrder
+}
+
+input ClubAvgOrderByAggregateInput {
+  id: SortOrder
+}
+
+input ClubMaxOrderByAggregateInput {
+  id: SortOrder
+  name: SortOrder
+  slug: SortOrder
+  description: SortOrder
+  email: SortOrder
+  meetingDate: SortOrder
+  location: SortOrder
+  approval: SortOrder
+  status: SortOrder
+  availability: SortOrder
+}
+
+input ClubMinOrderByAggregateInput {
+  id: SortOrder
+  name: SortOrder
+  slug: SortOrder
+  description: SortOrder
+  email: SortOrder
+  meetingDate: SortOrder
+  location: SortOrder
+  approval: SortOrder
+  status: SortOrder
+  availability: SortOrder
+}
+
+input ClubSumOrderByAggregateInput {
+  id: SortOrder
+}
+
+input IntWithAggregatesFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntWithAggregatesFilter
+  _count: NestedIntFilter
+  _avg: NestedFloatFilter
+  _sum: NestedIntFilter
+  _min: NestedIntFilter
+  _max: NestedIntFilter
+}
+
+input StringNullableWithAggregatesFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringNullableWithAggregatesFilter
+  _count: NestedIntNullableFilter
+  _min: NestedStringNullableFilter
+  _max: NestedStringNullableFilter
+}
+
+input ClubRelationFilter {
+  is: ClubWhereInput
+  isNot: ClubWhereInput
+}
+
+input StringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringFilter
+}
+
+input LinkCountOrderByAggregateInput {
+  id: SortOrder
+  clubId: SortOrder
+  name: SortOrder
+  link: SortOrder
+  type: SortOrder
+}
+
+input LinkAvgOrderByAggregateInput {
+  id: SortOrder
+  clubId: SortOrder
+}
+
+input LinkMaxOrderByAggregateInput {
+  id: SortOrder
+  clubId: SortOrder
+  name: SortOrder
+  link: SortOrder
+  type: SortOrder
+}
+
+input LinkMinOrderByAggregateInput {
+  id: SortOrder
+  clubId: SortOrder
+  name: SortOrder
+  link: SortOrder
+  type: SortOrder
+}
+
+input LinkSumOrderByAggregateInput {
+  id: SortOrder
+  clubId: SortOrder
+}
+
+input StringWithAggregatesFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringWithAggregatesFilter
+  _count: NestedIntFilter
+  _min: NestedStringFilter
+  _max: NestedStringFilter
+}
+
+input UserRelationFilter {
+  is: UserWhereInput
+  isNot: UserWhereInput
+}
+
+input ProjectedRevenueListRelationFilter {
+  every: ProjectedRevenueWhereInput
+  some: ProjectedRevenueWhereInput
+  none: ProjectedRevenueWhereInput
+}
+
+input ProjectedExpensesListRelationFilter {
+  every: ProjectedExpensesWhereInput
+  some: ProjectedExpensesWhereInput
+  none: ProjectedExpensesWhereInput
+}
+
+input FloatFilter {
+  equals: Float
+  in: [Float!]
+  notIn: [Float!]
+  lt: Float
+  lte: Float
+  gt: Float
+  gte: Float
+  not: NestedFloatFilter
+}
+
+input ProjectedRevenueOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input ProjectedExpensesOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input ClubApplicationInfoCountOrderByAggregateInput {
+  id: SortOrder
+  userId: SortOrder
+  clubId: SortOrder
+  purpose: SortOrder
+  membershipRequirements: SortOrder
+  dutiesOfMembers: SortOrder
+  titlesAndDutiesOfOfficers: SortOrder
+  selectionOfOfficers: SortOrder
+  officerMinimumGPA: SortOrder
+  percentAttendanceForOfficialMeeting: SortOrder
+  percentAttendanceToApproveDecision: SortOrder
+}
+
+input ClubApplicationInfoAvgOrderByAggregateInput {
+  id: SortOrder
+  userId: SortOrder
+  clubId: SortOrder
+  officerMinimumGPA: SortOrder
+  percentAttendanceForOfficialMeeting: SortOrder
+  percentAttendanceToApproveDecision: SortOrder
+}
+
+input ClubApplicationInfoMaxOrderByAggregateInput {
+  id: SortOrder
+  userId: SortOrder
+  clubId: SortOrder
+  purpose: SortOrder
+  membershipRequirements: SortOrder
+  dutiesOfMembers: SortOrder
+  titlesAndDutiesOfOfficers: SortOrder
+  selectionOfOfficers: SortOrder
+  officerMinimumGPA: SortOrder
+  percentAttendanceForOfficialMeeting: SortOrder
+  percentAttendanceToApproveDecision: SortOrder
+}
+
+input ClubApplicationInfoMinOrderByAggregateInput {
+  id: SortOrder
+  userId: SortOrder
+  clubId: SortOrder
+  purpose: SortOrder
+  membershipRequirements: SortOrder
+  dutiesOfMembers: SortOrder
+  titlesAndDutiesOfOfficers: SortOrder
+  selectionOfOfficers: SortOrder
+  officerMinimumGPA: SortOrder
+  percentAttendanceForOfficialMeeting: SortOrder
+  percentAttendanceToApproveDecision: SortOrder
+}
+
+input ClubApplicationInfoSumOrderByAggregateInput {
+  id: SortOrder
+  userId: SortOrder
+  clubId: SortOrder
+  officerMinimumGPA: SortOrder
+  percentAttendanceForOfficialMeeting: SortOrder
+  percentAttendanceToApproveDecision: SortOrder
+}
+
+input FloatWithAggregatesFilter {
+  equals: Float
+  in: [Float!]
+  notIn: [Float!]
+  lt: Float
+  lte: Float
+  gt: Float
+  gte: Float
+  not: NestedFloatWithAggregatesFilter
+  _count: NestedIntFilter
+  _avg: NestedFloatFilter
+  _sum: NestedFloatFilter
+  _min: NestedFloatFilter
+  _max: NestedFloatFilter
+}
+
+input ClubListRelationFilter {
+  every: ClubWhereInput
+  some: ClubWhereInput
+  none: ClubWhereInput
+}
+
+input ClubOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input TagCountOrderByAggregateInput {
+  id: SortOrder
+  name: SortOrder
+}
+
+input TagAvgOrderByAggregateInput {
+  id: SortOrder
+}
+
+input TagMaxOrderByAggregateInput {
+  id: SortOrder
+  name: SortOrder
+}
+
+input TagMinOrderByAggregateInput {
+  id: SortOrder
+  name: SortOrder
+}
+
+input TagSumOrderByAggregateInput {
+  id: SortOrder
+}
+
+input BoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+input ClubApplicationInfoListRelationFilter {
+  every: ClubApplicationInfoWhereInput
+  some: ClubApplicationInfoWhereInput
+  none: ClubApplicationInfoWhereInput
+}
+
+input ClubApplicationInfoOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input UserCountOrderByAggregateInput {
+  id: SortOrder
+  ccid: SortOrder
+  firstname: SortOrder
+  lastname: SortOrder
+  email: SortOrder
+  emailVerified: SortOrder
+  password: SortOrder
+  grade: SortOrder
+  type: SortOrder
+}
+
+input UserAvgOrderByAggregateInput {
+  id: SortOrder
+}
+
+input UserMaxOrderByAggregateInput {
+  id: SortOrder
+  ccid: SortOrder
+  firstname: SortOrder
+  lastname: SortOrder
+  email: SortOrder
+  emailVerified: SortOrder
+  password: SortOrder
+  grade: SortOrder
+  type: SortOrder
+}
+
+input UserMinOrderByAggregateInput {
+  id: SortOrder
+  ccid: SortOrder
+  firstname: SortOrder
+  lastname: SortOrder
+  email: SortOrder
+  emailVerified: SortOrder
+  password: SortOrder
+  grade: SortOrder
+  type: SortOrder
+}
+
+input UserSumOrderByAggregateInput {
+  id: SortOrder
+}
+
+input BoolWithAggregatesFilter {
+  equals: Boolean
+  not: NestedBoolWithAggregatesFilter
+  _count: NestedIntFilter
+  _min: NestedBoolFilter
+  _max: NestedBoolFilter
+}
+
+input InviteCountOrderByAggregateInput {
+  id: SortOrder
+  status: SortOrder
+  clubId: SortOrder
+  userId: SortOrder
+}
+
+input InviteAvgOrderByAggregateInput {
+  id: SortOrder
+  clubId: SortOrder
+  userId: SortOrder
+}
+
+input InviteMaxOrderByAggregateInput {
+  id: SortOrder
+  status: SortOrder
+  clubId: SortOrder
+  userId: SortOrder
+}
+
+input InviteMinOrderByAggregateInput {
+  id: SortOrder
+  status: SortOrder
+  clubId: SortOrder
+  userId: SortOrder
+}
+
+input InviteSumOrderByAggregateInput {
+  id: SortOrder
+  clubId: SortOrder
+  userId: SortOrder
+}
+
+input RoleCountOrderByAggregateInput {
+  id: SortOrder
+  name: SortOrder
+  color: SortOrder
+  description: SortOrder
+  clubId: SortOrder
+  type: SortOrder
+}
+
+input RoleAvgOrderByAggregateInput {
+  id: SortOrder
+  clubId: SortOrder
+}
+
+input RoleMaxOrderByAggregateInput {
+  id: SortOrder
+  name: SortOrder
+  color: SortOrder
+  description: SortOrder
+  clubId: SortOrder
+  type: SortOrder
+}
+
+input RoleMinOrderByAggregateInput {
+  id: SortOrder
+  name: SortOrder
+  color: SortOrder
+  description: SortOrder
+  clubId: SortOrder
+  type: SortOrder
+}
+
+input RoleSumOrderByAggregateInput {
+  id: SortOrder
+  clubId: SortOrder
+}
+
+input ProjectedRevenueCountOrderByAggregateInput {
+  id: SortOrder
+  clubId: SortOrder
+  name: SortOrder
+  amount: SortOrder
+  date: SortOrder
+}
+
+input ProjectedRevenueAvgOrderByAggregateInput {
+  id: SortOrder
+  clubId: SortOrder
+  amount: SortOrder
+}
+
+input ProjectedRevenueMaxOrderByAggregateInput {
+  id: SortOrder
+  clubId: SortOrder
+  name: SortOrder
+  amount: SortOrder
+  date: SortOrder
+}
+
+input ProjectedRevenueMinOrderByAggregateInput {
+  id: SortOrder
+  clubId: SortOrder
+  name: SortOrder
+  amount: SortOrder
+  date: SortOrder
+}
+
+input ProjectedRevenueSumOrderByAggregateInput {
+  id: SortOrder
+  clubId: SortOrder
+  amount: SortOrder
+}
+
+input ProjectedExpensesCountOrderByAggregateInput {
+  id: SortOrder
+  clubId: SortOrder
+  name: SortOrder
+  amount: SortOrder
+  date: SortOrder
+}
+
+input ProjectedExpensesAvgOrderByAggregateInput {
+  id: SortOrder
+  clubId: SortOrder
+  amount: SortOrder
+}
+
+input ProjectedExpensesMaxOrderByAggregateInput {
+  id: SortOrder
+  clubId: SortOrder
+  name: SortOrder
+  amount: SortOrder
+  date: SortOrder
+}
+
+input ProjectedExpensesMinOrderByAggregateInput {
+  id: SortOrder
+  clubId: SortOrder
+  name: SortOrder
+  amount: SortOrder
+  date: SortOrder
+}
+
+input ProjectedExpensesSumOrderByAggregateInput {
+  id: SortOrder
+  clubId: SortOrder
+  amount: SortOrder
+}
+
+input LinkCreateNestedManyWithoutClubInput {
+  create: [LinkCreateWithoutClubInput!]
+  connectOrCreate: [LinkCreateOrConnectWithoutClubInput!]
+  connect: [LinkWhereUniqueInput!]
+}
+
+input ClubApplicationInfoCreateNestedOneWithoutClubInput {
+  create: ClubApplicationInfoUncheckedCreateWithoutClubInput
+  connectOrCreate: ClubApplicationInfoCreateOrConnectWithoutClubInput
+  connect: ClubApplicationInfoWhereUniqueInput
+}
+
+input TagCreateNestedManyWithoutClubsInput {
+  create: [TagCreateWithoutClubsInput!]
+  connectOrCreate: [TagCreateOrConnectWithoutClubsInput!]
+  connect: [TagWhereUniqueInput!]
+}
+
+input UserCreateNestedManyWithoutClubsInput {
+  create: [UserCreateWithoutClubsInput!]
+  connectOrCreate: [UserCreateOrConnectWithoutClubsInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateNestedManyWithoutCanEditInput {
+  create: [UserCreateWithoutCanEditInput!]
+  connectOrCreate: [UserCreateOrConnectWithoutCanEditInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input RoleCreateNestedManyWithoutClubInput {
+  create: [RoleCreateWithoutClubInput!]
+  connectOrCreate: [RoleCreateOrConnectWithoutClubInput!]
+  connect: [RoleWhereUniqueInput!]
+}
+
+input InviteCreateNestedManyWithoutClubInput {
+  create: [InviteCreateWithoutClubInput!]
+  connectOrCreate: [InviteCreateOrConnectWithoutClubInput!]
+  connect: [InviteWhereUniqueInput!]
+}
+
+input LinkUncheckedCreateNestedManyWithoutClubInput {
+  create: [LinkCreateWithoutClubInput!]
+  connectOrCreate: [LinkCreateOrConnectWithoutClubInput!]
+  connect: [LinkWhereUniqueInput!]
+}
+
+input ClubApplicationInfoUncheckedCreateNestedOneWithoutClubInput {
+  create: ClubApplicationInfoUncheckedCreateWithoutClubInput
+  connectOrCreate: ClubApplicationInfoCreateOrConnectWithoutClubInput
+  connect: ClubApplicationInfoWhereUniqueInput
+}
+
+input TagUncheckedCreateNestedManyWithoutClubsInput {
+  create: [TagCreateWithoutClubsInput!]
+  connectOrCreate: [TagCreateOrConnectWithoutClubsInput!]
+  connect: [TagWhereUniqueInput!]
+}
+
+input UserUncheckedCreateNestedManyWithoutClubsInput {
+  create: [UserCreateWithoutClubsInput!]
+  connectOrCreate: [UserCreateOrConnectWithoutClubsInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input UserUncheckedCreateNestedManyWithoutCanEditInput {
+  create: [UserCreateWithoutCanEditInput!]
+  connectOrCreate: [UserCreateOrConnectWithoutCanEditInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input RoleUncheckedCreateNestedManyWithoutClubInput {
+  create: [RoleCreateWithoutClubInput!]
+  connectOrCreate: [RoleCreateOrConnectWithoutClubInput!]
+  connect: [RoleWhereUniqueInput!]
+}
+
+input InviteUncheckedCreateNestedManyWithoutClubInput {
+  create: [InviteCreateWithoutClubInput!]
+  connectOrCreate: [InviteCreateOrConnectWithoutClubInput!]
+  connect: [InviteWhereUniqueInput!]
+}
+
+input NullableStringFieldUpdateOperationsInput {
+  set: String
+}
+
+input LinkUpdateManyWithoutClubInput {
+  create: [LinkCreateWithoutClubInput!]
+  connectOrCreate: [LinkCreateOrConnectWithoutClubInput!]
+  upsert: [LinkUpsertWithWhereUniqueWithoutClubInput!]
+  set: [LinkWhereUniqueInput!]
+  disconnect: [LinkWhereUniqueInput!]
+  delete: [LinkWhereUniqueInput!]
+  connect: [LinkWhereUniqueInput!]
+  update: [LinkUpdateWithWhereUniqueWithoutClubInput!]
+  updateMany: [LinkUpdateManyWithWhereWithoutClubInput!]
+  deleteMany: [LinkScalarWhereInput!]
+}
+
+input ClubApplicationInfoUpdateOneWithoutClubInput {
+  create: ClubApplicationInfoUncheckedCreateWithoutClubInput
+  connectOrCreate: ClubApplicationInfoCreateOrConnectWithoutClubInput
+  upsert: ClubApplicationInfoUpsertWithoutClubInput
+  disconnect: Boolean
+  delete: Boolean
+  connect: ClubApplicationInfoWhereUniqueInput
+  update: ClubApplicationInfoUncheckedUpdateWithoutClubInput
+}
+
+input TagUpdateManyWithoutClubsInput {
+  create: [TagCreateWithoutClubsInput!]
+  connectOrCreate: [TagCreateOrConnectWithoutClubsInput!]
+  upsert: [TagUpsertWithWhereUniqueWithoutClubsInput!]
+  set: [TagWhereUniqueInput!]
+  disconnect: [TagWhereUniqueInput!]
+  delete: [TagWhereUniqueInput!]
+  connect: [TagWhereUniqueInput!]
+  update: [TagUpdateWithWhereUniqueWithoutClubsInput!]
+  updateMany: [TagUpdateManyWithWhereWithoutClubsInput!]
+  deleteMany: [TagScalarWhereInput!]
+}
+
+input UserUpdateManyWithoutClubsInput {
+  create: [UserCreateWithoutClubsInput!]
+  connectOrCreate: [UserCreateOrConnectWithoutClubsInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutClubsInput!]
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutClubsInput!]
+  updateMany: [UserUpdateManyWithWhereWithoutClubsInput!]
+  deleteMany: [UserScalarWhereInput!]
+}
+
+input UserUpdateManyWithoutCanEditInput {
+  create: [UserCreateWithoutCanEditInput!]
+  connectOrCreate: [UserCreateOrConnectWithoutCanEditInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutCanEditInput!]
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutCanEditInput!]
+  updateMany: [UserUpdateManyWithWhereWithoutCanEditInput!]
+  deleteMany: [UserScalarWhereInput!]
+}
+
+input RoleUpdateManyWithoutClubInput {
+  create: [RoleCreateWithoutClubInput!]
+  connectOrCreate: [RoleCreateOrConnectWithoutClubInput!]
+  upsert: [RoleUpsertWithWhereUniqueWithoutClubInput!]
+  set: [RoleWhereUniqueInput!]
+  disconnect: [RoleWhereUniqueInput!]
+  delete: [RoleWhereUniqueInput!]
+  connect: [RoleWhereUniqueInput!]
+  update: [RoleUpdateWithWhereUniqueWithoutClubInput!]
+  updateMany: [RoleUpdateManyWithWhereWithoutClubInput!]
+  deleteMany: [RoleScalarWhereInput!]
+}
+
+input InviteUpdateManyWithoutClubInput {
+  create: [InviteCreateWithoutClubInput!]
+  connectOrCreate: [InviteCreateOrConnectWithoutClubInput!]
+  upsert: [InviteUpsertWithWhereUniqueWithoutClubInput!]
+  set: [InviteWhereUniqueInput!]
+  disconnect: [InviteWhereUniqueInput!]
+  delete: [InviteWhereUniqueInput!]
+  connect: [InviteWhereUniqueInput!]
+  update: [InviteUpdateWithWhereUniqueWithoutClubInput!]
+  updateMany: [InviteUpdateManyWithWhereWithoutClubInput!]
+  deleteMany: [InviteScalarWhereInput!]
+}
+
+input IntFieldUpdateOperationsInput {
+  set: Int
+  increment: Int
+  decrement: Int
+  multiply: Int
+  divide: Int
+}
+
+input LinkUncheckedUpdateManyWithoutClubInput {
+  create: [LinkCreateWithoutClubInput!]
+  connectOrCreate: [LinkCreateOrConnectWithoutClubInput!]
+  upsert: [LinkUpsertWithWhereUniqueWithoutClubInput!]
+  set: [LinkWhereUniqueInput!]
+  disconnect: [LinkWhereUniqueInput!]
+  delete: [LinkWhereUniqueInput!]
+  connect: [LinkWhereUniqueInput!]
+  update: [LinkUpdateWithWhereUniqueWithoutClubInput!]
+  updateMany: [LinkUpdateManyWithWhereWithoutClubInput!]
+  deleteMany: [LinkScalarWhereInput!]
+}
+
+input ClubApplicationInfoUncheckedUpdateOneWithoutClubInput {
+  create: ClubApplicationInfoUncheckedCreateWithoutClubInput
+  connectOrCreate: ClubApplicationInfoCreateOrConnectWithoutClubInput
+  upsert: ClubApplicationInfoUpsertWithoutClubInput
+  disconnect: Boolean
+  delete: Boolean
+  connect: ClubApplicationInfoWhereUniqueInput
+  update: ClubApplicationInfoUncheckedUpdateWithoutClubInput
+}
+
+input TagUncheckedUpdateManyWithoutClubsInput {
+  create: [TagCreateWithoutClubsInput!]
+  connectOrCreate: [TagCreateOrConnectWithoutClubsInput!]
+  upsert: [TagUpsertWithWhereUniqueWithoutClubsInput!]
+  set: [TagWhereUniqueInput!]
+  disconnect: [TagWhereUniqueInput!]
+  delete: [TagWhereUniqueInput!]
+  connect: [TagWhereUniqueInput!]
+  update: [TagUpdateWithWhereUniqueWithoutClubsInput!]
+  updateMany: [TagUpdateManyWithWhereWithoutClubsInput!]
+  deleteMany: [TagScalarWhereInput!]
+}
+
+input UserUncheckedUpdateManyWithoutClubsInput {
+  create: [UserCreateWithoutClubsInput!]
+  connectOrCreate: [UserCreateOrConnectWithoutClubsInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutClubsInput!]
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutClubsInput!]
+  updateMany: [UserUpdateManyWithWhereWithoutClubsInput!]
+  deleteMany: [UserScalarWhereInput!]
+}
+
+input UserUncheckedUpdateManyWithoutCanEditInput {
+  create: [UserCreateWithoutCanEditInput!]
+  connectOrCreate: [UserCreateOrConnectWithoutCanEditInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutCanEditInput!]
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutCanEditInput!]
+  updateMany: [UserUpdateManyWithWhereWithoutCanEditInput!]
+  deleteMany: [UserScalarWhereInput!]
+}
+
+input RoleUncheckedUpdateManyWithoutClubInput {
+  create: [RoleCreateWithoutClubInput!]
+  connectOrCreate: [RoleCreateOrConnectWithoutClubInput!]
+  upsert: [RoleUpsertWithWhereUniqueWithoutClubInput!]
+  set: [RoleWhereUniqueInput!]
+  disconnect: [RoleWhereUniqueInput!]
+  delete: [RoleWhereUniqueInput!]
+  connect: [RoleWhereUniqueInput!]
+  update: [RoleUpdateWithWhereUniqueWithoutClubInput!]
+  updateMany: [RoleUpdateManyWithWhereWithoutClubInput!]
+  deleteMany: [RoleScalarWhereInput!]
+}
+
+input InviteUncheckedUpdateManyWithoutClubInput {
+  create: [InviteCreateWithoutClubInput!]
+  connectOrCreate: [InviteCreateOrConnectWithoutClubInput!]
+  upsert: [InviteUpsertWithWhereUniqueWithoutClubInput!]
+  set: [InviteWhereUniqueInput!]
+  disconnect: [InviteWhereUniqueInput!]
+  delete: [InviteWhereUniqueInput!]
+  connect: [InviteWhereUniqueInput!]
+  update: [InviteUpdateWithWhereUniqueWithoutClubInput!]
+  updateMany: [InviteUpdateManyWithWhereWithoutClubInput!]
+  deleteMany: [InviteScalarWhereInput!]
+}
+
+input ClubCreateNestedOneWithoutLinksInput {
+  create: ClubUncheckedCreateWithoutLinksInput
+  connectOrCreate: ClubCreateOrConnectWithoutLinksInput
+  connect: ClubWhereUniqueInput
+}
+
+input ClubUpdateOneRequiredWithoutLinksInput {
+  create: ClubUncheckedCreateWithoutLinksInput
+  connectOrCreate: ClubCreateOrConnectWithoutLinksInput
+  upsert: ClubUpsertWithoutLinksInput
+  connect: ClubWhereUniqueInput
+  update: ClubUncheckedUpdateWithoutLinksInput
+}
+
+input StringFieldUpdateOperationsInput {
+  set: String
+}
+
+input UserCreateNestedOneWithoutAdvisorInput {
+  create: UserUncheckedCreateWithoutAdvisorInput
+  connectOrCreate: UserCreateOrConnectWithoutAdvisorInput
+  connect: UserWhereUniqueInput
+}
+
+input ClubCreateNestedOneWithoutApplicationInfoInput {
+  create: ClubUncheckedCreateWithoutApplicationInfoInput
+  connectOrCreate: ClubCreateOrConnectWithoutApplicationInfoInput
+  connect: ClubWhereUniqueInput
+}
+
+input ProjectedRevenueCreateNestedManyWithoutClubInput {
+  create: [ProjectedRevenueCreateWithoutClubInput!]
+  connectOrCreate: [ProjectedRevenueCreateOrConnectWithoutClubInput!]
+  connect: [ProjectedRevenueWhereUniqueInput!]
+}
+
+input ProjectedExpensesCreateNestedManyWithoutClubInput {
+  create: [ProjectedExpensesCreateWithoutClubInput!]
+  connectOrCreate: [ProjectedExpensesCreateOrConnectWithoutClubInput!]
+  connect: [ProjectedExpensesWhereUniqueInput!]
+}
+
+input ProjectedRevenueUncheckedCreateNestedManyWithoutClubInput {
+  create: [ProjectedRevenueCreateWithoutClubInput!]
+  connectOrCreate: [ProjectedRevenueCreateOrConnectWithoutClubInput!]
+  connect: [ProjectedRevenueWhereUniqueInput!]
+}
+
+input ProjectedExpensesUncheckedCreateNestedManyWithoutClubInput {
+  create: [ProjectedExpensesCreateWithoutClubInput!]
+  connectOrCreate: [ProjectedExpensesCreateOrConnectWithoutClubInput!]
+  connect: [ProjectedExpensesWhereUniqueInput!]
+}
+
+input UserUpdateOneRequiredWithoutAdvisorInput {
+  create: UserUncheckedCreateWithoutAdvisorInput
+  connectOrCreate: UserCreateOrConnectWithoutAdvisorInput
+  upsert: UserUpsertWithoutAdvisorInput
+  connect: UserWhereUniqueInput
+  update: UserUncheckedUpdateWithoutAdvisorInput
+}
+
+input ClubUpdateOneRequiredWithoutApplicationInfoInput {
+  create: ClubUncheckedCreateWithoutApplicationInfoInput
+  connectOrCreate: ClubCreateOrConnectWithoutApplicationInfoInput
+  upsert: ClubUpsertWithoutApplicationInfoInput
+  connect: ClubWhereUniqueInput
+  update: ClubUncheckedUpdateWithoutApplicationInfoInput
+}
+
+input ProjectedRevenueUpdateManyWithoutClubInput {
+  create: [ProjectedRevenueCreateWithoutClubInput!]
+  connectOrCreate: [ProjectedRevenueCreateOrConnectWithoutClubInput!]
+  upsert: [ProjectedRevenueUpsertWithWhereUniqueWithoutClubInput!]
+  set: [ProjectedRevenueWhereUniqueInput!]
+  disconnect: [ProjectedRevenueWhereUniqueInput!]
+  delete: [ProjectedRevenueWhereUniqueInput!]
+  connect: [ProjectedRevenueWhereUniqueInput!]
+  update: [ProjectedRevenueUpdateWithWhereUniqueWithoutClubInput!]
+  updateMany: [ProjectedRevenueUpdateManyWithWhereWithoutClubInput!]
+  deleteMany: [ProjectedRevenueScalarWhereInput!]
+}
+
+input ProjectedExpensesUpdateManyWithoutClubInput {
+  create: [ProjectedExpensesCreateWithoutClubInput!]
+  connectOrCreate: [ProjectedExpensesCreateOrConnectWithoutClubInput!]
+  upsert: [ProjectedExpensesUpsertWithWhereUniqueWithoutClubInput!]
+  set: [ProjectedExpensesWhereUniqueInput!]
+  disconnect: [ProjectedExpensesWhereUniqueInput!]
+  delete: [ProjectedExpensesWhereUniqueInput!]
+  connect: [ProjectedExpensesWhereUniqueInput!]
+  update: [ProjectedExpensesUpdateWithWhereUniqueWithoutClubInput!]
+  updateMany: [ProjectedExpensesUpdateManyWithWhereWithoutClubInput!]
+  deleteMany: [ProjectedExpensesScalarWhereInput!]
+}
+
+input FloatFieldUpdateOperationsInput {
+  set: Float
+  increment: Float
+  decrement: Float
+  multiply: Float
+  divide: Float
+}
+
+input ProjectedRevenueUncheckedUpdateManyWithoutClubInput {
+  create: [ProjectedRevenueCreateWithoutClubInput!]
+  connectOrCreate: [ProjectedRevenueCreateOrConnectWithoutClubInput!]
+  upsert: [ProjectedRevenueUpsertWithWhereUniqueWithoutClubInput!]
+  set: [ProjectedRevenueWhereUniqueInput!]
+  disconnect: [ProjectedRevenueWhereUniqueInput!]
+  delete: [ProjectedRevenueWhereUniqueInput!]
+  connect: [ProjectedRevenueWhereUniqueInput!]
+  update: [ProjectedRevenueUpdateWithWhereUniqueWithoutClubInput!]
+  updateMany: [ProjectedRevenueUpdateManyWithWhereWithoutClubInput!]
+  deleteMany: [ProjectedRevenueScalarWhereInput!]
+}
+
+input ProjectedExpensesUncheckedUpdateManyWithoutClubInput {
+  create: [ProjectedExpensesCreateWithoutClubInput!]
+  connectOrCreate: [ProjectedExpensesCreateOrConnectWithoutClubInput!]
+  upsert: [ProjectedExpensesUpsertWithWhereUniqueWithoutClubInput!]
+  set: [ProjectedExpensesWhereUniqueInput!]
+  disconnect: [ProjectedExpensesWhereUniqueInput!]
+  delete: [ProjectedExpensesWhereUniqueInput!]
+  connect: [ProjectedExpensesWhereUniqueInput!]
+  update: [ProjectedExpensesUpdateWithWhereUniqueWithoutClubInput!]
+  updateMany: [ProjectedExpensesUpdateManyWithWhereWithoutClubInput!]
+  deleteMany: [ProjectedExpensesScalarWhereInput!]
+}
+
+input ClubCreateNestedManyWithoutTagsInput {
+  create: [ClubCreateWithoutTagsInput!]
+  connectOrCreate: [ClubCreateOrConnectWithoutTagsInput!]
+  connect: [ClubWhereUniqueInput!]
+}
+
+input UserCreateNestedManyWithoutInterestsInput {
+  create: [UserCreateWithoutInterestsInput!]
+  connectOrCreate: [UserCreateOrConnectWithoutInterestsInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input ClubUncheckedCreateNestedManyWithoutTagsInput {
+  create: [ClubCreateWithoutTagsInput!]
+  connectOrCreate: [ClubCreateOrConnectWithoutTagsInput!]
+  connect: [ClubWhereUniqueInput!]
+}
+
+input UserUncheckedCreateNestedManyWithoutInterestsInput {
+  create: [UserCreateWithoutInterestsInput!]
+  connectOrCreate: [UserCreateOrConnectWithoutInterestsInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input ClubUpdateManyWithoutTagsInput {
+  create: [ClubCreateWithoutTagsInput!]
+  connectOrCreate: [ClubCreateOrConnectWithoutTagsInput!]
+  upsert: [ClubUpsertWithWhereUniqueWithoutTagsInput!]
+  set: [ClubWhereUniqueInput!]
+  disconnect: [ClubWhereUniqueInput!]
+  delete: [ClubWhereUniqueInput!]
+  connect: [ClubWhereUniqueInput!]
+  update: [ClubUpdateWithWhereUniqueWithoutTagsInput!]
+  updateMany: [ClubUpdateManyWithWhereWithoutTagsInput!]
+  deleteMany: [ClubScalarWhereInput!]
+}
+
+input UserUpdateManyWithoutInterestsInput {
+  create: [UserCreateWithoutInterestsInput!]
+  connectOrCreate: [UserCreateOrConnectWithoutInterestsInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutInterestsInput!]
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutInterestsInput!]
+  updateMany: [UserUpdateManyWithWhereWithoutInterestsInput!]
+  deleteMany: [UserScalarWhereInput!]
+}
+
+input ClubUncheckedUpdateManyWithoutTagsInput {
+  create: [ClubCreateWithoutTagsInput!]
+  connectOrCreate: [ClubCreateOrConnectWithoutTagsInput!]
+  upsert: [ClubUpsertWithWhereUniqueWithoutTagsInput!]
+  set: [ClubWhereUniqueInput!]
+  disconnect: [ClubWhereUniqueInput!]
+  delete: [ClubWhereUniqueInput!]
+  connect: [ClubWhereUniqueInput!]
+  update: [ClubUpdateWithWhereUniqueWithoutTagsInput!]
+  updateMany: [ClubUpdateManyWithWhereWithoutTagsInput!]
+  deleteMany: [ClubScalarWhereInput!]
+}
+
+input UserUncheckedUpdateManyWithoutInterestsInput {
+  create: [UserCreateWithoutInterestsInput!]
+  connectOrCreate: [UserCreateOrConnectWithoutInterestsInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutInterestsInput!]
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutInterestsInput!]
+  updateMany: [UserUpdateManyWithWhereWithoutInterestsInput!]
+  deleteMany: [UserScalarWhereInput!]
+}
+
+input TagCreateNestedManyWithoutInterestedUsersInput {
+  create: [TagCreateWithoutInterestedUsersInput!]
+  connectOrCreate: [TagCreateOrConnectWithoutInterestedUsersInput!]
+  connect: [TagWhereUniqueInput!]
+}
+
+input ClubCreateNestedManyWithoutMembersInput {
+  create: [ClubCreateWithoutMembersInput!]
+  connectOrCreate: [ClubCreateOrConnectWithoutMembersInput!]
+  connect: [ClubWhereUniqueInput!]
+}
+
+input ClubCreateNestedManyWithoutEditorsInput {
+  create: [ClubCreateWithoutEditorsInput!]
+  connectOrCreate: [ClubCreateOrConnectWithoutEditorsInput!]
+  connect: [ClubWhereUniqueInput!]
+}
+
+input ClubApplicationInfoCreateNestedManyWithoutTeacherInput {
+  create: [ClubApplicationInfoCreateWithoutTeacherInput!]
+  connectOrCreate: [ClubApplicationInfoCreateOrConnectWithoutTeacherInput!]
+  connect: [ClubApplicationInfoWhereUniqueInput!]
+}
+
+input RoleCreateNestedManyWithoutUsersInput {
+  create: [RoleCreateWithoutUsersInput!]
+  connectOrCreate: [RoleCreateOrConnectWithoutUsersInput!]
+  connect: [RoleWhereUniqueInput!]
+}
+
+input InviteCreateNestedManyWithoutUserInput {
+  create: [InviteCreateWithoutUserInput!]
+  connectOrCreate: [InviteCreateOrConnectWithoutUserInput!]
+  connect: [InviteWhereUniqueInput!]
+}
+
+input TagUncheckedCreateNestedManyWithoutInterestedUsersInput {
+  create: [TagCreateWithoutInterestedUsersInput!]
+  connectOrCreate: [TagCreateOrConnectWithoutInterestedUsersInput!]
+  connect: [TagWhereUniqueInput!]
+}
+
+input ClubUncheckedCreateNestedManyWithoutMembersInput {
+  create: [ClubCreateWithoutMembersInput!]
+  connectOrCreate: [ClubCreateOrConnectWithoutMembersInput!]
+  connect: [ClubWhereUniqueInput!]
+}
+
+input ClubUncheckedCreateNestedManyWithoutEditorsInput {
+  create: [ClubCreateWithoutEditorsInput!]
+  connectOrCreate: [ClubCreateOrConnectWithoutEditorsInput!]
+  connect: [ClubWhereUniqueInput!]
+}
+
+input ClubApplicationInfoUncheckedCreateNestedManyWithoutTeacherInput {
+  create: [ClubApplicationInfoCreateWithoutTeacherInput!]
+  connectOrCreate: [ClubApplicationInfoCreateOrConnectWithoutTeacherInput!]
+  connect: [ClubApplicationInfoWhereUniqueInput!]
+}
+
+input RoleUncheckedCreateNestedManyWithoutUsersInput {
+  create: [RoleCreateWithoutUsersInput!]
+  connectOrCreate: [RoleCreateOrConnectWithoutUsersInput!]
+  connect: [RoleWhereUniqueInput!]
+}
+
+input InviteUncheckedCreateNestedManyWithoutUserInput {
+  create: [InviteCreateWithoutUserInput!]
+  connectOrCreate: [InviteCreateOrConnectWithoutUserInput!]
+  connect: [InviteWhereUniqueInput!]
+}
+
+input BoolFieldUpdateOperationsInput {
+  set: Boolean
+}
+
+input TagUpdateManyWithoutInterestedUsersInput {
+  create: [TagCreateWithoutInterestedUsersInput!]
+  connectOrCreate: [TagCreateOrConnectWithoutInterestedUsersInput!]
+  upsert: [TagUpsertWithWhereUniqueWithoutInterestedUsersInput!]
+  set: [TagWhereUniqueInput!]
+  disconnect: [TagWhereUniqueInput!]
+  delete: [TagWhereUniqueInput!]
+  connect: [TagWhereUniqueInput!]
+  update: [TagUpdateWithWhereUniqueWithoutInterestedUsersInput!]
+  updateMany: [TagUpdateManyWithWhereWithoutInterestedUsersInput!]
+  deleteMany: [TagScalarWhereInput!]
+}
+
+input ClubUpdateManyWithoutMembersInput {
+  create: [ClubCreateWithoutMembersInput!]
+  connectOrCreate: [ClubCreateOrConnectWithoutMembersInput!]
+  upsert: [ClubUpsertWithWhereUniqueWithoutMembersInput!]
+  set: [ClubWhereUniqueInput!]
+  disconnect: [ClubWhereUniqueInput!]
+  delete: [ClubWhereUniqueInput!]
+  connect: [ClubWhereUniqueInput!]
+  update: [ClubUpdateWithWhereUniqueWithoutMembersInput!]
+  updateMany: [ClubUpdateManyWithWhereWithoutMembersInput!]
+  deleteMany: [ClubScalarWhereInput!]
+}
+
+input ClubUpdateManyWithoutEditorsInput {
+  create: [ClubCreateWithoutEditorsInput!]
+  connectOrCreate: [ClubCreateOrConnectWithoutEditorsInput!]
+  upsert: [ClubUpsertWithWhereUniqueWithoutEditorsInput!]
+  set: [ClubWhereUniqueInput!]
+  disconnect: [ClubWhereUniqueInput!]
+  delete: [ClubWhereUniqueInput!]
+  connect: [ClubWhereUniqueInput!]
+  update: [ClubUpdateWithWhereUniqueWithoutEditorsInput!]
+  updateMany: [ClubUpdateManyWithWhereWithoutEditorsInput!]
+  deleteMany: [ClubScalarWhereInput!]
+}
+
+input ClubApplicationInfoUpdateManyWithoutTeacherInput {
+  create: [ClubApplicationInfoCreateWithoutTeacherInput!]
+  connectOrCreate: [ClubApplicationInfoCreateOrConnectWithoutTeacherInput!]
+  upsert: [ClubApplicationInfoUpsertWithWhereUniqueWithoutTeacherInput!]
+  set: [ClubApplicationInfoWhereUniqueInput!]
+  disconnect: [ClubApplicationInfoWhereUniqueInput!]
+  delete: [ClubApplicationInfoWhereUniqueInput!]
+  connect: [ClubApplicationInfoWhereUniqueInput!]
+  update: [ClubApplicationInfoUpdateWithWhereUniqueWithoutTeacherInput!]
+  updateMany: [ClubApplicationInfoUpdateManyWithWhereWithoutTeacherInput!]
+  deleteMany: [ClubApplicationInfoScalarWhereInput!]
+}
+
+input RoleUpdateManyWithoutUsersInput {
+  create: [RoleCreateWithoutUsersInput!]
+  connectOrCreate: [RoleCreateOrConnectWithoutUsersInput!]
+  upsert: [RoleUpsertWithWhereUniqueWithoutUsersInput!]
+  set: [RoleWhereUniqueInput!]
+  disconnect: [RoleWhereUniqueInput!]
+  delete: [RoleWhereUniqueInput!]
+  connect: [RoleWhereUniqueInput!]
+  update: [RoleUpdateWithWhereUniqueWithoutUsersInput!]
+  updateMany: [RoleUpdateManyWithWhereWithoutUsersInput!]
+  deleteMany: [RoleScalarWhereInput!]
+}
+
+input InviteUpdateManyWithoutUserInput {
+  create: [InviteCreateWithoutUserInput!]
+  connectOrCreate: [InviteCreateOrConnectWithoutUserInput!]
+  upsert: [InviteUpsertWithWhereUniqueWithoutUserInput!]
+  set: [InviteWhereUniqueInput!]
+  disconnect: [InviteWhereUniqueInput!]
+  delete: [InviteWhereUniqueInput!]
+  connect: [InviteWhereUniqueInput!]
+  update: [InviteUpdateWithWhereUniqueWithoutUserInput!]
+  updateMany: [InviteUpdateManyWithWhereWithoutUserInput!]
+  deleteMany: [InviteScalarWhereInput!]
+}
+
+input TagUncheckedUpdateManyWithoutInterestedUsersInput {
+  create: [TagCreateWithoutInterestedUsersInput!]
+  connectOrCreate: [TagCreateOrConnectWithoutInterestedUsersInput!]
+  upsert: [TagUpsertWithWhereUniqueWithoutInterestedUsersInput!]
+  set: [TagWhereUniqueInput!]
+  disconnect: [TagWhereUniqueInput!]
+  delete: [TagWhereUniqueInput!]
+  connect: [TagWhereUniqueInput!]
+  update: [TagUpdateWithWhereUniqueWithoutInterestedUsersInput!]
+  updateMany: [TagUpdateManyWithWhereWithoutInterestedUsersInput!]
+  deleteMany: [TagScalarWhereInput!]
+}
+
+input ClubUncheckedUpdateManyWithoutMembersInput {
+  create: [ClubCreateWithoutMembersInput!]
+  connectOrCreate: [ClubCreateOrConnectWithoutMembersInput!]
+  upsert: [ClubUpsertWithWhereUniqueWithoutMembersInput!]
+  set: [ClubWhereUniqueInput!]
+  disconnect: [ClubWhereUniqueInput!]
+  delete: [ClubWhereUniqueInput!]
+  connect: [ClubWhereUniqueInput!]
+  update: [ClubUpdateWithWhereUniqueWithoutMembersInput!]
+  updateMany: [ClubUpdateManyWithWhereWithoutMembersInput!]
+  deleteMany: [ClubScalarWhereInput!]
+}
+
+input ClubUncheckedUpdateManyWithoutEditorsInput {
+  create: [ClubCreateWithoutEditorsInput!]
+  connectOrCreate: [ClubCreateOrConnectWithoutEditorsInput!]
+  upsert: [ClubUpsertWithWhereUniqueWithoutEditorsInput!]
+  set: [ClubWhereUniqueInput!]
+  disconnect: [ClubWhereUniqueInput!]
+  delete: [ClubWhereUniqueInput!]
+  connect: [ClubWhereUniqueInput!]
+  update: [ClubUpdateWithWhereUniqueWithoutEditorsInput!]
+  updateMany: [ClubUpdateManyWithWhereWithoutEditorsInput!]
+  deleteMany: [ClubScalarWhereInput!]
+}
+
+input ClubApplicationInfoUncheckedUpdateManyWithoutTeacherInput {
+  create: [ClubApplicationInfoCreateWithoutTeacherInput!]
+  connectOrCreate: [ClubApplicationInfoCreateOrConnectWithoutTeacherInput!]
+  upsert: [ClubApplicationInfoUpsertWithWhereUniqueWithoutTeacherInput!]
+  set: [ClubApplicationInfoWhereUniqueInput!]
+  disconnect: [ClubApplicationInfoWhereUniqueInput!]
+  delete: [ClubApplicationInfoWhereUniqueInput!]
+  connect: [ClubApplicationInfoWhereUniqueInput!]
+  update: [ClubApplicationInfoUpdateWithWhereUniqueWithoutTeacherInput!]
+  updateMany: [ClubApplicationInfoUpdateManyWithWhereWithoutTeacherInput!]
+  deleteMany: [ClubApplicationInfoScalarWhereInput!]
+}
+
+input RoleUncheckedUpdateManyWithoutUsersInput {
+  create: [RoleCreateWithoutUsersInput!]
+  connectOrCreate: [RoleCreateOrConnectWithoutUsersInput!]
+  upsert: [RoleUpsertWithWhereUniqueWithoutUsersInput!]
+  set: [RoleWhereUniqueInput!]
+  disconnect: [RoleWhereUniqueInput!]
+  delete: [RoleWhereUniqueInput!]
+  connect: [RoleWhereUniqueInput!]
+  update: [RoleUpdateWithWhereUniqueWithoutUsersInput!]
+  updateMany: [RoleUpdateManyWithWhereWithoutUsersInput!]
+  deleteMany: [RoleScalarWhereInput!]
+}
+
+input InviteUncheckedUpdateManyWithoutUserInput {
+  create: [InviteCreateWithoutUserInput!]
+  connectOrCreate: [InviteCreateOrConnectWithoutUserInput!]
+  upsert: [InviteUpsertWithWhereUniqueWithoutUserInput!]
+  set: [InviteWhereUniqueInput!]
+  disconnect: [InviteWhereUniqueInput!]
+  delete: [InviteWhereUniqueInput!]
+  connect: [InviteWhereUniqueInput!]
+  update: [InviteUpdateWithWhereUniqueWithoutUserInput!]
+  updateMany: [InviteUpdateManyWithWhereWithoutUserInput!]
+  deleteMany: [InviteScalarWhereInput!]
+}
+
+input ClubCreateNestedOneWithoutInvitesInput {
+  create: ClubUncheckedCreateWithoutInvitesInput
+  connectOrCreate: ClubCreateOrConnectWithoutInvitesInput
+  connect: ClubWhereUniqueInput
+}
+
+input UserCreateNestedOneWithoutInvitesInput {
+  create: UserUncheckedCreateWithoutInvitesInput
+  connectOrCreate: UserCreateOrConnectWithoutInvitesInput
+  connect: UserWhereUniqueInput
+}
+
+input ClubUpdateOneRequiredWithoutInvitesInput {
+  create: ClubUncheckedCreateWithoutInvitesInput
+  connectOrCreate: ClubCreateOrConnectWithoutInvitesInput
+  upsert: ClubUpsertWithoutInvitesInput
+  connect: ClubWhereUniqueInput
+  update: ClubUncheckedUpdateWithoutInvitesInput
+}
+
+input UserUpdateOneRequiredWithoutInvitesInput {
+  create: UserUncheckedCreateWithoutInvitesInput
+  connectOrCreate: UserCreateOrConnectWithoutInvitesInput
+  upsert: UserUpsertWithoutInvitesInput
+  connect: UserWhereUniqueInput
+  update: UserUncheckedUpdateWithoutInvitesInput
+}
+
+input UserCreateNestedManyWithoutRolesInput {
+  create: [UserCreateWithoutRolesInput!]
+  connectOrCreate: [UserCreateOrConnectWithoutRolesInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input ClubCreateNestedOneWithoutRolesInput {
+  create: ClubUncheckedCreateWithoutRolesInput
+  connectOrCreate: ClubCreateOrConnectWithoutRolesInput
+  connect: ClubWhereUniqueInput
+}
+
+input UserUncheckedCreateNestedManyWithoutRolesInput {
+  create: [UserCreateWithoutRolesInput!]
+  connectOrCreate: [UserCreateOrConnectWithoutRolesInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input UserUpdateManyWithoutRolesInput {
+  create: [UserCreateWithoutRolesInput!]
+  connectOrCreate: [UserCreateOrConnectWithoutRolesInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutRolesInput!]
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutRolesInput!]
+  updateMany: [UserUpdateManyWithWhereWithoutRolesInput!]
+  deleteMany: [UserScalarWhereInput!]
+}
+
+input ClubUpdateOneRequiredWithoutRolesInput {
+  create: ClubUncheckedCreateWithoutRolesInput
+  connectOrCreate: ClubCreateOrConnectWithoutRolesInput
+  upsert: ClubUpsertWithoutRolesInput
+  connect: ClubWhereUniqueInput
+  update: ClubUncheckedUpdateWithoutRolesInput
+}
+
+input UserUncheckedUpdateManyWithoutRolesInput {
+  create: [UserCreateWithoutRolesInput!]
+  connectOrCreate: [UserCreateOrConnectWithoutRolesInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutRolesInput!]
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutRolesInput!]
+  updateMany: [UserUpdateManyWithWhereWithoutRolesInput!]
+  deleteMany: [UserScalarWhereInput!]
+}
+
+input ClubApplicationInfoCreateNestedOneWithoutProjectedRevenueInput {
+  create: ClubApplicationInfoUncheckedCreateWithoutProjectedRevenueInput
+  connectOrCreate: ClubApplicationInfoCreateOrConnectWithoutProjectedRevenueInput
+  connect: ClubApplicationInfoWhereUniqueInput
+}
+
+input ClubApplicationInfoUpdateOneRequiredWithoutProjectedRevenueInput {
+  create: ClubApplicationInfoUncheckedCreateWithoutProjectedRevenueInput
+  connectOrCreate: ClubApplicationInfoCreateOrConnectWithoutProjectedRevenueInput
+  upsert: ClubApplicationInfoUpsertWithoutProjectedRevenueInput
+  connect: ClubApplicationInfoWhereUniqueInput
+  update: ClubApplicationInfoUncheckedUpdateWithoutProjectedRevenueInput
+}
+
+input ClubApplicationInfoCreateNestedOneWithoutProjectedExpensesInput {
+  create: ClubApplicationInfoUncheckedCreateWithoutProjectedExpensesInput
+  connectOrCreate: ClubApplicationInfoCreateOrConnectWithoutProjectedExpensesInput
+  connect: ClubApplicationInfoWhereUniqueInput
+}
+
+input ClubApplicationInfoUpdateOneRequiredWithoutProjectedExpensesInput {
+  create: ClubApplicationInfoUncheckedCreateWithoutProjectedExpensesInput
+  connectOrCreate: ClubApplicationInfoCreateOrConnectWithoutProjectedExpensesInput
+  upsert: ClubApplicationInfoUpsertWithoutProjectedExpensesInput
+  connect: ClubApplicationInfoWhereUniqueInput
+  update: ClubApplicationInfoUncheckedUpdateWithoutProjectedExpensesInput
+}
+
+input NestedIntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntFilter
+}
+
+input NestedStringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringNullableFilter
+}
+
+input NestedIntWithAggregatesFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntWithAggregatesFilter
+  _count: NestedIntFilter
+  _avg: NestedFloatFilter
+  _sum: NestedIntFilter
+  _min: NestedIntFilter
+  _max: NestedIntFilter
+}
+
+input NestedFloatFilter {
+  equals: Float
+  in: [Float!]
+  notIn: [Float!]
+  lt: Float
+  lte: Float
+  gt: Float
+  gte: Float
+  not: NestedFloatFilter
+}
+
+input NestedStringNullableWithAggregatesFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringNullableWithAggregatesFilter
+  _count: NestedIntNullableFilter
+  _min: NestedStringNullableFilter
+  _max: NestedStringNullableFilter
+}
+
+input NestedIntNullableFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntNullableFilter
+}
+
+input NestedStringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringFilter
+}
+
+input NestedStringWithAggregatesFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringWithAggregatesFilter
+  _count: NestedIntFilter
+  _min: NestedStringFilter
+  _max: NestedStringFilter
+}
+
+input NestedFloatWithAggregatesFilter {
+  equals: Float
+  in: [Float!]
+  notIn: [Float!]
+  lt: Float
+  lte: Float
+  gt: Float
+  gte: Float
+  not: NestedFloatWithAggregatesFilter
+  _count: NestedIntFilter
+  _avg: NestedFloatFilter
+  _sum: NestedFloatFilter
+  _min: NestedFloatFilter
+  _max: NestedFloatFilter
+}
+
+input NestedBoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+input NestedBoolWithAggregatesFilter {
+  equals: Boolean
+  not: NestedBoolWithAggregatesFilter
+  _count: NestedIntFilter
+  _min: NestedBoolFilter
+  _max: NestedBoolFilter
+}
+
+input LinkCreateWithoutClubInput {
+  name: String
+  link: String!
+  type: String!
+}
+
+input LinkUncheckedCreateWithoutClubInput {
+  id: Int
+  name: String
+  link: String!
+  type: String!
+}
+
+input LinkCreateOrConnectWithoutClubInput {
+  where: LinkWhereUniqueInput!
+  create: LinkUncheckedCreateWithoutClubInput!
+}
+
+input ClubApplicationInfoCreateWithoutClubInput {
+  teacher: UserCreateNestedOneWithoutAdvisorInput!
+  projectedRevenue: ProjectedRevenueCreateNestedManyWithoutClubInput
+  projectedExpenses: ProjectedExpensesCreateNestedManyWithoutClubInput
+  purpose: String!
+  membershipRequirements: String!
+  dutiesOfMembers: String!
+  titlesAndDutiesOfOfficers: String!
+  selectionOfOfficers: String!
+  officerMinimumGPA: Float!
+  percentAttendanceForOfficialMeeting: Int!
+  percentAttendanceToApproveDecision: Int!
+}
+
+input ClubApplicationInfoUncheckedCreateWithoutClubInput {
+  id: Int
+  userId: Int!
+  projectedRevenue: ProjectedRevenueUncheckedCreateNestedManyWithoutClubInput
+  projectedExpenses: ProjectedExpensesUncheckedCreateNestedManyWithoutClubInput
+  purpose: String!
+  membershipRequirements: String!
+  dutiesOfMembers: String!
+  titlesAndDutiesOfOfficers: String!
+  selectionOfOfficers: String!
+  officerMinimumGPA: Float!
+  percentAttendanceForOfficialMeeting: Int!
+  percentAttendanceToApproveDecision: Int!
+}
+
+input ClubApplicationInfoCreateOrConnectWithoutClubInput {
+  where: ClubApplicationInfoWhereUniqueInput!
+  create: ClubApplicationInfoUncheckedCreateWithoutClubInput!
+}
+
+input TagCreateWithoutClubsInput {
+  name: String!
+  interestedUsers: UserCreateNestedManyWithoutInterestsInput
+}
+
+input TagUncheckedCreateWithoutClubsInput {
+  id: Int
+  name: String!
+  interestedUsers: UserUncheckedCreateNestedManyWithoutInterestsInput
+}
+
+input TagCreateOrConnectWithoutClubsInput {
+  where: TagWhereUniqueInput!
+  create: TagUncheckedCreateWithoutClubsInput!
+}
+
+input UserCreateWithoutClubsInput {
+  ccid: String!
+  firstname: String!
+  lastname: String!
+  email: String!
+  emailVerified: Boolean!
+  password: String!
+  grade: String!
+  type: String
+  interests: TagCreateNestedManyWithoutInterestedUsersInput
+  canEdit: ClubCreateNestedManyWithoutEditorsInput
+  advisor: ClubApplicationInfoCreateNestedManyWithoutTeacherInput
+  roles: RoleCreateNestedManyWithoutUsersInput
+  invites: InviteCreateNestedManyWithoutUserInput
+}
+
+input UserUncheckedCreateWithoutClubsInput {
+  id: Int
+  ccid: String!
+  firstname: String!
+  lastname: String!
+  email: String!
+  emailVerified: Boolean!
+  password: String!
+  grade: String!
+  type: String
+  interests: TagUncheckedCreateNestedManyWithoutInterestedUsersInput
+  canEdit: ClubUncheckedCreateNestedManyWithoutEditorsInput
+  advisor: ClubApplicationInfoUncheckedCreateNestedManyWithoutTeacherInput
+  roles: RoleUncheckedCreateNestedManyWithoutUsersInput
+  invites: InviteUncheckedCreateNestedManyWithoutUserInput
+}
+
+input UserCreateOrConnectWithoutClubsInput {
+  where: UserWhereUniqueInput!
+  create: UserUncheckedCreateWithoutClubsInput!
+}
+
+input UserCreateWithoutCanEditInput {
+  ccid: String!
+  firstname: String!
+  lastname: String!
+  email: String!
+  emailVerified: Boolean!
+  password: String!
+  grade: String!
+  type: String
+  interests: TagCreateNestedManyWithoutInterestedUsersInput
+  clubs: ClubCreateNestedManyWithoutMembersInput
+  advisor: ClubApplicationInfoCreateNestedManyWithoutTeacherInput
+  roles: RoleCreateNestedManyWithoutUsersInput
+  invites: InviteCreateNestedManyWithoutUserInput
+}
+
+input UserUncheckedCreateWithoutCanEditInput {
+  id: Int
+  ccid: String!
+  firstname: String!
+  lastname: String!
+  email: String!
+  emailVerified: Boolean!
+  password: String!
+  grade: String!
+  type: String
+  interests: TagUncheckedCreateNestedManyWithoutInterestedUsersInput
+  clubs: ClubUncheckedCreateNestedManyWithoutMembersInput
+  advisor: ClubApplicationInfoUncheckedCreateNestedManyWithoutTeacherInput
+  roles: RoleUncheckedCreateNestedManyWithoutUsersInput
+  invites: InviteUncheckedCreateNestedManyWithoutUserInput
+}
+
+input UserCreateOrConnectWithoutCanEditInput {
+  where: UserWhereUniqueInput!
+  create: UserUncheckedCreateWithoutCanEditInput!
+}
+
+input RoleCreateWithoutClubInput {
+  name: String!
+  color: String!
+  description: String!
+  users: UserCreateNestedManyWithoutRolesInput
+  type: String
+}
+
+input RoleUncheckedCreateWithoutClubInput {
+  id: Int
+  name: String!
+  color: String!
+  description: String!
+  users: UserUncheckedCreateNestedManyWithoutRolesInput
+  type: String
+}
+
+input RoleCreateOrConnectWithoutClubInput {
+  where: RoleWhereUniqueInput!
+  create: RoleUncheckedCreateWithoutClubInput!
+}
+
+input InviteCreateWithoutClubInput {
+  status: String
+  user: UserCreateNestedOneWithoutInvitesInput!
+}
+
+input InviteUncheckedCreateWithoutClubInput {
+  id: Int
+  status: String
+  userId: Int!
+}
+
+input InviteCreateOrConnectWithoutClubInput {
+  where: InviteWhereUniqueInput!
+  create: InviteUncheckedCreateWithoutClubInput!
+}
+
+input LinkUpsertWithWhereUniqueWithoutClubInput {
+  where: LinkWhereUniqueInput!
+  update: LinkUncheckedUpdateWithoutClubInput!
+  create: LinkUncheckedCreateWithoutClubInput!
+}
+
+input LinkUpdateWithWhereUniqueWithoutClubInput {
+  where: LinkWhereUniqueInput!
+  data: LinkUncheckedUpdateWithoutClubInput!
+}
+
+input LinkUpdateManyWithWhereWithoutClubInput {
+  where: LinkScalarWhereInput!
+  data: LinkUncheckedUpdateManyWithoutLinksInput!
+}
+
+input LinkScalarWhereInput {
+  AND: [LinkScalarWhereInput!]
+  OR: [LinkScalarWhereInput!]
+  NOT: [LinkScalarWhereInput!]
+  id: IntFilter
+  clubId: IntFilter
+  name: StringNullableFilter
+  link: StringFilter
+  type: StringFilter
+}
+
+input ClubApplicationInfoUpsertWithoutClubInput {
+  update: ClubApplicationInfoUncheckedUpdateWithoutClubInput!
+  create: ClubApplicationInfoUncheckedCreateWithoutClubInput!
+}
+
+input ClubApplicationInfoUpdateWithoutClubInput {
+  teacher: UserUpdateOneRequiredWithoutAdvisorInput
+  projectedRevenue: ProjectedRevenueUpdateManyWithoutClubInput
+  projectedExpenses: ProjectedExpensesUpdateManyWithoutClubInput
+  purpose: StringFieldUpdateOperationsInput
+  membershipRequirements: StringFieldUpdateOperationsInput
+  dutiesOfMembers: StringFieldUpdateOperationsInput
+  titlesAndDutiesOfOfficers: StringFieldUpdateOperationsInput
+  selectionOfOfficers: StringFieldUpdateOperationsInput
+  officerMinimumGPA: FloatFieldUpdateOperationsInput
+  percentAttendanceForOfficialMeeting: IntFieldUpdateOperationsInput
+  percentAttendanceToApproveDecision: IntFieldUpdateOperationsInput
+}
+
+input ClubApplicationInfoUncheckedUpdateWithoutClubInput {
+  id: IntFieldUpdateOperationsInput
+  userId: IntFieldUpdateOperationsInput
+  projectedRevenue: ProjectedRevenueUncheckedUpdateManyWithoutClubInput
+  projectedExpenses: ProjectedExpensesUncheckedUpdateManyWithoutClubInput
+  purpose: StringFieldUpdateOperationsInput
+  membershipRequirements: StringFieldUpdateOperationsInput
+  dutiesOfMembers: StringFieldUpdateOperationsInput
+  titlesAndDutiesOfOfficers: StringFieldUpdateOperationsInput
+  selectionOfOfficers: StringFieldUpdateOperationsInput
+  officerMinimumGPA: FloatFieldUpdateOperationsInput
+  percentAttendanceForOfficialMeeting: IntFieldUpdateOperationsInput
+  percentAttendanceToApproveDecision: IntFieldUpdateOperationsInput
+}
+
+input TagUpsertWithWhereUniqueWithoutClubsInput {
+  where: TagWhereUniqueInput!
+  update: TagUncheckedUpdateWithoutClubsInput!
+  create: TagUncheckedCreateWithoutClubsInput!
+}
+
+input TagUpdateWithWhereUniqueWithoutClubsInput {
+  where: TagWhereUniqueInput!
+  data: TagUncheckedUpdateWithoutClubsInput!
+}
+
+input TagUpdateManyWithWhereWithoutClubsInput {
+  where: TagScalarWhereInput!
+  data: TagUncheckedUpdateManyWithoutTagsInput!
+}
+
+input TagScalarWhereInput {
+  AND: [TagScalarWhereInput!]
+  OR: [TagScalarWhereInput!]
+  NOT: [TagScalarWhereInput!]
+  id: IntFilter
+  name: StringFilter
+}
+
+input UserUpsertWithWhereUniqueWithoutClubsInput {
+  where: UserWhereUniqueInput!
+  update: UserUncheckedUpdateWithoutClubsInput!
+  create: UserUncheckedCreateWithoutClubsInput!
+}
+
+input UserUpdateWithWhereUniqueWithoutClubsInput {
+  where: UserWhereUniqueInput!
+  data: UserUncheckedUpdateWithoutClubsInput!
+}
+
+input UserUpdateManyWithWhereWithoutClubsInput {
+  where: UserScalarWhereInput!
+  data: UserUncheckedUpdateManyWithoutMembersInput!
+}
+
+input UserScalarWhereInput {
+  AND: [UserScalarWhereInput!]
+  OR: [UserScalarWhereInput!]
+  NOT: [UserScalarWhereInput!]
+  id: IntFilter
+  ccid: StringFilter
+  firstname: StringFilter
+  lastname: StringFilter
+  email: StringFilter
+  emailVerified: BoolFilter
+  password: StringFilter
+  grade: StringFilter
+  type: StringFilter
+}
+
+input UserUpsertWithWhereUniqueWithoutCanEditInput {
+  where: UserWhereUniqueInput!
+  update: UserUncheckedUpdateWithoutCanEditInput!
+  create: UserUncheckedCreateWithoutCanEditInput!
+}
+
+input UserUpdateWithWhereUniqueWithoutCanEditInput {
+  where: UserWhereUniqueInput!
+  data: UserUncheckedUpdateWithoutCanEditInput!
+}
+
+input UserUpdateManyWithWhereWithoutCanEditInput {
+  where: UserScalarWhereInput!
+  data: UserUncheckedUpdateManyWithoutEditorsInput!
+}
+
+input RoleUpsertWithWhereUniqueWithoutClubInput {
+  where: RoleWhereUniqueInput!
+  update: RoleUncheckedUpdateWithoutClubInput!
+  create: RoleUncheckedCreateWithoutClubInput!
+}
+
+input RoleUpdateWithWhereUniqueWithoutClubInput {
+  where: RoleWhereUniqueInput!
+  data: RoleUncheckedUpdateWithoutClubInput!
+}
+
+input RoleUpdateManyWithWhereWithoutClubInput {
+  where: RoleScalarWhereInput!
+  data: RoleUncheckedUpdateManyWithoutRolesInput!
+}
+
+input RoleScalarWhereInput {
+  AND: [RoleScalarWhereInput!]
+  OR: [RoleScalarWhereInput!]
+  NOT: [RoleScalarWhereInput!]
+  id: IntFilter
+  name: StringFilter
+  color: StringFilter
+  description: StringFilter
+  clubId: IntFilter
+  type: StringFilter
+}
+
+input InviteUpsertWithWhereUniqueWithoutClubInput {
+  where: InviteWhereUniqueInput!
+  update: InviteUncheckedUpdateWithoutClubInput!
+  create: InviteUncheckedCreateWithoutClubInput!
+}
+
+input InviteUpdateWithWhereUniqueWithoutClubInput {
+  where: InviteWhereUniqueInput!
+  data: InviteUncheckedUpdateWithoutClubInput!
+}
+
+input InviteUpdateManyWithWhereWithoutClubInput {
+  where: InviteScalarWhereInput!
+  data: InviteUncheckedUpdateManyWithoutInvitesInput!
+}
+
+input InviteScalarWhereInput {
+  AND: [InviteScalarWhereInput!]
+  OR: [InviteScalarWhereInput!]
+  NOT: [InviteScalarWhereInput!]
+  id: IntFilter
+  status: StringFilter
+  clubId: IntFilter
+  userId: IntFilter
+}
+
+input ClubCreateWithoutLinksInput {
+  name: String
+  slug: String
+  description: String
+  email: String
+  meetingDate: String
+  location: String
+  approval: String
+  status: String
+  availability: String
+  applicationInfo: ClubApplicationInfoCreateNestedOneWithoutClubInput
+  tags: TagCreateNestedManyWithoutClubsInput
+  members: UserCreateNestedManyWithoutClubsInput
+  editors: UserCreateNestedManyWithoutCanEditInput
+  roles: RoleCreateNestedManyWithoutClubInput
+  invites: InviteCreateNestedManyWithoutClubInput
+}
+
+input ClubUncheckedCreateWithoutLinksInput {
+  id: Int
+  name: String
+  slug: String
+  description: String
+  email: String
+  meetingDate: String
+  location: String
+  approval: String
+  status: String
+  availability: String
+  applicationInfo: ClubApplicationInfoUncheckedCreateNestedOneWithoutClubInput
+  tags: TagUncheckedCreateNestedManyWithoutClubsInput
+  members: UserUncheckedCreateNestedManyWithoutClubsInput
+  editors: UserUncheckedCreateNestedManyWithoutCanEditInput
+  roles: RoleUncheckedCreateNestedManyWithoutClubInput
+  invites: InviteUncheckedCreateNestedManyWithoutClubInput
+}
+
+input ClubCreateOrConnectWithoutLinksInput {
+  where: ClubWhereUniqueInput!
+  create: ClubUncheckedCreateWithoutLinksInput!
+}
+
+input ClubUpsertWithoutLinksInput {
+  update: ClubUncheckedUpdateWithoutLinksInput!
+  create: ClubUncheckedCreateWithoutLinksInput!
+}
+
+input ClubUpdateWithoutLinksInput {
+  name: NullableStringFieldUpdateOperationsInput
+  slug: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  email: NullableStringFieldUpdateOperationsInput
+  meetingDate: NullableStringFieldUpdateOperationsInput
+  location: NullableStringFieldUpdateOperationsInput
+  approval: NullableStringFieldUpdateOperationsInput
+  status: NullableStringFieldUpdateOperationsInput
+  availability: NullableStringFieldUpdateOperationsInput
+  applicationInfo: ClubApplicationInfoUpdateOneWithoutClubInput
+  tags: TagUpdateManyWithoutClubsInput
+  members: UserUpdateManyWithoutClubsInput
+  editors: UserUpdateManyWithoutCanEditInput
+  roles: RoleUpdateManyWithoutClubInput
+  invites: InviteUpdateManyWithoutClubInput
+}
+
+input ClubUncheckedUpdateWithoutLinksInput {
+  id: IntFieldUpdateOperationsInput
+  name: NullableStringFieldUpdateOperationsInput
+  slug: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  email: NullableStringFieldUpdateOperationsInput
+  meetingDate: NullableStringFieldUpdateOperationsInput
+  location: NullableStringFieldUpdateOperationsInput
+  approval: NullableStringFieldUpdateOperationsInput
+  status: NullableStringFieldUpdateOperationsInput
+  availability: NullableStringFieldUpdateOperationsInput
+  applicationInfo: ClubApplicationInfoUncheckedUpdateOneWithoutClubInput
+  tags: TagUncheckedUpdateManyWithoutClubsInput
+  members: UserUncheckedUpdateManyWithoutClubsInput
+  editors: UserUncheckedUpdateManyWithoutCanEditInput
+  roles: RoleUncheckedUpdateManyWithoutClubInput
+  invites: InviteUncheckedUpdateManyWithoutClubInput
+}
+
+input UserCreateWithoutAdvisorInput {
+  ccid: String!
+  firstname: String!
+  lastname: String!
+  email: String!
+  emailVerified: Boolean!
+  password: String!
+  grade: String!
+  type: String
+  interests: TagCreateNestedManyWithoutInterestedUsersInput
+  clubs: ClubCreateNestedManyWithoutMembersInput
+  canEdit: ClubCreateNestedManyWithoutEditorsInput
+  roles: RoleCreateNestedManyWithoutUsersInput
+  invites: InviteCreateNestedManyWithoutUserInput
+}
+
+input UserUncheckedCreateWithoutAdvisorInput {
+  id: Int
+  ccid: String!
+  firstname: String!
+  lastname: String!
+  email: String!
+  emailVerified: Boolean!
+  password: String!
+  grade: String!
+  type: String
+  interests: TagUncheckedCreateNestedManyWithoutInterestedUsersInput
+  clubs: ClubUncheckedCreateNestedManyWithoutMembersInput
+  canEdit: ClubUncheckedCreateNestedManyWithoutEditorsInput
+  roles: RoleUncheckedCreateNestedManyWithoutUsersInput
+  invites: InviteUncheckedCreateNestedManyWithoutUserInput
+}
+
+input UserCreateOrConnectWithoutAdvisorInput {
+  where: UserWhereUniqueInput!
+  create: UserUncheckedCreateWithoutAdvisorInput!
+}
+
+input ClubCreateWithoutApplicationInfoInput {
+  name: String
+  slug: String
+  description: String
+  email: String
+  meetingDate: String
+  location: String
+  approval: String
+  status: String
+  availability: String
+  links: LinkCreateNestedManyWithoutClubInput
+  tags: TagCreateNestedManyWithoutClubsInput
+  members: UserCreateNestedManyWithoutClubsInput
+  editors: UserCreateNestedManyWithoutCanEditInput
+  roles: RoleCreateNestedManyWithoutClubInput
+  invites: InviteCreateNestedManyWithoutClubInput
+}
+
+input ClubUncheckedCreateWithoutApplicationInfoInput {
+  id: Int
+  name: String
+  slug: String
+  description: String
+  email: String
+  meetingDate: String
+  location: String
+  approval: String
+  status: String
+  availability: String
+  links: LinkUncheckedCreateNestedManyWithoutClubInput
+  tags: TagUncheckedCreateNestedManyWithoutClubsInput
+  members: UserUncheckedCreateNestedManyWithoutClubsInput
+  editors: UserUncheckedCreateNestedManyWithoutCanEditInput
+  roles: RoleUncheckedCreateNestedManyWithoutClubInput
+  invites: InviteUncheckedCreateNestedManyWithoutClubInput
+}
+
+input ClubCreateOrConnectWithoutApplicationInfoInput {
+  where: ClubWhereUniqueInput!
+  create: ClubUncheckedCreateWithoutApplicationInfoInput!
+}
+
+input ProjectedRevenueCreateWithoutClubInput {
+  name: String!
+  amount: Float!
+  date: String!
+}
+
+input ProjectedRevenueUncheckedCreateWithoutClubInput {
+  id: Int
+  name: String!
+  amount: Float!
+  date: String!
+}
+
+input ProjectedRevenueCreateOrConnectWithoutClubInput {
+  where: ProjectedRevenueWhereUniqueInput!
+  create: ProjectedRevenueUncheckedCreateWithoutClubInput!
+}
+
+input ProjectedExpensesCreateWithoutClubInput {
+  name: String!
+  amount: Float!
+  date: String!
+}
+
+input ProjectedExpensesUncheckedCreateWithoutClubInput {
+  id: Int
+  name: String!
+  amount: Float!
+  date: String!
+}
+
+input ProjectedExpensesCreateOrConnectWithoutClubInput {
+  where: ProjectedExpensesWhereUniqueInput!
+  create: ProjectedExpensesUncheckedCreateWithoutClubInput!
+}
+
+input UserUpsertWithoutAdvisorInput {
+  update: UserUncheckedUpdateWithoutAdvisorInput!
+  create: UserUncheckedCreateWithoutAdvisorInput!
+}
+
+input UserUpdateWithoutAdvisorInput {
+  ccid: StringFieldUpdateOperationsInput
+  firstname: StringFieldUpdateOperationsInput
+  lastname: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  emailVerified: BoolFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  grade: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+  interests: TagUpdateManyWithoutInterestedUsersInput
+  clubs: ClubUpdateManyWithoutMembersInput
+  canEdit: ClubUpdateManyWithoutEditorsInput
+  roles: RoleUpdateManyWithoutUsersInput
+  invites: InviteUpdateManyWithoutUserInput
+}
+
+input UserUncheckedUpdateWithoutAdvisorInput {
+  id: IntFieldUpdateOperationsInput
+  ccid: StringFieldUpdateOperationsInput
+  firstname: StringFieldUpdateOperationsInput
+  lastname: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  emailVerified: BoolFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  grade: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+  interests: TagUncheckedUpdateManyWithoutInterestedUsersInput
+  clubs: ClubUncheckedUpdateManyWithoutMembersInput
+  canEdit: ClubUncheckedUpdateManyWithoutEditorsInput
+  roles: RoleUncheckedUpdateManyWithoutUsersInput
+  invites: InviteUncheckedUpdateManyWithoutUserInput
+}
+
+input ClubUpsertWithoutApplicationInfoInput {
+  update: ClubUncheckedUpdateWithoutApplicationInfoInput!
+  create: ClubUncheckedCreateWithoutApplicationInfoInput!
+}
+
+input ClubUpdateWithoutApplicationInfoInput {
+  name: NullableStringFieldUpdateOperationsInput
+  slug: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  email: NullableStringFieldUpdateOperationsInput
+  meetingDate: NullableStringFieldUpdateOperationsInput
+  location: NullableStringFieldUpdateOperationsInput
+  approval: NullableStringFieldUpdateOperationsInput
+  status: NullableStringFieldUpdateOperationsInput
+  availability: NullableStringFieldUpdateOperationsInput
+  links: LinkUpdateManyWithoutClubInput
+  tags: TagUpdateManyWithoutClubsInput
+  members: UserUpdateManyWithoutClubsInput
+  editors: UserUpdateManyWithoutCanEditInput
+  roles: RoleUpdateManyWithoutClubInput
+  invites: InviteUpdateManyWithoutClubInput
+}
+
+input ClubUncheckedUpdateWithoutApplicationInfoInput {
+  id: IntFieldUpdateOperationsInput
+  name: NullableStringFieldUpdateOperationsInput
+  slug: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  email: NullableStringFieldUpdateOperationsInput
+  meetingDate: NullableStringFieldUpdateOperationsInput
+  location: NullableStringFieldUpdateOperationsInput
+  approval: NullableStringFieldUpdateOperationsInput
+  status: NullableStringFieldUpdateOperationsInput
+  availability: NullableStringFieldUpdateOperationsInput
+  links: LinkUncheckedUpdateManyWithoutClubInput
+  tags: TagUncheckedUpdateManyWithoutClubsInput
+  members: UserUncheckedUpdateManyWithoutClubsInput
+  editors: UserUncheckedUpdateManyWithoutCanEditInput
+  roles: RoleUncheckedUpdateManyWithoutClubInput
+  invites: InviteUncheckedUpdateManyWithoutClubInput
+}
+
+input ProjectedRevenueUpsertWithWhereUniqueWithoutClubInput {
+  where: ProjectedRevenueWhereUniqueInput!
+  update: ProjectedRevenueUncheckedUpdateWithoutClubInput!
+  create: ProjectedRevenueUncheckedCreateWithoutClubInput!
+}
+
+input ProjectedRevenueUpdateWithWhereUniqueWithoutClubInput {
+  where: ProjectedRevenueWhereUniqueInput!
+  data: ProjectedRevenueUncheckedUpdateWithoutClubInput!
+}
+
+input ProjectedRevenueUpdateManyWithWhereWithoutClubInput {
+  where: ProjectedRevenueScalarWhereInput!
+  data: ProjectedRevenueUncheckedUpdateManyWithoutProjectedRevenueInput!
+}
+
+input ProjectedRevenueScalarWhereInput {
+  AND: [ProjectedRevenueScalarWhereInput!]
+  OR: [ProjectedRevenueScalarWhereInput!]
+  NOT: [ProjectedRevenueScalarWhereInput!]
+  id: IntFilter
+  clubId: IntFilter
+  name: StringFilter
+  amount: FloatFilter
+  date: StringFilter
+}
+
+input ProjectedExpensesUpsertWithWhereUniqueWithoutClubInput {
+  where: ProjectedExpensesWhereUniqueInput!
+  update: ProjectedExpensesUncheckedUpdateWithoutClubInput!
+  create: ProjectedExpensesUncheckedCreateWithoutClubInput!
+}
+
+input ProjectedExpensesUpdateWithWhereUniqueWithoutClubInput {
+  where: ProjectedExpensesWhereUniqueInput!
+  data: ProjectedExpensesUncheckedUpdateWithoutClubInput!
+}
+
+input ProjectedExpensesUpdateManyWithWhereWithoutClubInput {
+  where: ProjectedExpensesScalarWhereInput!
+  data: ProjectedExpensesUncheckedUpdateManyWithoutProjectedExpensesInput!
+}
+
+input ProjectedExpensesScalarWhereInput {
+  AND: [ProjectedExpensesScalarWhereInput!]
+  OR: [ProjectedExpensesScalarWhereInput!]
+  NOT: [ProjectedExpensesScalarWhereInput!]
+  id: IntFilter
+  clubId: IntFilter
+  name: StringFilter
+  amount: FloatFilter
+  date: StringFilter
+}
+
+input ClubCreateWithoutTagsInput {
+  name: String
+  slug: String
+  description: String
+  email: String
+  meetingDate: String
+  location: String
+  approval: String
+  status: String
+  availability: String
+  links: LinkCreateNestedManyWithoutClubInput
+  applicationInfo: ClubApplicationInfoCreateNestedOneWithoutClubInput
+  members: UserCreateNestedManyWithoutClubsInput
+  editors: UserCreateNestedManyWithoutCanEditInput
+  roles: RoleCreateNestedManyWithoutClubInput
+  invites: InviteCreateNestedManyWithoutClubInput
+}
+
+input ClubUncheckedCreateWithoutTagsInput {
+  id: Int
+  name: String
+  slug: String
+  description: String
+  email: String
+  meetingDate: String
+  location: String
+  approval: String
+  status: String
+  availability: String
+  links: LinkUncheckedCreateNestedManyWithoutClubInput
+  applicationInfo: ClubApplicationInfoUncheckedCreateNestedOneWithoutClubInput
+  members: UserUncheckedCreateNestedManyWithoutClubsInput
+  editors: UserUncheckedCreateNestedManyWithoutCanEditInput
+  roles: RoleUncheckedCreateNestedManyWithoutClubInput
+  invites: InviteUncheckedCreateNestedManyWithoutClubInput
+}
+
+input ClubCreateOrConnectWithoutTagsInput {
+  where: ClubWhereUniqueInput!
+  create: ClubUncheckedCreateWithoutTagsInput!
+}
+
+input UserCreateWithoutInterestsInput {
+  ccid: String!
+  firstname: String!
+  lastname: String!
+  email: String!
+  emailVerified: Boolean!
+  password: String!
+  grade: String!
+  type: String
+  clubs: ClubCreateNestedManyWithoutMembersInput
+  canEdit: ClubCreateNestedManyWithoutEditorsInput
+  advisor: ClubApplicationInfoCreateNestedManyWithoutTeacherInput
+  roles: RoleCreateNestedManyWithoutUsersInput
+  invites: InviteCreateNestedManyWithoutUserInput
+}
+
+input UserUncheckedCreateWithoutInterestsInput {
+  id: Int
+  ccid: String!
+  firstname: String!
+  lastname: String!
+  email: String!
+  emailVerified: Boolean!
+  password: String!
+  grade: String!
+  type: String
+  clubs: ClubUncheckedCreateNestedManyWithoutMembersInput
+  canEdit: ClubUncheckedCreateNestedManyWithoutEditorsInput
+  advisor: ClubApplicationInfoUncheckedCreateNestedManyWithoutTeacherInput
+  roles: RoleUncheckedCreateNestedManyWithoutUsersInput
+  invites: InviteUncheckedCreateNestedManyWithoutUserInput
+}
+
+input UserCreateOrConnectWithoutInterestsInput {
+  where: UserWhereUniqueInput!
+  create: UserUncheckedCreateWithoutInterestsInput!
+}
+
+input ClubUpsertWithWhereUniqueWithoutTagsInput {
+  where: ClubWhereUniqueInput!
+  update: ClubUncheckedUpdateWithoutTagsInput!
+  create: ClubUncheckedCreateWithoutTagsInput!
+}
+
+input ClubUpdateWithWhereUniqueWithoutTagsInput {
+  where: ClubWhereUniqueInput!
+  data: ClubUncheckedUpdateWithoutTagsInput!
+}
+
+input ClubUpdateManyWithWhereWithoutTagsInput {
+  where: ClubScalarWhereInput!
+  data: ClubUncheckedUpdateManyWithoutClubsInput!
+}
+
+input ClubScalarWhereInput {
+  AND: [ClubScalarWhereInput!]
+  OR: [ClubScalarWhereInput!]
+  NOT: [ClubScalarWhereInput!]
+  id: IntFilter
+  name: StringNullableFilter
+  slug: StringNullableFilter
+  description: StringNullableFilter
+  email: StringNullableFilter
+  meetingDate: StringNullableFilter
+  location: StringNullableFilter
+  approval: StringNullableFilter
+  status: StringNullableFilter
+  availability: StringNullableFilter
+}
+
+input UserUpsertWithWhereUniqueWithoutInterestsInput {
+  where: UserWhereUniqueInput!
+  update: UserUncheckedUpdateWithoutInterestsInput!
+  create: UserUncheckedCreateWithoutInterestsInput!
+}
+
+input UserUpdateWithWhereUniqueWithoutInterestsInput {
+  where: UserWhereUniqueInput!
+  data: UserUncheckedUpdateWithoutInterestsInput!
+}
+
+input UserUpdateManyWithWhereWithoutInterestsInput {
+  where: UserScalarWhereInput!
+  data: UserUncheckedUpdateManyWithoutInterestedUsersInput!
+}
+
+input TagCreateWithoutInterestedUsersInput {
+  name: String!
+  clubs: ClubCreateNestedManyWithoutTagsInput
+}
+
+input TagUncheckedCreateWithoutInterestedUsersInput {
+  id: Int
+  name: String!
+  clubs: ClubUncheckedCreateNestedManyWithoutTagsInput
+}
+
+input TagCreateOrConnectWithoutInterestedUsersInput {
+  where: TagWhereUniqueInput!
+  create: TagUncheckedCreateWithoutInterestedUsersInput!
+}
+
+input ClubCreateWithoutMembersInput {
+  name: String
+  slug: String
+  description: String
+  email: String
+  meetingDate: String
+  location: String
+  approval: String
+  status: String
+  availability: String
+  links: LinkCreateNestedManyWithoutClubInput
+  applicationInfo: ClubApplicationInfoCreateNestedOneWithoutClubInput
+  tags: TagCreateNestedManyWithoutClubsInput
+  editors: UserCreateNestedManyWithoutCanEditInput
+  roles: RoleCreateNestedManyWithoutClubInput
+  invites: InviteCreateNestedManyWithoutClubInput
+}
+
+input ClubUncheckedCreateWithoutMembersInput {
+  id: Int
+  name: String
+  slug: String
+  description: String
+  email: String
+  meetingDate: String
+  location: String
+  approval: String
+  status: String
+  availability: String
+  links: LinkUncheckedCreateNestedManyWithoutClubInput
+  applicationInfo: ClubApplicationInfoUncheckedCreateNestedOneWithoutClubInput
+  tags: TagUncheckedCreateNestedManyWithoutClubsInput
+  editors: UserUncheckedCreateNestedManyWithoutCanEditInput
+  roles: RoleUncheckedCreateNestedManyWithoutClubInput
+  invites: InviteUncheckedCreateNestedManyWithoutClubInput
+}
+
+input ClubCreateOrConnectWithoutMembersInput {
+  where: ClubWhereUniqueInput!
+  create: ClubUncheckedCreateWithoutMembersInput!
+}
+
+input ClubCreateWithoutEditorsInput {
+  name: String
+  slug: String
+  description: String
+  email: String
+  meetingDate: String
+  location: String
+  approval: String
+  status: String
+  availability: String
+  links: LinkCreateNestedManyWithoutClubInput
+  applicationInfo: ClubApplicationInfoCreateNestedOneWithoutClubInput
+  tags: TagCreateNestedManyWithoutClubsInput
+  members: UserCreateNestedManyWithoutClubsInput
+  roles: RoleCreateNestedManyWithoutClubInput
+  invites: InviteCreateNestedManyWithoutClubInput
+}
+
+input ClubUncheckedCreateWithoutEditorsInput {
+  id: Int
+  name: String
+  slug: String
+  description: String
+  email: String
+  meetingDate: String
+  location: String
+  approval: String
+  status: String
+  availability: String
+  links: LinkUncheckedCreateNestedManyWithoutClubInput
+  applicationInfo: ClubApplicationInfoUncheckedCreateNestedOneWithoutClubInput
+  tags: TagUncheckedCreateNestedManyWithoutClubsInput
+  members: UserUncheckedCreateNestedManyWithoutClubsInput
+  roles: RoleUncheckedCreateNestedManyWithoutClubInput
+  invites: InviteUncheckedCreateNestedManyWithoutClubInput
+}
+
+input ClubCreateOrConnectWithoutEditorsInput {
+  where: ClubWhereUniqueInput!
+  create: ClubUncheckedCreateWithoutEditorsInput!
+}
+
+input ClubApplicationInfoCreateWithoutTeacherInput {
+  club: ClubCreateNestedOneWithoutApplicationInfoInput!
+  projectedRevenue: ProjectedRevenueCreateNestedManyWithoutClubInput
+  projectedExpenses: ProjectedExpensesCreateNestedManyWithoutClubInput
+  purpose: String!
+  membershipRequirements: String!
+  dutiesOfMembers: String!
+  titlesAndDutiesOfOfficers: String!
+  selectionOfOfficers: String!
+  officerMinimumGPA: Float!
+  percentAttendanceForOfficialMeeting: Int!
+  percentAttendanceToApproveDecision: Int!
+}
+
+input ClubApplicationInfoUncheckedCreateWithoutTeacherInput {
+  id: Int
+  clubId: Int!
+  projectedRevenue: ProjectedRevenueUncheckedCreateNestedManyWithoutClubInput
+  projectedExpenses: ProjectedExpensesUncheckedCreateNestedManyWithoutClubInput
+  purpose: String!
+  membershipRequirements: String!
+  dutiesOfMembers: String!
+  titlesAndDutiesOfOfficers: String!
+  selectionOfOfficers: String!
+  officerMinimumGPA: Float!
+  percentAttendanceForOfficialMeeting: Int!
+  percentAttendanceToApproveDecision: Int!
+}
+
+input ClubApplicationInfoCreateOrConnectWithoutTeacherInput {
+  where: ClubApplicationInfoWhereUniqueInput!
+  create: ClubApplicationInfoUncheckedCreateWithoutTeacherInput!
+}
+
+input RoleCreateWithoutUsersInput {
+  name: String!
+  color: String!
+  description: String!
+  club: ClubCreateNestedOneWithoutRolesInput!
+  type: String
+}
+
+input RoleUncheckedCreateWithoutUsersInput {
+  id: Int
+  name: String!
+  color: String!
+  description: String!
+  clubId: Int!
+  type: String
+}
+
+input RoleCreateOrConnectWithoutUsersInput {
+  where: RoleWhereUniqueInput!
+  create: RoleUncheckedCreateWithoutUsersInput!
+}
+
+input InviteCreateWithoutUserInput {
+  status: String
+  club: ClubCreateNestedOneWithoutInvitesInput!
+}
+
+input InviteUncheckedCreateWithoutUserInput {
+  id: Int
+  status: String
+  clubId: Int!
+}
+
+input InviteCreateOrConnectWithoutUserInput {
+  where: InviteWhereUniqueInput!
+  create: InviteUncheckedCreateWithoutUserInput!
+}
+
+input TagUpsertWithWhereUniqueWithoutInterestedUsersInput {
+  where: TagWhereUniqueInput!
+  update: TagUncheckedUpdateWithoutInterestedUsersInput!
+  create: TagUncheckedCreateWithoutInterestedUsersInput!
+}
+
+input TagUpdateWithWhereUniqueWithoutInterestedUsersInput {
+  where: TagWhereUniqueInput!
+  data: TagUncheckedUpdateWithoutInterestedUsersInput!
+}
+
+input TagUpdateManyWithWhereWithoutInterestedUsersInput {
+  where: TagScalarWhereInput!
+  data: TagUncheckedUpdateManyWithoutInterestsInput!
+}
+
+input ClubUpsertWithWhereUniqueWithoutMembersInput {
+  where: ClubWhereUniqueInput!
+  update: ClubUncheckedUpdateWithoutMembersInput!
+  create: ClubUncheckedCreateWithoutMembersInput!
+}
+
+input ClubUpdateWithWhereUniqueWithoutMembersInput {
+  where: ClubWhereUniqueInput!
+  data: ClubUncheckedUpdateWithoutMembersInput!
+}
+
+input ClubUpdateManyWithWhereWithoutMembersInput {
+  where: ClubScalarWhereInput!
+  data: ClubUncheckedUpdateManyWithoutClubsInput!
+}
+
+input ClubUpsertWithWhereUniqueWithoutEditorsInput {
+  where: ClubWhereUniqueInput!
+  update: ClubUncheckedUpdateWithoutEditorsInput!
+  create: ClubUncheckedCreateWithoutEditorsInput!
+}
+
+input ClubUpdateWithWhereUniqueWithoutEditorsInput {
+  where: ClubWhereUniqueInput!
+  data: ClubUncheckedUpdateWithoutEditorsInput!
+}
+
+input ClubUpdateManyWithWhereWithoutEditorsInput {
+  where: ClubScalarWhereInput!
+  data: ClubUncheckedUpdateManyWithoutCanEditInput!
+}
+
+input ClubApplicationInfoUpsertWithWhereUniqueWithoutTeacherInput {
+  where: ClubApplicationInfoWhereUniqueInput!
+  update: ClubApplicationInfoUncheckedUpdateWithoutTeacherInput!
+  create: ClubApplicationInfoUncheckedCreateWithoutTeacherInput!
+}
+
+input ClubApplicationInfoUpdateWithWhereUniqueWithoutTeacherInput {
+  where: ClubApplicationInfoWhereUniqueInput!
+  data: ClubApplicationInfoUncheckedUpdateWithoutTeacherInput!
+}
+
+input ClubApplicationInfoUpdateManyWithWhereWithoutTeacherInput {
+  where: ClubApplicationInfoScalarWhereInput!
+  data: ClubApplicationInfoUncheckedUpdateManyWithoutAdvisorInput!
+}
+
+input ClubApplicationInfoScalarWhereInput {
+  AND: [ClubApplicationInfoScalarWhereInput!]
+  OR: [ClubApplicationInfoScalarWhereInput!]
+  NOT: [ClubApplicationInfoScalarWhereInput!]
+  id: IntFilter
+  userId: IntFilter
+  clubId: IntFilter
+  purpose: StringFilter
+  membershipRequirements: StringFilter
+  dutiesOfMembers: StringFilter
+  titlesAndDutiesOfOfficers: StringFilter
+  selectionOfOfficers: StringFilter
+  officerMinimumGPA: FloatFilter
+  percentAttendanceForOfficialMeeting: IntFilter
+  percentAttendanceToApproveDecision: IntFilter
+}
+
+input RoleUpsertWithWhereUniqueWithoutUsersInput {
+  where: RoleWhereUniqueInput!
+  update: RoleUncheckedUpdateWithoutUsersInput!
+  create: RoleUncheckedCreateWithoutUsersInput!
+}
+
+input RoleUpdateWithWhereUniqueWithoutUsersInput {
+  where: RoleWhereUniqueInput!
+  data: RoleUncheckedUpdateWithoutUsersInput!
+}
+
+input RoleUpdateManyWithWhereWithoutUsersInput {
+  where: RoleScalarWhereInput!
+  data: RoleUncheckedUpdateManyWithoutRolesInput!
+}
+
+input InviteUpsertWithWhereUniqueWithoutUserInput {
+  where: InviteWhereUniqueInput!
+  update: InviteUncheckedUpdateWithoutUserInput!
+  create: InviteUncheckedCreateWithoutUserInput!
+}
+
+input InviteUpdateWithWhereUniqueWithoutUserInput {
+  where: InviteWhereUniqueInput!
+  data: InviteUncheckedUpdateWithoutUserInput!
+}
+
+input InviteUpdateManyWithWhereWithoutUserInput {
+  where: InviteScalarWhereInput!
+  data: InviteUncheckedUpdateManyWithoutInvitesInput!
+}
+
+input ClubCreateWithoutInvitesInput {
+  name: String
+  slug: String
+  description: String
+  email: String
+  meetingDate: String
+  location: String
+  approval: String
+  status: String
+  availability: String
+  links: LinkCreateNestedManyWithoutClubInput
+  applicationInfo: ClubApplicationInfoCreateNestedOneWithoutClubInput
+  tags: TagCreateNestedManyWithoutClubsInput
+  members: UserCreateNestedManyWithoutClubsInput
+  editors: UserCreateNestedManyWithoutCanEditInput
+  roles: RoleCreateNestedManyWithoutClubInput
+}
+
+input ClubUncheckedCreateWithoutInvitesInput {
+  id: Int
+  name: String
+  slug: String
+  description: String
+  email: String
+  meetingDate: String
+  location: String
+  approval: String
+  status: String
+  availability: String
+  links: LinkUncheckedCreateNestedManyWithoutClubInput
+  applicationInfo: ClubApplicationInfoUncheckedCreateNestedOneWithoutClubInput
+  tags: TagUncheckedCreateNestedManyWithoutClubsInput
+  members: UserUncheckedCreateNestedManyWithoutClubsInput
+  editors: UserUncheckedCreateNestedManyWithoutCanEditInput
+  roles: RoleUncheckedCreateNestedManyWithoutClubInput
+}
+
+input ClubCreateOrConnectWithoutInvitesInput {
+  where: ClubWhereUniqueInput!
+  create: ClubUncheckedCreateWithoutInvitesInput!
+}
+
+input UserCreateWithoutInvitesInput {
+  ccid: String!
+  firstname: String!
+  lastname: String!
+  email: String!
+  emailVerified: Boolean!
+  password: String!
+  grade: String!
+  type: String
+  interests: TagCreateNestedManyWithoutInterestedUsersInput
+  clubs: ClubCreateNestedManyWithoutMembersInput
+  canEdit: ClubCreateNestedManyWithoutEditorsInput
+  advisor: ClubApplicationInfoCreateNestedManyWithoutTeacherInput
+  roles: RoleCreateNestedManyWithoutUsersInput
+}
+
+input UserUncheckedCreateWithoutInvitesInput {
+  id: Int
+  ccid: String!
+  firstname: String!
+  lastname: String!
+  email: String!
+  emailVerified: Boolean!
+  password: String!
+  grade: String!
+  type: String
+  interests: TagUncheckedCreateNestedManyWithoutInterestedUsersInput
+  clubs: ClubUncheckedCreateNestedManyWithoutMembersInput
+  canEdit: ClubUncheckedCreateNestedManyWithoutEditorsInput
+  advisor: ClubApplicationInfoUncheckedCreateNestedManyWithoutTeacherInput
+  roles: RoleUncheckedCreateNestedManyWithoutUsersInput
+}
+
+input UserCreateOrConnectWithoutInvitesInput {
+  where: UserWhereUniqueInput!
+  create: UserUncheckedCreateWithoutInvitesInput!
+}
+
+input ClubUpsertWithoutInvitesInput {
+  update: ClubUncheckedUpdateWithoutInvitesInput!
+  create: ClubUncheckedCreateWithoutInvitesInput!
+}
+
+input ClubUpdateWithoutInvitesInput {
+  name: NullableStringFieldUpdateOperationsInput
+  slug: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  email: NullableStringFieldUpdateOperationsInput
+  meetingDate: NullableStringFieldUpdateOperationsInput
+  location: NullableStringFieldUpdateOperationsInput
+  approval: NullableStringFieldUpdateOperationsInput
+  status: NullableStringFieldUpdateOperationsInput
+  availability: NullableStringFieldUpdateOperationsInput
+  links: LinkUpdateManyWithoutClubInput
+  applicationInfo: ClubApplicationInfoUpdateOneWithoutClubInput
+  tags: TagUpdateManyWithoutClubsInput
+  members: UserUpdateManyWithoutClubsInput
+  editors: UserUpdateManyWithoutCanEditInput
+  roles: RoleUpdateManyWithoutClubInput
+}
+
+input ClubUncheckedUpdateWithoutInvitesInput {
+  id: IntFieldUpdateOperationsInput
+  name: NullableStringFieldUpdateOperationsInput
+  slug: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  email: NullableStringFieldUpdateOperationsInput
+  meetingDate: NullableStringFieldUpdateOperationsInput
+  location: NullableStringFieldUpdateOperationsInput
+  approval: NullableStringFieldUpdateOperationsInput
+  status: NullableStringFieldUpdateOperationsInput
+  availability: NullableStringFieldUpdateOperationsInput
+  links: LinkUncheckedUpdateManyWithoutClubInput
+  applicationInfo: ClubApplicationInfoUncheckedUpdateOneWithoutClubInput
+  tags: TagUncheckedUpdateManyWithoutClubsInput
+  members: UserUncheckedUpdateManyWithoutClubsInput
+  editors: UserUncheckedUpdateManyWithoutCanEditInput
+  roles: RoleUncheckedUpdateManyWithoutClubInput
+}
+
+input UserUpsertWithoutInvitesInput {
+  update: UserUncheckedUpdateWithoutInvitesInput!
+  create: UserUncheckedCreateWithoutInvitesInput!
+}
+
+input UserUpdateWithoutInvitesInput {
+  ccid: StringFieldUpdateOperationsInput
+  firstname: StringFieldUpdateOperationsInput
+  lastname: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  emailVerified: BoolFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  grade: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+  interests: TagUpdateManyWithoutInterestedUsersInput
+  clubs: ClubUpdateManyWithoutMembersInput
+  canEdit: ClubUpdateManyWithoutEditorsInput
+  advisor: ClubApplicationInfoUpdateManyWithoutTeacherInput
+  roles: RoleUpdateManyWithoutUsersInput
+}
+
+input UserUncheckedUpdateWithoutInvitesInput {
+  id: IntFieldUpdateOperationsInput
+  ccid: StringFieldUpdateOperationsInput
+  firstname: StringFieldUpdateOperationsInput
+  lastname: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  emailVerified: BoolFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  grade: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+  interests: TagUncheckedUpdateManyWithoutInterestedUsersInput
+  clubs: ClubUncheckedUpdateManyWithoutMembersInput
+  canEdit: ClubUncheckedUpdateManyWithoutEditorsInput
+  advisor: ClubApplicationInfoUncheckedUpdateManyWithoutTeacherInput
+  roles: RoleUncheckedUpdateManyWithoutUsersInput
+}
+
+input UserCreateWithoutRolesInput {
+  ccid: String!
+  firstname: String!
+  lastname: String!
+  email: String!
+  emailVerified: Boolean!
+  password: String!
+  grade: String!
+  type: String
+  interests: TagCreateNestedManyWithoutInterestedUsersInput
+  clubs: ClubCreateNestedManyWithoutMembersInput
+  canEdit: ClubCreateNestedManyWithoutEditorsInput
+  advisor: ClubApplicationInfoCreateNestedManyWithoutTeacherInput
+  invites: InviteCreateNestedManyWithoutUserInput
+}
+
+input UserUncheckedCreateWithoutRolesInput {
+  id: Int
+  ccid: String!
+  firstname: String!
+  lastname: String!
+  email: String!
+  emailVerified: Boolean!
+  password: String!
+  grade: String!
+  type: String
+  interests: TagUncheckedCreateNestedManyWithoutInterestedUsersInput
+  clubs: ClubUncheckedCreateNestedManyWithoutMembersInput
+  canEdit: ClubUncheckedCreateNestedManyWithoutEditorsInput
+  advisor: ClubApplicationInfoUncheckedCreateNestedManyWithoutTeacherInput
+  invites: InviteUncheckedCreateNestedManyWithoutUserInput
+}
+
+input UserCreateOrConnectWithoutRolesInput {
+  where: UserWhereUniqueInput!
+  create: UserUncheckedCreateWithoutRolesInput!
+}
+
+input ClubCreateWithoutRolesInput {
+  name: String
+  slug: String
+  description: String
+  email: String
+  meetingDate: String
+  location: String
+  approval: String
+  status: String
+  availability: String
+  links: LinkCreateNestedManyWithoutClubInput
+  applicationInfo: ClubApplicationInfoCreateNestedOneWithoutClubInput
+  tags: TagCreateNestedManyWithoutClubsInput
+  members: UserCreateNestedManyWithoutClubsInput
+  editors: UserCreateNestedManyWithoutCanEditInput
+  invites: InviteCreateNestedManyWithoutClubInput
+}
+
+input ClubUncheckedCreateWithoutRolesInput {
+  id: Int
+  name: String
+  slug: String
+  description: String
+  email: String
+  meetingDate: String
+  location: String
+  approval: String
+  status: String
+  availability: String
+  links: LinkUncheckedCreateNestedManyWithoutClubInput
+  applicationInfo: ClubApplicationInfoUncheckedCreateNestedOneWithoutClubInput
+  tags: TagUncheckedCreateNestedManyWithoutClubsInput
+  members: UserUncheckedCreateNestedManyWithoutClubsInput
+  editors: UserUncheckedCreateNestedManyWithoutCanEditInput
+  invites: InviteUncheckedCreateNestedManyWithoutClubInput
+}
+
+input ClubCreateOrConnectWithoutRolesInput {
+  where: ClubWhereUniqueInput!
+  create: ClubUncheckedCreateWithoutRolesInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutRolesInput {
+  where: UserWhereUniqueInput!
+  update: UserUncheckedUpdateWithoutRolesInput!
+  create: UserUncheckedCreateWithoutRolesInput!
+}
+
+input UserUpdateWithWhereUniqueWithoutRolesInput {
+  where: UserWhereUniqueInput!
+  data: UserUncheckedUpdateWithoutRolesInput!
+}
+
+input UserUpdateManyWithWhereWithoutRolesInput {
+  where: UserScalarWhereInput!
+  data: UserUncheckedUpdateManyWithoutUsersInput!
+}
+
+input ClubUpsertWithoutRolesInput {
+  update: ClubUncheckedUpdateWithoutRolesInput!
+  create: ClubUncheckedCreateWithoutRolesInput!
+}
+
+input ClubUpdateWithoutRolesInput {
+  name: NullableStringFieldUpdateOperationsInput
+  slug: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  email: NullableStringFieldUpdateOperationsInput
+  meetingDate: NullableStringFieldUpdateOperationsInput
+  location: NullableStringFieldUpdateOperationsInput
+  approval: NullableStringFieldUpdateOperationsInput
+  status: NullableStringFieldUpdateOperationsInput
+  availability: NullableStringFieldUpdateOperationsInput
+  links: LinkUpdateManyWithoutClubInput
+  applicationInfo: ClubApplicationInfoUpdateOneWithoutClubInput
+  tags: TagUpdateManyWithoutClubsInput
+  members: UserUpdateManyWithoutClubsInput
+  editors: UserUpdateManyWithoutCanEditInput
+  invites: InviteUpdateManyWithoutClubInput
+}
+
+input ClubUncheckedUpdateWithoutRolesInput {
+  id: IntFieldUpdateOperationsInput
+  name: NullableStringFieldUpdateOperationsInput
+  slug: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  email: NullableStringFieldUpdateOperationsInput
+  meetingDate: NullableStringFieldUpdateOperationsInput
+  location: NullableStringFieldUpdateOperationsInput
+  approval: NullableStringFieldUpdateOperationsInput
+  status: NullableStringFieldUpdateOperationsInput
+  availability: NullableStringFieldUpdateOperationsInput
+  links: LinkUncheckedUpdateManyWithoutClubInput
+  applicationInfo: ClubApplicationInfoUncheckedUpdateOneWithoutClubInput
+  tags: TagUncheckedUpdateManyWithoutClubsInput
+  members: UserUncheckedUpdateManyWithoutClubsInput
+  editors: UserUncheckedUpdateManyWithoutCanEditInput
+  invites: InviteUncheckedUpdateManyWithoutClubInput
+}
+
+input ClubApplicationInfoCreateWithoutProjectedRevenueInput {
+  teacher: UserCreateNestedOneWithoutAdvisorInput!
+  club: ClubCreateNestedOneWithoutApplicationInfoInput!
+  projectedExpenses: ProjectedExpensesCreateNestedManyWithoutClubInput
+  purpose: String!
+  membershipRequirements: String!
+  dutiesOfMembers: String!
+  titlesAndDutiesOfOfficers: String!
+  selectionOfOfficers: String!
+  officerMinimumGPA: Float!
+  percentAttendanceForOfficialMeeting: Int!
+  percentAttendanceToApproveDecision: Int!
+}
+
+input ClubApplicationInfoUncheckedCreateWithoutProjectedRevenueInput {
+  id: Int
+  userId: Int!
+  clubId: Int!
+  projectedExpenses: ProjectedExpensesUncheckedCreateNestedManyWithoutClubInput
+  purpose: String!
+  membershipRequirements: String!
+  dutiesOfMembers: String!
+  titlesAndDutiesOfOfficers: String!
+  selectionOfOfficers: String!
+  officerMinimumGPA: Float!
+  percentAttendanceForOfficialMeeting: Int!
+  percentAttendanceToApproveDecision: Int!
+}
+
+input ClubApplicationInfoCreateOrConnectWithoutProjectedRevenueInput {
+  where: ClubApplicationInfoWhereUniqueInput!
+  create: ClubApplicationInfoUncheckedCreateWithoutProjectedRevenueInput!
+}
+
+input ClubApplicationInfoUpsertWithoutProjectedRevenueInput {
+  update: ClubApplicationInfoUncheckedUpdateWithoutProjectedRevenueInput!
+  create: ClubApplicationInfoUncheckedCreateWithoutProjectedRevenueInput!
+}
+
+input ClubApplicationInfoUpdateWithoutProjectedRevenueInput {
+  teacher: UserUpdateOneRequiredWithoutAdvisorInput
+  club: ClubUpdateOneRequiredWithoutApplicationInfoInput
+  projectedExpenses: ProjectedExpensesUpdateManyWithoutClubInput
+  purpose: StringFieldUpdateOperationsInput
+  membershipRequirements: StringFieldUpdateOperationsInput
+  dutiesOfMembers: StringFieldUpdateOperationsInput
+  titlesAndDutiesOfOfficers: StringFieldUpdateOperationsInput
+  selectionOfOfficers: StringFieldUpdateOperationsInput
+  officerMinimumGPA: FloatFieldUpdateOperationsInput
+  percentAttendanceForOfficialMeeting: IntFieldUpdateOperationsInput
+  percentAttendanceToApproveDecision: IntFieldUpdateOperationsInput
+}
+
+input ClubApplicationInfoUncheckedUpdateWithoutProjectedRevenueInput {
+  id: IntFieldUpdateOperationsInput
+  userId: IntFieldUpdateOperationsInput
+  clubId: IntFieldUpdateOperationsInput
+  projectedExpenses: ProjectedExpensesUncheckedUpdateManyWithoutClubInput
+  purpose: StringFieldUpdateOperationsInput
+  membershipRequirements: StringFieldUpdateOperationsInput
+  dutiesOfMembers: StringFieldUpdateOperationsInput
+  titlesAndDutiesOfOfficers: StringFieldUpdateOperationsInput
+  selectionOfOfficers: StringFieldUpdateOperationsInput
+  officerMinimumGPA: FloatFieldUpdateOperationsInput
+  percentAttendanceForOfficialMeeting: IntFieldUpdateOperationsInput
+  percentAttendanceToApproveDecision: IntFieldUpdateOperationsInput
+}
+
+input ClubApplicationInfoCreateWithoutProjectedExpensesInput {
+  teacher: UserCreateNestedOneWithoutAdvisorInput!
+  club: ClubCreateNestedOneWithoutApplicationInfoInput!
+  projectedRevenue: ProjectedRevenueCreateNestedManyWithoutClubInput
+  purpose: String!
+  membershipRequirements: String!
+  dutiesOfMembers: String!
+  titlesAndDutiesOfOfficers: String!
+  selectionOfOfficers: String!
+  officerMinimumGPA: Float!
+  percentAttendanceForOfficialMeeting: Int!
+  percentAttendanceToApproveDecision: Int!
+}
+
+input ClubApplicationInfoUncheckedCreateWithoutProjectedExpensesInput {
+  id: Int
+  userId: Int!
+  clubId: Int!
+  projectedRevenue: ProjectedRevenueUncheckedCreateNestedManyWithoutClubInput
+  purpose: String!
+  membershipRequirements: String!
+  dutiesOfMembers: String!
+  titlesAndDutiesOfOfficers: String!
+  selectionOfOfficers: String!
+  officerMinimumGPA: Float!
+  percentAttendanceForOfficialMeeting: Int!
+  percentAttendanceToApproveDecision: Int!
+}
+
+input ClubApplicationInfoCreateOrConnectWithoutProjectedExpensesInput {
+  where: ClubApplicationInfoWhereUniqueInput!
+  create: ClubApplicationInfoUncheckedCreateWithoutProjectedExpensesInput!
+}
+
+input ClubApplicationInfoUpsertWithoutProjectedExpensesInput {
+  update: ClubApplicationInfoUncheckedUpdateWithoutProjectedExpensesInput!
+  create: ClubApplicationInfoUncheckedCreateWithoutProjectedExpensesInput!
+}
+
+input ClubApplicationInfoUpdateWithoutProjectedExpensesInput {
+  teacher: UserUpdateOneRequiredWithoutAdvisorInput
+  club: ClubUpdateOneRequiredWithoutApplicationInfoInput
+  projectedRevenue: ProjectedRevenueUpdateManyWithoutClubInput
+  purpose: StringFieldUpdateOperationsInput
+  membershipRequirements: StringFieldUpdateOperationsInput
+  dutiesOfMembers: StringFieldUpdateOperationsInput
+  titlesAndDutiesOfOfficers: StringFieldUpdateOperationsInput
+  selectionOfOfficers: StringFieldUpdateOperationsInput
+  officerMinimumGPA: FloatFieldUpdateOperationsInput
+  percentAttendanceForOfficialMeeting: IntFieldUpdateOperationsInput
+  percentAttendanceToApproveDecision: IntFieldUpdateOperationsInput
+}
+
+input ClubApplicationInfoUncheckedUpdateWithoutProjectedExpensesInput {
+  id: IntFieldUpdateOperationsInput
+  userId: IntFieldUpdateOperationsInput
+  clubId: IntFieldUpdateOperationsInput
+  projectedRevenue: ProjectedRevenueUncheckedUpdateManyWithoutClubInput
+  purpose: StringFieldUpdateOperationsInput
+  membershipRequirements: StringFieldUpdateOperationsInput
+  dutiesOfMembers: StringFieldUpdateOperationsInput
+  titlesAndDutiesOfOfficers: StringFieldUpdateOperationsInput
+  selectionOfOfficers: StringFieldUpdateOperationsInput
+  officerMinimumGPA: FloatFieldUpdateOperationsInput
+  percentAttendanceForOfficialMeeting: IntFieldUpdateOperationsInput
+  percentAttendanceToApproveDecision: IntFieldUpdateOperationsInput
+}
+
+input LinkUpdateWithoutClubInput {
+  name: NullableStringFieldUpdateOperationsInput
+  link: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+}
+
+input LinkUncheckedUpdateWithoutClubInput {
+  id: IntFieldUpdateOperationsInput
+  name: NullableStringFieldUpdateOperationsInput
+  link: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+}
+
+input LinkUncheckedUpdateManyWithoutLinksInput {
+  id: IntFieldUpdateOperationsInput
+  name: NullableStringFieldUpdateOperationsInput
+  link: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+}
+
+input TagUpdateWithoutClubsInput {
+  name: StringFieldUpdateOperationsInput
+  interestedUsers: UserUpdateManyWithoutInterestsInput
+}
+
+input TagUncheckedUpdateWithoutClubsInput {
+  id: IntFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  interestedUsers: UserUncheckedUpdateManyWithoutInterestsInput
+}
+
+input TagUncheckedUpdateManyWithoutTagsInput {
+  id: IntFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+}
+
+input UserUpdateWithoutClubsInput {
+  ccid: StringFieldUpdateOperationsInput
+  firstname: StringFieldUpdateOperationsInput
+  lastname: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  emailVerified: BoolFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  grade: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+  interests: TagUpdateManyWithoutInterestedUsersInput
+  canEdit: ClubUpdateManyWithoutEditorsInput
+  advisor: ClubApplicationInfoUpdateManyWithoutTeacherInput
+  roles: RoleUpdateManyWithoutUsersInput
+  invites: InviteUpdateManyWithoutUserInput
+}
+
+input UserUncheckedUpdateWithoutClubsInput {
+  id: IntFieldUpdateOperationsInput
+  ccid: StringFieldUpdateOperationsInput
+  firstname: StringFieldUpdateOperationsInput
+  lastname: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  emailVerified: BoolFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  grade: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+  interests: TagUncheckedUpdateManyWithoutInterestedUsersInput
+  canEdit: ClubUncheckedUpdateManyWithoutEditorsInput
+  advisor: ClubApplicationInfoUncheckedUpdateManyWithoutTeacherInput
+  roles: RoleUncheckedUpdateManyWithoutUsersInput
+  invites: InviteUncheckedUpdateManyWithoutUserInput
+}
+
+input UserUncheckedUpdateManyWithoutMembersInput {
+  id: IntFieldUpdateOperationsInput
+  ccid: StringFieldUpdateOperationsInput
+  firstname: StringFieldUpdateOperationsInput
+  lastname: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  emailVerified: BoolFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  grade: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+}
+
+input UserUpdateWithoutCanEditInput {
+  ccid: StringFieldUpdateOperationsInput
+  firstname: StringFieldUpdateOperationsInput
+  lastname: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  emailVerified: BoolFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  grade: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+  interests: TagUpdateManyWithoutInterestedUsersInput
+  clubs: ClubUpdateManyWithoutMembersInput
+  advisor: ClubApplicationInfoUpdateManyWithoutTeacherInput
+  roles: RoleUpdateManyWithoutUsersInput
+  invites: InviteUpdateManyWithoutUserInput
+}
+
+input UserUncheckedUpdateWithoutCanEditInput {
+  id: IntFieldUpdateOperationsInput
+  ccid: StringFieldUpdateOperationsInput
+  firstname: StringFieldUpdateOperationsInput
+  lastname: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  emailVerified: BoolFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  grade: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+  interests: TagUncheckedUpdateManyWithoutInterestedUsersInput
+  clubs: ClubUncheckedUpdateManyWithoutMembersInput
+  advisor: ClubApplicationInfoUncheckedUpdateManyWithoutTeacherInput
+  roles: RoleUncheckedUpdateManyWithoutUsersInput
+  invites: InviteUncheckedUpdateManyWithoutUserInput
+}
+
+input UserUncheckedUpdateManyWithoutEditorsInput {
+  id: IntFieldUpdateOperationsInput
+  ccid: StringFieldUpdateOperationsInput
+  firstname: StringFieldUpdateOperationsInput
+  lastname: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  emailVerified: BoolFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  grade: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+}
+
+input RoleUpdateWithoutClubInput {
+  name: StringFieldUpdateOperationsInput
+  color: StringFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
+  users: UserUpdateManyWithoutRolesInput
+  type: StringFieldUpdateOperationsInput
+}
+
+input RoleUncheckedUpdateWithoutClubInput {
+  id: IntFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  color: StringFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
+  users: UserUncheckedUpdateManyWithoutRolesInput
+  type: StringFieldUpdateOperationsInput
+}
+
+input RoleUncheckedUpdateManyWithoutRolesInput {
+  id: IntFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  color: StringFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+}
+
+input InviteUpdateWithoutClubInput {
+  status: StringFieldUpdateOperationsInput
+  user: UserUpdateOneRequiredWithoutInvitesInput
+}
+
+input InviteUncheckedUpdateWithoutClubInput {
+  id: IntFieldUpdateOperationsInput
+  status: StringFieldUpdateOperationsInput
+  userId: IntFieldUpdateOperationsInput
+}
+
+input InviteUncheckedUpdateManyWithoutInvitesInput {
+  id: IntFieldUpdateOperationsInput
+  status: StringFieldUpdateOperationsInput
+  userId: IntFieldUpdateOperationsInput
+}
+
+input ProjectedRevenueUpdateWithoutClubInput {
+  name: StringFieldUpdateOperationsInput
+  amount: FloatFieldUpdateOperationsInput
+  date: StringFieldUpdateOperationsInput
+}
+
+input ProjectedRevenueUncheckedUpdateWithoutClubInput {
+  id: IntFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  amount: FloatFieldUpdateOperationsInput
+  date: StringFieldUpdateOperationsInput
+}
+
+input ProjectedRevenueUncheckedUpdateManyWithoutProjectedRevenueInput {
+  id: IntFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  amount: FloatFieldUpdateOperationsInput
+  date: StringFieldUpdateOperationsInput
+}
+
+input ProjectedExpensesUpdateWithoutClubInput {
+  name: StringFieldUpdateOperationsInput
+  amount: FloatFieldUpdateOperationsInput
+  date: StringFieldUpdateOperationsInput
+}
+
+input ProjectedExpensesUncheckedUpdateWithoutClubInput {
+  id: IntFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  amount: FloatFieldUpdateOperationsInput
+  date: StringFieldUpdateOperationsInput
+}
+
+input ProjectedExpensesUncheckedUpdateManyWithoutProjectedExpensesInput {
+  id: IntFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  amount: FloatFieldUpdateOperationsInput
+  date: StringFieldUpdateOperationsInput
+}
+
+input ClubUpdateWithoutTagsInput {
+  name: NullableStringFieldUpdateOperationsInput
+  slug: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  email: NullableStringFieldUpdateOperationsInput
+  meetingDate: NullableStringFieldUpdateOperationsInput
+  location: NullableStringFieldUpdateOperationsInput
+  approval: NullableStringFieldUpdateOperationsInput
+  status: NullableStringFieldUpdateOperationsInput
+  availability: NullableStringFieldUpdateOperationsInput
+  links: LinkUpdateManyWithoutClubInput
+  applicationInfo: ClubApplicationInfoUpdateOneWithoutClubInput
+  members: UserUpdateManyWithoutClubsInput
+  editors: UserUpdateManyWithoutCanEditInput
+  roles: RoleUpdateManyWithoutClubInput
+  invites: InviteUpdateManyWithoutClubInput
+}
+
+input ClubUncheckedUpdateWithoutTagsInput {
+  id: IntFieldUpdateOperationsInput
+  name: NullableStringFieldUpdateOperationsInput
+  slug: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  email: NullableStringFieldUpdateOperationsInput
+  meetingDate: NullableStringFieldUpdateOperationsInput
+  location: NullableStringFieldUpdateOperationsInput
+  approval: NullableStringFieldUpdateOperationsInput
+  status: NullableStringFieldUpdateOperationsInput
+  availability: NullableStringFieldUpdateOperationsInput
+  links: LinkUncheckedUpdateManyWithoutClubInput
+  applicationInfo: ClubApplicationInfoUncheckedUpdateOneWithoutClubInput
+  members: UserUncheckedUpdateManyWithoutClubsInput
+  editors: UserUncheckedUpdateManyWithoutCanEditInput
+  roles: RoleUncheckedUpdateManyWithoutClubInput
+  invites: InviteUncheckedUpdateManyWithoutClubInput
+}
+
+input ClubUncheckedUpdateManyWithoutClubsInput {
+  id: IntFieldUpdateOperationsInput
+  name: NullableStringFieldUpdateOperationsInput
+  slug: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  email: NullableStringFieldUpdateOperationsInput
+  meetingDate: NullableStringFieldUpdateOperationsInput
+  location: NullableStringFieldUpdateOperationsInput
+  approval: NullableStringFieldUpdateOperationsInput
+  status: NullableStringFieldUpdateOperationsInput
+  availability: NullableStringFieldUpdateOperationsInput
+}
+
+input UserUpdateWithoutInterestsInput {
+  ccid: StringFieldUpdateOperationsInput
+  firstname: StringFieldUpdateOperationsInput
+  lastname: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  emailVerified: BoolFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  grade: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+  clubs: ClubUpdateManyWithoutMembersInput
+  canEdit: ClubUpdateManyWithoutEditorsInput
+  advisor: ClubApplicationInfoUpdateManyWithoutTeacherInput
+  roles: RoleUpdateManyWithoutUsersInput
+  invites: InviteUpdateManyWithoutUserInput
+}
+
+input UserUncheckedUpdateWithoutInterestsInput {
+  id: IntFieldUpdateOperationsInput
+  ccid: StringFieldUpdateOperationsInput
+  firstname: StringFieldUpdateOperationsInput
+  lastname: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  emailVerified: BoolFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  grade: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+  clubs: ClubUncheckedUpdateManyWithoutMembersInput
+  canEdit: ClubUncheckedUpdateManyWithoutEditorsInput
+  advisor: ClubApplicationInfoUncheckedUpdateManyWithoutTeacherInput
+  roles: RoleUncheckedUpdateManyWithoutUsersInput
+  invites: InviteUncheckedUpdateManyWithoutUserInput
+}
+
+input UserUncheckedUpdateManyWithoutInterestedUsersInput {
+  id: IntFieldUpdateOperationsInput
+  ccid: StringFieldUpdateOperationsInput
+  firstname: StringFieldUpdateOperationsInput
+  lastname: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  emailVerified: BoolFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  grade: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+}
+
+input TagUpdateWithoutInterestedUsersInput {
+  name: StringFieldUpdateOperationsInput
+  clubs: ClubUpdateManyWithoutTagsInput
+}
+
+input TagUncheckedUpdateWithoutInterestedUsersInput {
+  id: IntFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  clubs: ClubUncheckedUpdateManyWithoutTagsInput
+}
+
+input TagUncheckedUpdateManyWithoutInterestsInput {
+  id: IntFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+}
+
+input ClubUpdateWithoutMembersInput {
+  name: NullableStringFieldUpdateOperationsInput
+  slug: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  email: NullableStringFieldUpdateOperationsInput
+  meetingDate: NullableStringFieldUpdateOperationsInput
+  location: NullableStringFieldUpdateOperationsInput
+  approval: NullableStringFieldUpdateOperationsInput
+  status: NullableStringFieldUpdateOperationsInput
+  availability: NullableStringFieldUpdateOperationsInput
+  links: LinkUpdateManyWithoutClubInput
+  applicationInfo: ClubApplicationInfoUpdateOneWithoutClubInput
+  tags: TagUpdateManyWithoutClubsInput
+  editors: UserUpdateManyWithoutCanEditInput
+  roles: RoleUpdateManyWithoutClubInput
+  invites: InviteUpdateManyWithoutClubInput
+}
+
+input ClubUncheckedUpdateWithoutMembersInput {
+  id: IntFieldUpdateOperationsInput
+  name: NullableStringFieldUpdateOperationsInput
+  slug: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  email: NullableStringFieldUpdateOperationsInput
+  meetingDate: NullableStringFieldUpdateOperationsInput
+  location: NullableStringFieldUpdateOperationsInput
+  approval: NullableStringFieldUpdateOperationsInput
+  status: NullableStringFieldUpdateOperationsInput
+  availability: NullableStringFieldUpdateOperationsInput
+  links: LinkUncheckedUpdateManyWithoutClubInput
+  applicationInfo: ClubApplicationInfoUncheckedUpdateOneWithoutClubInput
+  tags: TagUncheckedUpdateManyWithoutClubsInput
+  editors: UserUncheckedUpdateManyWithoutCanEditInput
+  roles: RoleUncheckedUpdateManyWithoutClubInput
+  invites: InviteUncheckedUpdateManyWithoutClubInput
+}
+
+input ClubUpdateWithoutEditorsInput {
+  name: NullableStringFieldUpdateOperationsInput
+  slug: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  email: NullableStringFieldUpdateOperationsInput
+  meetingDate: NullableStringFieldUpdateOperationsInput
+  location: NullableStringFieldUpdateOperationsInput
+  approval: NullableStringFieldUpdateOperationsInput
+  status: NullableStringFieldUpdateOperationsInput
+  availability: NullableStringFieldUpdateOperationsInput
+  links: LinkUpdateManyWithoutClubInput
+  applicationInfo: ClubApplicationInfoUpdateOneWithoutClubInput
+  tags: TagUpdateManyWithoutClubsInput
+  members: UserUpdateManyWithoutClubsInput
+  roles: RoleUpdateManyWithoutClubInput
+  invites: InviteUpdateManyWithoutClubInput
+}
+
+input ClubUncheckedUpdateWithoutEditorsInput {
+  id: IntFieldUpdateOperationsInput
+  name: NullableStringFieldUpdateOperationsInput
+  slug: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  email: NullableStringFieldUpdateOperationsInput
+  meetingDate: NullableStringFieldUpdateOperationsInput
+  location: NullableStringFieldUpdateOperationsInput
+  approval: NullableStringFieldUpdateOperationsInput
+  status: NullableStringFieldUpdateOperationsInput
+  availability: NullableStringFieldUpdateOperationsInput
+  links: LinkUncheckedUpdateManyWithoutClubInput
+  applicationInfo: ClubApplicationInfoUncheckedUpdateOneWithoutClubInput
+  tags: TagUncheckedUpdateManyWithoutClubsInput
+  members: UserUncheckedUpdateManyWithoutClubsInput
+  roles: RoleUncheckedUpdateManyWithoutClubInput
+  invites: InviteUncheckedUpdateManyWithoutClubInput
+}
+
+input ClubUncheckedUpdateManyWithoutCanEditInput {
+  id: IntFieldUpdateOperationsInput
+  name: NullableStringFieldUpdateOperationsInput
+  slug: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  email: NullableStringFieldUpdateOperationsInput
+  meetingDate: NullableStringFieldUpdateOperationsInput
+  location: NullableStringFieldUpdateOperationsInput
+  approval: NullableStringFieldUpdateOperationsInput
+  status: NullableStringFieldUpdateOperationsInput
+  availability: NullableStringFieldUpdateOperationsInput
+}
+
+input ClubApplicationInfoUpdateWithoutTeacherInput {
+  club: ClubUpdateOneRequiredWithoutApplicationInfoInput
+  projectedRevenue: ProjectedRevenueUpdateManyWithoutClubInput
+  projectedExpenses: ProjectedExpensesUpdateManyWithoutClubInput
+  purpose: StringFieldUpdateOperationsInput
+  membershipRequirements: StringFieldUpdateOperationsInput
+  dutiesOfMembers: StringFieldUpdateOperationsInput
+  titlesAndDutiesOfOfficers: StringFieldUpdateOperationsInput
+  selectionOfOfficers: StringFieldUpdateOperationsInput
+  officerMinimumGPA: FloatFieldUpdateOperationsInput
+  percentAttendanceForOfficialMeeting: IntFieldUpdateOperationsInput
+  percentAttendanceToApproveDecision: IntFieldUpdateOperationsInput
+}
+
+input ClubApplicationInfoUncheckedUpdateWithoutTeacherInput {
+  id: IntFieldUpdateOperationsInput
+  clubId: IntFieldUpdateOperationsInput
+  projectedRevenue: ProjectedRevenueUncheckedUpdateManyWithoutClubInput
+  projectedExpenses: ProjectedExpensesUncheckedUpdateManyWithoutClubInput
+  purpose: StringFieldUpdateOperationsInput
+  membershipRequirements: StringFieldUpdateOperationsInput
+  dutiesOfMembers: StringFieldUpdateOperationsInput
+  titlesAndDutiesOfOfficers: StringFieldUpdateOperationsInput
+  selectionOfOfficers: StringFieldUpdateOperationsInput
+  officerMinimumGPA: FloatFieldUpdateOperationsInput
+  percentAttendanceForOfficialMeeting: IntFieldUpdateOperationsInput
+  percentAttendanceToApproveDecision: IntFieldUpdateOperationsInput
+}
+
+input ClubApplicationInfoUncheckedUpdateManyWithoutAdvisorInput {
+  id: IntFieldUpdateOperationsInput
+  clubId: IntFieldUpdateOperationsInput
+  purpose: StringFieldUpdateOperationsInput
+  membershipRequirements: StringFieldUpdateOperationsInput
+  dutiesOfMembers: StringFieldUpdateOperationsInput
+  titlesAndDutiesOfOfficers: StringFieldUpdateOperationsInput
+  selectionOfOfficers: StringFieldUpdateOperationsInput
+  officerMinimumGPA: FloatFieldUpdateOperationsInput
+  percentAttendanceForOfficialMeeting: IntFieldUpdateOperationsInput
+  percentAttendanceToApproveDecision: IntFieldUpdateOperationsInput
+}
+
+input RoleUpdateWithoutUsersInput {
+  name: StringFieldUpdateOperationsInput
+  color: StringFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
+  club: ClubUpdateOneRequiredWithoutRolesInput
+  type: StringFieldUpdateOperationsInput
+}
+
+input RoleUncheckedUpdateWithoutUsersInput {
+  id: IntFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  color: StringFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
+  clubId: IntFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+}
+
+input InviteUpdateWithoutUserInput {
+  status: StringFieldUpdateOperationsInput
+  club: ClubUpdateOneRequiredWithoutInvitesInput
+}
+
+input InviteUncheckedUpdateWithoutUserInput {
+  id: IntFieldUpdateOperationsInput
+  status: StringFieldUpdateOperationsInput
+  clubId: IntFieldUpdateOperationsInput
+}
+
+input UserUpdateWithoutRolesInput {
+  ccid: StringFieldUpdateOperationsInput
+  firstname: StringFieldUpdateOperationsInput
+  lastname: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  emailVerified: BoolFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  grade: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+  interests: TagUpdateManyWithoutInterestedUsersInput
+  clubs: ClubUpdateManyWithoutMembersInput
+  canEdit: ClubUpdateManyWithoutEditorsInput
+  advisor: ClubApplicationInfoUpdateManyWithoutTeacherInput
+  invites: InviteUpdateManyWithoutUserInput
+}
+
+input UserUncheckedUpdateWithoutRolesInput {
+  id: IntFieldUpdateOperationsInput
+  ccid: StringFieldUpdateOperationsInput
+  firstname: StringFieldUpdateOperationsInput
+  lastname: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  emailVerified: BoolFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  grade: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+  interests: TagUncheckedUpdateManyWithoutInterestedUsersInput
+  clubs: ClubUncheckedUpdateManyWithoutMembersInput
+  canEdit: ClubUncheckedUpdateManyWithoutEditorsInput
+  advisor: ClubApplicationInfoUncheckedUpdateManyWithoutTeacherInput
+  invites: InviteUncheckedUpdateManyWithoutUserInput
+}
+
+input UserUncheckedUpdateManyWithoutUsersInput {
+  id: IntFieldUpdateOperationsInput
+  ccid: StringFieldUpdateOperationsInput
+  firstname: StringFieldUpdateOperationsInput
+  lastname: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  emailVerified: BoolFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  grade: StringFieldUpdateOperationsInput
+  type: StringFieldUpdateOperationsInput
+}
+
+type AggregateClub {
+  _count: ClubCountAggregateOutputType
+  _avg: ClubAvgAggregateOutputType
+  _sum: ClubSumAggregateOutputType
+  _min: ClubMinAggregateOutputType
+  _max: ClubMaxAggregateOutputType
+}
+
+type AggregateLink {
+  _count: LinkCountAggregateOutputType
+  _avg: LinkAvgAggregateOutputType
+  _sum: LinkSumAggregateOutputType
+  _min: LinkMinAggregateOutputType
+  _max: LinkMaxAggregateOutputType
+}
+
+type AggregateClubApplicationInfo {
+  _count: ClubApplicationInfoCountAggregateOutputType
+  _avg: ClubApplicationInfoAvgAggregateOutputType
+  _sum: ClubApplicationInfoSumAggregateOutputType
+  _min: ClubApplicationInfoMinAggregateOutputType
+  _max: ClubApplicationInfoMaxAggregateOutputType
+}
+
+type AggregateTag {
+  _count: TagCountAggregateOutputType
+  _avg: TagAvgAggregateOutputType
+  _sum: TagSumAggregateOutputType
+  _min: TagMinAggregateOutputType
+  _max: TagMaxAggregateOutputType
+}
+
+type AggregateUser {
+  _count: UserCountAggregateOutputType
+  _avg: UserAvgAggregateOutputType
+  _sum: UserSumAggregateOutputType
+  _min: UserMinAggregateOutputType
+  _max: UserMaxAggregateOutputType
+}
+
+type AggregateInvite {
+  _count: InviteCountAggregateOutputType
+  _avg: InviteAvgAggregateOutputType
+  _sum: InviteSumAggregateOutputType
+  _min: InviteMinAggregateOutputType
+  _max: InviteMaxAggregateOutputType
+}
+
+type AggregateRole {
+  _count: RoleCountAggregateOutputType
+  _avg: RoleAvgAggregateOutputType
+  _sum: RoleSumAggregateOutputType
+  _min: RoleMinAggregateOutputType
+  _max: RoleMaxAggregateOutputType
+}
+
+type AggregateProjectedRevenue {
+  _count: ProjectedRevenueCountAggregateOutputType
+  _avg: ProjectedRevenueAvgAggregateOutputType
+  _sum: ProjectedRevenueSumAggregateOutputType
+  _min: ProjectedRevenueMinAggregateOutputType
+  _max: ProjectedRevenueMaxAggregateOutputType
+}
+
+type AggregateProjectedExpenses {
+  _count: ProjectedExpensesCountAggregateOutputType
+  _avg: ProjectedExpensesAvgAggregateOutputType
+  _sum: ProjectedExpensesSumAggregateOutputType
+  _min: ProjectedExpensesMinAggregateOutputType
+  _max: ProjectedExpensesMaxAggregateOutputType
+}
+
+type ClubCountOutputType {
+  links: Int!
+  tags: Int!
+  members: Int!
+  editors: Int!
+  roles: Int!
+  invites: Int!
+}
+
+type ClubCountAggregateOutputType {
+  id: Int!
+  name: Int!
+  slug: Int!
+  description: Int!
+  email: Int!
+  meetingDate: Int!
+  location: Int!
+  approval: Int!
+  status: Int!
+  availability: Int!
+  _all: Int!
+}
+
+type ClubAvgAggregateOutputType {
+  id: Float
+}
+
+type ClubSumAggregateOutputType {
+  id: Int
+}
+
+type ClubMinAggregateOutputType {
+  id: Int
+  name: String
+  slug: String
+  description: String
+  email: String
+  meetingDate: String
+  location: String
+  approval: String
+  status: String
+  availability: String
+}
+
+type ClubMaxAggregateOutputType {
+  id: Int
+  name: String
+  slug: String
+  description: String
+  email: String
+  meetingDate: String
+  location: String
+  approval: String
+  status: String
+  availability: String
+}
+
+type LinkCountAggregateOutputType {
+  id: Int!
+  clubId: Int!
+  name: Int!
+  link: Int!
+  type: Int!
+  _all: Int!
+}
+
+type LinkAvgAggregateOutputType {
+  id: Float
+  clubId: Float
+}
+
+type LinkSumAggregateOutputType {
+  id: Int
+  clubId: Int
+}
+
+type LinkMinAggregateOutputType {
+  id: Int
+  clubId: Int
+  name: String
+  link: String
+  type: String
+}
+
+type LinkMaxAggregateOutputType {
+  id: Int
+  clubId: Int
+  name: String
+  link: String
+  type: String
+}
+
+type ClubApplicationInfoCountOutputType {
+  projectedRevenue: Int!
+  projectedExpenses: Int!
+}
+
+type ClubApplicationInfoCountAggregateOutputType {
+  id: Int!
+  userId: Int!
+  clubId: Int!
+  purpose: Int!
+  membershipRequirements: Int!
+  dutiesOfMembers: Int!
+  titlesAndDutiesOfOfficers: Int!
+  selectionOfOfficers: Int!
+  officerMinimumGPA: Int!
+  percentAttendanceForOfficialMeeting: Int!
+  percentAttendanceToApproveDecision: Int!
+  _all: Int!
+}
+
+type ClubApplicationInfoAvgAggregateOutputType {
+  id: Float
+  userId: Float
+  clubId: Float
+  officerMinimumGPA: Float
+  percentAttendanceForOfficialMeeting: Float
+  percentAttendanceToApproveDecision: Float
+}
+
+type ClubApplicationInfoSumAggregateOutputType {
+  id: Int
+  userId: Int
+  clubId: Int
+  officerMinimumGPA: Float
+  percentAttendanceForOfficialMeeting: Int
+  percentAttendanceToApproveDecision: Int
+}
+
+type ClubApplicationInfoMinAggregateOutputType {
+  id: Int
+  userId: Int
+  clubId: Int
+  purpose: String
+  membershipRequirements: String
+  dutiesOfMembers: String
+  titlesAndDutiesOfOfficers: String
+  selectionOfOfficers: String
+  officerMinimumGPA: Float
+  percentAttendanceForOfficialMeeting: Int
+  percentAttendanceToApproveDecision: Int
+}
+
+type ClubApplicationInfoMaxAggregateOutputType {
+  id: Int
+  userId: Int
+  clubId: Int
+  purpose: String
+  membershipRequirements: String
+  dutiesOfMembers: String
+  titlesAndDutiesOfOfficers: String
+  selectionOfOfficers: String
+  officerMinimumGPA: Float
+  percentAttendanceForOfficialMeeting: Int
+  percentAttendanceToApproveDecision: Int
+}
+
+type TagCountOutputType {
+  clubs: Int!
+  interestedUsers: Int!
+}
+
+type TagCountAggregateOutputType {
+  id: Int!
+  name: Int!
+  _all: Int!
+}
+
+type TagAvgAggregateOutputType {
+  id: Float
+}
+
+type TagSumAggregateOutputType {
+  id: Int
+}
+
+type TagMinAggregateOutputType {
+  id: Int
+  name: String
+}
+
+type TagMaxAggregateOutputType {
+  id: Int
+  name: String
+}
+
+type UserCountOutputType {
+  interests: Int!
+  clubs: Int!
+  canEdit: Int!
+  advisor: Int!
+  roles: Int!
+  invites: Int!
+}
+
+type UserCountAggregateOutputType {
+  id: Int!
+  ccid: Int!
+  firstname: Int!
+  lastname: Int!
+  email: Int!
+  emailVerified: Int!
+  password: Int!
+  grade: Int!
+  type: Int!
+  _all: Int!
+}
+
+type UserAvgAggregateOutputType {
+  id: Float
+}
+
+type UserSumAggregateOutputType {
+  id: Int
+}
+
+type UserMinAggregateOutputType {
+  id: Int
+  ccid: String
+  firstname: String
+  lastname: String
+  email: String
+  emailVerified: Boolean
+  password: String
+  grade: String
+  type: String
+}
+
+type UserMaxAggregateOutputType {
+  id: Int
+  ccid: String
+  firstname: String
+  lastname: String
+  email: String
+  emailVerified: Boolean
+  password: String
+  grade: String
+  type: String
+}
+
+type InviteCountAggregateOutputType {
+  id: Int!
+  status: Int!
+  clubId: Int!
+  userId: Int!
+  _all: Int!
+}
+
+type InviteAvgAggregateOutputType {
+  id: Float
+  clubId: Float
+  userId: Float
+}
+
+type InviteSumAggregateOutputType {
+  id: Int
+  clubId: Int
+  userId: Int
+}
+
+type InviteMinAggregateOutputType {
+  id: Int
+  status: String
+  clubId: Int
+  userId: Int
+}
+
+type InviteMaxAggregateOutputType {
+  id: Int
+  status: String
+  clubId: Int
+  userId: Int
+}
+
+type RoleCountOutputType {
+  users: Int!
+}
+
+type RoleCountAggregateOutputType {
+  id: Int!
+  name: Int!
+  color: Int!
+  description: Int!
+  clubId: Int!
+  type: Int!
+  _all: Int!
+}
+
+type RoleAvgAggregateOutputType {
+  id: Float
+  clubId: Float
+}
+
+type RoleSumAggregateOutputType {
+  id: Int
+  clubId: Int
+}
+
+type RoleMinAggregateOutputType {
+  id: Int
+  name: String
+  color: String
+  description: String
+  clubId: Int
+  type: String
+}
+
+type RoleMaxAggregateOutputType {
+  id: Int
+  name: String
+  color: String
+  description: String
+  clubId: Int
+  type: String
+}
+
+type ProjectedRevenueCountAggregateOutputType {
+  id: Int!
+  clubId: Int!
+  name: Int!
+  amount: Int!
+  date: Int!
+  _all: Int!
+}
+
+type ProjectedRevenueAvgAggregateOutputType {
+  id: Float
+  clubId: Float
+  amount: Float
+}
+
+type ProjectedRevenueSumAggregateOutputType {
+  id: Int
+  clubId: Int
+  amount: Float
+}
+
+type ProjectedRevenueMinAggregateOutputType {
+  id: Int
+  clubId: Int
+  name: String
+  amount: Float
+  date: String
+}
+
+type ProjectedRevenueMaxAggregateOutputType {
+  id: Int
+  clubId: Int
+  name: String
+  amount: Float
+  date: String
+}
+
+type ProjectedExpensesCountAggregateOutputType {
+  id: Int!
+  clubId: Int!
+  name: Int!
+  amount: Int!
+  date: Int!
+  _all: Int!
+}
+
+type ProjectedExpensesAvgAggregateOutputType {
+  id: Float
+  clubId: Float
+  amount: Float
+}
+
+type ProjectedExpensesSumAggregateOutputType {
+  id: Int
+  clubId: Int
+  amount: Float
+}
+
+type ProjectedExpensesMinAggregateOutputType {
+  id: Int
+  clubId: Int
+  name: String
+  amount: Float
+  date: String
+}
+
+type ProjectedExpensesMaxAggregateOutputType {
+  id: Int
+  clubId: Int
+  name: String
+  amount: Float
+  date: String
+}
+
+type Club {
+  id: Int!
+  name: String
+  slug: String
+  description: String
+  email: String
+  meetingDate: String
+  location: String
+  approval: String
+  status: String
+  availability: String
+  links(where: LinkWhereInput, orderBy: LinkOrderByWithRelationInput, cursor: LinkWhereUniqueInput, take: Int, skip: Int, distinct: LinkScalarFieldEnum): [Link!]!
+  applicationInfo: ClubApplicationInfo
+  tags(where: TagWhereInput, orderBy: TagOrderByWithRelationInput, cursor: TagWhereUniqueInput, take: Int, skip: Int, distinct: TagScalarFieldEnum): [Tag!]!
+  members(where: UserWhereInput, orderBy: UserOrderByWithRelationInput, cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: UserScalarFieldEnum): [User!]!
+  editors(where: UserWhereInput, orderBy: UserOrderByWithRelationInput, cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: UserScalarFieldEnum): [User!]!
+  roles(where: RoleWhereInput, orderBy: RoleOrderByWithRelationInput, cursor: RoleWhereUniqueInput, take: Int, skip: Int, distinct: RoleScalarFieldEnum): [Role!]!
+  invites(where: InviteWhereInput, orderBy: InviteOrderByWithRelationInput, cursor: InviteWhereUniqueInput, take: Int, skip: Int, distinct: InviteScalarFieldEnum): [Invite!]!
+  _count: ClubCountOutputType!
+}
+
+type Query {
+  findUniqueClub(where: ClubWhereUniqueInput!): Club
+  findFirstClub(where: ClubWhereInput, orderBy: [ClubOrderByWithRelationInput], cursor: ClubWhereUniqueInput, take: Int, skip: Int, distinct: [ClubScalarFieldEnum]): Club
+  findManyClub(where: ClubWhereInput, orderBy: [ClubOrderByWithRelationInput], cursor: ClubWhereUniqueInput, take: Int, skip: Int, distinct: [ClubScalarFieldEnum]): [Club!]
+  findManyClubCount(where: ClubWhereInput, orderBy: [ClubOrderByWithRelationInput], cursor: ClubWhereUniqueInput, take: Int, skip: Int, distinct: [ClubScalarFieldEnum]): Int!
+  aggregateClub(where: ClubWhereInput, orderBy: [ClubOrderByWithRelationInput], cursor: ClubWhereUniqueInput, take: Int, skip: Int): AggregateClub
+  findUniqueLink(where: LinkWhereUniqueInput!): Link
+  findFirstLink(where: LinkWhereInput, orderBy: [LinkOrderByWithRelationInput], cursor: LinkWhereUniqueInput, take: Int, skip: Int, distinct: [LinkScalarFieldEnum]): Link
+  findManyLink(where: LinkWhereInput, orderBy: [LinkOrderByWithRelationInput], cursor: LinkWhereUniqueInput, take: Int, skip: Int, distinct: [LinkScalarFieldEnum]): [Link!]
+  findManyLinkCount(where: LinkWhereInput, orderBy: [LinkOrderByWithRelationInput], cursor: LinkWhereUniqueInput, take: Int, skip: Int, distinct: [LinkScalarFieldEnum]): Int!
+  aggregateLink(where: LinkWhereInput, orderBy: [LinkOrderByWithRelationInput], cursor: LinkWhereUniqueInput, take: Int, skip: Int): AggregateLink
+  findUniqueClubApplicationInfo(where: ClubApplicationInfoWhereUniqueInput!): ClubApplicationInfo
+  findFirstClubApplicationInfo(where: ClubApplicationInfoWhereInput, orderBy: [ClubApplicationInfoOrderByWithRelationInput], cursor: ClubApplicationInfoWhereUniqueInput, take: Int, skip: Int, distinct: [ClubApplicationInfoScalarFieldEnum]): ClubApplicationInfo
+  findManyClubApplicationInfo(where: ClubApplicationInfoWhereInput, orderBy: [ClubApplicationInfoOrderByWithRelationInput], cursor: ClubApplicationInfoWhereUniqueInput, take: Int, skip: Int, distinct: [ClubApplicationInfoScalarFieldEnum]): [ClubApplicationInfo!]
+  findManyClubApplicationInfoCount(where: ClubApplicationInfoWhereInput, orderBy: [ClubApplicationInfoOrderByWithRelationInput], cursor: ClubApplicationInfoWhereUniqueInput, take: Int, skip: Int, distinct: [ClubApplicationInfoScalarFieldEnum]): Int!
+  aggregateClubApplicationInfo(where: ClubApplicationInfoWhereInput, orderBy: [ClubApplicationInfoOrderByWithRelationInput], cursor: ClubApplicationInfoWhereUniqueInput, take: Int, skip: Int): AggregateClubApplicationInfo
+  findUniqueTag(where: TagWhereUniqueInput!): Tag
+  findFirstTag(where: TagWhereInput, orderBy: [TagOrderByWithRelationInput], cursor: TagWhereUniqueInput, take: Int, skip: Int, distinct: [TagScalarFieldEnum]): Tag
+  findManyTag(where: TagWhereInput, orderBy: [TagOrderByWithRelationInput], cursor: TagWhereUniqueInput, take: Int, skip: Int, distinct: [TagScalarFieldEnum]): [Tag!]
+  findManyTagCount(where: TagWhereInput, orderBy: [TagOrderByWithRelationInput], cursor: TagWhereUniqueInput, take: Int, skip: Int, distinct: [TagScalarFieldEnum]): Int!
+  aggregateTag(where: TagWhereInput, orderBy: [TagOrderByWithRelationInput], cursor: TagWhereUniqueInput, take: Int, skip: Int): AggregateTag
+  findUniqueUser(where: UserWhereUniqueInput!): User
+  findFirstUser(where: UserWhereInput, orderBy: [UserOrderByWithRelationInput], cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: [UserScalarFieldEnum]): User
+  findManyUser(where: UserWhereInput, orderBy: [UserOrderByWithRelationInput], cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: [UserScalarFieldEnum]): [User!]
+  findManyUserCount(where: UserWhereInput, orderBy: [UserOrderByWithRelationInput], cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: [UserScalarFieldEnum]): Int!
+  aggregateUser(where: UserWhereInput, orderBy: [UserOrderByWithRelationInput], cursor: UserWhereUniqueInput, take: Int, skip: Int): AggregateUser
+  findUniqueInvite(where: InviteWhereUniqueInput!): Invite
+  findFirstInvite(where: InviteWhereInput, orderBy: [InviteOrderByWithRelationInput], cursor: InviteWhereUniqueInput, take: Int, skip: Int, distinct: [InviteScalarFieldEnum]): Invite
+  findManyInvite(where: InviteWhereInput, orderBy: [InviteOrderByWithRelationInput], cursor: InviteWhereUniqueInput, take: Int, skip: Int, distinct: [InviteScalarFieldEnum]): [Invite!]
+  findManyInviteCount(where: InviteWhereInput, orderBy: [InviteOrderByWithRelationInput], cursor: InviteWhereUniqueInput, take: Int, skip: Int, distinct: [InviteScalarFieldEnum]): Int!
+  aggregateInvite(where: InviteWhereInput, orderBy: [InviteOrderByWithRelationInput], cursor: InviteWhereUniqueInput, take: Int, skip: Int): AggregateInvite
+  findUniqueRole(where: RoleWhereUniqueInput!): Role
+  findFirstRole(where: RoleWhereInput, orderBy: [RoleOrderByWithRelationInput], cursor: RoleWhereUniqueInput, take: Int, skip: Int, distinct: [RoleScalarFieldEnum]): Role
+  findManyRole(where: RoleWhereInput, orderBy: [RoleOrderByWithRelationInput], cursor: RoleWhereUniqueInput, take: Int, skip: Int, distinct: [RoleScalarFieldEnum]): [Role!]
+  findManyRoleCount(where: RoleWhereInput, orderBy: [RoleOrderByWithRelationInput], cursor: RoleWhereUniqueInput, take: Int, skip: Int, distinct: [RoleScalarFieldEnum]): Int!
+  aggregateRole(where: RoleWhereInput, orderBy: [RoleOrderByWithRelationInput], cursor: RoleWhereUniqueInput, take: Int, skip: Int): AggregateRole
+  findUniqueProjectedRevenue(where: ProjectedRevenueWhereUniqueInput!): ProjectedRevenue
+  findFirstProjectedRevenue(where: ProjectedRevenueWhereInput, orderBy: [ProjectedRevenueOrderByWithRelationInput], cursor: ProjectedRevenueWhereUniqueInput, take: Int, skip: Int, distinct: [ProjectedRevenueScalarFieldEnum]): ProjectedRevenue
+  findManyProjectedRevenue(where: ProjectedRevenueWhereInput, orderBy: [ProjectedRevenueOrderByWithRelationInput], cursor: ProjectedRevenueWhereUniqueInput, take: Int, skip: Int, distinct: [ProjectedRevenueScalarFieldEnum]): [ProjectedRevenue!]
+  findManyProjectedRevenueCount(where: ProjectedRevenueWhereInput, orderBy: [ProjectedRevenueOrderByWithRelationInput], cursor: ProjectedRevenueWhereUniqueInput, take: Int, skip: Int, distinct: [ProjectedRevenueScalarFieldEnum]): Int!
+  aggregateProjectedRevenue(where: ProjectedRevenueWhereInput, orderBy: [ProjectedRevenueOrderByWithRelationInput], cursor: ProjectedRevenueWhereUniqueInput, take: Int, skip: Int): AggregateProjectedRevenue
+  findUniqueProjectedExpenses(where: ProjectedExpensesWhereUniqueInput!): ProjectedExpenses
+  findFirstProjectedExpenses(where: ProjectedExpensesWhereInput, orderBy: [ProjectedExpensesOrderByWithRelationInput], cursor: ProjectedExpensesWhereUniqueInput, take: Int, skip: Int, distinct: [ProjectedExpensesScalarFieldEnum]): ProjectedExpenses
+  findManyProjectedExpenses(where: ProjectedExpensesWhereInput, orderBy: [ProjectedExpensesOrderByWithRelationInput], cursor: ProjectedExpensesWhereUniqueInput, take: Int, skip: Int, distinct: [ProjectedExpensesScalarFieldEnum]): [ProjectedExpenses!]
+  findManyProjectedExpensesCount(where: ProjectedExpensesWhereInput, orderBy: [ProjectedExpensesOrderByWithRelationInput], cursor: ProjectedExpensesWhereUniqueInput, take: Int, skip: Int, distinct: [ProjectedExpensesScalarFieldEnum]): Int!
+  aggregateProjectedExpenses(where: ProjectedExpensesWhereInput, orderBy: [ProjectedExpensesOrderByWithRelationInput], cursor: ProjectedExpensesWhereUniqueInput, take: Int, skip: Int): AggregateProjectedExpenses
+}
+
+type Mutation {
+  createOneClub(data: ClubCreateInput!): Club!
+  updateOneClub(data: ClubUpdateInput!, where: ClubWhereUniqueInput!): Club!
+  deleteOneClub(where: ClubWhereUniqueInput!): Club
+  upsertOneClub(where: ClubWhereUniqueInput!, create: ClubCreateInput!, update: ClubUpdateInput!): Club
+  deleteManyClub(where: ClubWhereInput): BatchPayload
+  updateManyClub(data: ClubUpdateManyMutationInput!, where: ClubWhereInput): BatchPayload
+  createOneLink(data: LinkCreateInput!): Link!
+  updateOneLink(data: LinkUpdateInput!, where: LinkWhereUniqueInput!): Link!
+  deleteOneLink(where: LinkWhereUniqueInput!): Link
+  upsertOneLink(where: LinkWhereUniqueInput!, create: LinkCreateInput!, update: LinkUpdateInput!): Link
+  deleteManyLink(where: LinkWhereInput): BatchPayload
+  updateManyLink(data: LinkUpdateManyMutationInput!, where: LinkWhereInput): BatchPayload
+  createOneClubApplicationInfo(data: ClubApplicationInfoCreateInput!): ClubApplicationInfo!
+  updateOneClubApplicationInfo(data: ClubApplicationInfoUpdateInput!, where: ClubApplicationInfoWhereUniqueInput!): ClubApplicationInfo!
+  deleteOneClubApplicationInfo(where: ClubApplicationInfoWhereUniqueInput!): ClubApplicationInfo
+  upsertOneClubApplicationInfo(where: ClubApplicationInfoWhereUniqueInput!, create: ClubApplicationInfoCreateInput!, update: ClubApplicationInfoUpdateInput!): ClubApplicationInfo
+  deleteManyClubApplicationInfo(where: ClubApplicationInfoWhereInput): BatchPayload
+  updateManyClubApplicationInfo(data: ClubApplicationInfoUpdateManyMutationInput!, where: ClubApplicationInfoWhereInput): BatchPayload
+  createOneTag(data: TagCreateInput!): Tag!
+  updateOneTag(data: TagUpdateInput!, where: TagWhereUniqueInput!): Tag!
+  deleteOneTag(where: TagWhereUniqueInput!): Tag
+  upsertOneTag(where: TagWhereUniqueInput!, create: TagCreateInput!, update: TagUpdateInput!): Tag
+  deleteManyTag(where: TagWhereInput): BatchPayload
+  updateManyTag(data: TagUpdateManyMutationInput!, where: TagWhereInput): BatchPayload
+  createOneUser(data: UserCreateInput!): User!
+  updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User!
+  deleteOneUser(where: UserWhereUniqueInput!): User
+  upsertOneUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User
+  deleteManyUser(where: UserWhereInput): BatchPayload
+  updateManyUser(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload
+  createOneInvite(data: InviteCreateInput!): Invite!
+  updateOneInvite(data: InviteUpdateInput!, where: InviteWhereUniqueInput!): Invite!
+  deleteOneInvite(where: InviteWhereUniqueInput!): Invite
+  upsertOneInvite(where: InviteWhereUniqueInput!, create: InviteCreateInput!, update: InviteUpdateInput!): Invite
+  deleteManyInvite(where: InviteWhereInput): BatchPayload
+  updateManyInvite(data: InviteUpdateManyMutationInput!, where: InviteWhereInput): BatchPayload
+  createOneRole(data: RoleCreateInput!): Role!
+  updateOneRole(data: RoleUpdateInput!, where: RoleWhereUniqueInput!): Role!
+  deleteOneRole(where: RoleWhereUniqueInput!): Role
+  upsertOneRole(where: RoleWhereUniqueInput!, create: RoleCreateInput!, update: RoleUpdateInput!): Role
+  deleteManyRole(where: RoleWhereInput): BatchPayload
+  updateManyRole(data: RoleUpdateManyMutationInput!, where: RoleWhereInput): BatchPayload
+  createOneProjectedRevenue(data: ProjectedRevenueCreateInput!): ProjectedRevenue!
+  updateOneProjectedRevenue(data: ProjectedRevenueUpdateInput!, where: ProjectedRevenueWhereUniqueInput!): ProjectedRevenue!
+  deleteOneProjectedRevenue(where: ProjectedRevenueWhereUniqueInput!): ProjectedRevenue
+  upsertOneProjectedRevenue(where: ProjectedRevenueWhereUniqueInput!, create: ProjectedRevenueCreateInput!, update: ProjectedRevenueUpdateInput!): ProjectedRevenue
+  deleteManyProjectedRevenue(where: ProjectedRevenueWhereInput): BatchPayload
+  updateManyProjectedRevenue(data: ProjectedRevenueUpdateManyMutationInput!, where: ProjectedRevenueWhereInput): BatchPayload
+  createOneProjectedExpenses(data: ProjectedExpensesCreateInput!): ProjectedExpenses!
+  updateOneProjectedExpenses(data: ProjectedExpensesUpdateInput!, where: ProjectedExpensesWhereUniqueInput!): ProjectedExpenses!
+  deleteOneProjectedExpenses(where: ProjectedExpensesWhereUniqueInput!): ProjectedExpenses
+  upsertOneProjectedExpenses(where: ProjectedExpensesWhereUniqueInput!, create: ProjectedExpensesCreateInput!, update: ProjectedExpensesUpdateInput!): ProjectedExpenses
+  deleteManyProjectedExpenses(where: ProjectedExpensesWhereInput): BatchPayload
+  updateManyProjectedExpenses(data: ProjectedExpensesUpdateManyMutationInput!, where: ProjectedExpensesWhereInput): BatchPayload
+}
+
+type Link {
+  id: Int!
+  club: Club!
+  clubId: Int!
+  name: String
+  link: String!
+  type: String!
+}
+
+type ClubApplicationInfo {
+  id: Int!
+  teacher: User!
+  userId: Int!
+  club: Club!
+  clubId: Int!
+  projectedRevenue(where: ProjectedRevenueWhereInput, orderBy: ProjectedRevenueOrderByWithRelationInput, cursor: ProjectedRevenueWhereUniqueInput, take: Int, skip: Int, distinct: ProjectedRevenueScalarFieldEnum): [ProjectedRevenue!]!
+  projectedExpenses(where: ProjectedExpensesWhereInput, orderBy: ProjectedExpensesOrderByWithRelationInput, cursor: ProjectedExpensesWhereUniqueInput, take: Int, skip: Int, distinct: ProjectedExpensesScalarFieldEnum): [ProjectedExpenses!]!
+  purpose: String!
+  membershipRequirements: String!
+  dutiesOfMembers: String!
+  titlesAndDutiesOfOfficers: String!
+  selectionOfOfficers: String!
+  officerMinimumGPA: Float!
+  percentAttendanceForOfficialMeeting: Int!
+  percentAttendanceToApproveDecision: Int!
+  _count: ClubApplicationInfoCountOutputType!
+}
+
+type Tag {
+  id: Int!
+  name: String!
+  clubs(where: ClubWhereInput, orderBy: ClubOrderByWithRelationInput, cursor: ClubWhereUniqueInput, take: Int, skip: Int, distinct: ClubScalarFieldEnum): [Club!]!
+  interestedUsers(where: UserWhereInput, orderBy: UserOrderByWithRelationInput, cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: UserScalarFieldEnum): [User!]!
+  _count: TagCountOutputType!
+}
+
+type User {
+  id: Int!
+  ccid: String!
+  firstname: String!
+  lastname: String!
+  email: String!
+  emailVerified: Boolean!
+  password: String!
+  grade: String!
+  type: String!
+  interests(where: TagWhereInput, orderBy: TagOrderByWithRelationInput, cursor: TagWhereUniqueInput, take: Int, skip: Int, distinct: TagScalarFieldEnum): [Tag!]!
+  clubs(where: ClubWhereInput, orderBy: ClubOrderByWithRelationInput, cursor: ClubWhereUniqueInput, take: Int, skip: Int, distinct: ClubScalarFieldEnum): [Club!]!
+  canEdit(where: ClubWhereInput, orderBy: ClubOrderByWithRelationInput, cursor: ClubWhereUniqueInput, take: Int, skip: Int, distinct: ClubScalarFieldEnum): [Club!]!
+  advisor(where: ClubApplicationInfoWhereInput, orderBy: ClubApplicationInfoOrderByWithRelationInput, cursor: ClubApplicationInfoWhereUniqueInput, take: Int, skip: Int, distinct: ClubApplicationInfoScalarFieldEnum): [ClubApplicationInfo!]!
+  roles(where: RoleWhereInput, orderBy: RoleOrderByWithRelationInput, cursor: RoleWhereUniqueInput, take: Int, skip: Int, distinct: RoleScalarFieldEnum): [Role!]!
+  invites(where: InviteWhereInput, orderBy: InviteOrderByWithRelationInput, cursor: InviteWhereUniqueInput, take: Int, skip: Int, distinct: InviteScalarFieldEnum): [Invite!]!
+  _count: UserCountOutputType!
+}
+
+type Invite {
+  id: Int!
+  status: String!
+  club: Club!
+  clubId: Int!
+  user: User!
+  userId: Int!
+}
+
+type Role {
+  id: Int!
+  name: String!
+  color: String!
+  description: String!
+  users(where: UserWhereInput, orderBy: UserOrderByWithRelationInput, cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: UserScalarFieldEnum): [User!]!
+  club: Club!
+  clubId: Int!
+  type: String!
+  _count: RoleCountOutputType!
+}
+
+type ProjectedRevenue {
+  id: Int!
+  club: ClubApplicationInfo!
+  clubId: Int!
+  name: String!
+  amount: Float!
+  date: String!
+}
+
+type ProjectedExpenses {
+  id: Int!
+  club: ClubApplicationInfo!
+  clubId: Int!
+  name: String!
+  amount: Float!
+  date: String!
+}
