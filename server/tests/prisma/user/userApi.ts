@@ -1,6 +1,6 @@
 import * as Client from "@prisma/client";
 import { request } from "graphql-request";
-import { UserWhereUniqueInput } from "../../graphql/resolversTypes";
+import { UserWhereUniqueInput } from "../../../graphql/resolversTypes";
 import * as doc from "./userDocuments";
 const url = "http://localhost:3000/api/graphql";
 

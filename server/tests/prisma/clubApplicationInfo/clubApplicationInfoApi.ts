@@ -1,6 +1,6 @@
 import * as Client from "@prisma/client";
 import { request } from "graphql-request";
-import { ClubApplicationInfoWhereUniqueInput } from "../../graphql/resolversTypes";
+import { ClubApplicationInfoWhereUniqueInput } from "../../../graphql/resolversTypes";
 import * as doc from "./clubApplicationInfoDocuments";
 const url = "http://localhost:3000/api/graphql";
 
