@@ -1,54 +1,37 @@
 import { gql } from "@apollo/client";
-import { UserFields } from "../user/userDocuments";
-import { ClubFields } from "../club/clubDocuments";
+import { ClubApplicationInfo } from "../fragments";
 
-export const ClubApplicationInfoFields = gql`
-  fragment ClubApplicationInfoFields on ClubApplicationInfo {
-    id
-    userId
-    clubId
-    purpose
-    membershipRequirements
-    dutiesOfMembers
-    titlesAndDutiesOfOfficers
-    selectionOfOfficers
-    officerMinimumGPA
-    percentAttendanceForOfficialMeeting
-    percentAttendanceToApproveDecision
+export const findUniqueClubApplicationInfo = gql`
+  query findUniqueClubApplicationInfo(
+    $where: ClubApplicationInfoWhereUniqueInput!
+  ) {
+    findUniqueClubApplicationInfo(where: $where) {
+      ...ClubApplicationInfo
+    }
   }
+  ${ClubApplicationInfo}
 `;
 
-export const ClubApplicationInfo = gql`fragment ClubApplicationInfo on ClubApplicationInfo {
-  ...ClubApplicationInfoFields
-  teacher {
-    ...UserFields
-  }
-  club {
-    ...ClubFields
-  }
-  ${UserFields}
-  ${ClubFields}
-}`;
-
-export const findUniqueClubApplicationInfo = gql`query findUniqueClubApplicationInfo($where: ClubApplicationInfoWhereUniqueInput!) {
-  findUniqueClubApplicationInfo(where: $where) {
-    ...ClubApplicationInfo
-  }
-  ${ClubApplicationInfo}
-}`;
-
-export const findManyClubApplicationInfo = gql`query findManyClubApplicationInfo(
-  $where: ClubApplicationInfoWhereInput
-  $orderBy: [ClubApplicationInfoOrderByWithRelationInput!]
-  $cursor: ClubApplicationInfoWhereUniqueInput
-  $skip: Int
-  $take: Int
-) {
-  findManyClubApplicationInfo(where: $where, orderBy: $orderBy, cursor: $cursor, skip: $skip, take: $take) {
-    ...ClubApplicationInfo
+export const findManyClubApplicationInfo = gql`
+  query findManyClubApplicationInfo(
+    $where: ClubApplicationInfoWhereInput
+    $orderBy: [ClubApplicationInfoOrderByWithRelationInput!]
+    $cursor: ClubApplicationInfoWhereUniqueInput
+    $skip: Int
+    $take: Int
+  ) {
+    findManyClubApplicationInfo(
+      where: $where
+      orderBy: $orderBy
+      cursor: $cursor
+      skip: $skip
+      take: $take
+    ) {
+      ...ClubApplicationInfo
+    }
   }
   ${ClubApplicationInfo}
-}`;
+`;
 
 export const findManyClubApplicationInfoCount = gql`
   query findManyClubApplicationInfoCount(

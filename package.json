@@ -7,6 +7,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest --watch",
+    "test:watch": "jest --watchAll",
     "seed": "node ./seed_script/seed.js"
   },
   "dependencies": {

@@ -1,25 +1,5 @@
 import { gql } from "@apollo/client";
-
-export const UserFields = gql`
-  fragment UserFields on User {
-    id
-    ccid
-    firstname
-    lastname
-    email
-    emailVerified
-    password
-    grade
-    type
-  }
-`;
-
-export const User = gql`
-  fragment User on User {
-    ...UserFields
-  }
-  ${UserFields}
-`;
+import { User } from "../fragments";
 
 export const findUniqueUser = gql`
   query findUniqueUser($where: UserWhereUniqueInput!) {

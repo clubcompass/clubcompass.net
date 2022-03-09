@@ -1,30 +1,5 @@
 import { gql } from "@apollo/client";
-import { ClubApplicationInfoFields } from "../clubApplicationInfo/clubApplicationInfoDocuments";
-export const ClubFields = gql`
-  fragment ClubFields on Club {
-    id
-    name
-    slug
-    description
-    email
-    meetingDate
-    location
-    approval
-    status
-    availability
-  }
-`;
-
-export const Club = gql`
-  fragment Club on Club {
-    ...ClubFields
-    applicationInfo {
-      ...ClubApplicationInfoFields
-    }
-  }
-  ${ClubFields}
-  ${ClubApplicationInfoFields}
-`;
+import { Club } from "../fragments";
 
 export const findUniqueClub = gql`
   query findUniqueClub($where: ClubWhereUniqueInput!) {

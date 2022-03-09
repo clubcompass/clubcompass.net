@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import gql from "graphql-tag";
 
 export default gql`
   type Club {
@@ -114,4 +114,4 @@ export default gql`
       where: ClubWhereInput
     ): BatchPayload
   }
-`
+`;
