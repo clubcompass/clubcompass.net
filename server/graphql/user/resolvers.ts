@@ -1,4 +1,5 @@
 import { Resolvers } from "../resolversTypes";
+import { updateUserInterests } from "./custom/updateUserInterests";
 
 const resolvers: Resolvers = {
   Query: {
@@ -37,6 +38,7 @@ const resolvers: Resolvers = {
     updateManyUser: (_parent, args, { prisma }) => {
       return prisma.user.updateMany(args);
     },
+    updateUserInterests,
   },
 };
 export default resolvers;

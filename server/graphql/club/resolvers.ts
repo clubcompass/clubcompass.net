@@ -1,4 +1,8 @@
 import { Resolvers } from "../resolversTypes";
+import { joinClub } from "./custom/joinClub";
+import { leaveClub } from "./custom/leaveClub";
+import { deleteClub } from "./custom/deleteClub";
+import { updateClubTags } from "./custom/updateClubTags";
 
 const resolvers: Resolvers = {
   Query: {
@@ -37,6 +41,10 @@ const resolvers: Resolvers = {
     updateManyClub: (_parent, args, { prisma }) => {
       return prisma.club.updateMany(args);
     },
+    joinClub,
+    leaveClub,
+    deleteClub,
+    updateClubTags,
   },
 };
 export default resolvers;
