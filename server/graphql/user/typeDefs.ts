@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import gql from "graphql-tag";
 
 export default gql`
   type User {
@@ -98,6 +98,7 @@ export default gql`
   }
 
   type Mutation {
+    updateUserInterests(userId: Int!, tagIds: [Int!]!): User
     createOneUser(data: UserCreateInput!): User!
     updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User!
     deleteOneUser(where: UserWhereUniqueInput!): User
@@ -112,4 +113,4 @@ export default gql`
       where: UserWhereInput
     ): BatchPayload
   }
-`
+`;

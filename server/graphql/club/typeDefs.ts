@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import gql from "graphql-tag";
 
 export default gql`
   type Club {
@@ -100,6 +100,10 @@ export default gql`
   }
 
   type Mutation {
+    joinClub(userId: Int!, clubId: Int!): User
+    leaveClub(userId: Int!, clubId: Int!): User
+    deleteClub(id: Int!): Club
+    updateClubTags(clubId: Int!, tagIds: [Int!]!): Club
     createOneClub(data: ClubCreateInput!): Club!
     updateOneClub(data: ClubUpdateInput!, where: ClubWhereUniqueInput!): Club!
     deleteOneClub(where: ClubWhereUniqueInput!): Club
@@ -114,4 +118,4 @@ export default gql`
       where: ClubWhereInput
     ): BatchPayload
   }
-`
+`;
