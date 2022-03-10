@@ -7,6 +7,7 @@ import Tag from "./tag/resolvers";
 import ClubApplicationInfo from "./clubApplicationInfo/resolvers";
 import Link from "./link/resolvers";
 import Club from "./club/resolvers";
+import Auth from "./auth/resolvers";
 export const resolvers = [
   Club,
   Link,
@@ -17,4 +18,5 @@ export const resolvers = [
   Role,
   ProjectedRevenue,
   ProjectedExpenses,
+  Auth,
 ];

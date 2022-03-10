@@ -1,17 +1,21 @@
 import { Context } from "../../ctx";
+import { Club } from "@prisma/client";
+import { getAuthenticatedUser, AuthPayload } from "./../../../utils/auth";
 
 type LeaveInput = {
-  userId: number;
-  clubId: number;
+  // userId: number;
+  clubId: Club["id"];
 };
 export const leaveClub = async (
   _parent: any,
-  { userId, clubId }: LeaveInput,
-  { prisma }: Context
+  // { userId, clubId }: LeaveInput,
+  { clubId }: LeaveInput,
+  { prisma, auth }: Context
 ): Promise<any> => {
+  const authPayload = getAuthenticatedUser({ auth });
   const user = await prisma.user.findUnique({
     where: {
-      id: userId,
+      id: (<AuthPayload>authPayload)?.id,
     },
     include: {
       roles: true,
@@ -28,7 +32,7 @@ export const leaveClub = async (
 
   const response = await prisma.user.update({
     where: {
-      id: userId,
+      id: (<AuthPayload>authPayload)?.id,
     },
     data: {
       clubs: {

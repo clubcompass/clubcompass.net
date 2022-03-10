@@ -100,8 +100,8 @@ export default gql`
   }
 
   type Mutation {
-    joinClub(userId: Int!, clubId: Int!): User
-    leaveClub(userId: Int!, clubId: Int!): User
+    joinClub(clubId: Int!): User
+    leaveClub(clubId: Int!): User
     deleteClub(id: Int!): Club
     updateClubTags(clubId: Int!, tagIds: [Int!]!): Club
     createOneClub(data: ClubCreateInput!): Club!

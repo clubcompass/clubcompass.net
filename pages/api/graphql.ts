@@ -4,9 +4,10 @@ import cors from "micro-cors";
 import { makeExecutableSchema } from "graphql-tools";
 import { applyMiddleware } from "graphql-middleware";
 import { GraphQLResolveInfo, GraphQLSchema } from "graphql";
+import { PrismaSelect } from "@paljs/plugins";
+import { permissions } from "../../server/permissions";
 import { createContext, Context } from "../../server/graphql/ctx";
 import { resolvers, typeDefs } from "../../server/graphql";
-import { PrismaSelect } from "@paljs/plugins";
 
 const Cors = cors();
 

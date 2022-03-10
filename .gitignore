@@ -38,3 +38,4 @@ requests.http
 commit_message.md
 prisma/database.db
 pal.js
+.env.test

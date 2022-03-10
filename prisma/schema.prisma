@@ -8,13 +8,6 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// generator graphql {
-//   provider = "graphql-schema-generator"
-//   createCRUD = "false"
-//   output = "../graphql/schemas"
-// }
-
-
 model Club {
   id              Int                  @id @default(autoincrement())
   name            String?              @unique

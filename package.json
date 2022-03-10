@@ -6,6 +6,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "test": "jest",
     "test:unit": "jest --testPathPattern=unit.\\spec\\.ts$ --watch",
     "test:int": "jest --testPathPattern=int.\\spec\\.ts$ --watch",
     "test:prisma": "jest --testPathPattern=prisma.\\spec\\.ts$ --watch",
@@ -49,8 +50,10 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/chai": "^4.3.0",
     "@types/jest": "^27.4.1",
+    "@types/jsonwebtoken": "^8.5.8",
     "@types/micro-cors": "^0.1.2",
     "@types/react": "^17.0.39",
     "autoprefixer": "^10.4.2",

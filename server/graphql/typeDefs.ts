@@ -7,6 +7,7 @@ import Tag from "./tag/typeDefs";
 import ClubApplicationInfo from "./clubApplicationInfo/typeDefs";
 import Link from "./link/typeDefs";
 import Club from "./club/typeDefs";
+import Auth from "./auth/typeDefs";
 import { mergeTypeDefs } from "@graphql-tools/merge";
 import { sdlInputs } from "@paljs/plugins";
 
@@ -21,4 +22,5 @@ export const typeDefs = mergeTypeDefs([
   Role,
   ProjectedRevenue,
   ProjectedExpenses,
+  Auth,
 ]);
