@@ -2,6 +2,7 @@ import { prisma } from "../../../config/prisma";
 import { redis } from "../../../config/redis";
 
 export default async (req, res) => {
+  console.log("running");
   const { source, slug, clubId, tagIds, status } = req.query;
 
   if (source === "DB") {
@@ -142,19 +143,19 @@ export default async (req, res) => {
             projectedRevenue: true,
             projectedExpenses: true,
           },
-        },
-        links: true,
-        tags: true,
-        members: {
-          include: {
-            roles: true,
+          links: true,
+          tags: true,
+          members: {
+            include: {
+              roles: true,
+            },
           },
-        },
-        editors: true,
-        roles: true,
-        invites: {
-          include: {
-            user: true,
+          editors: true,
+          roles: true,
+          invites: {
+            include: {
+              user: true,
+            },
           },
         },
       },

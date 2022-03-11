@@ -108,4 +108,12 @@ const Register = () => {
   );
 };
 
+export const getStaticProps = async () => {
+  return {
+    props: {
+      navigationLayout: false,
+    },
+  };
+};
+
 export default Register;

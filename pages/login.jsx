@@ -17,8 +17,6 @@ const Login = () => {
   );
 };
 
-export default Login;
-
 const LoginContainer = ({ children }) => (
   <div className="flex flex-row w-full">
     <div className="flex w-full h-screen items-center justify-center">
@@ -60,3 +58,13 @@ const LoginContent = () => {
     </Container>
   );
 };
+
+export const getStaticProps = async () => {
+  return {
+    props: {
+      navigationLayout: false,
+    },
+  };
+};
+
+export default Login;

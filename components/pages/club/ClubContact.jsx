@@ -9,7 +9,7 @@ export const ClubContact = ({ email, links }) => {
   return (
     <div className="flex flex-col gap-2 font-semibold text-[#344457] text-lg">
       <Info type="EMAIL">
-        <CopyText>{email}</CopyText>
+        <CopyText tooltip>{email}</CopyText>
       </Info>
       {links.map((link) => (
         <Info type={link.type} link={link.link} target="blank">
