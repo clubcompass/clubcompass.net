@@ -32,7 +32,7 @@ model Link {
   id     Int     @id @default(autoincrement())
   club   Club    @relation(fields: [clubId], references: [id])
   clubId Int
-  name   String?
+  name   String
   link   String
   type   String //can take values like WEBSITE / DISCORD / INSTAGRAM / SNAPCHAT
 }

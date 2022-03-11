@@ -3,6 +3,7 @@ import { joinClub } from "./custom/joinClub";
 import { leaveClub } from "./custom/leaveClub";
 import { deleteClub } from "./custom/deleteClub";
 import { updateClubTags } from "./custom/updateClubTags";
+import { createClub } from "./custom/createClub";
 
 const resolvers: Resolvers = {
   Query: {
@@ -45,6 +46,7 @@ const resolvers: Resolvers = {
     leaveClub,
     deleteClub,
     updateClubTags,
+    createClub,
   },
 };
 export default resolvers;

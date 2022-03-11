@@ -64,6 +64,64 @@ export default gql`
     _count: ClubCountOutputType!
   }
 
+  input CreateClubArgs {
+    name: String!
+    description: String
+    email: String
+    meetingDate: String
+    location: String
+    approval: String
+    status: String
+    availability: String
+    links: [LinkInput!]
+    applicationInfo: ClubApplicationInfoInput
+    tagIds: [Int!]
+    inviteIds: [Int!]
+    vicePresidentId: Int
+    secretaryId: Int
+    treasurerId: Int
+  }
+
+  input LinkInput {
+    name: String!
+    link: String!
+    type: String!
+  }
+
+  input TagInput {
+    name: String!
+  }
+
+  input InviteInput {
+    recipientId: String!
+  }
+
+  input ClubApplicationInfoInput {
+    teacherId: String
+    projectedRevenue: [ProjectedRevenueInput!]
+    projectedExpenses: [ProjectedExpensesInput!]
+    purpose: String
+    membershipRequirements: String
+    dutiesOfMembers: String
+    titlesAndDutiesOfOfficers: String
+    selectionOfOfficers: String
+    officerMinimumGPA: Float
+    percentAttendanceForOfficialMeeting: Int
+    percentAttendanceToApproveDecision: Int
+  }
+
+  input ProjectedRevenueInput {
+    name: String!
+    amount: Float!
+    date: String!
+  }
+
+  input ProjectedExpensesInput {
+    name: String!
+    amount: Float!
+    date: String!
+  }
+
   type Query {
     findUniqueClub(where: ClubWhereUniqueInput!): Club
     findFirstClub(
@@ -98,12 +156,12 @@ export default gql`
       skip: Int
     ): AggregateClub
   }
-
   type Mutation {
     joinClub(clubId: Int!): User
     leaveClub(clubId: Int!): User
     deleteClub(id: Int!): Club
     updateClubTags(clubId: Int!, tagIds: [Int!]!): Club
+    createClub(data: CreateClubArgs!): Club
     createOneClub(data: ClubCreateInput!): Club!
     updateOneClub(data: ClubUpdateInput!, where: ClubWhereUniqueInput!): Club!
     deleteOneClub(where: ClubWhereUniqueInput!): Club
