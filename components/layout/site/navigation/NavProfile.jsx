@@ -14,21 +14,19 @@ export const NavProfile = ({ name }) => {
   ).toUpperCase();
   return (
     <div className="">
-      <Menu as="div" className="lg:w-[219px] relative inline-block">
+      <Menu as="div" className="lg:w-[200px] relative inline-block">
         <div>
           <Menu.Button className="bg-ccGrey hover:bg-ccGreyDark text-sm font-medium text-black inline-flex w-full rounded-md items-center justify-between focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
             <div
-              className={`flex w-10 h-10 justify-center items-center rounded-md ${
+              className={`flex w-[35px] h-[35px] justify-center items-center rounded-md ${
                 menuOpen ? "bg-[#5794FF]" : "bg-[#AFC7FF]"
               }`}
             >
-              <p
-                className={`text-[1.1rem] w-[40px] ${menuOpen && "text-white"}`}
-              >
+              <p className={`text-sm   ${menuOpen && "text-white"}`}>
                 {initials}
               </p>
             </div>
-            <div className="hidden lg:flex pl-1 text-left font-semibold tracking-wide truncate">
+            <div className="hidden lg:flex pl-1 text-sm tracking-wide truncate">
               {name}
             </div>
             <div className="hidden lg:flex pr-3">
@@ -54,7 +52,7 @@ export const NavProfile = ({ name }) => {
           >
             <div className="px-1 py-1">
               <Menu.Item>
-                <Link href="/">
+                <Link href="/dashboard/account">
                   <a
                     className={`${
                       menuOpen ? "text-white bg-white/5" : "text-gray-500"

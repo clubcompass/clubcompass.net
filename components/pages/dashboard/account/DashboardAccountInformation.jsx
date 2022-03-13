@@ -27,8 +27,8 @@ const Icon = ({ name }) => {
   ).toUpperCase();
   return (
     <div className="flex">
-      <div className="flex h-20 w-20 justify-center text-center items-center rounded-md bg-[#AFC7FF]">
-        <p className="text-4xl font-semibold">{initials}</p>
+      <div className="flex h-[4rem] w-[4rem] justify-center text-center items-center rounded-md bg-[#AFC7FF]">
+        <p className="text-3xl font-semibold">{initials}</p>
       </div>
     </div>
   );
@@ -37,7 +37,7 @@ const Icon = ({ name }) => {
 const InfoItem = ({ label, value }) => {
   return (
     <div className="flex gap-2 text-lg">
-      <label className="text-gray-500 w-[px]">{label}</label>
+      <label className="text-gray-500">{label}</label>
       <div className="flex gap-2">
         <p className={`${label !== "Email:" && "capitalize"}`}>{value}</p>
         {label === "Email:" && <ChangeEmail />}
