@@ -1,31 +1,47 @@
 import React, { useState } from "react";
 import { useAuthContext } from "../../../../context";
 import { db } from "../../../../lib/database";
+import { DashboardNavProfile } from "../../../layout/dashboard/navigation/DashboardNavProfile";
 import { ChangeEmail } from "./components/ChangeEmail";
 
 export const DashboardAccountInformation = () => {
   const { user } = useAuthContext();
-  const blacklist = ["clubs", "canEdit", "invites", "roles"]; // don't display
-  const info = Object.keys(user).reduce((acc, key) => {
-    if (!blacklist.includes(key)) {
-      acc[key] = user[key];
-    }
-    return acc;
-  }, {});
+
+  const name = `${user.firstname} ${user.lastname}`;
 
   return (
     <div className="flex flex-col gap-2">
-      <Name name={`${user.firstname} ${user.lastname}`} />
-      <ChangeEmail email={user.email} />
+      <Icon name={name} />
+      <InfoItem label={"Name:"} value={name} />
+      <InfoItem label="CCID:" value={user.ccid} />
+      <InfoItem label="Email:" value={user.email} />
+      <InfoItem label="Grade:" value={user.grade} />
+      <InfoItem />
     </div>
   );
 };
 
-const Name = ({ name }) => {
+const Icon = ({ name }) => {
+  const initials = (
+    name.split(" ").shift().charAt(0) + name.split(" ").pop().charAt(0)
+  ).toUpperCase();
   return (
-    <div className="flex gap-2">
-      <label className="text-gray-500">Name:</label>
-      <p>{name}</p>
+    <div className="flex">
+      <div className="flex h-20 w-20 justify-center text-center items-center rounded-md bg-[#AFC7FF]">
+        <p className="text-4xl font-semibold">{initials}</p>
+      </div>
+    </div>
+  );
+};
+
+const InfoItem = ({ label, value }) => {
+  return (
+    <div className="flex gap-2 text-lg">
+      <label className="text-gray-500 w-[px]">{label}</label>
+      <div className="flex gap-2">
+        <p className={`${label !== "Email:" && "capitalize"}`}>{value}</p>
+        {label === "Email:" && <ChangeEmail />}
+      </div>
     </div>
   );
 };

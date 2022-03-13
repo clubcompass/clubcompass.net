@@ -9,7 +9,7 @@ export const DashboardNavProfile = () => {
     user: { firstname, lastname },
     logout,
   } = useAuthContext();
-  const name = firstname + " " + lastname;
+  const name = `${firstname} ${lastname}`;
   const initials = (
     name.split(" ").shift().charAt(0) + name.split(" ").pop().charAt(0)
   ).toUpperCase();

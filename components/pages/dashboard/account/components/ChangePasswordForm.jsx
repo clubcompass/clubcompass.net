@@ -31,7 +31,7 @@ const OpenModal = () => {
   return (
     <button
       onClick={openModal}
-      className="px-4 py-1 bg-cc/10 text-cc rounded-md"
+      className="py-1 px-4 rounded-md bg-gray-500/10 text-gray-500 hover:bg-gray-500/20"
     >
       Change Password
     </button>
@@ -123,7 +123,10 @@ const ChangePasswordConfirm = () => {
   return (
     <div className="flex flex-col gap-2">
       <h4 className="text-xl font-semibold">Success!</h4>
-      <p>You have successfully changed your password.</p>
+      <p className="text-[#686868]">
+        Your password has been successfully changed. Your new password is now
+        active.
+      </p>
       <div className="mx-auto">
         <button
           onClick={closeModal}

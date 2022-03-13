@@ -5,22 +5,16 @@ import * as Yup from "yup";
 import { useModalContext } from "../../../../general/Modal";
 import { Field as CustomField } from "../../../../general/input/control";
 
-import { AiOutlineCheckCircle } from "react-icons/ai";
-
 export const ChangeEmail = ({ email }) => {
   return (
     <div>
       <div className="flex gap-2 items-center">
-        <label className="text-gray-500">Email: </label>
-        <div className="flex gap-2 items-center">
-          <p className="">{email}</p>
-          <ModalProvider button={"Edit"} title={"Change email"}>
-            <OpenModal />
-            <EmailForm email={email} />
-            <EmailConfirm />
-            <EmailCongrats />
-          </ModalProvider>
-        </div>
+        <ModalProvider button={"Edit"} title={"Change email"}>
+          <OpenModal />
+          <EmailForm email={email} />
+          <EmailConfirm />
+          <EmailCongrats />
+        </ModalProvider>
       </div>
     </div>
   );
@@ -132,7 +126,7 @@ const EmailCongrats = () => {
     <div className="flex flex-col gap-2">
       <h4 className="text-xl font-semibold">Success!</h4>
       <p className="text-[#686868]">
-        Your email has been successfully changed. Your new email is now active
+        Your email has been successfully changed. Your new email is now active.
       </p>
       <div className="mx-auto">
         <button

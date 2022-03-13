@@ -1,7 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import { createContext, useContext } from "react";
-import { MdFlipToFront } from "react-icons/md";
 import { useTransition, animated, config } from "react-spring";
 import Confetti from "react-dom-confetti";
 

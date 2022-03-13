@@ -6,7 +6,6 @@ import {
 const Account = () => {
   return (
     <div className="flex flex-col gap-4 mt-4">
-      <h1 className="text-2xl">Your profile</h1>
       <div className="flex flex-col gap-4">
         <Information />
         <Actions />
