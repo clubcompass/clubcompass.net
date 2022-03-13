@@ -12,8 +12,6 @@ export const DashboardNavItems = () => {
   const { user } = useAuthContext();
   const pending = user.invites.filter((invite) => invite.status === "PENDING");
 
-  console.log(user);
-
   const roleSpecificItems = {
     // replace icon with react icon component
     STUDENT: [
@@ -33,9 +31,9 @@ export const DashboardNavItems = () => {
         icon: "activity",
       },
       {
-        label: "Settings",
+        label: "Edit Profile",
         to: "/dashboard/account",
-        icon: "settings",
+        icon: "account",
       },
     ],
     ADMIN: [
@@ -50,9 +48,9 @@ export const DashboardNavItems = () => {
         icon: "manage",
       },
       {
-        label: "Settings",
+        label: "Edit Profile",
         to: "/dashboard/account",
-        icon: "settings",
+        icon: "account",
       },
     ],
     TEACHER: [
@@ -62,9 +60,9 @@ export const DashboardNavItems = () => {
         icon: "home",
       },
       {
-        label: "Settings",
+        label: "Edit Profile",
         to: "/dashboard/account",
-        icon: "settings",
+        icon: "account",
       },
     ],
   };
@@ -111,7 +109,7 @@ const Icon = ({ icon, color }) => {
       {icon == "home" && <DashboardIcon color={color} />}
       {icon == "manage" && <HiOutlinePencilAlt />}
       {icon == "activity" && <BiBell />}
-      {icon == "settings" && <RiSettings5Line />}
+      {icon == "account" && <RiSettings5Line />}
     </div>
   );
 };

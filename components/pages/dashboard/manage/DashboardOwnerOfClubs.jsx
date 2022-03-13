@@ -32,10 +32,10 @@ export const DashboardOwnerOfClubs = () => {
   return (
     <div className="flex flex-col gap-2">
       {isPresidentOf && isPresidentOf.length !== 0 && (
-        <ContentSection label="Owned" clubs={isPresidentOf} />
+        <ContentSection label="Owned by you" clubs={isPresidentOf} />
       )}
       {hasLeadershipIn && hasLeadershipIn.length !== 0 && (
-        <ContentSection label="Leader" clubs={hasLeadershipIn} />
+        <ContentSection label="Leadership in" clubs={hasLeadershipIn} />
       )}
       {/* {hasEditor && hasEditor.length !== 0 && (
         <ContentSection label="Can edit" clubs={hasEditor} />

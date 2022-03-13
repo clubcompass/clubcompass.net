@@ -13,6 +13,7 @@ module.exports = {
         ccDark: "#1653E3",
         ccGrey: "#F8FAFB",
         ccGreyDark: "#F2F2F2",
+        ccGreyDarker: "#787F92",
       },
       gridTemplateColumns: {
         cards: "repeat(auto-fill,minmax(420px,1fr))",

@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAuthContext } from "../../../../context";
+import { db } from "../../../../lib/database";
+import { ChangeEmail } from "./components/ChangeEmail";
+
 export const DashboardAccountInformation = () => {
   const { user } = useAuthContext();
   const blacklist = ["clubs", "canEdit", "invites", "roles"]; // don't display
@@ -9,23 +12,20 @@ export const DashboardAccountInformation = () => {
     }
     return acc;
   }, {});
+
   return (
     <div className="flex flex-col gap-2">
-      <h2 className="text-lg font-semibold">Account Information</h2>
-      <div className="flex flex-col gap-2">
-        {Object.keys(info).map((key, i) => (
-          <InfoItem key={i} label={key} value={user[key]} />
-        ))}
-      </div>
+      <Name name={`${user.firstname} ${user.lastname}`} />
+      <ChangeEmail email={user.email} />
     </div>
   );
 };
 
-const InfoItem = ({ label, value }) => {
+const Name = ({ name }) => {
   return (
-    <div className="flex flex-row gap-2">
-      <div className="text-sm font-semibold">{label}: </div>
-      <div className="text-sm">{value}</div>
+    <div className="flex gap-2">
+      <label className="text-gray-500">Name:</label>
+      <p>{name}</p>
     </div>
   );
 };

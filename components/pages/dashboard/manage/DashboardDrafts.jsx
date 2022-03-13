@@ -29,7 +29,7 @@ export const DashboardDrafts = () => {
           ))}
           <Link href="/dashboard/manage/club/new">
             <a>
-              <div className="h-[58px] w-full flex flex-col justify-center items-center text-cc text-lg bg-white border-[3px] border-dashed border-cc p-6 rounded-xl transition duration-300 ease-in-out">
+              <div className="h-[58px] w-full flex flex-col justify-center items-center text-cc text-lg border-[3px] border-dashed border-cc p-6 rounded-xl transition duration-300 ease-in-out">
                 Create club +
               </div>
             </a>

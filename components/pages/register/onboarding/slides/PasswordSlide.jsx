@@ -98,7 +98,7 @@ export const PasswordSlide = ({ next, prev, set, data }) => {
   );
 };
 
-const ValidatePassword = ({ password }) => {
+export const ValidatePassword = ({ password }) => {
   const [passes, setPassing] = useState({
     length: false,
     uppercase: false,
