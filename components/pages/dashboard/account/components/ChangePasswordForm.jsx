@@ -31,7 +31,7 @@ const OpenModal = () => {
   return (
     <button
       onClick={openModal}
-      className="py-1 px-4 rounded-md bg-gray-500/10 text-gray-500 hover:bg-gray-500/20"
+      className="py-1 px-4 rounded-md bg-gray-500/10 text-gray-500 hover:bg-gray-500/20 duration-150 ease"
     >
       Change Password
     </button>
@@ -99,13 +99,13 @@ const ChangePasswordForm = ({ id }) => {
             <div className="flex flex-col">
               <button
                 type="submit"
-                className="w-full py-2 rounded-xl bg-cc hover:bg-cc/90 text-white mt-2"
+                className="w-full py-2 rounded-xl bg-cc text-white mt-2"
               >
                 Submit
               </button>
               <span
                 onClick={closeModal}
-                className="cursor-pointer text-center text-gray-500 mt-2"
+                className="cursor-pointer text-center text-gray-500 duration-150 ease hover:bg-gray-100 py-1 rounded-xl mt-2"
               >
                 Cancel
               </span>
@@ -130,7 +130,7 @@ const ChangePasswordConfirm = () => {
       <div className="mx-auto">
         <button
           onClick={closeModal}
-          className="px-6 py-2 text-white bg-cc hover:bg-cc/90 rounded-xl"
+          className="px-6 py-2 text-white bg-cc rounded-xl"
         >
           Got it!
         </button>

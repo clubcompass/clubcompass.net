@@ -25,7 +25,7 @@ const OpenModal = () => {
   return (
     <button
       onClick={openModal}
-      className="ml-2 py-0.5 px-4 rounded-md bg-gray-500/10 text-gray-500 hover:bg-gray-500/20"
+      className="ml-2 py-0.3 px-4 rounded-md bg-gray-500/10 text-gray-500 hover:bg-gray-500/20 duration-150 ease"
     >
       Edit
     </button>
@@ -97,7 +97,7 @@ const EmailConfirm = () => {
                 component={CustomField}
               />
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col">
               <button
                 type="submit"
                 onClick={next}
@@ -107,7 +107,7 @@ const EmailConfirm = () => {
               </button>
               <span
                 onClick={prev}
-                className="text-center cursor-pointer text-gray-500"
+                className="cursor-pointer text-center text-gray-500 duration-150 ease hover:bg-gray-100 py-1 rounded-xl mt-2"
               >
                 Back
               </span>
@@ -131,7 +131,7 @@ const EmailCongrats = () => {
       <div className="mx-auto">
         <button
           onClick={closeModal}
-          className="px-8 py-2 text-white bg-cc hover:bg-cc/90 rounded-lg"
+          className="px-8 py-2 text-white bg-cc rounded-lg"
         >
           Got it!
         </button>

@@ -18,7 +18,7 @@ export const NavProfile = ({ name }) => {
         <div>
           <Menu.Button className="bg-ccGrey hover:bg-ccGreyDark text-sm font-medium text-black inline-flex w-full rounded-md items-center justify-between focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
             <div
-              className={`flex w-[35px] h-[35px] justify-center items-center rounded-md ${
+              className={`flex w-[32px] h-[32px] justify-center items-center rounded-md ${
                 menuOpen ? "bg-[#5794FF]" : "bg-[#AFC7FF]"
               }`}
             >
