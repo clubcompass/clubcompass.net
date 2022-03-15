@@ -30,7 +30,7 @@ model Club {
 
 model Link {
   id     Int     @id @default(autoincrement())
-  club   Club    @relation(fields: [clubId], references: [id])
+  club   Club    @relation(fields: [clubId], references: [id], onDelete: Cascade)
   clubId Int
   name   String
   link   String
@@ -83,7 +83,7 @@ model User {
 model Invite {
   id     Int    @id @default(autoincrement())
   status String @default("PENDING") //alternate values: ACCEPTED, DECLINED
-  club   Club   @relation(fields: [clubId], references: [id])
+  club   Club   @relation(fields: [clubId], references: [id], onDelete: Cascade)
   clubId Int
   user   User   @relation(fields: [userId], references: [id])
   userId Int
@@ -95,7 +95,7 @@ model Role {
   color       String
   description String
   users       User[]
-  club        Club   @relation(fields: [clubId], references: [id])
+  club        Club   @relation(fields: [clubId], references: [id], onDelete: Cascade)
   clubId      Int
   type        String @default("MEMBER") //alternate value: LEADER
 }
