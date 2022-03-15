@@ -1,25 +1,27 @@
-import { loginSchema } from "./../../../utils/validation/schemas/loginSchema";
+import { User, Tag } from "@prisma/client";
 import { expect } from "chai";
 import * as jwt from "jsonwebtoken";
 import * as bcrypt from "bcrypt";
-import { deleteOneUser } from "../../prisma/user/userApi";
-import { auth } from "./authUnitApi";
+import * as auth from "./authUnitApi";
+import { deleteUser } from "../../helpers";
 import { validate } from "../../../utils/validation";
+import { loginSchema } from "./../../../utils/validation/schemas/loginSchema";
 import { newUserSchema } from "../../../utils/validation/schemas/newUserSchema";
-import { TagWhereUniqueInput } from "../../../graphql/resolversTypes";
-import { AuthPayload, LoginArgs } from "../../../graphql/auth/auth";
+import {
+  LoginArgs,
+  LoginPayload,
+  RegisterArgs,
+  RegisterPayload,
+  FindUserBySessionArgs,
+  FindUserBySessionPayload,
+} from "../../../graphql/auth/types";
 
-type User = {
-  firstname: string;
-  lastname: string;
-  email: string;
-  password: string;
-  grade: string;
-  interests: TagWhereUniqueInput[];
-};
+interface IUser extends Omit<User, "id" | "ccid" | "emailVerified" | "type"> {
+  interests: Omit<Tag, "name">[];
+}
 
 describe("auth function unit tests", () => {
-  const user: User = {
+  const user: IUser = {
     firstname: "Paul",
     lastname: "Bokelman",
     email: "paul.bokelman1@gmail.com",
@@ -30,13 +32,12 @@ describe("auth function unit tests", () => {
 
   describe("register unit tests", () => {
     afterAll(async () => {
-      await deleteOneUser({ email: user.email });
+      return await deleteUser({ email: user.email });
     });
 
     it("registers a new user", async () => {
-      const { user: newUser, token } = (await auth.register(
-        user
-      )) as AuthPayload;
+      const { user: newUser, token } = await auth.register(user);
+
       for (const key of Object.keys(user)) {
         if (key === "password") {
           const isMatch = await bcrypt.compare(user.password, newUser[key]);
@@ -83,7 +84,7 @@ describe("auth function unit tests", () => {
     });
 
     it("should throw error if input is invalid", async () => {
-      const invalidInputs: Record<keyof User, any>[] = [
+      const invalidInputs: Record<keyof IUser, any>[] = [
         { ...user, firstname: "Paul3" }, // firstname is not alpha
         { ...user, lastname: "Boke1man" }, // lastname is not alpha
         { ...user, email: "paul.bokelman1@gmail" }, // invalid email
@@ -122,24 +123,24 @@ describe("auth function unit tests", () => {
   });
 
   describe("login unit tests", () => {
-    const loginInput: LoginArgs = (({ email, password }) => ({
+    const loginArgs: LoginArgs = (({ email, password }) => ({
       email,
       password,
       remember: true,
     }))(user);
 
     afterAll(async () => {
-      await deleteOneUser({ email: loginInput.email });
+      return await deleteUser({ email: loginArgs.email });
     });
 
     it("should throw error if input is invalid", async () => {
       const invalidInputs: Record<keyof LoginArgs, any>[] = [
-        { ...loginInput, email: "paul.bokelman1gmail" }, // invalid email
-        { ...loginInput, password: "Pass" }, // password should be 8 chars
-        { ...loginInput, remember: 4 }, // remember should be boolean
-        { ...loginInput, email: "" }, // email is required
-        { ...loginInput, password: "" }, // password is required
-        { ...loginInput, remember: "" }, // remember is required
+        { ...loginArgs, email: "paul.bokelman1gmail" }, // invalid email
+        { ...loginArgs, password: "Pass" }, // password should be 8 chars
+        { ...loginArgs, remember: 4 }, // remember should be boolean
+        { ...loginArgs, email: "" }, // email is required
+        { ...loginArgs, password: "" }, // password is required
+        { ...loginArgs, remember: "" }, // remember is required
       ];
 
       for (const invalidInput of invalidInputs) {
@@ -167,7 +168,7 @@ describe("auth function unit tests", () => {
 
     it("should throw error if user with email doesn't exist", async () => {
       try {
-        await auth.login(loginInput);
+        await auth.login(loginArgs);
       } catch (e) {
         expect(e.message).to.equal(
           "A user with that email does not exist",
@@ -179,7 +180,7 @@ describe("auth function unit tests", () => {
     it("should throw error if password doesn't match user", async () => {
       await auth.register(user);
       try {
-        await auth.login({ ...loginInput, password: "Incorrect1234!" }); // Password123!
+        await auth.login({ ...loginArgs, password: "Incorrect1234!" }); // Password123!
       } catch (e) {
         expect(e.message).to.equal(
           "Incorrect password!",
@@ -189,10 +190,10 @@ describe("auth function unit tests", () => {
     });
 
     it("should login user", async () => {
-      const { user, token } = (await auth.login(loginInput)) as AuthPayload;
-      for (const key of Object.keys(loginInput)) {
+      const { user, token } = await auth.login(loginArgs);
+      for (const key of Object.keys(loginArgs)) {
         if (key === "password") {
-          const isMatch = await bcrypt.compare(loginInput.password, user[key]);
+          const isMatch = await bcrypt.compare(loginArgs.password, user[key]);
           expect(isMatch).equal(
             true,
             `hashed password and ${user.password} do not match`
@@ -201,8 +202,8 @@ describe("auth function unit tests", () => {
           continue;
         } else {
           expect(user[key]).to.equal(
-            loginInput[key],
-            `${key} does not match (got: ${user[key]} vs expected: ${loginInput[key]})`
+            loginArgs[key],
+            `${key} does not match (got: ${user[key]} vs expected: ${loginArgs[key]})`
           );
         }
       }

@@ -9,11 +9,13 @@ import { BiBell } from "react-icons/bi";
 import { RiSettings5Line } from "react-icons/ri";
 
 export const DashboardNavItems = () => {
-  const { user } = useAuthContext();
-  const pending = user.invites.filter((invite) => invite.status === "PENDING");
+  const { user, loading } = useAuthContext(); //! should have loading state
+
+  if (!user || loading) {
+    return <div>Loading...</div>;
+  }
 
   console.log(user);
-
   const roleSpecificItems = {
     // replace icon with react icon component
     STUDENT: [
@@ -71,8 +73,8 @@ export const DashboardNavItems = () => {
 
   return (
     <div className="mt-16">
-      {roleSpecificItems[user.type].map((item, i) => (
-        <DashboardItem key={i} {...item} notifications={pending.length} />
+      {roleSpecificItems[user?.type].map((item, i) => (
+        <DashboardItem key={i} {...item} notifications={user?.pendingInvites} />
       ))}
     </div>
   );

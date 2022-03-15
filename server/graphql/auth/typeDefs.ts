@@ -1,17 +1,22 @@
 import gql from "graphql-tag";
 export default gql`
-  type AuthPayload {
+  type RegisterPayload {
     user: User
     token: String!
   }
 
-  input LoginInput {
+  type LoginPayload {
+    user: User
+    token: String!
+  }
+
+  input LoginArgs {
     email: String!
     password: String!
     remember: Boolean!
   }
 
-  input RegisterInput {
+  input RegisterArgs {
     firstname: String!
     lastname: String!
     email: String!
@@ -20,13 +25,30 @@ export default gql`
     interests: [Interest!]
   }
 
+  type SessionUser {
+    id: Int!
+    ccid: String
+    firstname: String
+    lastname: String
+    email: String
+    grade: String
+    type: String
+    pendingInvites: Int
+    clubs: [Club!]!
+  }
+
   input Interest {
     id: Int
     name: String
   }
 
   type Mutation {
-    register(data: RegisterInput!): AuthPayload!
-    login(data: LoginInput!): AuthPayload!
+    register(data: RegisterArgs!): RegisterPayload!
+    login(data: LoginArgs!): LoginPayload!
+    changePassword(password: String!): User!
+  }
+
+  type Query {
+    findUserBySession: SessionUser!
   }
 `;

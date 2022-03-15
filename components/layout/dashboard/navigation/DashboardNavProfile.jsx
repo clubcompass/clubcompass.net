@@ -5,11 +5,14 @@ import { HiOutlineLogout } from "react-icons/hi";
 import { useAuthContext } from "../../../../context";
 
 export const DashboardNavProfile = () => {
-  const {
-    user: { firstname, lastname },
-    logout,
-  } = useAuthContext();
-  const name = firstname + " " + lastname;
+  const { loading, user, logout } = useAuthContext();
+  console.log(user);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  const name = `${user?.firstname} ${user?.lastname}`;
   const initials = (
     name.split(" ").shift().charAt(0) + name.split(" ").pop().charAt(0)
   ).toUpperCase();

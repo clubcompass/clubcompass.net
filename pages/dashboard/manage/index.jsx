@@ -16,6 +16,7 @@ export const getStaticProps = async () => {
   return {
     props: {
       dashboardLayout: true,
+      protected: true,
     },
   };
 };

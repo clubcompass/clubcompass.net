@@ -1,0 +1,163 @@
+import * as Client from "@prisma/client";
+import { Context } from "../ctx";
+import {
+  Club,
+  Link,
+  ClubApplicationInfo,
+  Tag,
+  User,
+  Invite,
+  Role,
+  ProjectedRevenue,
+  ProjectedExpenses,
+} from "./schemaTypes";
+import type {
+  FindUserBySessionArgs,
+  FindUserBySessionPayload,
+  LoginArgs,
+  LoginPayload,
+  RegisterArgs,
+  RegisterPayload,
+  ChangePasswordArgs,
+  ChangePasswordPayload,
+} from "../auth/types";
+import type {
+  UpdateUserInterestsArgs,
+  UpdateUserInterestsPayload,
+  GetUserClubsArgs,
+  GetUserClubsPayload,
+  GetUserLeadershipClubsArgs,
+  GetUserLeadershipClubsPayload,
+} from "../user/types";
+import type {
+  CreateClubArgs,
+  CreateClubPayload,
+  EditClubArgs,
+  EditClubPayload,
+  DeleteClubArgs,
+  DeleteClubPayload,
+  JoinClubArgs,
+  JoinClubPayload,
+  LeaveClubArgs,
+  LeaveClubPayload,
+  GetClubArgs,
+  GetClubPayload,
+  GetClubsArgs,
+  GetClubsPayload,
+} from "../club/types";
+import type {
+  GetUserInvitesArgs,
+  GetUserInvitesPayload,
+  AcceptInviteArgs,
+  AcceptInvitePayload,
+  DeclineInviteArgs,
+  DeclineInvitePayload,
+  IssueInviteArgs,
+  IssueInvitePayload,
+} from "../invite/types";
+import type { GetTagArgs, GetTagsPayload } from "../tag/types";
+
+import { GraphQLResolveInfo } from "graphql";
+
+type Resolver<T extends {}, A extends {}, R extends any> = (
+  parent: T,
+  args: A,
+  context: Context,
+  info: GraphQLResolveInfo
+) => Promise<R>;
+
+export interface Resolvers {
+  [key: string]: { [key: string]: Resolver<any, any, any> };
+  Query?: Query;
+  Mutation?: Mutation;
+  Auth?: AuthResolvers;
+  Club?: ClubResolvers;
+  Invite?: InviteResolvers;
+}
+
+export interface AuthResolvers {
+  [key: string]: Resolver<any, any, any>;
+  register?: Resolver<{}, RegisterArgs, RegisterPayload>;
+  login?: Resolver<{}, LoginArgs, LoginPayload>;
+  changePassword?: Resolver<{}, ChangePasswordArgs, ChangePasswordPayload>;
+  findUserBySession?: Resolver<
+    {},
+    FindUserBySessionArgs,
+    FindUserBySessionPayload
+  >;
+}
+
+export interface UserResolvers {
+  [key: string]: Resolver<any, any, any>;
+  updateUserInterests?: Resolver<
+    {},
+    UpdateUserInterestsArgs,
+    UpdateUserInterestsPayload
+  >;
+  getUserClubs?: Resolver<{}, GetUserClubsArgs, GetUserClubsPayload>;
+  getUserLeadershipClubs?: Resolver<
+    {},
+    GetUserLeadershipClubsArgs,
+    GetUserLeadershipClubsPayload
+  >;
+}
+
+export interface ClubResolvers {
+  [key: string]: Resolver<any, any, any>;
+  createClub?: Resolver<{}, CreateClubArgs, CreateClubPayload>;
+  editClub?: Resolver<{}, EditClubArgs, EditClubPayload>;
+  deleteClub?: Resolver<{}, DeleteClubArgs, DeleteClubPayload>;
+  joinClub?: Resolver<{}, JoinClubArgs, JoinClubPayload>;
+  leaveClub?: Resolver<{}, LeaveClubArgs, LeaveClubPayload>;
+  getClub?: Resolver<{}, GetClubArgs, GetClubPayload>;
+  getClubs?: Resolver<{}, GetClubsArgs, GetClubsPayload>;
+}
+
+export interface InviteResolvers {
+  [key: string]: Resolver<any, any, any>;
+  getUserInvites?: Resolver<{}, GetUserInvitesArgs, GetUserInvitesPayload>;
+  issueInvite?: Resolver<{}, IssueInviteArgs, IssueInvitePayload>;
+  acceptInvite?: Resolver<{}, AcceptInviteArgs, AcceptInvitePayload>;
+  declineInvite?: Resolver<{}, DeclineInviteArgs, DeclineInvitePayload>;
+}
+
+export interface TagResolvers {
+  [key: string]: Resolver<any, any, any>;
+  getTags?: Resolver<{}, GetTagArgs, GetTagsPayload>;
+}
+
+export interface Query {
+  [key: string]: Resolver<any, any, any>;
+  // auth
+  findUserBySession?: AuthResolvers["findUserBySession"];
+  //user
+  getUserClubs?: UserResolvers["getUserClubs"];
+  getUserLeadershipClubs?: UserResolvers["getUserLeadershipClubs"];
+  // club
+  getClub?: ClubResolvers["getClub"];
+  getClubs?: ClubResolvers["getClubs"];
+  //invite
+  getUserInvites?: InviteResolvers["getUserInvites"];
+  // tag
+  getTags?: TagResolvers["getTags"];
+}
+
+export interface Mutation {
+  [key: string]: Resolver<any, any, any>;
+  // auth
+  register?: AuthResolvers["register"];
+  login?: AuthResolvers["login"];
+  changePassword?: AuthResolvers["changePassword"];
+  // user
+  updateUserInterests?: UserResolvers["updateUserInterests"];
+  // club
+  createClub?: ClubResolvers["createClub"];
+  editClub?: ClubResolvers["editClub"];
+  deleteClub?: ClubResolvers["deleteClub"];
+  joinClub?: ClubResolvers["joinClub"];
+  leaveClub?: ClubResolvers["leaveClub"];
+  //invite
+  issueInvite?: InviteResolvers["issueInvite"];
+  acceptInvite?: InviteResolvers["acceptInvite"];
+  declineInvite?: InviteResolvers["declineInvite"];
+}

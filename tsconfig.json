@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    // "baseUrl": ".",
     "target": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -15,6 +16,9 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "typeRoots": ["node_modules/@types", "src/@types"]
+    // "paths": {
+    //   "@/components/*": ["components/*"]
+    // }
   },
 
   "files": ["server/graphql/graphql.d.ts"],

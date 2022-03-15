@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",
+    "@graphql-tools/merge": "^8.2.3",
     "@headlessui/react": "^1.4.3",
     "@paljs/plugins": "^4.0.16",
     "@prisma-korea/graphql-schema-generator": "^0.3.0",
@@ -34,6 +35,7 @@
     "graphql-middleware": "^6.1.15",
     "graphql-request": "^4.0.0",
     "graphql-tools": "^8.2.0",
+    "js-cookie": "^3.0.1",
     "jsonwebtoken": "^8.5.1",
     "micro-cors": "^0.1.1",
     "nanoid": "^3.3.1",
@@ -55,6 +57,7 @@
     "@types/bcrypt": "^5.0.0",
     "@types/chai": "^4.3.0",
     "@types/jest": "^27.4.1",
+    "@types/js-cookie": "^3.0.1",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/micro-cors": "^0.1.2",
     "@types/react": "^17.0.39",

@@ -1,42 +1,16 @@
-import { Resolvers } from "../resolversTypes";
-
+import { Resolvers } from "../types/resolversTypes";
+import { getUserInvites } from "./resolvers/getUserInvites";
+import { acceptInvite } from "./resolvers/acceptInvite";
+import { declineInvite } from "./resolvers/declineInvite";
+import { issueInvite } from "./resolvers/issueInvite";
 const resolvers: Resolvers = {
   Query: {
-    findUniqueInvite: (_parent, args, { prisma }) => {
-      return prisma.invite.findUnique(args);
-    },
-    findFirstInvite: (_parent, args, { prisma }) => {
-      return prisma.invite.findFirst(args);
-    },
-    findManyInvite: (_parent, args, { prisma }) => {
-      return prisma.invite.findMany(args);
-    },
-    findManyInviteCount: (_parent, args, { prisma }) => {
-      return prisma.invite.count(args);
-    },
-    aggregateInvite: (_parent, args, { prisma }) => {
-      return prisma.invite.aggregate(args);
-    },
+    getUserInvites,
   },
   Mutation: {
-    createOneInvite: (_parent, args, { prisma }) => {
-      return prisma.invite.create(args);
-    },
-    updateOneInvite: (_parent, args, { prisma }) => {
-      return prisma.invite.update(args);
-    },
-    deleteOneInvite: async (_parent, args, { prisma }) => {
-      return prisma.invite.delete(args);
-    },
-    upsertOneInvite: async (_parent, args, { prisma }) => {
-      return prisma.invite.upsert(args);
-    },
-    deleteManyInvite: async (_parent, args, { prisma }) => {
-      return prisma.invite.deleteMany(args);
-    },
-    updateManyInvite: (_parent, args, { prisma }) => {
-      return prisma.invite.updateMany(args);
-    },
+    issueInvite,
+    acceptInvite,
+    declineInvite,
   },
 };
 export default resolvers;

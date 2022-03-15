@@ -39,20 +39,20 @@ model Link {
 
 model ClubApplicationInfo {
   id                                  Int                 @id @default(autoincrement())
-  teacher                             User                @relation(fields: [userId], references: [id])
-  userId                              Int
-  club                                Club                @relation(fields: [clubId], references: [id])
-  clubId                              Int                 @unique
+  teacher                             User?                @relation(fields: [userId], references: [id])
+  userId                              Int?
+  club                                Club?                @relation(fields: [clubId], references: [id])
+  clubId                              Int?                 @unique
   projectedRevenue                    ProjectedRevenue[]
   projectedExpenses                   ProjectedExpenses[]
-  purpose                             String
-  membershipRequirements              String
-  dutiesOfMembers                     String
-  titlesAndDutiesOfOfficers           String
-  selectionOfOfficers                 String
-  officerMinimumGPA                   Float
-  percentAttendanceForOfficialMeeting Int
-  percentAttendanceToApproveDecision  Int
+  purpose                             String?
+  membershipRequirements              String?
+  dutiesOfMembers                     String?
+  titlesAndDutiesOfOfficers           String?
+  selectionOfOfficers                 String?
+  officerMinimumGPA                   Float?
+  percentAttendanceForOfficialMeeting Int?
+  percentAttendanceToApproveDecision  Int?
 }
 
 model Tag {
@@ -102,18 +102,18 @@ model Role {
 
 model ProjectedRevenue {
   id     Int                 @id @default(autoincrement())
-  club   ClubApplicationInfo @relation(fields: [clubId], references: [id])
-  clubId Int
-  name   String
-  amount Float
-  date   String
+  club   ClubApplicationInfo? @relation(fields: [clubId], references: [id])
+  clubId Int?
+  name   String?
+  amount Float?
+  date   String?
 }
 
 model ProjectedExpenses {
   id     Int                 @id @default(autoincrement())
-  club   ClubApplicationInfo @relation(fields: [clubId], references: [id])
-  clubId Int
-  name   String
-  amount Float
-  date   String
+  club   ClubApplicationInfo? @relation(fields: [clubId], references: [id])
+  clubId Int?
+  name   String?
+  amount Float?
+  date   String?
 }

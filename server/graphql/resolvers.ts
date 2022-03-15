@@ -1,22 +1,22 @@
-import ProjectedExpenses from "./projectedExpenses/resolvers";
-import ProjectedRevenue from "./projectedRevenue/resolvers";
-import Role from "./role/resolvers";
-import Invite from "./invite/resolvers";
-import User from "./user/resolvers";
-import Tag from "./tag/resolvers";
-import ClubApplicationInfo from "./clubApplicationInfo/resolvers";
-import Link from "./link/resolvers";
-import Club from "./club/resolvers";
 import Auth from "./auth/resolvers";
+import Club from "./club/resolvers";
+import Tag from "./tag/resolvers";
+import User from "./user/resolvers";
+import Invite from "./invite/resolvers";
+// import Link from "./link/resolvers";
+// import ClubApplicationInfo from "./clubApplicationInfo/resolvers";
+// import Role from "./role/resolvers";
+// import ProjectedRevenue from "./projectedRevenue/resolvers";
+// import ProjectedExpenses from "./projectedExpenses/resolvers";
 export const resolvers = [
+  Auth,
   Club,
-  Link,
-  ClubApplicationInfo,
   Tag,
   User,
   Invite,
-  Role,
-  ProjectedRevenue,
-  ProjectedExpenses,
-  Auth,
+  // Link,
+  // ClubApplicationInfo,
+  // Role,
+  // ProjectedRevenue,
+  // ProjectedExpenses,
 ];

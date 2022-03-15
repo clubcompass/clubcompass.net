@@ -1,50 +1,59 @@
-// import * as Client from "@prisma/client";
-import { request, ClientError } from "graphql-request";
-import {
-  AuthPayload,
-  RegisterArgs,
+import { client } from "../../requestClient";
+import type {
   LoginArgs,
-} from "../../../graphql/auth/auth";
-import * as doc from "./authUnitDocuments";
-
-// const url = process.env.SERVER_URL as string
-const url = process.env.SERVER_URL as string;
+  LoginPayload,
+  RegisterArgs,
+  RegisterPayload,
+  FindUserBySessionArgs,
+  FindUserBySessionPayload,
+} from "../../../graphql/auth/types"; // alias
+import { LOGIN, REGISTER, FIND_USER_BY_SESSION } from "../../../../lib/docs"; // alias please
 
 export const register = async (
   data: RegisterArgs
-): Promise<AuthPayload | ClientError> => {
+): Promise<RegisterPayload> => {
   try {
-    const { register: newUser }: { register: AuthPayload } = await request(
-      url,
-      doc.register,
-      {
+    const { register: newUser }: { register: RegisterPayload } =
+      await client.request(REGISTER, {
         data,
-      }
-    );
+      });
     return newUser;
   } catch (e) {
-    return e as ClientError;
+    return e;
   }
 };
 
-export const login = async (
-  data: LoginArgs
-): Promise<AuthPayload | ClientError> => {
+export const login = async (data: LoginArgs): Promise<LoginPayload> => {
   try {
-    const { login: user }: { login: AuthPayload } = await request(
-      url,
-      doc.login,
+    const { login: user }: { login: LoginPayload } = await client.request(
+      LOGIN,
       {
         data,
       }
     );
     return user;
   } catch (e) {
-    return e as ClientError;
+    return e;
   }
 };
 
-export const auth = {
-  register,
-  login,
+export const findUserBySession = async ({
+  token,
+}: {
+  token: string;
+}): Promise<FindUserBySessionPayload> => {
+  try {
+    const {
+      findUserBySession: user,
+    }: { findUserBySession: FindUserBySessionPayload } = await client.request(
+      FIND_USER_BY_SESSION,
+      {
+        Headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+
+    return user;
+  } catch (e) {
+    return e;
+  }
 };

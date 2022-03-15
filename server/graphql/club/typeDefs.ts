@@ -12,56 +12,13 @@ export default gql`
     approval: String
     status: String
     availability: String
-    links(
-      where: LinkWhereInput
-      orderBy: LinkOrderByWithRelationInput
-      cursor: LinkWhereUniqueInput
-      take: Int
-      skip: Int
-      distinct: LinkScalarFieldEnum
-    ): [Link!]!
+    links: [Link!]
     applicationInfo: ClubApplicationInfo
-    tags(
-      where: TagWhereInput
-      orderBy: TagOrderByWithRelationInput
-      cursor: TagWhereUniqueInput
-      take: Int
-      skip: Int
-      distinct: TagScalarFieldEnum
-    ): [Tag!]!
-    members(
-      where: UserWhereInput
-      orderBy: UserOrderByWithRelationInput
-      cursor: UserWhereUniqueInput
-      take: Int
-      skip: Int
-      distinct: UserScalarFieldEnum
-    ): [User!]!
-    editors(
-      where: UserWhereInput
-      orderBy: UserOrderByWithRelationInput
-      cursor: UserWhereUniqueInput
-      take: Int
-      skip: Int
-      distinct: UserScalarFieldEnum
-    ): [User!]!
-    roles(
-      where: RoleWhereInput
-      orderBy: RoleOrderByWithRelationInput
-      cursor: RoleWhereUniqueInput
-      take: Int
-      skip: Int
-      distinct: RoleScalarFieldEnum
-    ): [Role!]!
-    invites(
-      where: InviteWhereInput
-      orderBy: InviteOrderByWithRelationInput
-      cursor: InviteWhereUniqueInput
-      take: Int
-      skip: Int
-      distinct: InviteScalarFieldEnum
-    ): [Invite!]!
-    _count: ClubCountOutputType!
+    tags: [Tag!]
+    members: [User!]
+    editors: [User!]
+    roles: [Role!]
+    invites: [Invite!]
   }
 
   input CreateClubArgs {
@@ -75,11 +32,40 @@ export default gql`
     availability: String
     links: [LinkInput!]
     applicationInfo: ClubApplicationInfoInput
-    tagIds: [Int!]
-    inviteIds: [Int!]
+    tags: [InputTags!]
+    invites: [InputInvites!]
     vicePresidentId: Int
     secretaryId: Int
     treasurerId: Int
+  }
+
+  input EditClubArgs {
+    name: String
+    description: String
+    email: String
+    meetingDate: String
+    location: String
+    approval: String
+    status: String
+    availability: String
+    links: [LinkInput!]
+    applicationInfo: ClubApplicationInfoInput
+    tags: [InputTags!]
+    invites: [InputInvites!]
+    vicePresidentId: Int
+    secretaryId: Int
+    treasurerId: Int
+    members: [String!]
+    teacherId: Int
+  }
+
+  input InputInvites {
+    id: Int
+  }
+
+  input InputTags {
+    name: String
+    id: Int
   }
 
   input LinkInput {
@@ -88,26 +74,22 @@ export default gql`
     type: String!
   }
 
-  input TagInput {
-    name: String!
-  }
-
   input InviteInput {
     recipientId: String!
   }
 
   input ClubApplicationInfoInput {
-    teacherId: String
+    teacherId: Int
     projectedRevenue: [ProjectedRevenueInput!]
     projectedExpenses: [ProjectedExpensesInput!]
-    purpose: String
-    membershipRequirements: String
-    dutiesOfMembers: String
-    titlesAndDutiesOfOfficers: String
-    selectionOfOfficers: String
-    officerMinimumGPA: Float
-    percentAttendanceForOfficialMeeting: Int
-    percentAttendanceToApproveDecision: Int
+    purpose: String!
+    membershipRequirements: String!
+    dutiesOfMembers: String!
+    titlesAndDutiesOfOfficers: String!
+    selectionOfOfficers: String!
+    officerMinimumGPA: Float!
+    percentAttendanceForOfficialMeeting: Int!
+    percentAttendanceToApproveDecision: Int!
   }
 
   input ProjectedRevenueInput {
@@ -122,58 +104,59 @@ export default gql`
     date: String!
   }
 
-  type Query {
-    findUniqueClub(where: ClubWhereUniqueInput!): Club
-    findFirstClub(
-      where: ClubWhereInput
-      orderBy: [ClubOrderByWithRelationInput]
-      cursor: ClubWhereUniqueInput
-      take: Int
-      skip: Int
-      distinct: [ClubScalarFieldEnum]
-    ): Club
-    findManyClub(
-      where: ClubWhereInput
-      orderBy: [ClubOrderByWithRelationInput]
-      cursor: ClubWhereUniqueInput
-      take: Int
-      skip: Int
-      distinct: [ClubScalarFieldEnum]
-    ): [Club!]
-    findManyClubCount(
-      where: ClubWhereInput
-      orderBy: [ClubOrderByWithRelationInput]
-      cursor: ClubWhereUniqueInput
-      take: Int
-      skip: Int
-      distinct: [ClubScalarFieldEnum]
-    ): Int!
-    aggregateClub(
-      where: ClubWhereInput
-      orderBy: [ClubOrderByWithRelationInput]
-      cursor: ClubWhereUniqueInput
-      take: Int
-      skip: Int
-    ): AggregateClub
+  type MembersCount {
+    members: Int!
   }
+
+  type ClubsCount {
+    clubs: Int!
+  }
+
+  type GetClubsPayloadTags {
+    name: String!
+    _count: ClubsCount!
+  }
+
+  type GetClubsPayload {
+    id: Int!
+    name: String!
+    slug: String!
+    description: String!
+    email: String!
+    meetingDate: String!
+    location: String!
+    approval: String!
+    status: String!
+    availability: String!
+    tags: [GetClubsPayloadTags!]!
+    _count: MembersCount!
+  }
+
+  type GetClubPayload {
+    id: Int!
+    name: String!
+    slug: String!
+    description: String!
+    email: String!
+    meetingDate: String!
+    location: String!
+    approval: String!
+    status: String!
+    availability: String!
+    _count: MembersCount!
+  }
+
+  type Query {
+    getClub(id: Int, slug: String): GetClubPayload!
+    getClubs: [GetClubsPayload!]!
+  }
+
   type Mutation {
     joinClub(clubId: Int!): User
     leaveClub(clubId: Int!): User
-    deleteClub(id: Int!): Club
+    deleteClub(clubId: Int!): Club
     updateClubTags(clubId: Int!, tagIds: [Int!]!): Club
-    createClub(data: CreateClubArgs!): Club
-    createOneClub(data: ClubCreateInput!): Club!
-    updateOneClub(data: ClubUpdateInput!, where: ClubWhereUniqueInput!): Club!
-    deleteOneClub(where: ClubWhereUniqueInput!): Club
-    upsertOneClub(
-      where: ClubWhereUniqueInput!
-      create: ClubCreateInput!
-      update: ClubUpdateInput!
-    ): Club
-    deleteManyClub(where: ClubWhereInput): BatchPayload
-    updateManyClub(
-      data: ClubUpdateManyMutationInput!
-      where: ClubWhereInput
-    ): BatchPayload
+    createClub(data: CreateClubArgs!): Club!
+    editClub(clubId: Int!, data: EditClubArgs!): Club!
   }
 `;

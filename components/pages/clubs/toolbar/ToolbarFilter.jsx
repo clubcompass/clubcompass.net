@@ -1,20 +1,22 @@
 import React, { useState, Fragment, useEffect } from "react";
-import { useQuery } from "react-query";
+import { useQuery } from "@apollo/client";
 import { Menu, Transition } from "@headlessui/react";
 import { HiChevronDown } from "react-icons/hi";
 import { MdFilterAlt } from "react-icons/md";
-import { db } from "../../../../lib/database";
+import { GET_TAGS } from "../../../../lib/docs";
 import { tagSchema } from "../../../general/tags";
 import { Icons } from "../../../general/icons";
 export const ToolbarFilter = ({ sortOptions }) => {
+  const [tags, setTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
-  const {
-    data: tags,
-    error,
-    isLoading,
-  } = useQuery("tags", async () => await db.tags.get(), {
-    refetchOnWindowFocus: false,
+  const { error, isLoading } = useQuery(GET_TAGS, {
+    onCompleted: ({ getTags: allTags }) => {
+      const tags = allTags.filter((tag) => tag.approvedCount !== 0);
+      setTags(tags);
+    },
   });
+
+  // console.log("tags", !isLoading && tags ? tags : null);
 
   const handleSelection = (tag) => {
     const tagIndex = selectedTags.indexOf(tag);
@@ -25,7 +27,7 @@ export const ToolbarFilter = ({ sortOptions }) => {
     }
   };
 
-  const Tag = ({ id, name, _count: { clubs: count } }) => (
+  const Tag = ({ id, name, approvedCount: count }) => (
     <Menu.Item>
       {({ active }) => (
         <div
