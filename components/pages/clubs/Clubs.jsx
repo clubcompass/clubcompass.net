@@ -24,12 +24,14 @@ export const Clubs = ({ clubs, manage }) => {
             />
             <Club.Content name={club.name} description={club.description} />
             <Club.Footer
+              name={club.name}
               slug={club.slug}
               userId={user?.id}
               clubId={club.id}
               isMember={!user ? false : userClubs.includes(club.id)}
               memberCount={club._count.members}
               manage={manage}
+              availability={club.availability}
             />
           </Club.Container>
         </Club>

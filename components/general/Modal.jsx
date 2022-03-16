@@ -2,7 +2,6 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import { createContext, useContext } from "react";
 import { useTransition, animated, config } from "react-spring";
-import Confetti from "react-dom-confetti";
 
 import { CgClose } from "react-icons/cg";
 
@@ -12,7 +11,7 @@ export const useModalContext = () => {
   return useContext(ModalContext);
 };
 
-export const ModalProvider = ({ children, confetti }) => {
+export const ModalProvider = ({ children, closeColor }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [index, setIndex] = useState(1);
   const [left, setLeft] = useState(false);
@@ -54,29 +53,15 @@ export const ModalProvider = ({ children, confetti }) => {
     enter: { opacity: 1, transform: "translate(0px, 0px)" },
   });
 
-  const config = {
-    angle: 90,
-    spread: 150,
-    startVelocity: 40,
-    elementCount: 50,
-    dragFriction: 0.12,
-    duration: 3000,
-    stagger: 5,
-    width: "10px",
-    height: "10px",
-    perspective: "500px",
-    colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"],
-  };
-
   return (
     <ModalContext.Provider value={value}>
       {children[0]}
-      <ModalContainer isOpen={isOpen} closeModal={() => setIsOpen(false)}>
-        {confetti && (
-          <div className="flex justify-center -translate-y-10">
-            <Confetti active={index === children.length - 1} config={config} />
-          </div>
-        )}
+      <ModalContainer
+        isOpen={isOpen}
+        closeModal={() => setIsOpen(false)}
+        closeColor={closeColor}
+        index={index}
+      >
         {transition((style, item) => (
           <animated.div style={style}>{children[index]}</animated.div>
         ))}
@@ -85,13 +70,19 @@ export const ModalProvider = ({ children, confetti }) => {
   );
 };
 
-const ModalContainer = ({ isOpen, closeModal, children }) => {
+const ModalContainer = ({
+  isOpen,
+  closeModal,
+  children,
+  closeColor,
+  index,
+}) => {
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed inset-0 z-10 overflow-y-auto"
+          className="fixed inset-0 z-50 overflow-y-auto"
           onClose={closeModal}
         >
           <div className="min-h-screen px-4 text-center">
@@ -104,7 +95,7 @@ const ModalContainer = ({ isOpen, closeModal, children }) => {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Overlay className="fixed inset-0 backdrop-blur-sm" />
+              <Dialog.Overlay className="fixed inset-0 backdrop-blur-sm bg-black/20" />
             </Transition.Child>
 
             {/* This element is to trick the browser into centering the modal contents. */}
@@ -127,7 +118,13 @@ const ModalContainer = ({ isOpen, closeModal, children }) => {
                 {children}
                 <button
                   onClick={closeModal}
-                  className="absolute top-3 right-4 text-gray-400"
+                  style={{
+                    color:
+                      closeColor?.index === index
+                        ? closeColor?.color
+                        : "#9AA3B0",
+                  }}
+                  className="absolute top-3 right-4"
                 >
                   <CgClose />
                 </button>

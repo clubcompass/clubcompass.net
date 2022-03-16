@@ -2,22 +2,14 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { updatePassword } from "../../../../../lib/auth";
-import {
-  Modal,
-  ModalProvider,
-  useModalContext,
-} from "../../../../general/Modal";
+import { ModalProvider, useModalContext } from "../../../../general/Modal";
 import { Field as CustomField } from "../../../../general/input/control";
 import { ValidatePassword } from "../../../register/onboarding/slides";
 
 export const ChangePasswordModal = ({ id }) => {
   return (
     <div>
-      <ModalProvider
-        button={"Change Password"}
-        buttonClass={"py-2 px-4 bg-red-400 text-white rounded-md"}
-        title={"Change Password"}
-      >
+      <ModalProvider>
         <OpenModal />
         <ChangePasswordForm id={id} />
         <ChangePasswordConfirm />

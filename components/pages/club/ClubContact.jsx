@@ -4,6 +4,7 @@ import { MdEmail, MdOutlineFacebook } from "react-icons/md";
 import { RiInstagramFill } from "react-icons/ri";
 import { AiFillYoutube, AiOutlineTwitter } from "react-icons/ai";
 import { FaDiscord, FaGlobeAmericas } from "react-icons/fa";
+import { RemindIcon } from "../../custom/RemindIcon";
 
 export const ClubContact = ({ email, links }) => {
   return (
@@ -23,7 +24,7 @@ export const ClubContact = ({ email, links }) => {
 const Info = ({ children, type, link, target }) => (
   <div className="flex flex-row gap-2">
     <a target={target} href={link} className="flex gap-2 items-center">
-      <div className="text-lg p-1 text-[#1C5EFF] bg-[#1C5EFF] bg-opacity-10 rounded-md">
+      <div className="text-lg p-1 text-[#1C5EFF] bg-[#1C5EFF10] rounded-md">
         <Icon type={type} />
       </div>
       {children}
@@ -38,5 +39,11 @@ const Icon = ({ type }) => {
   if (type == "DISCORD") return <FaDiscord />;
   if (type == "YOUTUBE") return <AiFillYoutube />;
   if (type == "FACEBOOK") return <MdOutlineFacebook />;
+  if (type === "REMIND")
+    return (
+      <div className="h-[18px] w-[18px]">
+        <RemindIcon color={"cc"} />
+      </div>
+    );
   return <FaGlobeAmericas />;
 };
