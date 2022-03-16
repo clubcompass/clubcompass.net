@@ -161,7 +161,32 @@ export const editClub = async (
       }),
     },
     include: {
-      members: true,
+      tags: true,
+      links: true,
+      members: {
+        select: {
+          firstname: true,
+          lastname: true,
+          roles: {
+            where: {
+              club: {
+                id: {
+                  equals: clubId,
+                },
+              },
+            },
+            select: {
+              name: true,
+              type: true,
+            },
+          },
+        },
+      },
+      _count: {
+        select: {
+          members: true,
+        },
+      },
     },
   });
 

@@ -1,6 +1,6 @@
-import { inspect } from "util";
 import { Context } from "../../ctx";
 import { getAuthenticatedUser } from "../../../utils/auth";
+import { ApolloError } from "apollo-server-micro";
 
 export type GetUserClubsArgs = {};
 
@@ -13,23 +13,43 @@ export const getUserClubs = async (
 ): Promise<typeof clubs> => {
   // gets just approved clubs for user
   const token = getAuthenticatedUser({ auth });
-  if (!token) throw new Error("No token data");
+  if (!token) throw new ApolloError("No token data");
 
-  const clubs = await prisma.user
-    .findUnique({
-      where: {
-        id: token.id,
-      },
-    })
-    .clubs({
-      where: {
-        approval: {
-          equals: "APPROVED",
+  const { clubs } = await prisma.user.findUnique({
+    where: {
+      id: token.id,
+    },
+    select: {
+      clubs: {
+        where: {
+          approval: "APPROVED",
+        },
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          description: true,
+          tags: {
+            select: {
+              name: true,
+            },
+          },
+          _count: {
+            select: {
+              members: true,
+            },
+          },
         },
       },
-    });
-
-  console.log(token.id);
+    },
+  });
+  // .clubs({
+  //   where: {
+  //     approval: {
+  //       equals: "APPROVED",
+  //     },
+  //   },
+  // });
 
   return clubs;
 };

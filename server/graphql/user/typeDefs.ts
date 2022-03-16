@@ -35,6 +35,10 @@ export default gql`
     ADMIN
   }
 
+  input TagInput {
+    id: Int!
+  }
+
   type GetUserLeadershipClubsPayload {
     isPresidentOf: [Club!]
     hasLeadershipIn: [Club!]
@@ -44,10 +48,11 @@ export default gql`
   type Query {
     getUserClubs: [Club!]!
     getUserLeadershipClubs: GetUserLeadershipClubsPayload!
+    validateUser(ccid: String!): User!
   }
 
   type Mutation {
     deleteUser(id: Int!): User!
-    updateUserInterests(id: Int!, tagIds: [Int!]!): [Tag!]! # should return just interests
+    updateUserInterests(id: Int!, tags: [TagInput!]!): [Tag!]! # should return just interests
   }
 `;
