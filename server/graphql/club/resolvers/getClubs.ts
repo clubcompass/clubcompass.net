@@ -15,10 +15,6 @@ export const getClubs = async (
         equals: "APPROVED",
       },
     },
-    // select: { // throws error for literally no reason but ok
-    //   name: true,
-    // }
-
     include: {
       tags: {
         select: {

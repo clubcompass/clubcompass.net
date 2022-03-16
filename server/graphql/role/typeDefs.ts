@@ -8,11 +8,11 @@ export default gql`
     users: [User!]
     club: [Club!]
     clubId: Int!
-    type: [RoleType!]!
+    type: RoleType!
   }
 
   enum RoleType {
     MEMBER
-    LEADER
+    LEADERSHIP
   }
 `;

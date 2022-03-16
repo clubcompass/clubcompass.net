@@ -1,17 +1,18 @@
 import { ApolloError, AuthenticationError } from "apollo-server-micro";
-import type { User } from "@prisma/client";
+import type { User, ProjectedExpenses, ProjectedRevenue } from "@prisma/client";
+import type { ClubApplicationInfo } from "../../types/schemaTypes";
 import { Context } from "../../ctx";
 import { getAuthenticatedUser } from "../../../utils/auth";
 import { generateSlug } from "../../../utils/generateSlug";
 import { Club } from "../../types/schemaTypes";
 
 export interface CreateClubData
-  extends Partial<
-    Omit<Club, "id" | "slug"> & { applicationInfo: { teacherId: User["id"] } }
-  > {
+  extends Partial<Omit<Club, "id" | "slug" | "applicationInfo">> {
   vicePresidentId?: User["id"];
   secretaryId?: User["id"];
   treasurerId?: User["id"];
+  teacherId?: User["id"];
+  applicationInfo?: ClubApplicationInfo;
 }
 
 export interface CreateClubArgs {
@@ -28,12 +29,8 @@ export const createClub = async (
       vicePresidentId,
       secretaryId,
       treasurerId,
-      applicationInfo: {
-        teacherId,
-        projectedExpenses,
-        projectedRevenue,
-        ...applicationInfo
-      },
+      teacherId,
+      applicationInfo,
       links,
       tags,
       invites,
@@ -54,14 +51,16 @@ export const createClub = async (
     throw new ApolloError("Club name already exists");
   }
 
-  const { type } = await prisma.user.findUnique({
-    where: { id: teacherId },
-  });
+  if (teacherId) {
+    const { type } = await prisma.user.findUnique({
+      where: { id: teacherId },
+    });
 
-  if (type !== "TEACHER") {
-    throw new ApolloError(
-      "Teacher id is associated with a non-teacher account"
-    );
+    if (type !== "TEACHER") {
+      throw new ApolloError(
+        "Teacher id is associated with a non-teacher account"
+      );
+    }
   }
 
   const roles = [
@@ -112,9 +111,11 @@ export const createClub = async (
       roles: {
         create: roles,
       },
-      members: {
-        connect: members(),
-      },
+      ...(members && {
+        members: {
+          connect: members(),
+        },
+      }),
       ...(links && { links: { create: [...links] } }),
       ...(tags && { tags: { connect: [...tags] } }),
       ...(invites && {
@@ -140,14 +141,14 @@ export const createClub = async (
             //   },
             // }),
             ...applicationInfo,
-            ...(projectedRevenue && {
+            ...(applicationInfo?.projectedRevenue && {
               projectedRevenue: {
-                create: projectedRevenue,
+                create: applicationInfo?.projectedRevenue,
               },
             }),
-            ...(projectedExpenses && {
+            ...(applicationInfo?.projectedExpenses && {
               projectedExpenses: {
-                create: projectedExpenses,
+                create: applicationInfo?.projectedExpenses,
               },
             }),
           },

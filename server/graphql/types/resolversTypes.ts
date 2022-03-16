@@ -28,6 +28,8 @@ import type {
   GetUserClubsPayload,
   GetUserLeadershipClubsArgs,
   GetUserLeadershipClubsPayload,
+  ValidateUserArgs,
+  ValidateUserPayload,
 } from "../user/types";
 import type {
   CreateClubArgs,
@@ -100,6 +102,7 @@ export interface UserResolvers {
     GetUserLeadershipClubsArgs,
     GetUserLeadershipClubsPayload
   >;
+  ValidateUser?: Resolver<{}, ValidateUserArgs, ValidateUserPayload>;
 }
 
 export interface ClubResolvers {
@@ -133,6 +136,7 @@ export interface Query {
   //user
   getUserClubs?: UserResolvers["getUserClubs"];
   getUserLeadershipClubs?: UserResolvers["getUserLeadershipClubs"];
+  validateUser?: UserResolvers["ValidateUser"];
   // club
   getClub?: ClubResolvers["getClub"];
   getClubs?: ClubResolvers["getClubs"];

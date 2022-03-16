@@ -8,8 +8,8 @@
     "lint": "next lint",
     "test": "jest",
     "test:unit": "jest --testPathPattern=unit.\\spec\\.ts$ --watch",
+    "test:club": "jest -i ./tests/unit/club/club.unit.spec.ts --watch",
     "test:int": "jest --testPathPattern=int.\\spec\\.ts$ --watch",
-    "test:prisma": "jest --testPathPattern=prisma.\\spec\\.ts$ --watch",
     "test:all": "jest --watchAll",
     "seed": "node ./seed_script/seed.js"
   },

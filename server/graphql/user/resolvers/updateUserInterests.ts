@@ -15,21 +15,24 @@ export const updateUserInterests = async (
   { id, tags }: UpdateUserInterestsArgs,
   { prisma }: Context
 ): Promise<typeof interests> => {
-  console.log(tags);
-
-  const interests = await prisma.user
-    .update({
-      where: {
-        id,
+  const { interests } = await prisma.user.update({
+    where: {
+      id,
+    },
+    data: {
+      interests: {
+        set: [],
+        connect: tags,
       },
-      data: {
-        interests: {
-          set: [],
-          connect: tags,
+    },
+    include: {
+      interests: {
+        select: {
+          name: true,
         },
       },
-    })
-    .interests();
+    },
+  });
 
   return interests;
 };
