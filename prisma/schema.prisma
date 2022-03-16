@@ -65,12 +65,14 @@ model Tag {
 model User {
   id            Int                   @id @default(autoincrement())
   ccid          String                @unique
+  studentId     String?               @unique
   firstname     String
   lastname      String
   email         String                @unique
   emailVerified Boolean
+  active        Boolean
   password      String
-  grade         String //values: FRESHMAN, SOPHMORE, JUNIOR, SENIOr< TEACHER
+  grade         String //values: FRESHMAN, SOPHMORE, JUNIOR, SENIOR TEACHER
   type          String                @default("STUDENT") //alternative value: TEACHER
   interests     Tag[]
   clubs         Club[]                @relation("members")

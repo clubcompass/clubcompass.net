@@ -96,7 +96,7 @@ export const createClub = async (
   ];
 
   const members = () => {
-    const members: { id: number }[] = [];
+    const members: { id: User["id"] }[] = [];
     if (president.id) members.push({ id: president.id });
     if (vicePresidentId) members.push({ id: vicePresidentId });
     if (secretaryId) members.push({ id: secretaryId });

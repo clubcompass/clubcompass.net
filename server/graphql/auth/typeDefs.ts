@@ -1,12 +1,12 @@
 import gql from "graphql-tag";
 export default gql`
   type RegisterPayload {
-    user: User
+    user: User!
     token: String!
   }
 
   type LoginPayload {
-    user: User
+    user: User!
     token: String!
   }
 
@@ -20,6 +20,7 @@ export default gql`
     firstname: String!
     lastname: String!
     email: String!
+    studentId: String!
     password: String!
     grade: String!
     interests: [Interest!]
@@ -49,6 +50,8 @@ export default gql`
   }
 
   type Query {
+    checkEmail(email: String!): Boolean!
+    checkStudentId(studentId: String!): Boolean!
     findUserBySession: SessionUser!
   }
 `;

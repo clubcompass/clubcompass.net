@@ -16,7 +16,6 @@ function MyApp({ Component, pageProps }) {
   const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
       graphQLErrors.forEach(({ message }) => console.log(message));
-      console.log(graphQLErrors);
     }
 
     if (networkError) {

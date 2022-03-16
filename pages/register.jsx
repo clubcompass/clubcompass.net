@@ -9,6 +9,7 @@ import {
 import {
   IntroSlide,
   EmailSlide,
+  StudentIdSlide,
   PasswordSlide,
   InformationSlide,
   InterestsSlide,
@@ -18,15 +19,31 @@ import {
 
 const Register = () => {
   const { register, login } = useAuthContext();
-  const [slide, setSlide] = useState(1);
+  const [slide, setSlide] = useState(7);
   const [error, setError] = useState(null);
+  // const [data, setData] = useState({
+  //   firstname: "",
+  //   lastname: "",
+  //   email: "",
+  //   studentId: "",
+  //   password: "",
+  //   grade: "",
+  //   interests: [],
+  // });
+
   const [data, setData] = useState({
-    firstname: "",
-    lastname: "",
-    email: "",
-    password: "",
-    grade: "",
-    interests: [],
+    firstname: "Paul",
+    lastname: "Bokelman",
+    email: "paul.bokelman1@gmail.com",
+    studentId: "1850224",
+    password: "Password123!",
+    grade: "Senior",
+    interests: [
+      { id: 6, name: "engineering" },
+      { id: 7, name: "math" },
+      { id: 8, name: "politics" },
+      { id: 9, name: "tech" },
+    ],
   });
 
   const {
@@ -48,15 +65,16 @@ const Register = () => {
   };
 
   const handleConfirmation = async () => {
-    const { user, error } = await register({ data });
-    if (error !== null) {
-      return setError(error);
-    } else {
-      await login({
-        user: { email: user.email, password: data.password, remember: true },
-      });
-      handlePagination.next();
-    }
+    const token = await register(data);
+    console.log(token);
+    // if (error !== null) {
+    //   return setError(error);
+    // } else {
+    //   await login({
+    //     user: { email: user.email, password: data.password, remember: true },
+    //   });
+    //   handlePagination.next();
+    // }
   };
 
   const updateData = (values) => {
@@ -69,34 +87,40 @@ const Register = () => {
   const slides = [
     <IntroSlide key={1} {...handlePagination} />,
     <EmailSlide key={2} {...handlePagination} set={updateData} data={data} />,
-    <PasswordSlide
+    <StudentIdSlide
       key={3}
       {...handlePagination}
       set={updateData}
       data={data}
     />,
-    <InformationSlide
+    <PasswordSlide
       key={4}
       {...handlePagination}
       set={updateData}
       data={data}
     />,
-    <InterestsSlide
+    <InformationSlide
       key={5}
+      {...handlePagination}
+      set={updateData}
+      data={data}
+    />,
+    <InterestsSlide
+      key={6}
       tagInfo={{ tags, tagsLoading, tagError }}
       {...handlePagination}
       set={updateData}
       data={data}
     />,
     <SummarySlide
-      key={6}
+      key={7}
       {...handlePagination}
       information={data}
       set={updateData}
       confirm={handleConfirmation}
       error={error}
     />,
-    <ClosingSlide key={7} data={data} />,
+    <ClosingSlide key={8} data={data} />,
   ];
 
   return (

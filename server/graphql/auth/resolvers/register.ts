@@ -10,7 +10,7 @@ import { User, Tag } from "@prisma/client";
 
 export type RegisterData = Pick<
   User,
-  "firstname" | "lastname" | "email" | "password" | "grade"
+  "firstname" | "lastname" | "email" | "password" | "grade" | "studentId"
 > & { interests: Partial<Tag> };
 
 export interface RegisterArgs {
@@ -22,7 +22,7 @@ export type RegisterPayload = Awaited<ReturnType<typeof register>>;
 export const register = async (
   _parent: any,
   {
-    data: { firstname, lastname, email, password, grade, interests },
+    data: { firstname, lastname, email, studentId, password, grade, interests },
   }: RegisterArgs,
   { prisma }: Context
 ): Promise<{
@@ -35,6 +35,7 @@ export const register = async (
       firstname,
       lastname,
       email,
+      studentId,
       password,
       grade,
       interests,
@@ -52,20 +53,23 @@ export const register = async (
     throw new AuthenticationError("A user with that email already exists");
 
   const generateCCID = async (): Promise<string> => {
-    const ccid = customAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 6);
-    const user = await prisma.user.findUnique({ where: { ccid: ccid() } });
+    const gen = customAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 6);
+    const ccid = gen();
+    const user = await prisma.user.findUnique({ where: { ccid } });
     if (user) return generateCCID();
-    return ccid();
+    return ccid;
   };
 
   const hashedPassword: string = await bcrypt.hash(password, 10);
   const ccid = await generateCCID();
+  // shouldn't return user?
   const newUser = await prisma.user.create({
     data: {
       ccid,
       firstname,
       lastname,
       email,
+      studentId,
       password: hashedPassword,
       grade,
       interests: {
@@ -76,7 +80,7 @@ export const register = async (
   });
 
   return {
-    user: newUser,
+    user: newUser, // doesn't need to return user?
     token: generateToken({
       id: newUser.id,
       ccid: newUser.ccid,

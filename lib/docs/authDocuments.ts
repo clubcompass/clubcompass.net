@@ -40,6 +40,18 @@ export const LOGIN = gql`
   }
 `;
 
+export const CHECK_EMAIL = gql`
+  query checkEmail($email: String!) {
+    checkEmail(email: $email)
+  }
+`;
+
+export const CHECK_STUDENT_ID = gql`
+  query checkStudentId($studentId: String!) {
+    checkStudentId(studentId: $studentId)
+  }
+`;
+
 export const FIND_USER_BY_SESSION = gql`
   query findUserBySession {
     findUserBySession {

@@ -2,7 +2,7 @@ import { SchemaOf, ValidationError } from "yup";
 
 interface ValidateOptions<T> {
   schema: SchemaOf<T>;
-  data: Record<SchemaOf<T>["_type"], any>;
+  data: Record<SchemaOf<T>["_type"], any> | (string | number);
   // data should be keys of schema._type
 }
 

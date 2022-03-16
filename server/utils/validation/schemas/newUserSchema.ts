@@ -12,6 +12,7 @@ export const newUserSchema = object().shape({
       /^[a-zA-Z]+$/.test(value)
     ),
   email: string().email("Email must be valid").required(),
+  studentId: string().required().max(20), // vague validation on purpose
   password: string()
     .required("Password is required.")
     .matches(

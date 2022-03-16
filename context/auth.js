@@ -16,12 +16,19 @@ export const AuthProvider = ({ children, protectedRoute }) => {
   const [loading, setLoading] = useState(true);
   console.log(loading, user);
 
-  const [login, { loading: loginLoading }] = useMutation(LOGIN, {
-    context: {
-      headers: {
-        "Content-Type": "application/json",
-      },
+  const [register, { login: registerLoading }] = useMutation(REGISTER, {
+    onCompleted: ({ register: { user, token } }) => {
+      console.log(user, token);
+      // console.log(data);
+      // setUser(data.register);
+      // router.push("/");
     },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const [login, { loading: loginLoading }] = useMutation(LOGIN, {
     onCompleted({ login: user }) {
       setUser(user);
     },
@@ -38,6 +45,21 @@ export const AuthProvider = ({ children, protectedRoute }) => {
       },
     }
   );
+
+  const handleRegister = async (user) => {
+    try {
+      const {
+        data: {
+          register: { token },
+        },
+      } = await register({ variables: { data: { ...user } } });
+      Cookies.set("token", token);
+      return token;
+      // return router.push("/dashboard");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleLogin = async (user) => {
     try {
@@ -128,7 +150,7 @@ export const AuthProvider = ({ children, protectedRoute }) => {
       logout();
       setUser(null);
     },
-    register: ({ data }) => register({ data }),
+    register: async (user) => await handleRegister(user),
     user,
     loading: loading,
   };

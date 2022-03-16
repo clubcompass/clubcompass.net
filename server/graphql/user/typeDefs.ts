@@ -47,6 +47,7 @@ export default gql`
   }
 
   type Mutation {
+    deleteUser(id: Int!): User!
     updateUserInterests(id: Int!, tagIds: [Int!]!): [Tag!]! # should return just interests
   }
 `;

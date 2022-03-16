@@ -20,6 +20,10 @@ import type {
   RegisterPayload,
   ChangePasswordArgs,
   ChangePasswordPayload,
+  CheckEmailArgs,
+  CheckEmailPayload,
+  CheckStudentIdArgs,
+  CheckStudentIdPayload,
 } from "../auth/types";
 import type {
   UpdateUserInterestsArgs,
@@ -28,6 +32,8 @@ import type {
   GetUserClubsPayload,
   GetUserLeadershipClubsArgs,
   GetUserLeadershipClubsPayload,
+  DeleteUserArgs,
+  DeleteUserPayload,
 } from "../user/types";
 import type {
   CreateClubArgs,
@@ -79,6 +85,8 @@ export interface AuthResolvers {
   [key: string]: Resolver<any, any, any>;
   register?: Resolver<{}, RegisterArgs, RegisterPayload>;
   login?: Resolver<{}, LoginArgs, LoginPayload>;
+  checkEmail?: Resolver<{}, CheckEmailArgs, CheckEmailPayload>;
+  checkStudentId?: Resolver<{}, CheckStudentIdArgs, CheckStudentIdPayload>;
   changePassword?: Resolver<{}, ChangePasswordArgs, ChangePasswordPayload>;
   findUserBySession?: Resolver<
     {},
@@ -89,6 +97,7 @@ export interface AuthResolvers {
 
 export interface UserResolvers {
   [key: string]: Resolver<any, any, any>;
+  deleteUser?: Resolver<{}, DeleteUserArgs, DeleteUserPayload>;
   updateUserInterests?: Resolver<
     {},
     UpdateUserInterestsArgs,
@@ -129,6 +138,8 @@ export interface TagResolvers {
 export interface Query {
   [key: string]: Resolver<any, any, any>;
   // auth
+  checkEmail?: AuthResolvers["checkEmail"];
+  checkStudentId?: AuthResolvers["checkStudentId"];
   findUserBySession?: AuthResolvers["findUserBySession"];
   //user
   getUserClubs?: UserResolvers["getUserClubs"];
@@ -149,6 +160,7 @@ export interface Mutation {
   login?: AuthResolvers["login"];
   changePassword?: AuthResolvers["changePassword"];
   // user
+  deleteUser?: UserResolvers["deleteUser"];
   updateUserInterests?: UserResolvers["updateUserInterests"];
   // club
   createClub?: ClubResolvers["createClub"];
