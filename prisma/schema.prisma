@@ -69,8 +69,8 @@ model User {
   firstname     String
   lastname      String
   email         String                @unique
-  emailVerified Boolean
-  active        Boolean
+  emailVerified Boolean               @default(false)
+  active        Boolean               @default(false)
   password      String
   grade         String //values: FRESHMAN, SOPHMORE, JUNIOR, SENIOR TEACHER
   type          String                @default("STUDENT") //alternative value: TEACHER
