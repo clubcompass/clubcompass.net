@@ -12,7 +12,7 @@ export const getClubs = async (
   const clubs = await prisma.club.findMany({
     where: {
       approval: {
-        equals: "APPROVED",
+        equals: true,
       },
     },
     include: {

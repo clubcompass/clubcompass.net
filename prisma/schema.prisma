@@ -16,7 +16,7 @@ model Club {
   email           String?
   meetingDate     String?
   location        String?
-  approval        String?              @default("UNAPPROVED") //alternate value APPROVED
+  approval        Boolean?             @default(false)
   status          String?              @default("DRAFT") //alternate values REVIEW / APPROVED
   availability    String?              @default("OPEN") //alternate value CLOSED
   links           Link[]
@@ -29,8 +29,8 @@ model Club {
 }
 
 model Link {
-  id     Int     @id @default(autoincrement())
-  club   Club    @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  id     Int    @id @default(autoincrement())
+  club   Club   @relation(fields: [clubId], references: [id], onDelete: Cascade)
   clubId Int
   name   String
   link   String
@@ -39,10 +39,10 @@ model Link {
 
 model ClubApplicationInfo {
   id                                  Int                 @id @default(autoincrement())
-  teacher                             User?                @relation(fields: [userId], references: [id])
+  teacher                             User?               @relation(fields: [userId], references: [id])
   userId                              Int?
-  club                                Club?                @relation(fields: [clubId], references: [id])
-  clubId                              Int?                 @unique
+  club                                Club?               @relation(fields: [clubId], references: [id])
+  clubId                              Int?                @unique
   projectedRevenue                    ProjectedRevenue[]
   projectedExpenses                   ProjectedExpenses[]
   purpose                             String?
@@ -89,21 +89,24 @@ model Invite {
   clubId Int
   user   User   @relation(fields: [userId], references: [id])
   userId Int
+  Role   Role   @relation(fields: [roleId], references: [id])
+  roleId Int
 }
 
 model Role {
-  id          Int    @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   name        String
   color       String
   description String
   users       User[]
-  club        Club   @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  club        Club     @relation(fields: [clubId], references: [id], onDelete: Cascade)
   clubId      Int
-  type        String @default("MEMBER") //alternate value: LEADER
+  type        String   @default("MEMBER") //alternate value: LEADER
+  invites     Invite[]
 }
 
 model ProjectedRevenue {
-  id     Int                 @id @default(autoincrement())
+  id     Int                  @id @default(autoincrement())
   club   ClubApplicationInfo? @relation(fields: [clubId], references: [id])
   clubId Int?
   name   String?
@@ -112,7 +115,7 @@ model ProjectedRevenue {
 }
 
 model ProjectedExpenses {
-  id     Int                 @id @default(autoincrement())
+  id     Int                  @id @default(autoincrement())
   club   ClubApplicationInfo? @relation(fields: [clubId], references: [id])
   clubId Int?
   name   String?

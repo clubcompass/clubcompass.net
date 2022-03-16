@@ -23,7 +23,7 @@ export const getTags = async (
 
   const tags = allTags.map((tag): Tag & { approvedCount: number } => {
     const approvedCount = tag.clubs.filter(
-      ({ approval }) => approval === "APPROVED"
+      ({ approval }) => approval === true
     ).length;
 
     delete tag.clubs;

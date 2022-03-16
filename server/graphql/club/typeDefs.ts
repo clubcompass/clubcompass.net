@@ -9,7 +9,7 @@ export default gql`
     email: String
     meetingDate: String
     location: String
-    approval: String
+    approval: Boolean
     status: String
     availability: String
     links: [Link!]
@@ -32,7 +32,7 @@ export default gql`
     email: String
     meetingDate: String
     location: String
-    approval: String
+    approval: Boolean
     status: String
     availability: String
     links: [LinkInput!]
@@ -50,7 +50,7 @@ export default gql`
     email: String
     meetingDate: String
     location: String
-    approval: String
+    approval: Boolean
     status: String
     availability: String
     links: [LinkInput!]
@@ -130,7 +130,7 @@ export default gql`
     email: String!
     meetingDate: String!
     location: String!
-    approval: String!
+    approval: Boolean!
     status: String!
     availability: String!
     tags: [GetClubsPayloadTags!]!

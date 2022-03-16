@@ -22,7 +22,7 @@ export const getUserClubs = async (
     select: {
       clubs: {
         where: {
-          approval: "APPROVED",
+          approval: true,
         },
         select: {
           id: true,
