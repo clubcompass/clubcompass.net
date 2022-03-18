@@ -14,52 +14,58 @@ export const AuthProvider = ({ children, protectedRoute }) => {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  console.log(loading, user);
-
-  const [register, { login: registerLoading }] = useMutation(REGISTER, {
-    onCompleted: ({ register: { user, token } }) => {
-      console.log(user, token);
-      // console.log(data);
-      // setUser(data.register);
-      // router.push("/");
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
-
+  // deal with user not being logged in
   const [login, { loading: loginLoading }] = useMutation(LOGIN, {
-    onCompleted({ login: user }) {
-      setUser(user);
+    onCompleted: async ({ login: { user, token } }) => {
+      await findUserBySession({
+        context: {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        },
+      });
+      router.push("/dashboard");
     },
     onError(error) {
       console.log(error);
     },
   });
 
-  const [findUserBySession, { loading: sessionUserLoading }] = useLazyQuery(
-    FIND_USER_BY_SESSION,
-    {
+  const [findUserBySession, { loading: sessionUserLoading, called, error }] =
+    useLazyQuery(FIND_USER_BY_SESSION, {
+      onCompleted: ({ findUserBySession: user } = {}) => {
+        // console.log(user); // returns token and user
+        setUser(user);
+      },
       onError: (error) => {
         console.log(error);
+        console.log("removing token");
+        Cookies.remove("token");
       },
-    }
-  );
+    });
 
-  const handleRegister = async (user) => {
-    try {
-      const {
-        data: {
-          register: { token },
-        },
-      } = await register({ variables: { data: { ...user } } });
-      Cookies.set("token", token);
-      return token;
-      // return router.push("/dashboard");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const handleRegister = async (user) => {
+  //   try {
+  //     const {
+  //       data: {
+  //         register: { token },
+  //       },
+  //     } = await register({ variables: { data: { ...user } } });
+  //     Cookies.set("token", token);
+  //     return token;
+  //   } catch (e) {
+  //     console.log(e);
+  //     // if (graphQLErrors) {
+  //     //   graphQLErrors.forEach(({ message }) => console.log(message));
+  //     // }
+
+  //     // if (networkError) {
+  //     //   // global handler for graphql errors
+  //     //   console.log(networkError);
+  //     // }
+  //     // console.log(error);
+  //   }
+  // };
 
   const handleLogin = async (user) => {
     try {
@@ -106,23 +112,51 @@ export const AuthProvider = ({ children, protectedRoute }) => {
   //   return { user: responseUser, error };
   // };
 
+  // useEffect(() => {
+  //   setLoading(true);
+  //   if (!user) {
+  //     const token = Cookies.get("token");
+  //     if (token) {
+  //       (async () => {
+  //         try {
+  //           const {
+  //             data: { findUserBySession: user },
+  //           } = await findUserBySession({
+  //             context: {
+  //               headers: {
+  //                 authorization: `Bearer ${token}`,
+  //               },
+  //             },
+  //           });
+  //           console.log("user from session:", user);
+  //           setUser(user);
+  //         } catch (error) {
+  //           Cookies.remove("token");
+  //           console.log(error);
+  //         }
+  //       })();
+  //     } else {
+  //       setUser(null);
+  //     }
+  //   }
+  //   setLoading(false);
+  // }, [findUserBySession, user]);
+
   useEffect(() => {
+    console.log("running");
     setLoading(true);
     if (!user) {
       const token = Cookies.get("token");
+      console.log(token);
       if (token) {
         (async () => {
-          const {
-            data: { findUserBySession: user },
-          } = await findUserBySession({
+          await findUserBySession({
             context: {
               headers: {
                 authorization: `Bearer ${token}`,
               },
             },
           });
-          console.log("user from session:", user);
-          setUser(user);
         })();
       } else {
         setUser(null);
@@ -131,34 +165,28 @@ export const AuthProvider = ({ children, protectedRoute }) => {
     setLoading(false);
   }, [findUserBySession, user]);
 
-  useEffect(() => {
-    if (protectedRoute) {
-      const token = Cookies.get("token");
-      if (token && !user) {
-        // USER DOESN'T FUCKING UPDATE
-        return;
-      } else {
-        console.log("redirecting to login");
-        router && router.push("/login");
-      }
-    }
-  }, [protectedRoute, user, router]);
+  // useEffect(() => {
+  //   if (protectedRoute) {
+  //     const token = Cookies.get("token");
+  //     if (token && !user) {
+  //       // USER DOESN'T FUCKING UPDATE
+  //       return;
+  //     } else {
+  //       console.log("redirecting to login");
+  //       router && router.push("/login");
+  //     }
+  //   }
+  // }, [protectedRoute, user, router]);
 
   const value = {
     login: async (user) => await handleLogin(user),
     logout: () => {
-      logout();
-      setUser(null);
+      Cookies.remove("token");
     },
-    register: async (user) => await handleRegister(user),
+    // register: async (user) => await handleRegister(user),
     user,
-    loading: loading,
+    loading: !loading && !sessionUserLoading,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {!loading ? children : <div>Auth loading...</div>}
-      {/* {!loading && children} */}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

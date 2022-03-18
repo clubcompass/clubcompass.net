@@ -1,21 +1,18 @@
 import React from "react";
 import Link from "next/link";
-import { useAuthContext } from "../../../../context";
 import { useRouter } from "next/router";
-
-import { DashboardIcon } from "../../../custom/DashboardIcon";
+import { RiSettings5Line } from "react-icons/ri";
 import { HiOutlinePencilAlt } from "react-icons/hi";
 import { BiBell } from "react-icons/bi";
-import { RiSettings5Line } from "react-icons/ri";
+import { useAuthContext } from "../../../../context";
+import { DashboardIcon } from "../../../custom/DashboardIcon";
+import { Loading } from "../../../general/Loading";
 
 export const DashboardNavItems = () => {
   const { user, loading } = useAuthContext(); //! should have loading state
 
-  if (!user || loading) {
-    return <div>Loading...</div>;
-  }
+  if (!user && loading) return <Loading />;
 
-  console.log(user);
   const roleSpecificItems = {
     // replace icon with react icon component
     STUDENT: [
@@ -73,7 +70,8 @@ export const DashboardNavItems = () => {
 
   return (
     <div className="mt-16">
-      {roleSpecificItems[user?.type].map((item, i) => (
+      {!user && <Loading />}
+      {roleSpecificItems[user?.type]?.map((item, i) => (
         <DashboardItem key={i} {...item} notifications={user?.pendingInvites} />
       ))}
     </div>
@@ -110,10 +108,10 @@ const DashboardItem = ({ label, to, icon, notifications }) => {
 const Icon = ({ icon, color }) => {
   return (
     <div className="text-xl">
-      {icon == "home" && <DashboardIcon color={color} />}
-      {icon == "manage" && <HiOutlinePencilAlt />}
-      {icon == "activity" && <BiBell />}
-      {icon == "settings" && <RiSettings5Line />}
+      {icon === "home" && <DashboardIcon color={color} />}
+      {icon === "manage" && <HiOutlinePencilAlt />}
+      {icon === "activity" && <BiBell />}
+      {icon === "settings" && <RiSettings5Line />}
     </div>
   );
 };

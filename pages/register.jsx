@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useQuery } from "react-query";
+import { useMutation } from "@apollo/client";
+import { REGISTER } from "../lib/docs";
 import { db } from "../lib/database";
-import { useAuthContext } from "../context";
 import {
   RegisterPagination as Pagination,
   RegisterContainer as Container,
@@ -16,10 +16,10 @@ import {
   SummarySlide,
   ClosingSlide,
 } from "../components/pages/register/onboarding/slides";
+import Cookies from "js-cookie";
 
 const Register = () => {
-  const { register, login } = useAuthContext();
-  const [slide, setSlide] = useState(7);
+  const [slide, setSlide] = useState(6);
   const [error, setError] = useState(null);
   // const [data, setData] = useState({
   //   firstname: "",
@@ -46,11 +46,21 @@ const Register = () => {
     ],
   });
 
-  const {
-    data: tags,
-    tagsLoading,
-    tagError,
-  } = useQuery("tags", async () => await db.tags.get());
+  const [register, { login: registerLoading }] = useMutation(REGISTER, {
+    onCompleted: ({ register: { user, token } }) => {
+      console.log(user, token);
+      Cookies.set("token", token);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  // const {
+  //   data: tags,
+  //   tagsLoading,
+  //   tagError,
+  // } = useQuery("tags", async () => await db.tags.get());
 
   const handlePagination = {
     next: () => {
@@ -65,8 +75,14 @@ const Register = () => {
   };
 
   const handleConfirmation = async () => {
-    const token = await register(data);
-    console.log(token);
+    const { interests, ...rest } = data;
+    const user = {
+      interests: interests.map((interest) => ({ id: interest.id })),
+      ...rest,
+    };
+    await register({ variables: { data: { ...user } } });
+    handlePagination.next();
+
     // if (error !== null) {
     //   return setError(error);
     // } else {
@@ -105,13 +121,13 @@ const Register = () => {
       set={updateData}
       data={data}
     />,
-    <InterestsSlide
-      key={6}
-      tagInfo={{ tags, tagsLoading, tagError }}
-      {...handlePagination}
-      set={updateData}
-      data={data}
-    />,
+    // <InterestsSlide
+    //   key={6}
+    //   tagInfo={{ tags, tagsLoading, tagError }}
+    //   {...handlePagination}
+    //   set={updateData}
+    //   data={data}
+    // />,
     <SummarySlide
       key={7}
       {...handlePagination}

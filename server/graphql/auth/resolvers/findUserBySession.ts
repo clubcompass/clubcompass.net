@@ -21,14 +21,6 @@ export const findUserBySession = async (
     where: {
       id: token.id,
     },
-    // include: {
-    //   // shouldn't be here?
-    //   clubs: {
-    //     where: {
-    //       approval: "APPROVED",
-    //     },
-    //   },
-    // },
   });
 
   if (!user)

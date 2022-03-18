@@ -22,7 +22,7 @@ export const CopyText = ({ children, tooltip }) => {
       }, 1500);
     });
   };
-
+  // button can't be descendant of button, this component is inside a button somewhere
   return (
     <div>
       <button

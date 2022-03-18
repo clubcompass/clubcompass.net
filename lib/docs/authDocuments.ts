@@ -27,13 +27,13 @@ export const LOGIN = gql`
       user {
         id
         ccid
-        # firstname
-        # lastname
-        # email
-        # emailVerified
-        # password
-        # grade
-        # type
+        firstname
+        lastname
+        email
+        emailVerified
+        password
+        grade
+        type
       }
       token
     }

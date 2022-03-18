@@ -29,6 +29,28 @@ export const register = async (
   user: typeof newUser;
   token: ReturnType<typeof generateToken>;
 }> => {
+  console.log(
+    JSON.stringify({
+      data: {
+        firstname,
+        lastname,
+        email,
+        studentId,
+        password,
+        grade,
+        interests,
+      },
+    })
+  );
+  console.log(
+    firstname,
+    lastname,
+    email,
+    studentId,
+    password,
+    grade,
+    interests
+  );
   const { valid, errors } = await validate({
     schema: newUserSchema as any,
     data: {
@@ -75,7 +97,6 @@ export const register = async (
       interests: {
         connect: interests,
       },
-      emailVerified: false,
     },
   });
 

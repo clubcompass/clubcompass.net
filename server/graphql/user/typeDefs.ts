@@ -9,8 +9,8 @@ export default gql`
     email: String!
     emailVerified: Boolean!
     password: String!
-    grade: [UserGrade!]!
-    type: [UserType!]!
+    grade: String!
+    type: String!
     interests: [Tag!]
     clubs: [Club!]
     canEdit: [Club!]
@@ -19,21 +19,20 @@ export default gql`
     invites: [Invite!]
   }
 
-  enum UserGrade {
-    FRESHMAN
-    sophomore
-    SOPHOMORE
-    JUNIOR
-    SENIOR
-    TEACHER
-  }
+  # enum UserGrade {
+  #   FRESHMAN
+  #   SOPHOMORE
+  #   JUNIOR
+  #   SENIOR
+  #   TEACHER
+  # }
 
-  enum UserType {
-    STUDENT
-    TEACHER
-    ASB
-    ADMIN
-  }
+  # enum UserType {
+  #   STUDENT
+  #   TEACHER
+  #   ASB
+  #   ADMIN
+  # }
 
   input TagInput {
     id: Int!
