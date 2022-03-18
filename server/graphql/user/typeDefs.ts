@@ -28,12 +28,12 @@ export default gql`
     TEACHER
   }
 
-  # enum UserType {
-  #   STUDENT
-  #   TEACHER
-  #   ASB
-  #   ADMIN
-  # }
+  enum UserType {
+    STUDENT
+    TEACHER
+    ASB
+    ADMIN
+  }
 
   input TagInput {
     id: ID!
