@@ -2,15 +2,15 @@ import gql from "graphql-tag";
 
 export default gql`
   type User {
-    id: String!
+    id: ID!
     ccid: String!
     firstname: String!
     lastname: String!
     email: String!
     emailVerified: Boolean!
     password: String!
-    grade: [UserGrade!]!
-    type: [UserType!]!
+    grade: Grade!
+    type: UserType!
     interests: [Tag!]
     clubs: [Club!]
     canEdit: [Club!]
@@ -19,7 +19,7 @@ export default gql`
     invites: [Invite!]
   }
 
-  enum UserGrade {
+  enum Grade {
     FRESHMAN
     sophomore
     SOPHOMORE
@@ -36,7 +36,7 @@ export default gql`
   }
 
   input TagInput {
-    id: Int!
+    id: ID!
   }
 
   type GetUserLeadershipClubsPayload {
@@ -52,7 +52,7 @@ export default gql`
   }
 
   type Mutation {
-    deleteUser(id: Int!): User!
-    updateUserInterests(id: Int!, tags: [TagInput!]!): [Tag!]! # should return just interests
+    deleteUser(id: ID!): User!
+    updateUserInterests(id: ID!, tags: [TagInput!]!): [Tag!]! # should return just interests
   }
 `;

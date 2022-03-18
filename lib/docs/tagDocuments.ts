@@ -9,3 +9,11 @@ export const GET_TAGS = gql`
     }
   }
 `;
+
+export const CREATE_TAGS = gql`
+  mutation CreateTags($names: [String!]) {
+    createTags(names: $names) {
+      count
+    }
+  }
+`;

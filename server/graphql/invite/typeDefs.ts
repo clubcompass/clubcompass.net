@@ -1,19 +1,25 @@
 import gql from "graphql-tag";
 
 export default gql`
+  enum InviteStatus {
+    PENDING
+    DECLINED
+    ACCEPTED
+  }
+
   type Invite {
-    id: Int!
-    status: String!
+    id: ID!
+    status: InviteStatus!
     club: Club!
-    clubId: Int!
+    clubId: ID!
     user: User!
-    userId: Int!
+    userId: ID!
   }
 
   type UserInvites {
-    pendingInvites: [Invite]
-    acceptedInvites: [Invite]
-    declinedInvites: [Invite]
+    pendingInvites: [Invite!]!
+    acceptedInvites: [Invite!]!
+    declinedInvites: [Invite!]!
   }
 
   type Query {
@@ -21,8 +27,8 @@ export default gql`
   }
 
   type Mutation {
-    issueInvite(clubId: Int!, recipientCCID: String!): Invite!
-    acceptInvite(inviteId: Int!, clubId: Int!): User!
-    declineInvite(inviteId: Int!): User!
+    issueInvite(clubId: ID!, recipientCCID: String!): Invite!
+    acceptInvite(inviteId: ID!, clubId: ID!): User!
+    declineInvite(inviteId: ID!): User!
   }
 `;

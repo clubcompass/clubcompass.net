@@ -27,7 +27,7 @@ export default gql`
   }
 
   type SessionUser {
-    id: Int!
+    id: ID!
     ccid: String
     firstname: String
     lastname: String
@@ -39,7 +39,7 @@ export default gql`
   }
 
   input Interest {
-    id: Int
+    id: ID
     name: String
   }
 

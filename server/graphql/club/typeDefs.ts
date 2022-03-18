@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 
 export default gql`
   type Club {
-    id: Int!
+    id: ID!
     name: String
     slug: String
     description: String
@@ -10,8 +10,8 @@ export default gql`
     meetingDate: String
     location: String
     approval: Boolean
-    status: String
-    availability: String
+    status: ClubStatus
+    availability: ClubAvailability
     links: [Link!]
     applicationInfo: ClubApplicationInfo
     tags: [Tag!]
@@ -33,15 +33,15 @@ export default gql`
     meetingDate: String
     location: String
     approval: Boolean
-    status: String
-    availability: String
+    status: ClubStatus
+    availability: ClubAvailability
     links: [LinkInput!]
     applicationInfo: ClubApplicationInfoInput
     tags: [InputTags!]
     invites: [InputInvites!]
-    vicePresidentId: Int
-    secretaryId: Int
-    treasurerId: Int
+    vicePresidentId: ID
+    secretaryId: ID
+    treasurerId: ID
   }
 
   input EditClubArgs {
@@ -51,26 +51,26 @@ export default gql`
     meetingDate: String
     location: String
     approval: Boolean
-    status: String
-    availability: String
+    status: ClubStatus
+    availability: ClubAvailability
     links: [LinkInput!]
     applicationInfo: ClubApplicationInfoInput
     tags: [InputTags!]
     invites: [InputInvites!]
-    vicePresidentId: Int
-    secretaryId: Int
-    treasurerId: Int
+    vicePresidentId: ID
+    secretaryId: ID
+    treasurerId: ID
     members: [String!]
-    teacherId: Int
+    teacherId: ID
   }
 
   input InputInvites {
-    id: Int
+    id: ID
   }
 
   input InputTags {
     name: String
-    id: Int
+    id: ID
   }
 
   input LinkInput {
@@ -80,11 +80,11 @@ export default gql`
   }
 
   input InviteInput {
-    recipientId: String!
+    recipientId: ID!
   }
 
   input ClubApplicationInfoInput {
-    teacherId: Int
+    teacherId: ID
     projectedRevenue: [ProjectedRevenueInput!]
     projectedExpenses: [ProjectedExpensesInput!]
     purpose: String!
@@ -123,7 +123,7 @@ export default gql`
   }
 
   type GetClubsPayload {
-    id: Int!
+    id: ID!
     name: String!
     slug: String!
     description: String!
@@ -131,8 +131,8 @@ export default gql`
     meetingDate: String!
     location: String!
     approval: Boolean!
-    status: String!
-    availability: String!
+    status: ClubStatus!
+    availability: ClubAvailability!
     tags: [GetClubsPayloadTags!]!
     _count: MembersCount!
   }
@@ -153,11 +153,11 @@ export default gql`
   }
 
   type GetClubPayload {
-    id: Int!
+    id: ID!
     name: String!
     description: String!
     tags: [ClubPageTag!]
-    availability: String!
+    availability: ClubAvailability!
     meetingDate: String!
     location: String!
     email: String!
@@ -166,17 +166,29 @@ export default gql`
     members: [ClubPageMember!]!
   }
 
+  enum ClubStatus {
+    DRAFT
+    REVIEW
+    APPROVED
+  }
+
+  enum ClubAvailability {
+    OPEN
+    INVITE_ONLY
+    CLOSED
+  }
+
   type Query {
-    getClub(id: Int, slug: String): GetClubPayload!
+    getClub(id: ID, slug: String): GetClubPayload!
     getClubs: [GetClubsPayload!]!
   }
 
   type Mutation {
-    joinClub(clubId: Int!): User
-    leaveClub(clubId: Int!): User
-    deleteClub(clubId: Int!): Club
-    updateClubTags(clubId: Int!, tagIds: [Int!]!): Club
+    joinClub(clubId: ID!): User
+    leaveClub(clubId: ID!): User
+    deleteClub(clubId: ID!): Club
+    updateClubTags(clubId: ID!, tagIds: [ID!]!): Club
     createClub(data: CreateClubArgs!): Club!
-    editClub(clubId: Int!, data: EditClubArgs!): Club!
+    editClub(clubId: ID!, data: EditClubArgs!): Club!
   }
 `;

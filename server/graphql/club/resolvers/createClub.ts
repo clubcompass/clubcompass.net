@@ -1,18 +1,16 @@
 import { ApolloError, AuthenticationError } from "apollo-server-micro";
-import type { User, ProjectedExpenses, ProjectedRevenue } from "@prisma/client";
-import type { ClubApplicationInfo } from "../../types/schemaTypes";
+import type { Link, Role, Tag, User, Club } from "@prisma/client";
 import { Context } from "../../ctx";
 import { getAuthenticatedUser } from "../../../utils/auth";
 import { generateSlug } from "../../../utils/generateSlug";
-import { Club } from "../../types/schemaTypes";
 
-export interface CreateClubData
-  extends Partial<Omit<Club, "id" | "slug" | "applicationInfo">> {
+export interface CreateClubData extends Partial<Omit<Club, "id" | "slug">> {
   vicePresidentId?: User["id"];
   secretaryId?: User["id"];
   treasurerId?: User["id"];
   teacherId?: User["id"];
-  applicationInfo?: ClubApplicationInfo;
+  links?: Link[];
+  tags?: Tag[];
 }
 
 export interface CreateClubArgs {
@@ -20,6 +18,11 @@ export interface CreateClubArgs {
 }
 
 export type CreateClubPayload = Awaited<ReturnType<typeof createClub>>;
+
+interface UserRoles
+  extends Pick<Role, "name" | "color" | "type" | "description"> {
+  users?: { connect: { id: User["id"] } };
+}
 
 export const createClub = async (
   _parent: any,
@@ -30,10 +33,8 @@ export const createClub = async (
       secretaryId,
       treasurerId,
       teacherId,
-      applicationInfo,
       links,
       tags,
-      invites,
       ...data
     },
   }: CreateClubArgs,
@@ -63,32 +64,32 @@ export const createClub = async (
     }
   }
 
-  const roles = [
+  const roles: UserRoles[] = [
     {
       name: "president",
       color: "#FAFAFA",
-      type: "LEADERSHIP",
+      type: "LEADER",
       description: "president description",
       users: { connect: { id: president.id } },
     },
     {
       name: "vicePresident",
       color: "#FAFAFA",
-      type: "LEADERSHIP",
+      type: "LEADER",
       description: "vice president description",
       ...(vicePresidentId && { users: { connect: { id: vicePresidentId } } }),
     },
     {
       name: "secretary",
       color: "#FAFAFA",
-      type: "LEADERSHIP",
+      type: "LEADER",
       description: "secretary description",
       ...(secretaryId ? { users: { connect: { id: secretaryId } } } : {}),
     },
     {
       name: "treasurer",
       color: "#FAFAFA",
-      type: "LEADERSHIP",
+      type: "LEADER",
       description: "treasurer description",
       ...(treasurerId ? { users: { connect: { id: treasurerId } } } : {}),
     },
@@ -118,42 +119,23 @@ export const createClub = async (
       }),
       ...(links && { links: { create: [...links] } }),
       ...(tags && { tags: { connect: [...tags] } }),
-      ...(invites && {
-        invites: invites.map((id) => ({
-          create: {
-            user: {
-              connect: {
-                id,
+    },
+    include: {
+      tags: true,
+      links: true,
+      members: {
+        select: {
+          firstname: true,
+          lastname: true,
+          roles: {
+            where: {
+              club: {
+                name: name,
               },
             },
           },
-        })),
-      }),
-
-      ...(applicationInfo && {
-        applicationInfo: {
-          create: {
-            // ...(teacherId && { // why the fuck can't I do this????
-            //   teacher: {
-            //     connect: {
-            //       id: teacherId,
-            //     },
-            //   },
-            // }),
-            ...applicationInfo,
-            ...(applicationInfo?.projectedRevenue && {
-              projectedRevenue: {
-                create: applicationInfo?.projectedRevenue,
-              },
-            }),
-            ...(applicationInfo?.projectedExpenses && {
-              projectedExpenses: {
-                create: applicationInfo?.projectedExpenses,
-              },
-            }),
-          },
         },
-      }),
+      },
     },
   });
 
@@ -163,13 +145,9 @@ export const createClub = async (
         id: club.id,
       },
       data: {
-        applicationInfo: {
-          create: {
-            teacher: {
-              connect: {
-                id: teacherId,
-              },
-            },
+        teacher: {
+          connect: {
+            id: teacherId,
           },
         },
       },

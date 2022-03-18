@@ -21,13 +21,13 @@ export const newUserSchema = object().shape({
     ),
   grade: string()
     .required("Grade is required.")
-    .oneOf(["Freshman", "Sophomore", "Junior", "Senior"], "Invalid grade."),
+    .oneOf(["FRESHMAN", "SOPHMORE", "JUNIOR", "SENIOR"], "Invalid grade."),
   interests: array()
     .optional()
     .of(
       object().shape({
         // id: string().required("Tag id of interest is required."), // change back to string
-        id: number().required("Tag id of interest is required."), // change back to string
+        id: string().required("Tag id of interest is required."), // change back to string
       })
     ),
 });

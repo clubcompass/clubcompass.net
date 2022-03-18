@@ -1,4 +1,5 @@
 import * as jwt from "jsonwebtoken";
+import { User } from "@prisma/client";
 
 export const generateToken = ({
   id,
@@ -6,9 +7,9 @@ export const generateToken = ({
   email,
   remember,
 }: {
-  id: number;
-  ccid: string;
-  email: string;
+  id: User["id"];
+  ccid: User["ccid"];
+  email: User["email"];
   remember?: boolean;
 }): string =>
   jwt.sign(
