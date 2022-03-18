@@ -1,10 +1,11 @@
 import { AuthenticationError } from "apollo-server-micro";
 import * as jwt from "jsonwebtoken";
+import { User } from "@prisma/client";
 
 export type TokenPayload = jwt.JwtPayload & {
-  id: number;
-  ccid: string;
-  email: string;
+  id: User["id"];
+  ccid: User["ccid"];
+  email: User["email"];
 };
 
 export const getAuthenticatedUser = ({ auth }): TokenPayload | void => {

@@ -1,7 +1,10 @@
 datasource db {
-  provider = "sqlite"
-  url      = "file:./database.db"
+  // provider = "sqlite"
+  // url      = "file:./database.db"
   // url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = "postgresql://abhinav@localhost:5432/abhinav"
+  // url = env("DEVELOPMENT_DATABASE_URL")
 }
 
 generator client {
@@ -9,7 +12,7 @@ generator client {
 }
 
 model Club {
-  id              Int                  @id @default(autoincrement())
+  id              String               @id @default(cuid())
   name            String?              @unique
   slug            String?              @unique
   description     String?
@@ -17,8 +20,8 @@ model Club {
   meetingDate     String?
   location        String?
   approval        Boolean?             @default(false)
-  status          String?              @default("DRAFT") //alternate values REVIEW / APPROVED
-  availability    String?              @default("OPEN") //alternate value CLOSED
+  status          ClubStatus           @default(DRAFT)
+  availability    ClubAvailability     @default(OPEN)
   links           Link[]
   applicationInfo ClubApplicationInfo?
   tags            Tag[]
@@ -26,23 +29,27 @@ model Club {
   editors         User[]               @relation("editors")
   roles           Role[]
   invites         Invite[]
+  teacher         User?                @relation("advisor", fields: [teacherId], references: [id])
+  teacherId       String?
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
 }
 
 model Link {
-  id     Int    @id @default(autoincrement())
-  club   Club   @relation(fields: [clubId], references: [id], onDelete: Cascade)
-  clubId Int
-  name   String
-  link   String
-  type   String //can take values like WEBSITE / DISCORD / INSTAGRAM / SNAPCHAT
+  id        String   @id @default(cuid())
+  club      Club     @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  clubId    String
+  name      String
+  link      String
+  type      LinkType @default(WEBSITE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model ClubApplicationInfo {
-  id                                  Int                 @id @default(autoincrement())
-  teacher                             User?               @relation(fields: [userId], references: [id])
-  userId                              Int?
+  id                                  String              @id @default(cuid())
   club                                Club?               @relation(fields: [clubId], references: [id])
-  clubId                              Int?                @unique
+  clubId                              String?             @unique
   projectedRevenue                    ProjectedRevenue[]
   projectedExpenses                   ProjectedExpenses[]
   purpose                             String?
@@ -53,72 +60,135 @@ model ClubApplicationInfo {
   officerMinimumGPA                   Float?
   percentAttendanceForOfficialMeeting Int?
   percentAttendanceToApproveDecision  Int?
+  createdAt                           DateTime            @default(now())
+  updatedAt                           DateTime            @updatedAt
 }
 
 model Tag {
-  id              Int    @id @default(autoincrement())
-  name            String @unique
+  id              String   @id @default(cuid())
+  name            String   @unique
   clubs           Club[]
   interestedUsers User[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 model User {
-  id            Int                   @id @default(autoincrement())
-  ccid          String                @unique
-  studentId     String?               @unique
+  id            String      @id @default(cuid())
+  ccid          String      @unique
+  studentId     String      @unique
   firstname     String
   lastname      String
-  email         String                @unique
-  emailVerified Boolean               @default(false)
-  active        Boolean               @default(false)
+  email         String      @unique
+  emailVerified Boolean     @default(false)
+  active        Boolean     @default(false)
   password      String
-  grade         String //values: FRESHMAN, SOPHMORE, JUNIOR, SENIOR TEACHER
-  type          String                @default("STUDENT") //alternative value: TEACHER
+  grade         Grade
+  type          AccountType @default(STUDENT)
   interests     Tag[]
-  clubs         Club[]                @relation("members")
-  canEdit       Club[]                @relation("editors")
-  advisor       ClubApplicationInfo[]
+  clubs         Club[]      @relation("members")
+  canEdit       Club[]      @relation("editors")
+  advisor       Club[]      @relation("advisor")
   roles         Role[]
   invites       Invite[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 }
 
 model Invite {
-  id     Int    @id @default(autoincrement())
-  status String @default("PENDING") //alternate values: ACCEPTED, DECLINED
-  club   Club   @relation(fields: [clubId], references: [id], onDelete: Cascade)
-  clubId Int
-  user   User   @relation(fields: [userId], references: [id])
-  userId Int
-  Role   Role   @relation(fields: [roleId], references: [id])
-  roleId Int
+  id        String       @id @default(cuid())
+  status    InviteStatus @default(PENDING)
+  club      Club         @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  clubId    String
+  user      User         @relation(fields: [userId], references: [id])
+  userId    String
+  roles      Role[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
 }
 
 model Role {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(cuid())
   name        String
   color       String
   description String
   users       User[]
   club        Club     @relation(fields: [clubId], references: [id], onDelete: Cascade)
-  clubId      Int
-  type        String   @default("MEMBER") //alternate value: LEADER
+  clubId      String
+  type        RoleType @default(MEMBER)
   invites     Invite[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model ProjectedRevenue {
-  id     Int                  @id @default(autoincrement())
-  club   ClubApplicationInfo? @relation(fields: [clubId], references: [id])
-  clubId Int?
-  name   String?
-  amount Float?
-  date   String?
+  id        String               @id @default(cuid())
+  club      ClubApplicationInfo? @relation(fields: [clubId], references: [id])
+  clubId    String?
+  name      String?
+  amount    Float?
+  date      String?
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
 }
 
 model ProjectedExpenses {
-  id     Int                  @id @default(autoincrement())
-  club   ClubApplicationInfo? @relation(fields: [clubId], references: [id])
-  clubId Int?
-  name   String?
-  amount Float?
-  date   String?
+  id        String               @id @default(cuid())
+  club      ClubApplicationInfo? @relation(fields: [clubId], references: [id])
+  clubId    String?
+  name      String?
+  amount    Float?
+  date      String?
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+}
+
+enum Grade {
+  FRESHMAN
+  SOPHMORE
+  JUNIOR
+  SENIOR
+  TEACHER
+}
+
+enum RoleType {
+  MEMBER
+  LEADER
+}
+
+enum InviteStatus {
+  PENDING
+  DECLINED
+  ACCEPTED
+}
+
+enum ClubAvailability {
+  OPEN
+  INVITE_ONLY
+  CLOSED
+}
+
+enum AccountType {
+  STUDENT
+  TEACHER
+  ASB
+  ADMIN
+}
+
+enum ClubStatus {
+  DRAFT
+  REVIEW
+  APPROVED
+}
+
+enum LinkType {
+  EMAIL
+  TWITTER
+  INSTAGRAM
+  DISCORD
+  YOUTUBE
+  FACEBOOK
+  REMIND
+  SNAPCHAT
+  WEBSITE
 }

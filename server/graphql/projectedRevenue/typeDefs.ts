@@ -1,9 +1,9 @@
 import gql from "graphql-tag";
 export default gql`
   type ProjectedRevenue {
-    id: Int!
+    id: ID!
     club: ClubApplicationInfo
-    clubId: Int
+    clubId: ID
     name: String
     amount: Float
     date: String

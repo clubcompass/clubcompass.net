@@ -6,12 +6,12 @@ import { Context } from "../../ctx";
 import { validate } from "../../../utils/validation";
 import { newUserSchema } from "../../../utils/validation/schemas";
 import { generateToken } from "../../../utils/auth";
-import { User, Tag } from "@prisma/client";
+import { User, Tag, Grade } from "@prisma/client";
 
 export type RegisterData = Pick<
   User,
-  "firstname" | "lastname" | "email" | "password" | "grade" | "studentId"
-> & { interests: Partial<Tag> };
+  "firstname" | "lastname" | "email" | "password" | "studentId"
+> & { interests: Partial<Tag> } & { grade: Partial<Grade> };
 
 export interface RegisterArgs {
   data: RegisterData;

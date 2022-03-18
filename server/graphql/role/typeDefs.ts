@@ -1,18 +1,18 @@
 import gql from "graphql-tag";
 export default gql`
   type Role {
-    id: Int!
+    id: ID!
     name: String!
     color: String!
     description: String!
     users: [User!]
     club: [Club!]
-    clubId: Int!
+    clubId: ID!
     type: RoleType!
   }
 
   enum RoleType {
     MEMBER
-    LEADERSHIP
+    LEADER
   }
 `;

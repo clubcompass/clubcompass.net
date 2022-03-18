@@ -1,7 +1,8 @@
 import { Context } from "../../ctx";
+import { Club } from "../../types/schemaTypes";
 
 export type DeleteClubArgs = {
-  clubId: number;
+  clubId: Club["id"];
 };
 
 export type DeleteClubPayload = Awaited<ReturnType<typeof deleteClub>>;

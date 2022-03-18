@@ -1,11 +1,11 @@
 import gql from "graphql-tag";
 export default gql`
   type ClubApplicationInfo {
-    id: Int!
+    id: ID!
     teacher: User
-    userId: Int
+    userId: ID
     club: Club
-    clubId: Int
+    clubId: ID
     projectedRevenue: [ProjectedRevenue!]
     projectedExpenses: [ProjectedExpenses!]
     purpose: String

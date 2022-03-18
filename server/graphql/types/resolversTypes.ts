@@ -63,7 +63,12 @@ import type {
   IssueInviteArgs,
   IssueInvitePayload,
 } from "../invite/types";
-import type { GetTagArgs, GetTagsPayload } from "../tag/types";
+import type {
+  GetTagArgs,
+  GetTagsPayload,
+  CreateTagsArgs,
+  CreateTagsPayload,
+} from "../tag/types";
 
 import { GraphQLResolveInfo } from "graphql";
 
@@ -136,6 +141,7 @@ export interface InviteResolvers {
 export interface TagResolvers {
   [key: string]: Resolver<any, any, any>;
   getTags?: Resolver<{}, GetTagArgs, GetTagsPayload>;
+  createTags?: Resolver<{}, CreateTagsArgs, CreateTagsPayload>;
 }
 
 export interface Query {

@@ -1,11 +1,23 @@
 import gql from "graphql-tag";
 export default gql`
+  enum LinkType {
+    EMAIL
+    TWITTER
+    INSTAGRAM
+    DISCORD
+    YOUTUBE
+    FACEBOOK
+    REMIND
+    SNAPCHAT
+    WEBSITE
+  }
+
   type Link {
-    id: Int!
+    id: ID!
     club: Club!
-    clubId: Int!
+    clubId: ID!
     name: String
     link: String!
-    type: String!
+    type: LinkType!
   }
 `;
