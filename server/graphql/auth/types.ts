@@ -4,3 +4,4 @@ export * from "./resolvers/register";
 export * from "./resolvers/changePassword";
 export * from "./resolvers/checkEmail";
 export * from "./resolvers/checkStudentId";
+export * from "./resolvers/sendVerificationEmail";

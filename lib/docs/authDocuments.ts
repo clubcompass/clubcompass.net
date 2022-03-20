@@ -60,12 +60,20 @@ export const FIND_USER_BY_SESSION = gql`
       firstname
       lastname
       email
+      emailVerified
+      active
       type
       pendingInvites
       # clubs {
       #   id
       # }
     }
+  }
+`;
+
+export const SEND_VERIFICATION_EMAIL = gql`
+  query SendVerificationEmail($email: String!) {
+    sendVerificationEmail(email: $email)
   }
 `;
 

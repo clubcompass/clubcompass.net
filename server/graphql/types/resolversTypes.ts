@@ -24,6 +24,8 @@ import type {
   CheckEmailPayload,
   CheckStudentIdArgs,
   CheckStudentIdPayload,
+  SendVerificationEmailArgs,
+  SendVerificationEmailPayload,
 } from "../auth/types";
 import type {
   UpdateUserInterestsArgs,
@@ -107,6 +109,12 @@ export interface AuthResolvers {
   register?: Resolver<{}, RegisterArgs, RegisterPayload>;
   login?: Resolver<{}, LoginArgs, LoginPayload>;
   checkEmail?: Resolver<{}, CheckEmailArgs, CheckEmailPayload>;
+
+  SendVerificationEmail?: Resolver<
+    {},
+    SendVerificationEmailArgs,
+    SendVerificationEmailPayload
+  >;
   checkStudentId?: Resolver<{}, CheckStudentIdArgs, CheckStudentIdPayload>;
   changePassword?: Resolver<{}, ChangePasswordArgs, ChangePasswordPayload>;
   findUserBySession?: Resolver<
@@ -185,6 +193,7 @@ export interface Query {
   [key: string]: Resolver<any, any, any>;
   // auth
   checkEmail?: AuthResolvers["checkEmail"];
+  sendVerificationEmail?: AuthResolvers["sendVerificationEmail"];
   checkStudentId?: AuthResolvers["checkStudentId"];
   findUserBySession?: AuthResolvers["findUserBySession"];
   //user

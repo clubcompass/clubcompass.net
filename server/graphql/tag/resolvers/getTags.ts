@@ -13,6 +13,7 @@ export const getTags = async (
     select: {
       id: true,
       name: true,
+
       clubs: {
         select: {
           approval: true,
@@ -21,18 +22,22 @@ export const getTags = async (
     },
   });
 
-  const tags = allTags.map((tag): Tag & { approvedCount: number } => {
-    const approvedCount = tag.clubs.filter(
-      ({ approval }) => approval === true
-    ).length;
+  const tags = allTags.map(
+    (tag): Pick<Tag, "id" | "name"> & { approvedCount: number } => {
+      const approvedCount = tag.clubs.filter(
+        ({ approval }) => approval === true
+      ).length;
 
-    delete tag.clubs;
+      delete tag.clubs;
 
-    return {
-      ...tag,
-      approvedCount,
-    };
-  });
+      return {
+        ...tag,
+        approvedCount,
+      };
+    }
+  );
+
+  console.log(tags);
 
   return tags;
 };

@@ -19,5 +19,5 @@ export const generateToken = ({
       email,
     },
     process.env.SECRET as string,
-    { expiresIn: remember ? "30d" : "3d" } // purge after session if !remember
+    { expiresIn: remember ? "7d" : "1d" } // purge after session if !remember
   );

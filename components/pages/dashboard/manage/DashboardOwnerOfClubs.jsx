@@ -1,45 +1,62 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
+import { useQuery } from "@apollo/client";
 import { useAuthContext } from "../../../../context";
-// import { db } from "../../../../lib/database";
-// import { Clubs } from "../../clubs"; //! use club component?
+import { GET_USER_LEADERSHIP_CLUBS } from "../../../../lib/docs";
 import { Loading } from "../../../general/Loading";
 import { Clubs } from "../../clubs";
+import { useRouter } from "next/router";
 export const DashboardOwnerOfClubs = () => {
-  const { user } = useAuthContext();
+  const { user, loading } = useAuthContext();
+  const router = useRouter();
 
-  if (!user) return <Loading />;
+  const {
+    data: {
+      getUserLeadershipClubs: {
+        hasEditorIn,
+        hasLeadershipIn,
+        isPresidentOf,
+      } = {},
+    } = {},
+    errors,
+    clubsLoading,
+  } = useQuery(GET_USER_LEADERSHIP_CLUBS);
 
-  const isPresidentOf = user.roles.reduce(
-    (acc, role) =>
-      role.name === "president" &&
-      user.clubs.find((club) => club.id === role.clubId)
-        ? acc.concat(user.clubs.find((club) => club.id === role.clubId))
-        : acc,
-    []
-  );
+  console.log(hasEditorIn, hasLeadershipIn, isPresidentOf);
 
-  const hasLeadershipIn = user.roles.reduce(
-    (acc, role) =>
-      role.type === "LEADERSHIP" && role.name !== "president"
-        ? acc.concat(user.clubs.find((club) => club.id === role.clubId))
-        : acc,
-    []
-  );
+  useEffect(() => {
+    if (user) {
+      if (!user?.active || !user?.emailVerified) {
+        router.push("/dashboard");
+      }
+    }
+  }, [router, user]);
 
-  // const hasEditor = user.canEdit;
+  if (!user && loading) return <Loading />;
 
   return (
     <div className="flex flex-col gap-2">
-      {isPresidentOf && isPresidentOf.length !== 0 && (
-        <ContentSection label="Owned" clubs={isPresidentOf} />
+      {!clubsLoading ? (
+        <>
+          {isPresidentOf && isPresidentOf?.length !== 0 ? (
+            <ContentSection label="Owned" clubs={isPresidentOf} />
+          ) : (
+            <div>Loading Skeleton</div>
+          )}
+          {hasLeadershipIn && hasLeadershipIn?.length !== 0 ? (
+            <ContentSection label="Leader" clubs={hasLeadershipIn} />
+          ) : (
+            <div>Loading Skeleton</div>
+          )}
+          {hasEditorIn && hasEditorIn?.length !== 0 ? (
+            <ContentSection label="Can edit" clubs={hasEditorIn} />
+          ) : (
+            <div>Loading Skeleton</div>
+          )}
+        </>
+      ) : (
+        <di className="text-red-500">loading...</di>
       )}
-      {hasLeadershipIn && hasLeadershipIn.length !== 0 && (
-        <ContentSection label="Leader" clubs={hasLeadershipIn} />
-      )}
-      {/* {hasEditor && hasEditor.length !== 0 && (
-        <ContentSection label="Can edit" clubs={hasEditor} />
-      )} */}
     </div>
   );
 };

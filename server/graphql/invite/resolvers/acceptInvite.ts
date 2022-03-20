@@ -65,7 +65,8 @@ export const acceptInvite = async (
         },
       },
     },
-    include: {
+    select: {
+      id: true,
       clubs: {
         where: {
           id: clubId,

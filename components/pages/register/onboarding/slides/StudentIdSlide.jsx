@@ -53,7 +53,7 @@ export const StudentIdSlide = ({ next, prev, set, data }) => {
   const handleStudentIdSubmission = async ({ id }) => {
     await checkStudentId({ variables: { studentId: id } });
     set({
-      id,
+      studentId: id,
     });
     next();
   };

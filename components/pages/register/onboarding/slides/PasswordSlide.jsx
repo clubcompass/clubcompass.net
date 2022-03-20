@@ -71,7 +71,10 @@ export const PasswordSlide = ({ next, prev, set, data }) => {
       <div className="w-[495px] flex flex-col gap-3">
         <ValidatePassword password={password} />
         <Formik
-          initialValues={{ password: data.password, confirmation: "" }}
+          initialValues={{
+            password: data.password,
+            confirmation: data.password,
+          }}
           onSubmit={(values, { setSubmitting }) => {
             handleSubmission({ password: values.password });
             setSubmitting(false);

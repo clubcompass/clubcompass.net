@@ -19,7 +19,7 @@ export type LoginPayload = Awaited<ReturnType<typeof login>>;
 export const login = async (
   _parent: any,
   { data: { email, password, remember } }: LoginArgs,
-  { prisma }: Context
+  { prisma, setCookie }: Context
 ): Promise<{ user: typeof user; token: ReturnType<typeof generateToken> }> => {
   const { valid, errors } = await validate({
     schema: loginSchema as any,
@@ -43,13 +43,26 @@ export const login = async (
   const match = await bcrypt.compare(password, user.password);
   if (!match) throw new AuthenticationError("Incorrect password!"); // Email or password incorrect
 
+  const token = generateToken({
+    id: user.id,
+    ccid: user.ccid,
+    email: user.email,
+    remember,
+  });
+
+  // setCookie({
+  //   name: "token",
+  //   value: token,
+  //   options: {
+  //     maxAge: remember ? 604800 : 86400, // 7 days for remember, 1 day otherwise
+  //     httpOnly: true,
+  //     sameSite: "strict",
+  //     secure: process.env.NODE_ENV === "production",
+  //   },
+  // });
+
   return {
     user,
-    token: generateToken({
-      id: user.id,
-      ccid: user.ccid,
-      email: user.email,
-      remember,
-    }),
+    token,
   };
 };

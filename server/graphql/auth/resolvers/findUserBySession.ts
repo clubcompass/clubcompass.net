@@ -17,6 +17,8 @@ export const findUserBySession = async (
 
   if (!token) throw new AuthenticationError("No token data");
 
+  console.log("token", token);
+
   const user = await prisma.user.findUnique({
     where: {
       id: token.id,

@@ -1,4 +1,11 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+} from "react";
 import Cookies from "js-cookie";
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import { LOGIN, REGISTER, FIND_USER_BY_SESSION } from "../lib/docs"; //CHANGE THIS
@@ -14,35 +21,36 @@ export const AuthProvider = ({ children, protectedRoute }) => {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  // deal with user not being logged in
-  const [login, { loading: loginLoading }] = useMutation(LOGIN, {
-    onCompleted: async ({ login: { user, token } }) => {
-      await findUserBySession({
-        context: {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        },
-      });
-      router.push("/dashboard");
-    },
-    onError(error) {
-      console.log(error);
-    },
-  });
-
-  const [findUserBySession, { loading: sessionUserLoading, called, error }] =
-    useLazyQuery(FIND_USER_BY_SESSION, {
-      onCompleted: ({ findUserBySession: user } = {}) => {
-        // console.log(user); // returns token and user
+  const [findUserBySession, { loading: sessionUserLoading }] = useLazyQuery(
+    FIND_USER_BY_SESSION,
+    {
+      onCompleted: ({ findUserBySession: user = {} } = {}) => {
+        console.log("findUserBySession", user);
         setUser(user);
       },
       onError: (error) => {
         console.log(error);
         console.log("removing token");
-        Cookies.remove("token");
+        // Cookies.remove("token");
       },
-    });
+    }
+  );
+
+  const [login, { loading: loginLoading }] = useMutation(LOGIN, {
+    onCompleted: async ({ login: { user, token } }) => {
+      console.log(token);
+      console.log(user);
+      // await findUserBySession({
+      //   context: { headers: { authorization: `Bearer ${token}` } },
+      // });
+
+      Cookies.set("token", token);
+      router.push("/dashboard"); // doesn't update?
+    },
+    onError(error) {
+      console.log(error);
+    },
+  });
 
   // const handleRegister = async (user) => {
   //   try {
@@ -67,19 +75,16 @@ export const AuthProvider = ({ children, protectedRoute }) => {
   //   }
   // };
 
-  const handleLogin = async (user) => {
-    try {
-      const {
-        data: {
-          login: { token },
-        },
-      } = await login({ variables: { data: { ...user } } });
-      Cookies.set("token", token);
-      return router.push("/dashboard");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const handleLogin = useCallback(
+    async (user) => {
+      try {
+        await login({ variables: { data: { ...user } } });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [login]
+  );
 
   // const authorize = async () => {
   //   try {
@@ -143,11 +148,10 @@ export const AuthProvider = ({ children, protectedRoute }) => {
   // }, [findUserBySession, user]);
 
   useEffect(() => {
-    console.log("running");
     setLoading(true);
     if (!user) {
       const token = Cookies.get("token");
-      console.log(token);
+      console.log("token:", token);
       if (token) {
         (async () => {
           await findUserBySession({
@@ -178,15 +182,18 @@ export const AuthProvider = ({ children, protectedRoute }) => {
   //   }
   // }, [protectedRoute, user, router]);
 
-  const value = {
-    login: async (user) => await handleLogin(user),
-    logout: () => {
-      Cookies.remove("token");
-    },
-    // register: async (user) => await handleRegister(user),
-    user,
-    loading: !loading && !sessionUserLoading,
-  };
+  const value = useMemo(
+    () => ({
+      login: async (user) => await handleLogin(user),
+      logout: () => {
+        // Cookies.remove("token");
+      },
+      // register: async (user) => await handleRegister(user),
+      user,
+      loading: loading || sessionUserLoading,
+    }),
+    [user, loading, sessionUserLoading, handleLogin]
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

@@ -26,8 +26,7 @@ export const newUserSchema = object().shape({
     .optional()
     .of(
       object().shape({
-        // id: string().required("Tag id of interest is required."), // change back to string
-        id: string().required("Tag id of interest is required."), // change back to string
+        id: string().required("Tag id of interest is required."),
       })
     ),
 });
