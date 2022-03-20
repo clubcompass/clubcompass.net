@@ -43,6 +43,7 @@ export const getClub = async (
             select: {
               name: true,
               type: true,
+              color: true,
             },
           },
         },

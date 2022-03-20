@@ -1,5 +1,7 @@
 import gql from "graphql-tag";
 export default gql`
+  ##### SHARED #####
+
   enum LinkType {
     EMAIL
     TWITTER
@@ -20,4 +22,6 @@ export default gql`
     link: String!
     type: LinkType!
   }
+
+  ##### END OF SHARED #####
 `;

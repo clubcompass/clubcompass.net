@@ -77,3 +77,14 @@ export const UPDATE_USER_INTERESTS = gql`
     }
   }
 `;
+
+export const APPROVE_USER = gql`
+  mutation ($userId: ID!) {
+    approveUser(userId: $userId) {
+      id
+      firstname
+      lastname
+      active
+    }
+  }
+`;

@@ -27,8 +27,19 @@ export const joinClub = async (
         },
       },
     },
-    include: {
-      clubs: true,
+    select: {
+      id: true,
+      firstname: true,
+      lastname: true,
+      clubs: {
+        where: {
+          id: clubId,
+        },
+        select: {
+          id: true,
+          name: true,
+        },
+      },
     },
   });
 

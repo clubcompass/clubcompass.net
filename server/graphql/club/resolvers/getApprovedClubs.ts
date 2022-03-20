@@ -1,12 +1,14 @@
 import { Context } from "../../ctx";
 
-export type GetClubsArgs = {};
+export type GetApprovedClubsArgs = {};
 
-export type GetClubsPayload = Awaited<ReturnType<typeof getClubs>>;
+export type GetApprovedClubsPayload = Awaited<
+  ReturnType<typeof getApprovedClubs>
+>;
 
-export const getClubs = async (
+export const getApprovedClubs = async (
   _parent: any,
-  _args: GetClubsArgs,
+  _args: GetApprovedClubsArgs,
   { prisma }: Context
 ): Promise<typeof clubs> => {
   const clubs = await prisma.club.findMany({
@@ -15,13 +17,16 @@ export const getClubs = async (
         equals: true,
       },
     },
-    include: {
+    select: {
+      name: true,
+      slug: true,
+      description: true,
+      availability: true,
       tags: {
         select: {
           name: true,
         },
       },
-
       _count: {
         select: {
           members: true,

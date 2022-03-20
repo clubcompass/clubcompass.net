@@ -36,6 +36,10 @@ import type {
   DeleteUserPayload,
   ValidateUserArgs,
   ValidateUserPayload,
+  ApproveUserArgs,
+  ApproveUserPayload,
+  GetUsersArgs,
+  GetUsersPayload,
 } from "../user/types";
 import type {
   CreateClubArgs,
@@ -50,8 +54,18 @@ import type {
   LeaveClubPayload,
   GetClubArgs,
   GetClubPayload,
-  GetClubsArgs,
-  GetClubsPayload,
+  SendClubForApprovalArgs,
+  SendClubForApprovalPayload,
+  ApproveClubArgs,
+  ApproveClubPayload,
+  GetApprovedClubsArgs,
+  GetApprovedClubsPayload,
+  GetUnapprovedClubsArgs,
+  GetUnapprovedClubsPayload,
+  RequestToJoinClubArgs,
+  RequestToJoinClubPayload,
+  GetClubInvitesArgs,
+  GetClubInvitesPayload,
 } from "../club/types";
 import type {
   GetUserInvitesArgs,
@@ -116,7 +130,9 @@ export interface UserResolvers {
     GetUserLeadershipClubsArgs,
     GetUserLeadershipClubsPayload
   >;
-  ValidateUser?: Resolver<{}, ValidateUserArgs, ValidateUserPayload>;
+  validateUser?: Resolver<{}, ValidateUserArgs, ValidateUserPayload>;
+  approveUser?: Resolver<{}, ApproveUserArgs, ApproveUserPayload>;
+  getUsers?: Resolver<{}, GetUsersArgs, GetUsersPayload>;
 }
 
 export interface ClubResolvers {
@@ -127,7 +143,28 @@ export interface ClubResolvers {
   joinClub?: Resolver<{}, JoinClubArgs, JoinClubPayload>;
   leaveClub?: Resolver<{}, LeaveClubArgs, LeaveClubPayload>;
   getClub?: Resolver<{}, GetClubArgs, GetClubPayload>;
-  getClubs?: Resolver<{}, GetClubsArgs, GetClubsPayload>;
+  sendClubForApproval?: Resolver<
+    {},
+    SendClubForApprovalArgs,
+    SendClubForApprovalPayload
+  >;
+  approveClub?: Resolver<{}, ApproveClubArgs, ApproveClubPayload>;
+  getApprovedClubs?: Resolver<
+    {},
+    GetApprovedClubsArgs,
+    GetApprovedClubsPayload
+  >;
+  getUnapprovedClubs?: Resolver<
+    {},
+    GetUnapprovedClubsArgs,
+    GetUnapprovedClubsPayload
+  >;
+  requestToJoinClub?: Resolver<
+    {},
+    RequestToJoinClubArgs,
+    RequestToJoinClubPayload
+  >;
+  getClubInvites?: Resolver<{}, GetClubInvitesArgs, GetClubInvitesPayload>;
 }
 
 export interface InviteResolvers {

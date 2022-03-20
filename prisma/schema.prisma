@@ -95,6 +95,7 @@ model User {
 model Invite {
   id        String       @id @default(cuid())
   status    InviteStatus @default(PENDING)
+  type InviteType @default(OUTGOING)
   club      Club         @relation(fields: [clubId], references: [id], onDelete: Cascade)
   clubId    String
   user      User         @relation(fields: [userId], references: [id])
@@ -157,6 +158,11 @@ enum InviteStatus {
   PENDING
   DECLINED
   ACCEPTED
+}
+
+enum InviteType {
+  OUTGOING //club sends invite to user
+  INCOMING //user requests to join club
 }
 
 enum ClubAvailability {

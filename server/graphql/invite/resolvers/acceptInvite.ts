@@ -14,13 +14,16 @@ export const acceptInvite = async (
   _parent: any,
   { inviteId, clubId }: AcceptInviteArgs,
   { prisma, auth }: Context
-): Promise<typeof acceptedInvite> => {
+): Promise<typeof user> => {
   const token = getAuthenticatedUser({ auth });
   if (!token) throw new AuthenticationError("No token data");
 
   const invite = await prisma.invite.findUnique({
     where: {
       id: inviteId,
+    },
+    include: {
+      roles: true,
     },
   });
 
@@ -38,34 +41,82 @@ export const acceptInvite = async (
       { ...invite }
     );
 
-  const acceptedInvite = await prisma.club.update({
+  const user = await prisma.user.update({
     where: {
-      id: clubId,
+      id: invite.userId,
     },
     data: {
+      roles: {
+        connect: invite.roles.map((role) => ({ id: role.id })),
+      },
+      clubs: {
+        connect: {
+          id: clubId,
+        },
+      },
       invites: {
         update: {
           where: {
-            id: inviteId,
+            id: invite.id,
           },
           data: {
             status: "ACCEPTED",
           },
         },
       },
-      members: {
-        connect: {
-          id: token.id,
-        },
-      },
     },
     include: {
-      members: {
+      clubs: {
         where: {
-          id: token.id,
+          id: clubId,
+        },
+      },
+      roles: {
+        where: {
+          clubId: clubId,
         },
       },
     },
   });
-  return acceptedInvite;
+
+  return user;
+
+  // const acceptedInvite = await prisma.club.update({
+  //   where: {
+  //     id: clubId,
+  //   },
+  //   data: {
+  //     invites: {
+  //       update: {
+  //         where: {
+  //           id: inviteId,
+  //         },
+  //         data: {
+  //           status: "ACCEPTED",
+  //         },
+  //       },
+  //     },
+  //     members: {
+  //       connect: {
+  //         id: token.id,
+  //       },
+  //     },
+  //   },
+  //   include: {
+  //     members: {
+  //       where: {
+  //         id: token.id,
+  //       },
+  //       include: {
+  //         roles: {
+  //           where: {
+  //             clubId: clubId,
+  //           },
+  //         },
+  //       },
+  //     },
+  //   },
+  // });
+
+  // return acceptedInvite;
 };

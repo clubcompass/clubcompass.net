@@ -1,6 +1,182 @@
 import gql from "graphql-tag";
 
 export default gql`
+  ##### APPROVE CLUB #####
+
+  type ApproveClubPayload {
+    id: String!
+    name: String!
+    approval: Boolean!
+  }
+
+  ##### END OF APPROVE CLUB #####
+
+  ##### DELETE CLUB #####
+
+  type DeleteClubPayload {
+    id: String!
+    name: String!
+  }
+
+  ##### END OF DELETE CLUB #####
+
+  ##### GET APPROVED CLUBS #####
+
+  type GetApprovedClubsPayload {
+    name: String!
+    slug: String!
+    description: String
+    availability: ClubAvailability!
+    tags: [ClubPageTag!]
+    _count: ClubMembersCount!
+  }
+
+  ##### END OF GET APPROVED CLUBS #####
+
+  ##### GET UNAPPROVED CLUBS #####
+
+  type GetUnapprovedClubsPayload {
+    id: ID!
+    name: String!
+    availability: ClubAvailability!
+    createdAt: String!
+    roles: [GetUnapprovedClubsPayloadRoles!]!
+    teacher: GetUnapprovedClubsPayloadTeacher!
+  }
+
+  type GetUnapprovedClubsPayloadRoles {
+    name: String!
+    users: [GetUnapprovedClubsPayloadRolesUser!]!
+  }
+
+  type GetUnapprovedClubsPayloadRolesUser {
+    firstname: String!
+    lastname: String!
+  }
+
+  type GetUnapprovedClubsPayloadTeacher {
+    firstname: String!
+    lastname: String!
+  }
+
+  ##### END OF GET UNAPPROVED CLUBS #####
+
+  ##### GET CLUB #####
+
+  type ClubPageMember {
+    firstname: String!
+    lastname: String!
+    roles: [ClubPageRole!]!
+  }
+
+  type ClubPageRole {
+    name: String!
+    type: String!
+    color: String!
+  }
+
+  type GetClubPayload {
+    id: ID!
+    name: String!
+    description: String!
+    tags: [ClubPageTag!]
+    availability: ClubAvailability!
+    meetingDate: String!
+    location: String!
+    email: String!
+    links: [Link!]!
+    _count: ClubMembersCount!
+    members: [ClubPageMember!]!
+  }
+
+  ##### END OF GET CLUB #####
+
+  ##### JOIN CLUB #####
+
+  type JoinClubPayload {
+    id: ID!
+    firstname: String!
+    lastname: String!
+    clubs: [JoinClubPayloadClub!]!
+  }
+
+  type JoinClubPayloadClub {
+    id: ID!
+    name: String!
+  }
+
+  ##### END OF JOIN CLUB #####
+
+  ##### SEND CLUB FOR APPROVAL #####
+
+  type SendClubForApprovalPayload {
+    id: ID!
+    name: String!
+    status: ClubStatus!
+  }
+
+  ##### END OF SEND CLUB FOR APPROVAL #####
+
+  ##### REQUEST TO JOIN CLUB #####
+
+  type RequestToJoinClubPayload {
+    id: ID!
+    club: RequestClubInfo!
+    type: InviteType!
+  }
+
+  type RequestClubInfo {
+    name: String!
+  }
+
+  ##### END OF REQUEST TO JOIN CLUB #####
+
+  ##### GET CLUB INVITES #####
+
+  type GetClubInvitesPayload {
+    id: ID!
+    user: InviteUser!
+    roles: [InviteRole!]!
+    type: InviteType!
+  }
+
+  type InviteRole {
+    id: ID!
+    name: String!
+  }
+
+  type InviteUser {
+    id: ID!
+    firstname: String!
+    lastname: String!
+  }
+
+  ##### END OF GET CLUB INVITES #####
+
+  ##### SHARED #####
+
+  enum ClubStatus {
+    DRAFT
+    REVIEW
+    APPROVED
+  }
+
+  enum ClubAvailability {
+    OPEN
+    INVITE_ONLY
+    CLOSED
+  }
+
+  type ClubMembersCount {
+    members: Int!
+  }
+
+  type ClubPageTag {
+    name: String!
+  }
+
+  ##### END OF SHARED #####
+
   type Club {
     id: ID!
     name: String
@@ -20,10 +196,6 @@ export default gql`
     roles: [Role!]
     invites: [Invite!]
     _count: ClubMembersCount
-  }
-
-  type ClubMembersCount {
-    members: Int!
   }
 
   input CreateClubArgs {
@@ -109,86 +281,30 @@ export default gql`
     date: String!
   }
 
-  type MembersCount {
-    members: Int!
-  }
-
   type ClubsCount {
     clubs: Int!
   }
 
-  type GetClubsPayloadTags {
-    name: String!
-    _count: ClubsCount!
-  }
-
-  type GetClubsPayload {
-    id: ID!
-    name: String!
-    slug: String!
-    description: String!
-    email: String!
-    meetingDate: String!
-    location: String!
-    approval: Boolean!
-    status: ClubStatus!
-    availability: ClubAvailability!
-    tags: [GetClubsPayloadTags!]!
-    _count: MembersCount!
-  }
-
-  type ClubPageTag {
-    name: String!
-  }
-
-  type ClubPageMember {
-    firstname: String!
-    lastname: String!
-    roles: [ClubPageRole!]!
-  }
-
-  type ClubPageRole {
-    name: String!
-    type: String!
-  }
-
-  type GetClubPayload {
-    id: ID!
-    name: String!
-    description: String!
-    tags: [ClubPageTag!]
-    availability: ClubAvailability!
-    meetingDate: String!
-    location: String!
-    email: String!
-    links: [Link!]!
-    _count: MembersCount!
-    members: [ClubPageMember!]!
-  }
-
-  enum ClubStatus {
-    DRAFT
-    REVIEW
-    APPROVED
-  }
-
-  enum ClubAvailability {
-    OPEN
-    INVITE_ONLY
-    CLOSED
-  }
+  ##### QUERIES + MUTATIONS #####
 
   type Query {
     getClub(id: ID, slug: String): GetClubPayload!
-    getClubs: [GetClubsPayload!]!
+    getApprovedClubs: [GetApprovedClubsPayload!]!
+    getUnapprovedClubs: [GetUnapprovedClubsPayload!]!
+    getClubInvites(clubId: ID!): [GetClubInvitesPayload!]!
   }
 
   type Mutation {
-    joinClub(clubId: ID!): User
+    joinClub(clubId: ID!): JoinClubPayload!
     leaveClub(clubId: ID!): User
     deleteClub(clubId: ID!): Club
     updateClubTags(clubId: ID!, tagIds: [ID!]!): Club
     createClub(data: CreateClubArgs!): Club!
     editClub(clubId: ID!, data: EditClubArgs!): Club!
+    sendClubForApproval(clubId: ID!): SendClubForApprovalPayload!
+    approveClub(clubId: ID!): ApproveClubPayload!
+    requestToJoinClub(clubId: ID!): [RequestToJoinClubPayload!]!
   }
+
+  ##### END OF QUERIES + MUTATIONS #####
 `;

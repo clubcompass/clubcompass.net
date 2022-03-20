@@ -43,13 +43,6 @@ export const getUserClubs = async (
       },
     },
   });
-  // .clubs({
-  //   where: {
-  //     approval: {
-  //       equals: "APPROVED",
-  //     },
-  //   },
-  // });
 
   return clubs;
 };

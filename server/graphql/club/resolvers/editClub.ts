@@ -1,17 +1,39 @@
-import { ApolloError, AuthenticationError } from "apollo-server-micro";
+import {
+  ApolloError,
+  AuthenticationError,
+  UserInputError,
+} from "apollo-server-micro";
 import { User } from "@prisma/client";
 import { Context } from "../../ctx";
+// import { Club, Link, Tag, Invite } from "@prisma/client";
 import { Club } from "../../types/schemaTypes";
 import { getAuthenticatedUser } from "../../../utils/auth";
 import { generateSlug } from "../../../utils/generateSlug";
 import { issueInvite } from "../../invite/resolvers/issueInvite";
+import { validate } from "../../../utils/validation";
+import { editClubSchema } from "../../../utils/validation/schemas/club";
 
-interface EditClubData extends Partial<Omit<Club, "id" | "slug" | "members">> {
+interface EditClubData
+  extends Partial<
+    Omit<
+      Club,
+      | "id"
+      | "slug"
+      | "members"
+      | "applicationInfo"
+      | "editors"
+      | "roles"
+      | "teacherId"
+    >
+  > {
   vicePresidentId?: User["id"];
   secretaryId?: User["id"];
   treasurerId?: User["id"];
   teacherId: User["id"];
   members: User["ccid"][];
+  // links: Link[];
+  // tags: Tag[];
+  // invites: Invite[];
 }
 
 export interface EditClubArgs {
@@ -40,6 +62,24 @@ export const editClub = async (
   }: EditClubArgs,
   { prisma, auth }: Context
 ): Promise<typeof club> => {
+  const { valid, errors } = await validate({
+    schema: editClubSchema as any,
+    data: {
+      name,
+      vicePresidentId,
+      secretaryId,
+      treasurerId,
+      members,
+      teacherId,
+      links,
+      tags,
+      invites,
+      ...data,
+    },
+  });
+
+  if (!valid) throw new UserInputError("Invalid user input", { errors });
+
   const president = getAuthenticatedUser({ auth });
   if (!president) throw new AuthenticationError("No token data"); // better err message?
 
@@ -59,8 +99,8 @@ export const editClub = async (
     throw new ApolloError("You are not the president of this club");
   }
 
-  const { projectedExpenses, projectedRevenue, ...applicationInfo } =
-    data?.applicationInfo || {};
+  // const { projectedExpenses, projectedRevenue, ...applicationInfo } =
+  //   data?.applicationInfo || {};
 
   if (name) {
     const nameExists = await prisma.club.findUnique({
@@ -84,7 +124,7 @@ export const editClub = async (
     }
   }
 
-  const assignUser = async (type: string, id: number) => {
+  const assignUser = async (type: string, id: string) => {
     const roles = await prisma.club
       .findUnique({
         where: { id: clubId },
@@ -106,9 +146,9 @@ export const editClub = async (
 
   if (vicePresidentId) await assignUser("vicePresidentId", vicePresidentId);
 
-  if (secretaryId) await assignUser("vicePresidentId", vicePresidentId);
+  if (secretaryId) await assignUser("secretaryId", secretaryId);
 
-  if (treasurerId) await assignUser("vicePresidentId", vicePresidentId);
+  if (treasurerId) await assignUser("treasurerId", treasurerId);
 
   if (teacherId) {
     await prisma.club.update({
@@ -116,13 +156,9 @@ export const editClub = async (
         id: clubId,
       },
       data: {
-        applicationInfo: {
-          create: {
-            teacher: {
-              connect: {
-                id: teacherId,
-              },
-            },
+        teacher: {
+          connect: {
+            id: teacherId,
           },
         },
       },
@@ -140,25 +176,8 @@ export const editClub = async (
     data: {
       ...(name && { name, slug: generateSlug(name) }),
       ...data,
-      links: links ? { set: [], create: links } : undefined,
+      links: links ? { deleteMany: {}, create: links } : undefined,
       tags: tags ? { set: [], connect: tags } : undefined,
-      ...((Object.keys(applicationInfo).length !== 0 ||
-        projectedExpenses ||
-        projectedRevenue) && {
-        applicationInfo: {
-          update: {
-            ...applicationInfo,
-            projectedExpenses: {
-              set: [],
-              create: projectedExpenses,
-            },
-            projectedRevenue: {
-              set: [],
-              create: projectedRevenue,
-            },
-          },
-        },
-      }),
     },
     include: {
       tags: true,
@@ -178,6 +197,17 @@ export const editClub = async (
             select: {
               name: true,
               type: true,
+            },
+          },
+        },
+      },
+      invites: {
+        select: {
+          user: {
+            select: {
+              ccid: true,
+              firstname: true,
+              lastname: true,
             },
           },
         },

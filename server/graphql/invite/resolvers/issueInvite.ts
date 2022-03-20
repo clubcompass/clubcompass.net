@@ -3,16 +3,21 @@ import { ApolloError } from "apollo-server-micro";
 import { Context } from "../../ctx";
 import { getAuthenticatedUser } from "../../../utils/auth";
 
+type RoleInput = {
+  id: string;
+};
+
 export type IssueInviteArgs = {
   clubId: Club["id"];
   recipientCCID: User["ccid"];
+  inviteRoles: RoleInput[];
 };
 
 export type IssueInvitePayload = Awaited<ReturnType<typeof issueInvite>>;
 
 export const issueInvite = async (
   _parent: any,
-  { clubId, recipientCCID }: IssueInviteArgs,
+  { clubId, recipientCCID, inviteRoles }: IssueInviteArgs,
   { prisma, auth }: Context
 ): Promise<typeof invite> => {
   const token = getAuthenticatedUser({ auth });
@@ -98,9 +103,29 @@ export const issueInvite = async (
           ccid: recipientCCID,
         },
       },
+      roles: {
+        connect: inviteRoles,
+      },
       status: "PENDING",
     },
+    include: {
+      club: {
+        select: {
+          name: true,
+        },
+      },
+      user: {
+        select: {
+          ccid: true,
+          firstname: true,
+          lastname: true,
+        },
+      },
+      roles: true,
+    },
   });
+
+  console.log(invite);
 
   return invite;
 };

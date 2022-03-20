@@ -1,5 +1,7 @@
 import gql from "graphql-tag";
 export default gql`
+  ##### SHARED ######
+
   type Role {
     id: ID!
     name: String!
@@ -15,4 +17,6 @@ export default gql`
     MEMBER
     LEADER
   }
+
+  ##### END OF SHARED #####
 `;

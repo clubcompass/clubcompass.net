@@ -13,9 +13,9 @@ export const validate = async <T>({
   valid: boolean;
   errors: ValidationError[] | null;
 }> => {
-  schema.validate;
   try {
-    await schema.validate(data);
+    const test = await schema.validate(data);
+    console.log("false?", test);
     return { valid: true, errors: null };
   } catch ({ errors }) {
     return { valid: false, errors: errors as ValidationError[] };

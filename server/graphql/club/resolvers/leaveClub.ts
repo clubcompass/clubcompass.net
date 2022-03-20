@@ -51,6 +51,20 @@ export const leaveClub = async (
         },
       },
     },
+    select: {
+      id: true,
+      firstname: true,
+      lastname: true,
+      clubs: {
+        where: {
+          id: clubId,
+        },
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
   });
 
   return user;

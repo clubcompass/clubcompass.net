@@ -1,8 +1,14 @@
-import { ApolloError, AuthenticationError } from "apollo-server-micro";
+import {
+  ApolloError,
+  AuthenticationError,
+  UserInputError,
+} from "apollo-server-micro";
 import type { Link, Role, Tag, User, Club } from "@prisma/client";
 import { Context } from "../../ctx";
 import { getAuthenticatedUser } from "../../../utils/auth";
 import { generateSlug } from "../../../utils/generateSlug";
+import { validate } from "../../../utils/validation";
+import { createClubSchema } from "../../../utils/validation/schemas/club";
 
 export interface CreateClubData extends Partial<Omit<Club, "id" | "slug">> {
   vicePresidentId?: User["id"];
@@ -28,33 +34,45 @@ export const createClub = async (
   _parent: any,
   {
     data: {
-      name,
-      vicePresidentId,
-      secretaryId,
-      treasurerId,
-      teacherId,
-      links,
-      tags,
+      // name,
+      // vicePresidentId,
+      // secretaryId,
+      // treasurerId,
+      // teacherId,
+      // links,
+      // tags,
       ...data
     },
   }: CreateClubArgs,
   { prisma, auth }: Context
 ): Promise<typeof club> => {
+  const { valid, errors } = await validate({
+    schema: createClubSchema as any,
+    data,
+  });
+
+  console.log(data);
+
+  console.log(valid);
+  console.log(errors);
+
+  if (!valid) throw new UserInputError("Invalid user input", { errors });
+
   const president = getAuthenticatedUser({ auth });
 
   if (!president) throw new AuthenticationError("No token data");
 
   const nameExists = await prisma.club.findUnique({
-    where: { name },
+    where: { name: data?.name },
   });
 
   if (nameExists) {
     throw new ApolloError("Club name already exists");
   }
 
-  if (teacherId) {
+  if (data?.teacherId) {
     const { type } = await prisma.user.findUnique({
-      where: { id: teacherId },
+      where: { id: data?.teacherId },
     });
 
     if (type !== "TEACHER") {
@@ -77,37 +95,43 @@ export const createClub = async (
       color: "#FAFAFA",
       type: "LEADER",
       description: "vice president description",
-      ...(vicePresidentId && { users: { connect: { id: vicePresidentId } } }),
+      ...(data?.vicePresidentId && {
+        users: { connect: { id: data?.vicePresidentId } },
+      }),
     },
     {
       name: "secretary",
       color: "#FAFAFA",
       type: "LEADER",
       description: "secretary description",
-      ...(secretaryId ? { users: { connect: { id: secretaryId } } } : {}),
+      ...(data?.secretaryId
+        ? { users: { connect: { id: data?.secretaryId } } }
+        : {}),
     },
     {
       name: "treasurer",
       color: "#FAFAFA",
       type: "LEADER",
       description: "treasurer description",
-      ...(treasurerId ? { users: { connect: { id: treasurerId } } } : {}),
+      ...(data?.treasurerId
+        ? { users: { connect: { id: data?.treasurerId } } }
+        : {}),
     },
   ];
 
   const members = () => {
     const members: { id: User["id"] }[] = [];
     if (president.id) members.push({ id: president.id });
-    if (vicePresidentId) members.push({ id: vicePresidentId });
-    if (secretaryId) members.push({ id: secretaryId });
-    if (treasurerId) members.push({ id: treasurerId });
+    if (data?.vicePresidentId) members.push({ id: data?.vicePresidentId });
+    if (data?.secretaryId) members.push({ id: data?.secretaryId });
+    if (data?.treasurerId) members.push({ id: data?.treasurerId });
     return members;
   };
 
   const club = await prisma.club.create({
     data: {
-      name,
-      slug: generateSlug(name),
+      name: data?.name,
+      slug: generateSlug(data?.name),
       ...data,
       roles: {
         create: roles,
@@ -117,8 +141,8 @@ export const createClub = async (
           connect: members(),
         },
       }),
-      ...(links && { links: { create: [...links] } }),
-      ...(tags && { tags: { connect: [...tags] } }),
+      ...(data?.links && { links: { create: [...data?.links] } }),
+      ...(data?.tags && { tags: { connect: [...data?.tags] } }),
     },
     include: {
       tags: true,
@@ -130,7 +154,7 @@ export const createClub = async (
           roles: {
             where: {
               club: {
-                name: name,
+                name: data?.name,
               },
             },
           },
@@ -139,7 +163,7 @@ export const createClub = async (
     },
   });
 
-  if (teacherId) {
+  if (data?.teacherId) {
     await prisma.club.update({
       where: {
         id: club.id,
@@ -147,7 +171,7 @@ export const createClub = async (
       data: {
         teacher: {
           connect: {
-            id: teacherId,
+            id: data?.teacherId,
           },
         },
       },

@@ -1,11 +1,10 @@
 import { gql } from "@apollo/client";
 
-export const GET_CLUBS = gql`
-  query getClubs {
-    getClubs {
-      id
-      slug
+export const GET_APPROVED_CLUBS = gql`
+  query {
+    getApprovedClubs {
       name
+      slug
       description
       availability
       tags {
@@ -13,6 +12,28 @@ export const GET_CLUBS = gql`
       }
       _count {
         members
+      }
+    }
+  }
+`;
+
+export const GET_UNAPPROVED_CLUBS = gql`
+  query GetUnapprovedClubs {
+    getUnapprovedClubs {
+      id
+      name
+      availability
+      createdAt
+      roles {
+        name
+        users {
+          firstname
+          lastname
+        }
+      }
+      teacher {
+        firstname
+        lastname
       }
     }
   }
@@ -81,11 +102,15 @@ export const EDIT_CLUB = gql`
 `;
 
 export const JOIN_CLUB = gql`
-  mutation ($clubId: Int!) {
+  mutation ($clubId: ID!) {
     joinClub(clubId: $clubId) {
       id
       firstname
       lastname
+      clubs {
+        id
+        name
+      }
     }
   }
 `;
@@ -96,6 +121,10 @@ export const LEAVE_CLUB = gql`
       id
       firstname
       lastname
+      clubs {
+        id
+        name
+      }
     }
   }
 `;
@@ -105,6 +134,26 @@ export const DELETE_CLUB = gql`
     deleteClub(clubId: $clubId) {
       id
       name
+    }
+  }
+`;
+
+export const SEND_CLUB_FOR_APPROVAL = gql`
+  mutation ($clubId: ID!) {
+    sendClubForApproval(clubId: $clubId) {
+      id
+      name
+      status
+    }
+  }
+`;
+
+export const APPROVE_CLUB = gql`
+  mutation ($clubId: ID!) {
+    approveClub(clubId: $clubId) {
+      id
+      name
+      approval
     }
   }
 `;
