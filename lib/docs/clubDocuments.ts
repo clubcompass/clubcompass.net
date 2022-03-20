@@ -24,17 +24,8 @@ export const GET_UNAPPROVED_CLUBS = gql`
       name
       availability
       createdAt
-      roles {
-        name
-        users {
-          firstname
-          lastname
-        }
-      }
-      teacher {
-        firstname
-        lastname
-      }
+      president
+      teacher
     }
   }
 `;
