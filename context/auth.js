@@ -25,6 +25,8 @@ export const AuthProvider = ({ children, protectedRoute }) => {
     FIND_USER_BY_SESSION,
     {
       onCompleted: ({ findUserBySession: user = {} } = {}) => {
+        // onCompleted: (data) => {
+        // console.log(data);
         console.log("findUserBySession", user);
         setUser(user);
       },

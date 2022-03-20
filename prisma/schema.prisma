@@ -118,7 +118,7 @@ model User {
 model Invite {
   id        String       @id @default(cuid())
   status    InviteStatus @default(PENDING)
-  type InviteType @default(OUTGOING)
+  type      InviteType   @default(OUTGOING)
   club      Club         @relation(fields: [clubId], references: [id], onDelete: Cascade)
   clubId    String
   user      User         @relation(fields: [userId], references: [id])

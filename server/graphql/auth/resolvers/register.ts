@@ -52,8 +52,8 @@ export const register = async (
   if (user)
     throw new AuthenticationError("A user with that email already exists");
 
-  if (!user.emailVerified)
-    throw new AuthenticationError("Email is not verified");
+  // if (!user.emailVerified)
+  //   throw new AuthenticationError("Email is not verified");
 
   const generateCCID = async (): Promise<string> => {
     const gen = customAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 6);
