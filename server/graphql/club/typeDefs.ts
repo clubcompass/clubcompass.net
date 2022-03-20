@@ -38,10 +38,13 @@ export default gql`
   type GetUnapprovedClubsPayload {
     id: ID!
     name: String!
-    availability: ClubAvailability!
+    availability: String!
     createdAt: String!
-    roles: [GetUnapprovedClubsPayloadRoles!]!
-    teacher: GetUnapprovedClubsPayloadTeacher!
+    teacher: String!
+    president: String!
+    # ADD COUNT?
+    # roles: [GetUnapprovedClubsPayloadRoles!]!
+    # teacher: GetUnapprovedClubsPayloadTeacher!
   }
 
   type GetUnapprovedClubsPayloadRoles {

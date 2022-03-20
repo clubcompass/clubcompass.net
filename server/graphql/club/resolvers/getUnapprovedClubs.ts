@@ -11,7 +11,7 @@ export const getUnapprovedClubs = async (
   _args: GetUnapprovedClubsArgs,
   { prisma }: Context
 ): Promise<typeof clubs> => {
-  const clubs = await prisma.club.findMany({
+  const unapprovedClubs = await prisma.club.findMany({
     where: {
       approval: {
         equals: false,
@@ -33,7 +33,6 @@ export const getUnapprovedClubs = async (
           name: "president",
         },
         select: {
-          name: true,
           users: {
             select: {
               firstname: true,
@@ -49,6 +48,20 @@ export const getUnapprovedClubs = async (
       },
     },
   });
+
+  const clubs = unapprovedClubs.map(
+    ({ id, name, availability, createdAt, roles, teacher, _count }) => {
+      return {
+        id: id,
+        name: name,
+        availability: availability,
+        createdAt: new Date(createdAt).toLocaleDateString("en-US"),
+        president: `${roles[0].users[0].firstname} ${roles[0].users[0].lastname}`,
+        teacher: `${teacher.firstname} ${teacher.lastname}`,
+        _count: _count.members,
+      };
+    }
+  );
 
   return clubs;
 };
