@@ -18,12 +18,12 @@ import {
 } from "../components/pages/register/onboarding/slides";
 
 const Register = () => {
-  const [slide, setSlide] = useState(2);
+  const [slide, setSlide] = useState(1);
   const [error, setError] = useState(null);
   const [data, setData] = useState({
     firstname: "",
     lastname: "",
-    email: "paul.bokelman1@gmail.com",
+    email: "",
     studentId: "",
     password: "",
     grade: "",
