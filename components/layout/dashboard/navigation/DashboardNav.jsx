@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useRouter } from "next/router";
 import {
   DashboardNavLogo as Logo,
   DashboardNavItems as Items,
   DashboardNavProfile as Profile,
 } from ".";
+
 export const DashboardNav = () => {
   return (
     <Container>
@@ -11,7 +13,7 @@ export const DashboardNav = () => {
         <Logo />
       </div>
       <Items />
-      <div className="absolute left-0 right-0 mx-auto w-[200px] bottom-12">
+      <div className="absolute left-0 right-0 bottom-12 mx-auto w-[200px]">
         <Profile />
       </div>
     </Container>
@@ -19,7 +21,7 @@ export const DashboardNav = () => {
 };
 
 const Container = ({ children }) => (
-  <div className="fixed h-screen w-[250px] py-12 px-3 flex flex-col bg-white">
+  <div className="fixed flex h-screen w-[250px] flex-col bg-white py-12 px-3">
     {children}
   </div>
 );

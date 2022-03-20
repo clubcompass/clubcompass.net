@@ -4,14 +4,14 @@ import { Card } from ".";
 export const ClubMembers = ({ members: allMembers }) => {
   const [leaders, members] = allMembers.reduce(
     ([leaders, members], current) =>
-      current.roles.find((role) => role?.type === "LEADERSHIP")
+      current.roles.find((role) => role?.type === "LEADER")
         ? [[...leaders, current], members]
         : [leaders, [...members, current]],
     [[], []]
   );
 
   return (
-    <div className="grid md:grid-cols-2 md:gap-8 w-full">
+    <div className="grid w-full md:grid-cols-2 md:gap-8">
       <Card title={`Leaders (${leaders.length})`}>
         <div className="max-h-[200px] overflow-y-scroll">
           {leaders.map((member) => (
@@ -21,6 +21,11 @@ export const ClubMembers = ({ members: allMembers }) => {
       </Card>
       <Card title={`Members (${members.length})`}>
         <div className="max-h-[192px] overflow-y-scroll">
+          {members.length === 0 && (
+            <span className="flex justify-center text-ccGreyLight">
+              There are currently no members
+            </span>
+          )}
           {members.map((member) => (
             <Member member={member} key={member.id} />
           ))}
@@ -32,7 +37,7 @@ export const ClubMembers = ({ members: allMembers }) => {
 
 const Member = ({ member }) => {
   return (
-    <div className="flex justify-between items-center mb-2">
+    <div className="mb-2 flex items-center justify-between">
       <div className="flex items-center">
         <Avatar
           firstname={member.firstname}
@@ -64,9 +69,8 @@ const Avatar = ({ firstname, lastname, color }) => {
   const initials = `${firstname.charAt(0)}${lastname.charAt(0)}`;
   return (
     <div
-      className="flex items-center justify-center w-10 h-10 rounded-lg bg-[#9FDDFC]"
-      style={{ backgroundColor: color }}
-    >
+      className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#9FDDFC]"
+      style={{ backgroundColor: color }}>
       <p className="text-sm font-medium">{initials}</p>
     </div>
   );
@@ -75,10 +79,9 @@ const Avatar = ({ firstname, lastname, color }) => {
 const Label = ({ role, color }) => {
   return (
     <div
-      className="px-3 py-1 ml-1 rounded-sm"
-      style={{ backgroundColor: color }}
-    >
-      <p className="uppercase truncate text-[0.6rem] font-semibold">{role}</p>
+      className="ml-1 rounded-sm bg-[#9FDDFC] px-3 py-1"
+      style={{ backgroundColor: color }}>
+      <p className="truncate text-[0.6rem] font-semibold uppercase">{role}</p>
     </div>
   );
 };

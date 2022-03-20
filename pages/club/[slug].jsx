@@ -6,12 +6,6 @@ import { useAuthContext } from "../../context/auth";
 import { Club as ClubComponent } from "../../components/pages/club";
 import { Loading } from "../../components/general/Loading";
 
-// import { MdLocationOn } from "react-icons/md";
-// import { BsClock, BsFillPersonFill } from "react-icons/bs";
-// import { IoMdMail } from "react-icons/io";
-// import { BsClockFill } from "react-icons/bs";
-// import { FiExternalLink } from "react-icons/fi";
-
 const Club = () => {
   const router = useRouter();
   const { user, loading } = useAuthContext();

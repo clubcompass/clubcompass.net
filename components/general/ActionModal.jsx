@@ -6,7 +6,7 @@ import { CgSpinner } from "react-icons/cg";
 import { db } from "../../lib/database";
 import Confetti from "react-dom-confetti";
 
-import { BsCheckCircleFill, BsXCircleFill } from "react-icons/bs";
+import { BsCheckCircleFill } from "react-icons/bs";
 
 export const ActionModal = ({
   name,
@@ -16,6 +16,7 @@ export const ActionModal = ({
   slug,
   availability,
   clubPage,
+  draft,
 }) => {
   const [joined, setJoined] = useState(isMember);
   const closed = availability === "CLOSED";
@@ -28,6 +29,7 @@ export const ActionModal = ({
           userId={userId}
           closed={closed}
           clubPage={clubPage}
+          draft={draft}
         />
         <ActionButton
           joined={joined}
@@ -42,7 +44,7 @@ export const ActionModal = ({
   );
 };
 
-const OpenModal = ({ joined, userId, closed, clubPage }) => {
+const OpenModal = ({ joined, userId, closed, clubPage, draft }) => {
   const { openModal } = useModalContext();
 
   const clubPageStyle = clubPage && {
@@ -52,11 +54,11 @@ const OpenModal = ({ joined, userId, closed, clubPage }) => {
     fontSize: "1rem",
   };
 
-  if (userId) {
+  if (userId || draft) {
     return (
       <button
         onClick={openModal}
-        disabled={closed && !joined}
+        disabled={(closed && !joined) || draft}
         style={clubPageStyle}
         className={`${
           joined
@@ -186,11 +188,7 @@ const ActionCongrats = ({ joined, name, slug }) => {
         className={`flex h-[90px] w-[112%] -translate-x-[24px] -translate-y-[24px] items-center  justify-center bg-gradient-to-r ${
           joined ? "from-cc/80 to-cc" : "from-[#ff6c6c] to-[#FF5555] "
         }`}>
-        {joined ? (
-          <BsCheckCircleFill className="text-5xl text-white" />
-        ) : (
-          <BsXCircleFill className="text-5xl text-white" />
-        )}
+        <BsCheckCircleFill className="text-5xl text-white" />
       </div>
       <div className="flex flex-col gap-2">
         <div>

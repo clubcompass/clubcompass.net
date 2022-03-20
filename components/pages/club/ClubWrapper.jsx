@@ -11,6 +11,7 @@ export const ClubWrapper = ({
   userId,
   clubId,
   slug,
+  draft,
 }) => {
   const [header, contact, meeting, content, members, similar] = children;
   const { isMd, isSm, isXs } = useBreakpoints();
@@ -28,6 +29,7 @@ export const ClubWrapper = ({
           slug={slug}
           availability={availability}
           clubPage
+          draft={draft}
         />
       </div>
       <div className="grid-rows grid lg:grid-cols-6 lg:gap-8">

@@ -14,6 +14,7 @@ module.exports = {
         ccGrey: "#F8FAFB",
         ccGreyDark: "#F2F2F2",
         ccGreyDarker: "#787F92",
+        ccGreyLight: "#686868",
       },
       gridTemplateColumns: {
         cards: "repeat(auto-fill,minmax(420px,1fr))",

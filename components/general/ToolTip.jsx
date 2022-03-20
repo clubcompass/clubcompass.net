@@ -17,13 +17,12 @@ export const ToolTip = ({ children, delay, content }) => {
 
   return (
     <div
-      className="relative flex"
+      className="absolute flex"
       onMouseEnter={showTip}
-      onMouseLeave={hideTip}
-    >
+      onMouseLeave={hideTip}>
       {children}
       {active && (
-        <div className="relative ml-2 bg-black/50 text-white text-sm px-2 py-1 rounded">
+        <div className="relative ml-2 rounded bg-black/50 px-2 py-1 text-sm text-white">
           {content}
         </div>
       )}

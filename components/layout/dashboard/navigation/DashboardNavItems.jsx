@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { useAuthContext } from "../../../../context";
 import { useRouter } from "next/router";
@@ -7,6 +7,7 @@ import { DashboardIcon } from "../../../custom/DashboardIcon";
 import { HiOutlinePencilAlt } from "react-icons/hi";
 import { BiBell } from "react-icons/bi";
 import { RiSettings5Line } from "react-icons/ri";
+import { BsPeopleFill } from "react-icons/bs";
 
 export const DashboardNavItems = () => {
   const { user } = useAuthContext();
@@ -33,7 +34,7 @@ export const DashboardNavItems = () => {
       {
         label: "Edit Profile",
         to: "/dashboard/account",
-        icon: "account",
+        icon: "settings",
       },
     ],
     ADMIN: [
@@ -50,7 +51,7 @@ export const DashboardNavItems = () => {
       {
         label: "Edit Profile",
         to: "/dashboard/account",
-        icon: "account",
+        icon: "settings",
       },
     ],
     TEACHER: [
@@ -62,13 +63,25 @@ export const DashboardNavItems = () => {
       {
         label: "Edit Profile",
         to: "/dashboard/account",
-        icon: "account",
+        icon: "settings",
+      },
+    ],
+    ASB: [
+      {
+        label: "Clubs",
+        to: "/admin",
+        icon: "home",
+      },
+      {
+        label: "Accounts",
+        to: "/admin/accounts",
+        icon: "accounts",
       },
     ],
   };
 
   return (
-    <div className="mt-16">
+    <div className="mt-16 flex flex-col gap-2">
       {roleSpecificItems[user.type].map((item, i) => (
         <DashboardItem key={i} {...item} notifications={pending.length} />
       ))}
@@ -83,16 +96,15 @@ const DashboardItem = ({ label, to, icon, notifications }) => {
   return (
     <Link href={to}>
       <a
-        className={`flex flex-row items-center mb-6 py-2 px-4 mx-6 rounded-md gap-4 ${
+        className={`mx-6 mb-6 flex flex-row items-center gap-4 rounded-md py-2 px-4 ${
           isActive
-            ? "text-cc bg-[#1C5EF915]"
+            ? "bg-[#1C5EF915] text-cc"
             : "text-[#787F92] hover:bg-[#FAFAFA]"
-        } `}
-      >
+        } `}>
         <Icon icon={icon} color={isActive ? "#1C5EF9" : "#787F92"} />
         <span>{label}</span>
         {icon === "activity" && (
-          <div className="-ml-1 flex w-[20px] h-[20px] bg-red-400 items-center justify-center rounded-full">
+          <div className="-ml-1 flex h-[20px] w-[20px] items-center justify-center rounded-full bg-red-400">
             <span className="text-[10px] font-semibold text-white">
               {notifications}
             </span>
@@ -109,7 +121,8 @@ const Icon = ({ icon, color }) => {
       {icon == "home" && <DashboardIcon color={color} />}
       {icon == "manage" && <HiOutlinePencilAlt />}
       {icon == "activity" && <BiBell />}
-      {icon == "account" && <RiSettings5Line />}
+      {icon == "settings" && <RiSettings5Line />}
+      {icon == "accounts" && <BsPeopleFill />}
     </div>
   );
 };

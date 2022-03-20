@@ -33,6 +33,7 @@
     "react-query": "^3.34.8",
     "react-select": "^5.2.2",
     "react-spring": "^9.4.2",
+    "react-table": "^7.7.0",
     "redis": "^4.0.2",
     "tailwind-scrollbar-hide": "^1.1.7",
     "yup": "^0.32.11"

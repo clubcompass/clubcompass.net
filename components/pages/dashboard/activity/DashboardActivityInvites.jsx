@@ -17,7 +17,7 @@ export const DashboardActivityInvites = ({ invites }) => {
     <div className="flex flex-col gap-4">
       <div>
         {!pending.length && (
-          <div className="flex flex-col gap-4 mt-[20vh] items-center align-center">
+          <div className="align-center mt-[20vh] flex flex-col items-center gap-4">
             <div className="flex flex-col items-center gap-1">
               <p className="text-2xl font-bold">
                 You dont have any invites yet
@@ -82,14 +82,12 @@ const Invite = ({ id, userId, clubId, status, club, revalidateInvites }) => {
       <div className="flex flex-row gap-2">
         <button
           onClick={() => handleChoice("accept")}
-          className="bg-[#12b95820] text-[#12b958] hover:bg-[#00800125] py-1 px-4 rounded"
-        >
+          className="rounded bg-[#12b95820] py-1 px-4 text-[#12b958] hover:bg-[#00800125]">
           Accept
         </button>
         <button
           onClick={() => handleChoice("decline")}
-          className="bg-[#FF000020] text-[#FF0000] hover:bg-[#FF000035] py-1 px-4 rounded"
-        >
+          className="rounded bg-[#FF000020] py-1 px-4 text-[#FF0000] hover:bg-[#FF000035]">
           Decline
         </button>
       </div>
@@ -103,27 +101,25 @@ const Invite = ({ id, userId, clubId, status, club, revalidateInvites }) => {
           backgroundColor: colors[status] + "20",
           color: colors[status],
         }}
-        className="capitalize py-1 w-[177px] shrink-0 text-center rounded-lg text-white"
-      >
+        className="w-[177px] shrink-0 rounded-lg py-1 text-center capitalize text-white">
         {status.toLowerCase()}
       </span>
     );
   };
 
   return (
-    <div className="flex flex-row w-full px-4 py-2 bg-white rounded-lg border-[1px] px-4 py-2 justify-between items-center gap-4">
-      <div className="flex gap-4 items-center">
+    <div className="flex w-full flex-row items-center justify-between gap-4 rounded-lg border-[1px] bg-white px-4 py-2">
+      <div className="flex items-center gap-4">
         <span
           style={{
             backgroundColor: colors[status] + "20",
             color: colors[status],
           }}
-          className="p-2 rounded-lg"
-        >
+          className="rounded-lg p-2">
           {icons[status]}
         </span>
         <div className="flex flex-col">
-          <a className="font-semibold text-xl">{club.name}</a>
+          <a className="text-xl font-semibold">{club.name}</a>
           <p className="text-sm text-gray-400 line-clamp-1">
             {club?.description}
           </p>

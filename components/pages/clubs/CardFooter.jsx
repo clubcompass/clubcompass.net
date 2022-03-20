@@ -3,6 +3,7 @@ import Link from "next/link";
 import { db } from "../../../lib/database";
 import { BsPeopleFill } from "react-icons/bs";
 import { ActionModal } from "../../general/ActionModal";
+
 export const CardFooter = ({
   name,
   slug,
