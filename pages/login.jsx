@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { useAuthContext } from "../context";
+// import { login as LOGIN } from "../server/tests/unit/auth/authUnitDocuments";
 import {
   Container,
   Content,
@@ -30,6 +31,9 @@ const LoginContent = () => {
   const { login } = useAuthContext();
   const router = useRouter();
   const [sse, setSSE] = useState(null);
+
+  // email: "paul.bokelman1@gmail.com",
+  // password: "Password123!",
   const handleSubmission = async ({
     email,
     password,
@@ -37,17 +41,16 @@ const LoginContent = () => {
     setSubmitting,
   }) => {
     setSubmitting(true);
-    const { user, error } = await login({
-      user: { email, password, remember },
-    });
-    if (error) {
-      setSubmitting(false);
-      console.log(error);
-      setSSE(error);
-    } else {
-      setSubmitting(false);
-      router.push("/dashboard");
-    }
+    await login({ email, password, remember });
+    // if (error) {
+    //   setSubmitting(false);
+    //   console.log(error);
+    //   setSSE(error);
+    // } else {
+    setSubmitting(false);
+    console.log("pushes to dashboard");
+    // router.push("/dashboard");
+    // }
   };
 
   return (

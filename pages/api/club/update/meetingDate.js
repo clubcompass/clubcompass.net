@@ -1,4 +1,5 @@
 import { prisma } from "../../../../config/prisma";
+import { cacheBySlug } from "../../../../utils/cache/cacheBySlug";
 
 export default async (req, res) => {
   const { id, meetingDate } = req.body;
@@ -11,6 +12,8 @@ export default async (req, res) => {
       meetingDate: meetingDate,
     },
   });
+
+  await cacheBySlug(id);
 
   return res.status(200).json({ ...response });
 };

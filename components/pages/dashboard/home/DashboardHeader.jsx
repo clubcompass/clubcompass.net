@@ -19,7 +19,11 @@ export const DashboardHeader = ({ name, ccid, delay }) => {
       <h4 className="text-2xl tracking-wide">Welcome back, {name}</h4>
       <div className="flex gap-2 items-center text-[#9B9B9B]">
         <p>Your CCID:</p>
-        <button onClick={setCopied} className="flex items-center gap-1">
+        <div
+          role="button"
+          onClick={setCopied}
+          className="flex items-center gap-1"
+        >
           <div
             className={`${
               active
@@ -34,7 +38,7 @@ export const DashboardHeader = ({ name, ccid, delay }) => {
             )}
           </div>
           <MdContentCopy className="text-sm" />
-        </button>
+        </div>
       </div>
     </div>
   );

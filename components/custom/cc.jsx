@@ -23,7 +23,7 @@ export const CCIcon = ({ color }) => {
         </clipPath>
       </defs>
       <g id="Group_1213" data-name="Group 1213" transform="translate(0 -0.005)">
-        <g id="Group_1212" data-name="Group 1212" clip-path="url(#clip-path)">
+        <g id="Group_1212" data-name="Group 1212" clipPath="url(#clip-path)">
           <path
             id="Path_476"
             data-name="Path 476"

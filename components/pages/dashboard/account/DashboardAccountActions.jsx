@@ -1,8 +1,11 @@
 import React from "react";
+import { Loading } from "../../../general/Loading";
 import { useAuthContext } from "../../../../context";
 import { ChangePasswordModal } from "./components";
 export const DashboardAccountActions = () => {
-  const { user } = useAuthContext();
+  const { user, loading } = useAuthContext();
+
+  if (!user && !loading) return <Loading />;
 
   return (
     <div className="flex flex-col gap-4">
@@ -20,7 +23,7 @@ export const DashboardAccountActions = () => {
           Changing your password is a non-reverseable action. Make sure you keep
           your password safe.
         </p>
-        <ChangePasswordModal id={user.id} />
+        <ChangePasswordModal id={user?.id} />
       </div>
     </div>
   );

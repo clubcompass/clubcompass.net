@@ -1,23 +1,35 @@
-import React from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import { useAuthContext } from "../../../../context";
 // import { db } from "../../../../lib/database";
 import { Loading } from "../../../general/Loading";
+import { useRouter } from "next/router";
 export const DashboardDrafts = () => {
-  const { user } = useAuthContext();
+  const { user, loading } = useAuthContext();
+  const router = useRouter();
 
-  if (!user) return <Loading />;
+  useEffect(() => {
+    if (user) {
+      if (!user?.active || !user?.emailVerified) {
+        router.push("/dashboard");
+      }
+    }
+  }, [router, user]);
 
-  const drafts = user.roles.reduce(
-    (acc, role) =>
-      role.name === "president" &&
-      user.clubs.find(
-        (club) => club.id === role.clubId && club.status === "DRAFT"
-      )
-        ? acc.concat(user.clubs.find((club) => club.id === role.clubId))
-        : acc,
-    []
-  );
+  if (!user && loading) return <Loading />;
+
+  // const drafts = user.roles.reduce(
+  //   (acc, role) =>
+  //     role.name === "president" &&
+  //     user.clubs.find(
+  //       (club) => club.id === role.clubId && club.status === "DRAFT"
+  //     )
+  //       ? acc.concat(user.clubs.find((club) => club.id === role.clubId))
+  //       : acc,
+  //   []
+  // );
+
+  const drafts = [];
 
   return (
     <div className="flex flex-col gap-2">

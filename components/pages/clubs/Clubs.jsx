@@ -1,17 +1,8 @@
 import React from "react";
 import { Card as Club, ClubsWrapper } from ".";
-import { useAuthContext } from "../../../context/auth";
 // import { db } from "../../../lib/database"; // get user clubs
-export const Clubs = ({ clubs, manage }) => {
-  const { user } = useAuthContext();
 
-  const userClubs = user?.clubs.reduce((acc, club) => {
-    if (club.approval === "APPROVED") {
-      acc.push(club.id);
-    }
-    return acc;
-  }, []);
-
+export const Clubs = ({ clubs, manage, userId, userClubs }) => {
   return (
     <ClubsWrapper>
       {clubs.map((club, index) => (
@@ -26,9 +17,9 @@ export const Clubs = ({ clubs, manage }) => {
             <Club.Footer
               name={club.name}
               slug={club.slug}
-              userId={user?.id}
+              userId={userId}
               clubId={club.id}
-              isMember={!user ? false : userClubs.includes(club.id)}
+              isMember={!userClubs ? false : userClubs.includes(club.id)}
               memberCount={club._count.members}
               manage={manage}
               availability={club.availability}

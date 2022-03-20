@@ -1,5 +1,6 @@
 import { prisma } from "../../../../config/prisma";
-import { redis } from "../../../../config/redis";
+import { updateClubCache } from "../../../../utils/cache/updateClubCache";
+import { cacheBySlug } from "../../../../utils/cache/cacheBySlug";
 
 export default async (req, res) => {
   const { id, description } = req.body;
@@ -11,28 +12,20 @@ export default async (req, res) => {
     data: {
       description: description,
     },
-  });
-
-  const clubs = await prisma.club.findMany({
-    where: {
-      approval: "APPROVED",
-      status: "APPROVED",
-    },
     include: {
+      links: true,
       tags: true,
-      _count: {
-        select: {
-          members: true,
+      members: {
+        include: {
+          roles: true,
         },
       },
     },
   });
 
-  await redis.connect();
+  await updateClubCache();
 
-  await redis.set("approved_clubs", JSON.stringify(clubs));
-
-  await redis.quit();
+  await cacheBySlug(response);
 
   return res.status(200).json({ ...response });
 };

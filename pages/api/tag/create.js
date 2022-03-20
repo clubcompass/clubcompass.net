@@ -1,6 +1,6 @@
 import { prisma } from "../../../config/prisma";
 
-export default async (req, res) => {
+const handler = async (req, res) => {
   const { names } = req.body;
 
   const tags = Array.from([...names], (name) => {
@@ -9,10 +9,20 @@ export default async (req, res) => {
     };
   });
 
-  const response = await prisma.tag.createMany({
-    data: tags,
-    skipDuplicates: true,
+  //
+
+  // const response = await prisma.tag.createMany({
+  //   data: tags,
+  //   skipDuplicates: true,
+  // });
+
+  tags.map(async (tag) => {
+    await prisma.tag.create({
+      data: tag,
+    });
   });
 
-  return res.status(200).json({ ...response });
+  return res.status(200);
 };
+
+export default handler;

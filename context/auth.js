@@ -1,6 +1,15 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
-import axios from "axios";
-import { login, logout, register } from "../lib/auth";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+} from "react";
+import Cookies from "js-cookie";
+import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
+import { LOGIN, REGISTER, FIND_USER_BY_SESSION } from "../lib/docs"; //CHANGE THIS
+import { useRouter } from "next/router";
 
 const AuthContext = createContext();
 
@@ -8,54 +17,183 @@ export const useAuthContext = () => {
   return useContext(AuthContext);
 };
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children, protectedRoute }) => {
+  const router = useRouter();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  const authorize = async () => {
-    try {
-      const {
-        data: { user },
-      } = await axios.get("/api/auth/authorize", {
-        headers: {
-          "Content-Type": "application/json",
-          secret_key: process.env.NEXT_PUBLIC_API_AUTHENTICATION_KEY,
-        },
-      });
-      setUser(user);
-      setLoading(false);
-    } catch (e) {
-      setLoading(false);
-      console.log(e);
+  const [findUserBySession, { loading: sessionUserLoading }] = useLazyQuery(
+    FIND_USER_BY_SESSION,
+    {
+      onCompleted: ({ findUserBySession: user = {} } = {}) => {
+        console.log("findUserBySession", user);
+        setUser(user);
+      },
+      onError: (error) => {
+        console.log(error);
+        console.log("removing token");
+        // Cookies.remove("token");
+      },
     }
-  };
+  );
+
+  const [login, { loading: loginLoading }] = useMutation(LOGIN, {
+    onCompleted: async ({ login: { user, token } }) => {
+      console.log(token);
+      console.log(user);
+      // await findUserBySession({
+      //   context: { headers: { authorization: `Bearer ${token}` } },
+      // });
+
+      Cookies.set("token", token);
+      router.push("/dashboard"); // doesn't update?
+    },
+    onError(error) {
+      console.log(error);
+    },
+  });
+
+  // const handleRegister = async (user) => {
+  //   try {
+  //     const {
+  //       data: {
+  //         register: { token },
+  //       },
+  //     } = await register({ variables: { data: { ...user } } });
+  //     Cookies.set("token", token);
+  //     return token;
+  //   } catch (e) {
+  //     console.log(e);
+  //     // if (graphQLErrors) {
+  //     //   graphQLErrors.forEach(({ message }) => console.log(message));
+  //     // }
+
+  //     // if (networkError) {
+  //     //   // global handler for graphql errors
+  //     //   console.log(networkError);
+  //     // }
+  //     // console.log(error);
+  //   }
+  // };
+
+  const handleLogin = useCallback(
+    async (user) => {
+      try {
+        await login({ variables: { data: { ...user } } });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [login]
+  );
+
+  // const authorize = async () => {
+  //   try {
+  //     const {
+  //       data: { user },
+  //     } = await axios.get("/api/auth/authorize", {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         secret_key: process.env.NEXT_PUBLIC_API_AUTHENTICATION_KEY,
+  //       },
+  //     });
+  //     setUser(user);
+  //     setLoading(false);
+  //   } catch (e) {
+  //     setLoading(false);
+  //     console.log(e);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   authorize();
+  // }, []);
+
+  // const handleLogin = async ({ user }) => {
+  //   const { user: responseUser, error } = await login({ user });
+  //   if (error) {
+  //     return { error };
+  //   }
+  //   await authorize();
+  //   return { user: responseUser, error };
+  // };
+
+  // useEffect(() => {
+  //   setLoading(true);
+  //   if (!user) {
+  //     const token = Cookies.get("token");
+  //     if (token) {
+  //       (async () => {
+  //         try {
+  //           const {
+  //             data: { findUserBySession: user },
+  //           } = await findUserBySession({
+  //             context: {
+  //               headers: {
+  //                 authorization: `Bearer ${token}`,
+  //               },
+  //             },
+  //           });
+  //           console.log("user from session:", user);
+  //           setUser(user);
+  //         } catch (error) {
+  //           Cookies.remove("token");
+  //           console.log(error);
+  //         }
+  //       })();
+  //     } else {
+  //       setUser(null);
+  //     }
+  //   }
+  //   setLoading(false);
+  // }, [findUserBySession, user]);
 
   useEffect(() => {
-    authorize();
-  }, []);
-
-  const handleLogin = async ({ user }) => {
-    const { user: responseUser, error } = await login({ user });
-    if (error) {
-      return { error };
+    setLoading(true);
+    if (!user) {
+      const token = Cookies.get("token");
+      console.log("token:", token);
+      if (token) {
+        (async () => {
+          await findUserBySession({
+            context: {
+              headers: {
+                authorization: `Bearer ${token}`,
+              },
+            },
+          });
+        })();
+      } else {
+        setUser(null);
+      }
     }
-    await authorize();
-    return { user: responseUser, error };
-  };
+    setLoading(false);
+  }, [findUserBySession, user]);
 
-  const value = {
-    login: async ({ user }) => await handleLogin({ user }),
-    logout: () => {
-      logout();
-      setUser(null);
-    },
-    register: ({ data }) => register({ data }),
-    user,
-  };
+  // useEffect(() => {
+  //   if (protectedRoute) {
+  //     const token = Cookies.get("token");
+  //     if (token && !user) {
+  //       // USER DOESN'T FUCKING UPDATE
+  //       return;
+  //     } else {
+  //       console.log("redirecting to login");
+  //       router && router.push("/login");
+  //     }
+  //   }
+  // }, [protectedRoute, user, router]);
 
-  return (
-    <AuthContext.Provider value={value}>
-      {!loading && children}
-    </AuthContext.Provider>
+  const value = useMemo(
+    () => ({
+      login: async (user) => await handleLogin(user),
+      logout: () => {
+        // Cookies.remove("token");
+      },
+      // register: async (user) => await handleRegister(user),
+      user,
+      loading: loading || sessionUserLoading,
+    }),
+    [user, loading, sessionUserLoading, handleLogin]
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

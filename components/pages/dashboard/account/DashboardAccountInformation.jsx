@@ -1,21 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
+import { Loading } from "../../../general/Loading";
 import { useAuthContext } from "../../../../context";
 import { db } from "../../../../lib/database";
 import { DashboardNavProfile } from "../../../layout/dashboard/navigation/DashboardNavProfile";
 import { ChangeEmail } from "./components/ChangeEmail";
 
 export const DashboardAccountInformation = () => {
-  const { user } = useAuthContext();
+  const { user, loading } = useAuthContext();
 
-  const name = `${user.firstname} ${user.lastname}`;
+
+  if (!user && !loading) return <Loading />;
+
+  const name = `${user?.firstname} ${user?.lastname}`;
 
   return (
     <div className="flex flex-col gap-2">
       <Icon name={name} />
-      <InfoItem label={"Name:"} value={name} />
-      <InfoItem label="CCID:" value={user.ccid} />
-      <InfoItem label="Email:" value={user.email} />
-      <InfoItem label="Grade:" value={user.grade} />
+      <InfoItem label="Name:" value={name} />
+      <InfoItem label="CCID:" value={user?.ccid} />
+      <InfoItem label="Email:" value={user?.email} />
+      <InfoItem label="Grade:" value={user?.grade} />
       <InfoItem />
     </div>
   );

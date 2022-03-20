@@ -21,6 +21,7 @@ export const getServerSideProps = async () => {
   return {
     props: {
       dashboardLayout: true,
+      protected: true,
     },
   };
 };

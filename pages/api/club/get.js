@@ -59,6 +59,11 @@ export default async (req, res) => {
         },
         include: {
           tags: true,
+          _count: {
+            select: {
+              members: true,
+            },
+          },
         },
       });
 
@@ -103,6 +108,9 @@ export default async (req, res) => {
     }
 
     if (slug !== undefined) {
+      console.log("hello");
+      console.log(slug);
+
       const response = await prisma.club.findUnique({
         where: {
           slug: slug,
@@ -115,14 +123,13 @@ export default async (req, res) => {
               roles: true,
             },
           },
-          editors: true,
-          roles: true,
-          invites: {
-            include: {
-              user: true,
-            },
-          },
         },
+      });
+
+      const clubId = response.id;
+
+      response.members.map((member) => {
+        member.roles = member.roles.filter((role) => role.clubId === clubId);
       });
 
       return res.status(200).json({ ...response });
@@ -168,6 +175,17 @@ export default async (req, res) => {
       const data = JSON.parse(response);
 
       return res.status(200).json([...data]);
+    }
+    if (slug !== undefined) {
+      await redis.connect();
+
+      const response = await redis.get(slug);
+
+      await redis.quit();
+
+      const data = JSON.parse(response);
+
+      return res.status(200).json({ ...data });
     }
   }
 };
