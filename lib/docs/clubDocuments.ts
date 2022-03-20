@@ -31,11 +31,12 @@ export const GET_UNAPPROVED_CLUBS = gql`
 `;
 
 export const GET_CLUB = gql`
-  query getClub($slug: String) {
-    getClub(slug: $slug) {
+  query getClub($slug: String, $id: ID) {
+    getClub(slug: $slug, id: $id) {
       id
       name
       description
+      email
       meetingDate
       location
       availability

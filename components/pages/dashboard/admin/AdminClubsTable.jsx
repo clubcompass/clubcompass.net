@@ -1,22 +1,10 @@
 import React, { useMemo } from "react";
 import { Table } from "../../../general/Table";
 
-export const AdminClubsTable = () => {
-  const data = useMemo(
-    () => [
-      {
-        name: "Gaming club",
-        president: "Andrew Hale",
-        teacher: "Mr. Liao",
-        availability: "Open",
-        id: "id",
-      },
-    ],
-    []
-  );
-
+export const AdminClubsTable = ({ data }) => {
   const columns = useMemo(
     () => [
+      { Header: "Date Created", accessor: "createdAt" },
       { Header: "Name", accessor: "name" },
       { Header: "President", accessor: "president" },
       { Header: "Teacher", accessor: "teacher" },

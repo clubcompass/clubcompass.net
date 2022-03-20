@@ -1,4 +1,6 @@
 import React from "react";
+import { useQuery } from "@apollo/client";
+import { GET_UNAPPROVED_CLUBS } from "../../lib/docs/clubDocuments";
 import {
   AdminClubsTable,
   AdminWrapper,
@@ -8,12 +10,19 @@ export const AdminLinks = [
   { label: "Applications", link: "/admin" },
   { label: "Manage", link: "/admin/manage" },
 ];
-
 const AdminDashboard = () => {
+  const {
+    data: { getUnapprovedClubs: unapprovedClubs } = {},
+    loading,
+    error,
+  } = useQuery(GET_UNAPPROVED_CLUBS);
+
+  if (!unapprovedClubs && loading) return <p>Loading...</p>;
+
   return (
     <div>
       <AdminWrapper title="Manage Clubs" links={AdminLinks}>
-        <AdminClubsTable />
+        <AdminClubsTable data={unapprovedClubs} />
       </AdminWrapper>
     </div>
   );

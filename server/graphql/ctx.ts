@@ -22,7 +22,7 @@ export const createContext = async ({
   res: NextApiResponse;
 }): Promise<Context> => {
   const auth = req.headers.authorization || ""; // null?
-  console.log(auth);
+  // console.log(auth);
   // authorize user here
   const setCookie = ({ name, value, options }: SetCookieOptions): void => {
     res.setHeader("Set-Cookie", serialize(name, value, options));
