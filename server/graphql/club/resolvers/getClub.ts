@@ -35,7 +35,7 @@ export const getClub = async (
           roles: {
             where: {
               club: {
-                slug: {
+                [Object.keys(identifier)[0]]: {
                   equals: identifier[Object.keys(identifier)[0]],
                 },
               },
