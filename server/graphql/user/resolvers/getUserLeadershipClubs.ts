@@ -22,7 +22,14 @@ export const getUserLeadershipClubs = async (
         id: token.id,
       },
     })
-    .clubs({ include: { roles: true, editors: true } });
+    .clubs({
+      include: {
+        roles: true,
+        editors: true,
+        tags: true,
+        _count: { select: { members: true } },
+      },
+    });
 
   const isPresidentOf = userClubs.filter((club) =>
     club.roles.some((role) => role.name === "president")
@@ -34,7 +41,7 @@ export const getUserLeadershipClubs = async (
   // find roles where type is leadership but not president
   const hasLeadershipIn = userClubs.filter((club) =>
     club.roles.some(
-      (role) => role.type === "LEADERSHIP" && !isPresidentOf.includes(club)
+      (role) => role.type === "LEADER" && !isPresidentOf.includes(club)
     )
   );
   const hasEditorIn = userClubs.filter((club) =>

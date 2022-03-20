@@ -1,21 +1,19 @@
 import React from "react";
+import { Loading } from "../../../general/Loading";
 import { useAuthContext } from "../../../../context";
 export const DashboardAccountInformation = () => {
-  const { user } = useAuthContext();
-  const blacklist = ["clubs", "canEdit", "invites", "roles"]; // don't display
-  const info = Object.keys(user).reduce((acc, key) => {
-    if (!blacklist.includes(key)) {
-      acc[key] = user[key];
-    }
-    return acc;
-  }, {});
+  const { user, loading } = useAuthContext();
+
+  if (!user && !loading) return <Loading />;
+
   return (
     <div className="flex flex-col gap-2">
       <h2 className="text-lg font-semibold">Account Information</h2>
       <div className="flex flex-col gap-2">
-        {Object.keys(info).map((key, i) => (
-          <InfoItem key={i} label={key} value={user[key]} />
-        ))}
+        {user &&
+          Object.keys(user).map((key, i) => (
+            <InfoItem key={i} label={key} value={user[key]} />
+          ))}
       </div>
     </div>
   );

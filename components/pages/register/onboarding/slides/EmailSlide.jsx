@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { AuthenticationError } from "apollo-server-micro";
 import Link from "next/link";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -7,13 +6,11 @@ import { useLazyQuery } from "@apollo/client";
 import { Buttons, Header, Container } from "../components";
 import { OnboardingForm } from "../components/input/OnboardingForm";
 import { CHECK_EMAIL } from "../../../../../lib/docs";
-import { RiErrorWarningFill } from "react-icons/ri";
 export const EmailSlide = ({ next, prev, set, data }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const [checkEmail, { loading: checkLoading, error: checkError }] =
-    useLazyQuery(CHECK_EMAIL);
+  const [checkEmail] = useLazyQuery(CHECK_EMAIL); // loading and handling
 
   const config = {
     usePaginationAsSubmission: true,
@@ -60,7 +57,6 @@ export const EmailSlide = ({ next, prev, set, data }) => {
       });
       next();
     } catch (e) {
-      // console.log(JSON.stringify(e.graphQLErrors));
       if (e?.graphQLErrors[0]?.extensions?.code === "UNAUTHENTICATED")
         setError(true);
     } finally {

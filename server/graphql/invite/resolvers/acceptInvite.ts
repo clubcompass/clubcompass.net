@@ -59,12 +59,8 @@ export const acceptInvite = async (
         },
       },
     },
-    include: {
-      members: {
-        where: {
-          id: token.id,
-        },
-      },
+    select: {
+      id: true,
     },
   });
   return acceptedInvite;

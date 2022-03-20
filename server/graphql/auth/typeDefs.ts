@@ -34,6 +34,8 @@ export default gql`
     email: String
     grade: String
     type: String
+    emailVerified: Boolean
+    active: Boolean
     pendingInvites: Int
     clubs: [Club!]!
   }
@@ -53,5 +55,6 @@ export default gql`
     checkEmail(email: String!): Boolean!
     checkStudentId(studentId: String!): Boolean!
     findUserBySession: SessionUser!
+    sendVerificationEmail(email: String!): Boolean!
   }
 `;

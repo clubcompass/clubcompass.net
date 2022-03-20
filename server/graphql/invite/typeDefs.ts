@@ -28,7 +28,7 @@ export default gql`
 
   type Mutation {
     issueInvite(clubId: ID!, recipientCCID: String!): Invite!
-    acceptInvite(inviteId: ID!, clubId: ID!): User!
-    declineInvite(inviteId: ID!): User!
+    acceptInvite(inviteId: ID!, clubId: ID!): Club!
+    declineInvite(inviteId: ID!): Club!
   }
 `;

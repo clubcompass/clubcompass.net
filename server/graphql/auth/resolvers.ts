@@ -5,6 +5,7 @@ import { checkStudentId } from "./resolvers/checkStudentId";
 import { login } from "./resolvers/login";
 import { changePassword } from "./resolvers/changePassword";
 import { findUserBySession } from "./resolvers/findUserBySession";
+import { sendVerificationEmail } from "./resolvers/sendVerificationEmail";
 const resolvers: Resolvers = {
   Mutation: {
     register,
@@ -15,6 +16,7 @@ const resolvers: Resolvers = {
     findUserBySession,
     checkEmail,
     checkStudentId,
+    sendVerificationEmail,
   },
 };
 export default resolvers;

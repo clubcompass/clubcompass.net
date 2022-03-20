@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useMutation } from "@apollo/client";
-import { REGISTER } from "../lib/docs";
-import { db } from "../lib/database";
+import { useMutation, useQuery } from "@apollo/client";
+import Cookies from "js-cookie";
+import { GET_TAGS, REGISTER } from "../lib/docs";
 import {
   RegisterPagination as Pagination,
   RegisterContainer as Container,
@@ -16,51 +16,34 @@ import {
   SummarySlide,
   ClosingSlide,
 } from "../components/pages/register/onboarding/slides";
-import Cookies from "js-cookie";
 
 const Register = () => {
-  const [slide, setSlide] = useState(6);
+  const [slide, setSlide] = useState(2);
   const [error, setError] = useState(null);
-  // const [data, setData] = useState({
-  //   firstname: "",
-  //   lastname: "",
-  //   email: "",
-  //   studentId: "",
-  //   password: "",
-  //   grade: "",
-  //   interests: [],
-  // });
-
   const [data, setData] = useState({
-    firstname: "Paul",
-    lastname: "Bokelman",
+    firstname: "",
+    lastname: "",
     email: "paul.bokelman1@gmail.com",
-    studentId: "1850224",
-    password: "Password123!",
-    grade: "Senior",
-    interests: [
-      { id: 6, name: "engineering" },
-      { id: 7, name: "math" },
-      { id: 8, name: "politics" },
-      { id: 9, name: "tech" },
-    ],
+    studentId: "",
+    password: "",
+    grade: "",
+    interests: [],
   });
 
-  const [register, { login: registerLoading }] = useMutation(REGISTER, {
-    onCompleted: ({ register: { user, token } }) => {
-      console.log(user, token);
-      Cookies.set("token", token);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
-
-  // const {
-  //   data: tags,
-  //   tagsLoading,
-  //   tagError,
-  // } = useQuery("tags", async () => await db.tags.get());
+  // const [data, setData] = useState({
+  //   firstname: "Paul",
+  //   lastname: "Bokelman",
+  //   email: "paul.bokelman1@gmail.com",
+  //   studentId: "1850224",
+  //   password: "Password123!",
+  //   grade: "Senior",
+  //   interests: [
+  //     { id: "cl0vxq2hl0000ropcsj6aa77y", name: "volunteering" },
+  //     { id: "cl0vxq2hl0001ropcnyiskhh6", name: "charity" },
+  //     { id: "cl0vxq2hl0002ropc91kqevai", name: "science" },
+  //     { id: "cl0vxq2hl0003ropc393fpmg5", name: "tech" },
+  //   ],
+  // });
 
   const handlePagination = {
     next: () => {
@@ -74,14 +57,38 @@ const Register = () => {
     },
   };
 
+  const [register, { data: { register: { user, token } = {} } = {} }] =
+    useMutation(REGISTER, {
+      onCompleted: ({ register: { user, token } }) => {
+        console.log(user, token);
+        Cookies.set("token", token);
+        handlePagination.next();
+      },
+      onError: (error) => {
+        if (error.graphQLErrors) {
+          if (error.graphQLErrors[0].extensions.code === "UNAUTHENTICATED") {
+            return setError(error.graphQLErrors[0].message);
+          }
+          return setError(error.graphQLErrors[0].extensions?.errors);
+        }
+        return setError(error.message);
+      },
+    });
+
+  const {
+    data: { getTags: tags = {} } = {},
+    loading: tagsLoading,
+    error: tagError,
+  } = useQuery(GET_TAGS);
+
   const handleConfirmation = async () => {
-    const { interests, ...rest } = data;
+    const { interests, grade, ...rest } = data;
     const user = {
-      interests: interests.map((interest) => ({ id: interest.id })),
+      interests: interests.map(({ id }) => ({ id })),
+      grade: grade.toUpperCase(), // could throw error if grade is some how not a string
       ...rest,
     };
     await register({ variables: { data: { ...user } } });
-    handlePagination.next();
 
     // if (error !== null) {
     //   return setError(error);
@@ -121,13 +128,13 @@ const Register = () => {
       set={updateData}
       data={data}
     />,
-    // <InterestsSlide
-    //   key={6}
-    //   tagInfo={{ tags, tagsLoading, tagError }}
-    //   {...handlePagination}
-    //   set={updateData}
-    //   data={data}
-    // />,
+    <InterestsSlide
+      key={6}
+      tagInfo={{ tags, tagsLoading, tagError }}
+      {...handlePagination}
+      set={updateData}
+      data={data}
+    />,
     <SummarySlide
       key={7}
       {...handlePagination}
@@ -136,7 +143,11 @@ const Register = () => {
       confirm={handleConfirmation}
       error={error}
     />,
-    <ClosingSlide key={8} data={data} />,
+    <ClosingSlide
+      key={8}
+      firstname={user?.firstname || data.firstname}
+      email={user?.email || data.email}
+    />,
   ];
 
   return (
