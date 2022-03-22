@@ -1,5 +1,6 @@
 import { Club } from "@prisma/client";
 import { Context } from "../../ctx";
+import { ApolloError } from "apollo-server-micro";
 
 export type GetClubArgs = { id: Club["id"] } | { slug: Club["slug"] };
 
@@ -17,6 +18,7 @@ export const getClub = async (
     select: {
       id: true,
       name: true,
+      approval: true,
       description: true,
       tags: {
         select: {
@@ -56,6 +58,12 @@ export const getClub = async (
       },
     },
   });
+
+  if (club.approval === false)
+    throw new ApolloError(
+      "The requested club has not been approved",
+      "UNAPPROVED_CLUB"
+    );
 
   return club;
 };
