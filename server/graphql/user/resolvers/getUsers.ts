@@ -16,6 +16,24 @@ export const getUsers = async (
       where: {
         active: true,
       },
+      select: {
+        id: true,
+        firstname: true,
+        lastname: true,
+        email: true,
+        studentId: true,
+        grade: true,
+        clubs: {
+          where: {
+            status: "APPROVED",
+          },
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+          },
+        },
+      },
     });
 
     return users;
@@ -24,12 +42,49 @@ export const getUsers = async (
       where: {
         active: false,
       },
+      select: {
+        id: true,
+        firstname: true,
+        lastname: true,
+        email: true,
+        studentId: true,
+        grade: true,
+        clubs: {
+          where: {
+            status: "APPROVED",
+          },
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+          },
+        },
+      },
     });
 
     return users;
   }
 
-  const users = await prisma.user.findMany();
+  const users = await prisma.user.findMany({
+    select: {
+      id: true,
+      firstname: true,
+      lastname: true,
+      email: true,
+      studentId: true,
+      grade: true,
+      clubs: {
+        where: {
+          status: "APPROVED",
+        },
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+        },
+      },
+    },
+  });
 
   return users;
 };

@@ -24,19 +24,26 @@ export const GET_UNAPPROVED_CLUBS = gql`
       name
       availability
       createdAt
-      president
-      teacher
+      roles {
+        users {
+          firstname
+          lastname
+        }
+      }
+      teacher {
+        firstname
+        lastname
+      }
     }
   }
 `;
 
 export const GET_CLUB = gql`
-  query getClub($slug: String, $id: ID) {
+  query getClub($slug: String, $id: String) {
     getClub(slug: $slug, id: $id) {
       id
       name
       description
-      email
       meetingDate
       location
       availability

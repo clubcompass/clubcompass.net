@@ -61,6 +61,26 @@ export default gql`
 
   ##### END OF GET USER LEADERSHIP CLUBS #####
 
+  ##### GET USERS #####
+
+  type GetUserPayload {
+    id: ID!
+    firstname: String!
+    lastname: String!
+    email: String!
+    studentId: String!
+    grade: Grade!
+    clubs: [UserClub!]!
+  }
+
+  type UserClub {
+    id: ID!
+    name: String!
+    slug: String!
+  }
+
+  ##### END OF GET USERS #####
+
   type User {
     id: ID!
     ccid: String!
@@ -101,7 +121,7 @@ export default gql`
   }
 
   type Query {
-    getUsers(type: String!): User!
+    getUsers(type: String!): [GetUserPayload!]!
     getUserClubs: [GetUserClubPayload!]!
     getUserLeadershipClubs: GetUserLeadershipClubsPayload!
     validateUser(ccid: String!): User!
