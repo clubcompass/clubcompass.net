@@ -71,7 +71,7 @@ export const GET_USER_LEADERSHIP_CLUBS = gql`
 `;
 
 export const UPDATE_USER_INTERESTS = gql`
-  mutation ($id: Int!, $tags: [TagInput!]!) {
+  mutation ($id: ID!, $tags: [TagInput!]!) {
     updateUserInterests(id: $id, tags: $tags) {
       name
     }
@@ -85,6 +85,26 @@ export const APPROVE_USER = gql`
       firstname
       lastname
       active
+    }
+  }
+`;
+
+export const DELETE_USER = gql`
+  mutation ($identifier: DeleteUserArgs!) {
+    deleteUser(identifier: $identifier) {
+      id
+    }
+  }
+`;
+
+export const GET_USERS = gql`
+  query ($active: Boolean) {
+    getUsers(active: $active) {
+      id
+      fullname
+      email
+      studentId
+      grade
     }
   }
 `;

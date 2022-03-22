@@ -1,32 +1,28 @@
 import { Context } from "../../ctx";
 
-export type GetUnapprovedClubsArgs = {};
+export type GetAdminApprovedClubsArgs = {};
 
-export type GetUnapprovedClubsPayload = Awaited<
-  ReturnType<typeof getUnapprovedClubs>
+export type GetAdminApprovedClubsPayload = Awaited<
+  ReturnType<typeof getAdminApprovedClubs>
 >;
 
-export const getUnapprovedClubs = async (
+export const getAdminApprovedClubs = async (
   _parent: any,
-  _args: GetUnapprovedClubsArgs,
+  _args: GetAdminApprovedClubsArgs,
   { prisma }: Context
 ): Promise<typeof clubs> => {
-  const unapprovedClubs = await prisma.club.findMany({
+  const approvedClubs = await prisma.club.findMany({
     where: {
       approval: {
-        equals: false,
-      },
-      AND: {
-        status: {
-          equals: "REVIEW",
-        },
+        equals: true,
       },
     },
     select: {
       id: true,
+      slug: true,
       name: true,
       availability: true,
-      createdAt: true,
+      updatedAt: true,
       teacher: {
         select: {
           firstname: true,
@@ -54,16 +50,21 @@ export const getUnapprovedClubs = async (
     },
   });
 
-  const clubs = unapprovedClubs.map(
-    ({ id, name, availability, createdAt, roles, teacher, _count }) => {
+  const clubs = approvedClubs.map(
+    ({ id, slug, name, availability, updatedAt, roles, teacher, _count }) => {
       return {
-        id: id,
-        name: name,
-        availability: availability,
-        createdAt: new Date(createdAt).toLocaleDateString("en-US"),
+        name,
+        slug,
+        availability,
+        updatedAt: new Date(updatedAt).toLocaleDateString("en-US"),
         president: `${roles[0].users[0].firstname} ${roles[0].users[0].lastname}`,
         teacher: `${teacher.firstname} ${teacher.lastname}`,
-        _count: _count.members,
+        members: _count.members,
+        delete: {
+          id,
+          name,
+          members: _count.members,
+        },
       };
     }
   );

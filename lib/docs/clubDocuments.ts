@@ -17,6 +17,25 @@ export const GET_APPROVED_CLUBS = gql`
   }
 `;
 
+export const GET_ADMIN_APPROVED_CLUBS = gql`
+  query {
+    getAdminApprovedClubs {
+      name
+      slug
+      availability
+      updatedAt
+      president
+      teacher
+      members
+      delete {
+        id
+        name
+        members
+      }
+    }
+  }
+`;
+
 export const GET_UNAPPROVED_CLUBS = gql`
   query GetUnapprovedClubs {
     getUnapprovedClubs {
@@ -40,6 +59,7 @@ export const GET_CLUB = gql`
       meetingDate
       location
       availability
+      status
       _count {
         members
       }
@@ -57,6 +77,7 @@ export const GET_CLUB = gql`
         roles {
           name
           type
+          color
         }
       }
     }
@@ -64,7 +85,7 @@ export const GET_CLUB = gql`
 `;
 
 export const EDIT_CLUB = gql`
-  mutation ($clubId: Int!, $data: EditClubArgs!) {
+  mutation ($clubId: ID!, $data: EditClubArgs!) {
     editClub(clubId: $clubId, data: $data) {
       id
       name
@@ -108,7 +129,7 @@ export const JOIN_CLUB = gql`
 `;
 
 export const LEAVE_CLUB = gql`
-  mutation ($clubId: Int!) {
+  mutation ($clubId: ID!) {
     leaveClub(clubId: $clubId) {
       id
       firstname
@@ -122,7 +143,7 @@ export const LEAVE_CLUB = gql`
 `;
 
 export const DELETE_CLUB = gql`
-  mutation ($clubId: Int!) {
+  mutation ($clubId: ID!) {
     deleteClub(clubId: $clubId) {
       id
       name
@@ -143,6 +164,16 @@ export const SEND_CLUB_FOR_APPROVAL = gql`
 export const APPROVE_CLUB = gql`
   mutation ($clubId: ID!) {
     approveClub(clubId: $clubId) {
+      id
+      name
+      approval
+    }
+  }
+`;
+
+export const DECLINE_CLUB = gql`
+  mutation ($clubId: ID!) {
+    declineClub(clubId: $clubId) {
       id
       name
       approval

@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const ISSUE_INVITE = gql`
-  mutation ($clubId: Int!, $recipientCcid: String!) {
+  mutation ($clubId: ID!, $recipientCcid: String!) {
     issueInvite(clubId: $clubId, recipientCCID: $recipientCcid) {
       id
     }

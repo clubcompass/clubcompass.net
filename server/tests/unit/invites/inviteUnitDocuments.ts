@@ -38,7 +38,7 @@ export const GET_USER_INVITES = gql`
 `;
 
 export const ISSUE_INVITE = gql`
-  mutation ($clubId: Int!, $recipientId: Int!) {
+  mutation ($clubId: ID!, $recipientId: ID!) {
     issueInvite(clubId: $clubId, recipientId: $recipientId) {
       userId
       id
@@ -49,7 +49,7 @@ export const ISSUE_INVITE = gql`
 `;
 
 export const ACCEPT_INVITE = gql`
-  mutation acceptInvite($inviteId: Int!, $clubId: Int!) {
+  mutation acceptInvite($inviteId: ID!, $clubId: ID!) {
     acceptInvite(inviteId: $inviteId, clubId: $clubId) {
       id
       name
@@ -58,7 +58,7 @@ export const ACCEPT_INVITE = gql`
 `;
 
 export const DECLINE_INVITE = gql`
-  mutation declineInvite($inviteId: Int!) {
+  mutation declineInvite($inviteId: ID!) {
     declineInvite(inviteId: $inviteId) {
       id
     }

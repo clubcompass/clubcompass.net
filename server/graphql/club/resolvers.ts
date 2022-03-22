@@ -7,15 +7,18 @@ import { editClub } from "./resolvers/editClub";
 import { getClub } from "./resolvers/getClub";
 import { sendClubForApproval } from "./resolvers/sendClubForApproval";
 import { approveClub } from "./resolvers/approveClub";
+import { declineClub } from "./resolvers/declineClub";
 import { getApprovedClubs } from "./resolvers/getApprovedClubs";
 import { getUnapprovedClubs } from "./resolvers/getUnapprovedClubs";
 import { requestToJoinClub } from "./resolvers/requestToJoinClub";
 import { getClubInvites } from "./resolvers/getClubInvites";
+import { getAdminApprovedClubs } from "./resolvers/getAdminApprovedClubs";
 
 const resolvers: Resolvers = {
   Query: {
     getClub,
     getApprovedClubs,
+    getAdminApprovedClubs,
     getUnapprovedClubs,
     getClubInvites,
   },
@@ -27,6 +30,7 @@ const resolvers: Resolvers = {
     editClub,
     sendClubForApproval,
     approveClub,
+    declineClub,
     requestToJoinClub,
   },
 };

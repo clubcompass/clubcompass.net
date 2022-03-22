@@ -40,6 +40,8 @@ const IndeterminateCheckbox = forwardRef(({ indeterminate, ...rest }, ref) => {
   );
 });
 
+IndeterminateCheckbox.displayName = "IndeterminateCheckbox";
+
 const GlobalFilter = ({
   preGlobalFilteredRows,
   globalFilter,
@@ -68,7 +70,7 @@ const GlobalFilter = ({
   );
 };
 
-export const Table = ({ columns, data, checkbox }) => {
+export const Table = ({ columns, data, checkbox, refetch }) => {
   const [deleting, setDeleting] = useState(false);
 
   const filterTypes = useMemo(
@@ -142,12 +144,19 @@ export const Table = ({ columns, data, checkbox }) => {
     }
   );
 
+  const selected = useMemo(() => {
+    if (selectedFlatRows.length > 0) {
+      return selectedFlatRows.map((row) => data[row.index]);
+    }
+  }, [selectedFlatRows, data]);
+
   return (
     <>
       <table
         {...getTableProps()}
         className="w-full border-separate"
-        style={{ borderSpacing: "0 10px" }}>
+        style={{ borderSpacing: "0 10px" }}
+      >
         <thead>
           {checkbox && (
             <tr>
@@ -156,8 +165,12 @@ export const Table = ({ columns, data, checkbox }) => {
                   <AdminAccountsApproveModal
                     reject
                     selectedRowIds={selectedRowIds}
+                    selected={selected}
                   />
-                  <AdminAccountsApproveModal selectedRowIds={selectedRowIds} />
+                  <AdminAccountsApproveModal
+                    selectedRowIds={selectedRowIds}
+                    selected={selected}
+                  />
                 </div>
               </th>
             </tr>
@@ -177,15 +190,17 @@ export const Table = ({ columns, data, checkbox }) => {
               </div>
             </th>
           </tr>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
+          {headerGroups.map((headerGroup, i) => (
+            <tr key={i} {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column, i) => (
                 <th
+                  key={i}
                   {...(!["slug", "id", "delete"].includes(column.id) && {
                     ...column.getHeaderProps(column.getSortByToggleProps()),
                   })}
                   className="text-left first:pl-4"
-                  title="">
+                  title=""
+                >
                   <span className="flex items-center gap-2 text-ccGreyLight">
                     {["delete"].includes(column.id) ? (
                       <ToggleComponent
@@ -214,19 +229,22 @@ export const Table = ({ columns, data, checkbox }) => {
           {page.map((row, i) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => {
+              <tr key={i} {...row.getRowProps()}>
+                {row.cells.map((cell, i) => {
                   return (
                     <td
+                      key={i}
                       {...cell.getCellProps()}
-                      className="border-b-2 border-t-2 py-2 first:rounded-l-lg first:border-l-2 first:pl-4 last:rounded-r-lg last:border-r-2">
+                      className="border-b-2 border-t-2 py-2 first:rounded-l-lg first:border-l-2 first:pl-4 last:rounded-r-lg last:border-r-2"
+                    >
                       {["slug", "id"].includes(cell.column.id) && cell.value ? (
                         <Link
                           href={
                             cell.column.id === "id"
                               ? `/admin/club/${cell.value}`
                               : `/club/${cell.value}`
-                          }>
+                          }
+                        >
                           <a className="rounded-md bg-cc py-1 px-4 text-sm font-semibold text-white">
                             {cell.column.id === "id" ? "Review" : "View"}
                           </a>
@@ -234,6 +252,7 @@ export const Table = ({ columns, data, checkbox }) => {
                       ) : ["delete"].includes(cell.column.id) ? (
                         <div className="flex justify-center">
                           <AdminDeleteModal
+                            refetch={refetch}
                             deleting={deleting}
                             value={cell.value}
                           />
@@ -254,25 +273,29 @@ export const Table = ({ columns, data, checkbox }) => {
           <button
             onClick={() => gotoPage(0)}
             disabled={!canPreviousPage}
-            className={!canPreviousPage && "text-gray-300"}>
+            className={!canPreviousPage && "text-gray-300"}
+          >
             <BiFirstPage />
           </button>
           <button
             onClick={() => previousPage()}
             disabled={!canPreviousPage}
-            className={!canPreviousPage && "text-gray-300"}>
+            className={!canPreviousPage && "text-gray-300"}
+          >
             <BiChevronLeft />
           </button>
           <button
             onClick={() => nextPage()}
             disabled={!canNextPage}
-            className={!canNextPage && "text-gray-300"}>
+            className={!canNextPage && "text-gray-300"}
+          >
             <BiChevronRight />
           </button>
           <button
             onClick={() => gotoPage(pageCount - 1)}
             disabled={!canNextPage}
-            className={!canNextPage && "text-gray-300"}>
+            className={!canNextPage && "text-gray-300"}
+          >
             <BiLastPage />
           </button>
         </div>
@@ -296,7 +319,8 @@ export const Table = ({ columns, data, checkbox }) => {
           value={pageSize}
           onChange={(e) => {
             setPageSize(Number(e.target.value));
-          }}>
+          }}
+        >
           {[10, 20, 30, 40, 50].map((pageSize) => (
             <option key={pageSize} value={pageSize}>
               Show {pageSize}
@@ -331,7 +355,8 @@ const ToggleComponent = ({ enabled, setEnabled }) => {
         checked={enabled}
         onChange={setEnabled}
         className={`${enabled ? "bg-red-500" : "bg-gray-300"}
-      relative inline-flex h-[22px] w-[42px] flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}>
+      relative inline-flex h-[22px] w-[42px] flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+      >
         <span className="sr-only">Toggle delete unlock</span>
         <span
           aria-hidden="true"
@@ -340,7 +365,8 @@ const ToggleComponent = ({ enabled, setEnabled }) => {
               ? "translate-x-[20px] text-red-500"
               : "translate-x-0 text-gray-300"
           }
-        pointer-events-none flex h-[18px] w-[18px] transform items-center justify-center rounded-full bg-white text-xs shadow-lg ring-0 transition duration-200 ease-in-out`}>
+        pointer-events-none flex h-[18px] w-[18px] transform items-center justify-center rounded-full bg-white text-xs shadow-lg ring-0 transition duration-200 ease-in-out`}
+        >
           {enabled ? <IoMdUnlock /> : <IoMdLock />}
         </span>
       </Switch>

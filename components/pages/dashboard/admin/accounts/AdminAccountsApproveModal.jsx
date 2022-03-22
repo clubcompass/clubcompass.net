@@ -1,10 +1,42 @@
-import React, { useEffect, useState } from "react";
+import { useMutation } from "@apollo/client";
+import { APPROVE_USER, DELETE_USER } from "../../../../../lib/docs";
 import { ModalProvider, useModalContext } from "../../../../general/Modal";
 
 import { BsCheckCircleFill } from "react-icons/bs";
 
-export const AdminAccountsApproveModal = ({ reject, selectedRowIds }) => {
+export const AdminAccountsApproveModal = ({
+  reject,
+  selectedRowIds,
+  selected,
+}) => {
   const rowsLength = Object.keys(selectedRowIds).length;
+
+  const [approveUser] = useMutation(APPROVE_USER, {
+    onCompleted: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const [declineUser] = useMutation(DELETE_USER, {
+    onCompleted: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const handleConfirmation = () => {
+    if (reject) {
+      declineUser({ variables: { ids: selectedRowIds } }); // should take array of ids
+    } else {
+      approveUser({ variables: { userId: selectedRowIds } }); // should take array of ids
+    }
+  };
+
   return (
     <div>
       <ModalProvider closeColor={{ color: "#ffffff", index: 2 }}>
@@ -30,7 +62,8 @@ const OpenModal = ({ reject, rowsLength }) => {
           : reject
           ? "bg-red-500/20"
           : "bg-cc/20"
-      } rounded-lg px-8 py-1 font-semibold text-white duration-150`}>
+      } rounded-lg px-8 py-1 font-semibold text-white duration-150`}
+    >
       {reject ? "Reject" : "Approve"} ({rowsLength})
     </button>
   );
@@ -45,7 +78,8 @@ const ConfirmationModal = ({ reject, rowsLength }) => {
       <p className="text-lg text-ccGreyLight">
         You are about to {reject ? "reject" : "approve"}
         <span
-          className={`font-semibold ${reject ? "text-red-500" : "text-cc"}`}>
+          className={`font-semibold ${reject ? "text-red-500" : "text-cc"}`}
+        >
           {" "}
           {rowsLength} selected
         </span>{" "}
@@ -57,19 +91,22 @@ const ConfirmationModal = ({ reject, rowsLength }) => {
       <div className="grid grid-cols-2 gap-4">
         <button
           onClick={closeModal}
-          className="rounded-lg bg-gray-200 py-2 font-semibold duration-150 hover:bg-[#dbdde0]">
+          className="rounded-lg bg-gray-200 py-2 font-semibold duration-150 hover:bg-[#dbdde0]"
+        >
           Cancel
         </button>
         {reject ? (
           <button
             onClick={next}
-            className="rounded-lg bg-red-500 py-2 font-semibold text-white duration-150 hover:bg-[#e63939]">
+            className="rounded-lg bg-red-500 py-2 font-semibold text-white duration-150 hover:bg-[#e63939]"
+          >
             Reject
           </button>
         ) : (
           <button
             onClick={next}
-            className="rounded-lg bg-cc py-2 font-semibold text-white duration-150 hover:bg-[#1d58e2]">
+            className="rounded-lg bg-cc py-2 font-semibold text-white duration-150 hover:bg-[#1d58e2]"
+          >
             Approve
           </button>
         )}
@@ -86,7 +123,8 @@ const CongratsModal = ({ reject, rowsLength }) => {
       <div
         className={`flex h-[90px] w-[112%] -translate-x-[24px] -translate-y-[24px] items-center  justify-center bg-gradient-to-r ${
           reject ? "from-[#ff6c6c] to-[#FF5555]" : "from-cc/80 to-cc"
-        }`}>
+        }`}
+      >
         <BsCheckCircleFill className="text-5xl text-white" />
       </div>
       <div className="flex flex-col gap-2">
@@ -102,7 +140,8 @@ const CongratsModal = ({ reject, rowsLength }) => {
         <div className="flex justify-center">
           <button
             onClick={closeModal}
-            className="w-full rounded-lg bg-gray-200 py-2 font-semibold">
+            className="w-full rounded-lg bg-gray-200 py-2 font-semibold"
+          >
             Close
           </button>
         </div>

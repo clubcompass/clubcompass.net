@@ -2,25 +2,26 @@ import { Context } from "../../ctx";
 import { Club } from "@prisma/client";
 import { ApolloError } from "apollo-server-micro";
 
-export type ApproveClubArgs = {
+export type DeclineClubArgs = {
   clubId: Club["id"];
 };
 
-export type ApproveClubPayload = Awaited<ReturnType<typeof approveClub>>;
+export type DeclineClubPayload = Awaited<ReturnType<typeof declineClub>>;
 
-export const approveClub = async (
+export const declineClub = async (
   _parent: any,
-  { clubId }: ApproveClubArgs,
+  { clubId }: DeclineClubArgs,
   { prisma }: Context
 ): Promise<typeof club> => {
   // only asb
+  // cant decline already declined club?
   const club = await prisma.club.update({
     where: {
       id: clubId,
     },
     data: {
-      status: "APPROVED",
-      approval: true,
+      status: "DECLINED",
+      approval: false,
     },
     select: {
       id: true,
@@ -29,7 +30,7 @@ export const approveClub = async (
     },
   });
 
-  if (!club) throw new ApolloError("Club was not found", "NO_CLUB", { clubId });
+  if (!club) throw new ApolloError("Club was not found", "NO_CLUB", { clubId }); // has no effect on operation
 
   return club;
 };

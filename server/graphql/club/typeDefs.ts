@@ -11,6 +11,16 @@ export default gql`
 
   ##### END OF APPROVE CLUB #####
 
+  ##### DECLINE CLUB #####
+
+  type DeclineClubPayload {
+    id: String!
+    name: String!
+    approval: Boolean!
+  }
+
+  ##### END OF DECLINE CLUB #####
+
   ##### DELETE CLUB #####
 
   type DeleteClubPayload {
@@ -29,6 +39,23 @@ export default gql`
     availability: ClubAvailability!
     tags: [ClubPageTag!]
     _count: ClubMembersCount!
+  }
+
+  type AdminApprovedClubsDelete {
+    id: ID!
+    name: String!
+    members: Int!
+  }
+
+  type GetAdminApprovedClubsPayload {
+    name: String!
+    slug: String!
+    availability: String!
+    updatedAt: String!
+    president: String!
+    teacher: String!
+    members: Int!
+    delete: AdminApprovedClubsDelete!
   }
 
   ##### END OF GET APPROVED CLUBS #####
@@ -86,6 +113,7 @@ export default gql`
     availability: ClubAvailability!
     meetingDate: String!
     location: String!
+    status: ClubStatus!
     email: String!
     links: [Link!]!
     _count: ClubMembersCount!
@@ -162,6 +190,7 @@ export default gql`
     DRAFT
     REVIEW
     APPROVED
+    DECLINED
   }
 
   enum ClubAvailability {
@@ -294,6 +323,7 @@ export default gql`
     getClub(id: ID, slug: String): GetClubPayload!
     getApprovedClubs: [GetApprovedClubsPayload!]!
     getUnapprovedClubs: [GetUnapprovedClubsPayload!]!
+    getAdminApprovedClubs: [GetAdminApprovedClubsPayload!]!
     getClubInvites(clubId: ID!): [GetClubInvitesPayload!]!
   }
 
@@ -306,6 +336,7 @@ export default gql`
     editClub(clubId: ID!, data: EditClubArgs!): Club!
     sendClubForApproval(clubId: ID!): SendClubForApprovalPayload!
     approveClub(clubId: ID!): ApproveClubPayload!
+    declineClub(clubId: ID!): DeclineClubPayload!
     requestToJoinClub(clubId: ID!): [RequestToJoinClubPayload!]!
   }
 

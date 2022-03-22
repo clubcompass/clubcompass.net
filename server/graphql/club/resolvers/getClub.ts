@@ -28,6 +28,7 @@ export const getClub = async (
       location: true,
       email: true,
       links: true,
+      status: true,
       members: {
         select: {
           firstname: true,

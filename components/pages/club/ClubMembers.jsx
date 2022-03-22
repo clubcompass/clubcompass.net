@@ -36,6 +36,7 @@ export const ClubMembers = ({ members: allMembers }) => {
 };
 
 const Member = ({ member }) => {
+  console.log(member.roles[0]);
   return (
     <div className="mb-2 flex items-center justify-between">
       <div className="flex items-center">
@@ -70,7 +71,8 @@ const Avatar = ({ firstname, lastname, color }) => {
   return (
     <div
       className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#9FDDFC]"
-      style={{ backgroundColor: color }}>
+      style={{ backgroundColor: color }}
+    >
       <p className="text-sm font-medium">{initials}</p>
     </div>
   );
@@ -80,7 +82,8 @@ const Label = ({ role, color }) => {
   return (
     <div
       className="ml-1 rounded-sm bg-[#9FDDFC] px-3 py-1"
-      style={{ backgroundColor: color }}>
+      style={{ backgroundColor: color }}
+    >
       <p className="truncate text-[0.6rem] font-semibold uppercase">{role}</p>
     </div>
   );

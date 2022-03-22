@@ -1,3 +1,4 @@
+import { ApolloError } from "apollo-server-micro";
 import { Context } from "../../ctx";
 import { Club } from "../../types/schemaTypes";
 
@@ -12,7 +13,20 @@ export const deleteClub = async (
   { clubId }: DeleteClubArgs,
   { prisma }: Context
 ): Promise<typeof club> => {
-  // refactor to onDelete cascade
+  // PERMISSIONS
+
+  const exists = await prisma.club.findUnique({
+    where: {
+      id: clubId,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  if (!exists)
+    throw new ApolloError("Club was not found", "NO_CLUB", { clubId });
+
   const club = await prisma.club.delete({
     where: {
       id: clubId,

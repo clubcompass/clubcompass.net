@@ -1,3 +1,4 @@
+import { ApolloError } from "apollo-server-micro";
 import type { User } from "@prisma/client";
 import { prisma } from "../../../config/prisma";
 
@@ -8,11 +9,26 @@ type DeleteUserArgs = {
 };
 
 export const deleteUser = async (
-  unique: DeleteUserArgs
+  identifier: DeleteUserArgs
 ): Promise<typeof user> => {
-  const user = await prisma.user.delete({
+  const exists = await prisma.user.findUnique({
     where: {
-      ...unique,
+      ...identifier,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  if (!exists)
+    throw new ApolloError("User was not found", "NO_USER", {
+      [Object.keys(identifier)[0]]: identifier,
+    });
+
+  const user = await prisma.user.delete({
+    // optimize payload (only return id?)
+    where: {
+      ...identifier,
     },
   });
   return user;

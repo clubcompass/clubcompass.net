@@ -64,6 +64,8 @@ import type {
   GetApprovedClubsPayload,
   GetUnapprovedClubsArgs,
   GetUnapprovedClubsPayload,
+  GetAdminApprovedClubsArgs,
+  GetAdminApprovedClubsPayload,
   RequestToJoinClubArgs,
   RequestToJoinClubPayload,
   GetClubInvitesArgs,
@@ -167,6 +169,11 @@ export interface ClubResolvers {
     GetUnapprovedClubsArgs,
     GetUnapprovedClubsPayload
   >;
+  getAdminApprovedClubs?: Resolver<
+    {},
+    GetAdminApprovedClubsArgs,
+    GetAdminApprovedClubsPayload
+  >;
   requestToJoinClub?: Resolver<
     {},
     RequestToJoinClubArgs,
@@ -203,6 +210,9 @@ export interface Query {
   // club
   getClub?: ClubResolvers["getClub"];
   getClubs?: ClubResolvers["getClubs"];
+  getApprovedClubs?: ClubResolvers["getApprovedClubs"];
+  getUnapprovedClubs?: ClubResolvers["getUnapprovedClubs"];
+  getAdminApprovedClubs?: ClubResolvers["getAdminApprovedClubs"];
   //invite
   getUserInvites?: InviteResolvers["getUserInvites"];
   // tag

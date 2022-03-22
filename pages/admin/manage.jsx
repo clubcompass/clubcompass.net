@@ -1,25 +1,32 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { GET_APPROVED_CLUBS } from "../../lib/docs/clubDocuments";
+import { GET_ADMIN_APPROVED_CLUBS } from "../../lib/docs/clubDocuments";
 import {
   AdminClubsManage,
   AdminWrapper,
 } from "../../components/pages/dashboard/admin";
-import { AdminLinks } from ".";
+import { AdminLinks } from "."; // just define it here?
 
 const AdminDashboardManage = () => {
   const {
-    data: { getApprovedClubs: approvedClubs } = {},
+    data: { getAdminApprovedClubs: approvedClubs } = {},
     loading,
-    error,
-  } = useQuery(GET_APPROVED_CLUBS);
+    refetch,
+  } = useQuery(GET_ADMIN_APPROVED_CLUBS, {
+    onCompleted: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   if (!approvedClubs && loading) return <p>Loading...</p>;
 
   return (
     <div>
       <AdminWrapper title="Manage Clubs" links={AdminLinks}>
-        <AdminClubsManage data={approvedClubs} />
+        <AdminClubsManage data={approvedClubs} refetch={refetch} />
       </AdminWrapper>
     </div>
   );

@@ -1,7 +1,8 @@
 import React, { useMemo } from "react";
 import { Table } from "../../../general/Table";
 
-export const AdminClubsManage = ({ data }) => {
+export const AdminClubsManage = ({ data, refetch }) => {
+  console.log(data);
   // const data = useMemo(() => [
   //   {
   //     name: "Gaming club",
@@ -41,9 +42,5 @@ export const AdminClubsManage = ({ data }) => {
     []
   );
 
-  return (
-    <div>
-      <Table columns={columns} data={data} />
-    </div>
-  );
+  return <Table columns={columns} data={data} refetch={refetch} />;
 };

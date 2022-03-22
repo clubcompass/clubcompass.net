@@ -1,4 +1,6 @@
 import React from "react";
+import { useQuery } from "@apollo/client";
+import { GET_USERS } from "../../../lib/docs";
 import { AdminAccountsTable } from "../../../components/pages/dashboard/admin/accounts";
 import { AdminWrapper } from "../../../components/pages/dashboard/admin";
 
@@ -8,10 +10,28 @@ export const AdminAccountsLinks = [
 ];
 
 const AdminAccounts = () => {
+  const {
+    data: { getUsers: users } = {},
+    loading,
+    refetch,
+  } = useQuery(GET_USERS, {
+    variables: {
+      active: false,
+    },
+    onCompleted: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  if (!users && loading) return <p>Loading...</p>;
+
   return (
     <div>
       <AdminWrapper title="Manage Accounts" links={AdminAccountsLinks}>
-        <AdminAccountsTable />
+        <AdminAccountsTable data={users} />
       </AdminWrapper>
     </div>
   );
