@@ -6,6 +6,8 @@ import { getUserLeadershipClubs } from "./resolvers/getUserLeadershipClubs";
 import { validateUser } from "./resolvers/validateUser";
 import { approveUser } from "./resolvers/approveUser";
 import { getUsers } from "./resolvers/getUsers";
+import { batchDeleteUsers } from "./resolvers/batchDeleteUsers";
+import { batchApproveUsers } from "./resolvers/batchApproveUsers";
 
 const resolvers: Resolvers = {
   Query: {
@@ -18,6 +20,8 @@ const resolvers: Resolvers = {
     deleteUser,
     updateUserInterests,
     approveUser,
+    batchDeleteUsers,
+    batchApproveUsers,
   },
 };
 export default resolvers;

@@ -108,3 +108,23 @@ export const GET_USERS = gql`
     }
   }
 `;
+
+export const BATCH_APPROVE_USERS = gql`
+  mutation BatchApproveUsers($userIds: [ID!]!) {
+    batchApproveUsers(userIds: $userIds) {
+      firstname
+      lastname
+      active
+    }
+  }
+`;
+
+export const BATCH_DELETE_USERS = gql`
+  mutation ($userIds: [ID!]!) {
+    batchDeleteUsers(userIds: $userIds) {
+      firstname
+      lastname
+      studentId
+    }
+  }
+`;

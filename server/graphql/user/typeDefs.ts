@@ -73,6 +73,26 @@ export default gql`
 
   ##### END OF GET USER LEADERSHIP CLUBS #####
 
+  ##### BATCH DELETE USERS #####
+
+  type BatchDeleteUserPayload {
+    firstname: String!
+    lastname: String!
+    studentId: String!
+  }
+
+  ##### END OF BATCH DELETE USERS #####
+
+  ##### BATCH APPROVE USERS #####
+
+  type BatchApproveUserPayload {
+    firstname: String!
+    lastname: String!
+    active: Boolean!
+  }
+
+  ##### END OF BATCH APPROVE USERS #####
+
   type User {
     id: ID!
     ccid: String!
@@ -83,6 +103,7 @@ export default gql`
     active: Boolean!
     password: String!
     grade: Grade!
+    studentId: String!
     type: UserType!
     interests: [Tag!]
     clubs: [Club!]
@@ -123,5 +144,7 @@ export default gql`
     deleteUser(id: ID!): User!
     updateUserInterests(id: ID!, tags: [TagInput!]!): [Tag!]!
     approveUser(userId: ID!): ApproveUserPayload!
+    batchDeleteUsers(userIds: [ID!]!): [BatchDeleteUserPayload!]!
+    batchApproveUsers(userIds: [ID!]!): [BatchApproveUserPayload!]!
   }
 `;

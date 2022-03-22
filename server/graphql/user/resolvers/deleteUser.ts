@@ -1,4 +1,4 @@
-import { User, Tag } from "@prisma/client";
+import { User } from "@prisma/client";
 import { Context } from "../../ctx";
 
 export type DeleteUserArgs = {

@@ -42,6 +42,8 @@ import type {
   ApproveUserPayload,
   GetUsersArgs,
   GetUsersPayload,
+  batchDeleteUserArgs,
+  batchDeleteUserPayload,
 } from "../user/types";
 import type {
   CreateClubArgs,
@@ -89,6 +91,10 @@ import type {
 } from "../tag/types";
 
 import { GraphQLResolveInfo } from "graphql";
+import {
+  BatchApproveUsersArgs,
+  BatchApproveUsersPayload,
+} from "../user/resolvers/batchApproveUsers";
 
 type Resolver<T extends {}, A extends {}, R extends any> = (
   parent: T,
@@ -143,6 +149,12 @@ export interface UserResolvers {
   validateUser?: Resolver<{}, ValidateUserArgs, ValidateUserPayload>;
   approveUser?: Resolver<{}, ApproveUserArgs, ApproveUserPayload>;
   getUsers?: Resolver<{}, GetUsersArgs, GetUsersPayload>;
+  batchDeleteUsers?: Resolver<{}, batchDeleteUserArgs, batchDeleteUserPayload>;
+  batchApproveUsers?: Resolver<
+    {},
+    BatchApproveUsersArgs,
+    BatchApproveUsersPayload
+  >;
 }
 
 export interface ClubResolvers {

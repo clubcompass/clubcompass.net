@@ -1,9 +1,6 @@
 import { Context } from "../../ctx";
 import { User } from "@prisma/client";
-import { ApolloError, UserInputError } from "apollo-server-micro";
-import { validate } from "../../../utils/validation";
-import { approveUserSchema } from "../../../utils/validation/schemas/user";
-
+import { ApolloError } from "apollo-server-micro";
 export type ApproveUserArgs = {
   userId: User["id"];
 };
@@ -15,16 +12,6 @@ export const approveUser = async (
   { userId }: ApproveUserArgs,
   { prisma }: Context
 ): Promise<typeof user> => {
-  const { valid, errors } = await validate({
-    schema: approveUserSchema as any,
-    data: { userId },
-  });
-
-  console.log(valid);
-  console.log(errors);
-
-  if (!valid) throw new UserInputError("Invalid userId input", { errors });
-
   const user = await prisma.user.update({
     where: {
       id: userId,
@@ -40,7 +27,7 @@ export const approveUser = async (
     },
   });
 
-  if (!user) throw new ApolloError("Club was not found", "NO_CLUB", { userId });
+  if (!user) throw new ApolloError("User was not found", "NO_USER", { userId });
 
   return user;
 };
