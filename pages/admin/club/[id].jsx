@@ -18,9 +18,17 @@ const Club = () => {
     variables: {
       id,
     },
+    onCompleted: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
   });
 
   if (!club || loading) return <p>loading...</p>;
+
+  console.log(club);
 
   return (
     <div className="flex flex-col gap-2 p-6">

@@ -93,6 +93,8 @@ export const DELETE_USER = gql`
   mutation ($identifier: DeleteUserArgs!) {
     deleteUser(identifier: $identifier) {
       id
+      firstname
+      lastname
     }
   }
 `;
@@ -105,6 +107,11 @@ export const GET_USERS = gql`
       email
       studentId
       grade
+      delete {
+        id
+        name # fullname?
+        type
+      }
     }
   }
 `;

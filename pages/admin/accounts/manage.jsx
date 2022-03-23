@@ -26,7 +26,7 @@ const AdminAccountsManagePage = () => {
   return (
     <div>
       <AdminWrapper title="Manage Accounts" links={AdminAccountsLinks}>
-        <AdminAccountsManage data={users} />
+        <AdminAccountsManage data={users} refetch={refetch} />
       </AdminWrapper>
     </div>
   );

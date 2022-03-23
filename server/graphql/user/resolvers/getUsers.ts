@@ -9,7 +9,7 @@ export type GetUsersPayload = Awaited<ReturnType<typeof getUsers>>;
 
 type UserPayload = Pick<
   User,
-  "id" | "email" | "studentId" | "grade" | "firstname" | "lastname"
+  "id" | "email" | "studentId" | "grade" | "firstname" | "lastname" | "type"
 >;
 
 export const getUsers = async (
@@ -19,16 +19,26 @@ export const getUsers = async (
 ): Promise<typeof users> => {
   const parseUsers = (
     users: UserPayload[]
-  ): (Omit<UserPayload, "firstname" | "lastname"> & { fullname: string })[] => {
-    return users.map(({ id, firstname, lastname, email, studentId, grade }) => {
-      return {
-        id,
-        fullname: `${firstname} ${lastname}`,
-        email,
-        studentId,
-        grade,
-      };
-    });
+  ): (Omit<UserPayload, "firstname" | "lastname" | "type"> & {
+    fullname: string;
+    delete: { id: UserPayload["id"]; name: string; type: UserPayload["type"] };
+  })[] => {
+    return users.map(
+      ({ id, firstname, lastname, email, studentId, grade, type }) => {
+        return {
+          id,
+          fullname: `${firstname} ${lastname}`,
+          email,
+          studentId,
+          grade,
+          delete: {
+            name: `${firstname} ${lastname}`,
+            id,
+            type,
+          },
+        };
+      }
+    );
   };
 
   if (active) {
@@ -43,6 +53,7 @@ export const getUsers = async (
         email: true,
         studentId: true,
         grade: true,
+        type: true,
       },
     });
 
@@ -61,6 +72,7 @@ export const getUsers = async (
         email: true,
         studentId: true,
         grade: true,
+        type: true,
       },
     });
     const users = parseUsers(allUsers);
@@ -77,6 +89,7 @@ export const getUsers = async (
       email: true,
       studentId: true,
       grade: true,
+      type: true,
     },
   });
 

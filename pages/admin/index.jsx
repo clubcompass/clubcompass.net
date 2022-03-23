@@ -11,11 +11,15 @@ export const AdminLinks = [
   { label: "Manage", link: "/admin/manage" },
 ];
 const AdminDashboard = () => {
-  const {
-    data: { getUnapprovedClubs: unapprovedClubs } = {},
-    loading,
-    error,
-  } = useQuery(GET_UNAPPROVED_CLUBS);
+  const { data: { getUnapprovedClubs: unapprovedClubs } = {}, loading } =
+    useQuery(GET_UNAPPROVED_CLUBS, {
+      onCompleted: (data) => {
+        console.log(data);
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    });
 
   if (!unapprovedClubs && loading) return <p>Loading...</p>;
 

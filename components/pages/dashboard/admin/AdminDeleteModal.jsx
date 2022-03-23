@@ -8,6 +8,9 @@ import { CgSpinner } from "react-icons/cg";
 export const AdminDeleteModal = ({ deleting, value, refetch }) => {
   const [deletedItem, setDeletedItem] = useState({ name: "" });
   const isClub = value.hasOwnProperty("members");
+
+  // TODO: CLOSES PREMATURELY WHEN SUCCESSFUL
+
   return (
     <div>
       <ModalProvider closeColor={{ color: "#ffffff", index: 2 }}>
@@ -59,9 +62,9 @@ const ConfirmationModal = ({ value, isClub, setDeletedItem, refetch }) => {
   const [deleteUser, { loading: userDeletionLoading }] = useMutation(
     DELETE_USER,
     {
-      variables: { id: value.id },
+      variables: { identifier: { id: value.id } },
       onCompleted: ({ deleteUser: user = {} } = {}) => {
-        setDeletedItem({ name: user?.name });
+        setDeletedItem({ name: `${user?.firstname} ${user?.lastname}` });
         refetch();
         next();
       },

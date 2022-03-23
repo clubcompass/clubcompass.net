@@ -1,21 +1,42 @@
-import { User } from "@prisma/client";
+import { ApolloError } from "apollo-server-micro";
+import type { User } from "@prisma/client";
 import { Context } from "../../ctx";
 
-export type DeleteUserArgs = {
-  id: User["id"];
+type DeleteUserArgs = {
+  identifier:
+    | { id: User["id"] }
+    | { email: User["email"] }
+    | { ccid: User["ccid"] };
 };
 
-export type DeleteUserPayload = Awaited<ReturnType<typeof deleteUser>>;
-
 export const deleteUser = async (
-  _parent: any,
-  { id }: DeleteUserArgs,
-  { prisma, auth }: Context //!!!!!! add auth to get userId
+  _: any,
+  { identifier }: DeleteUserArgs,
+  { prisma }: Context
 ): Promise<typeof user> => {
-  console.log(id);
-  const user = await prisma.user.delete({
+  const exists = await prisma.user.findUnique({
     where: {
-      id,
+      ...identifier,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  if (!exists)
+    throw new ApolloError("User was not found", "NO_USER", {
+      [Object.keys(identifier)[0]]: identifier,
+    });
+
+  const user = await prisma.user.delete({
+    // optimize payload (only return id?)
+    where: {
+      ...identifier,
+    },
+    select: {
+      id: true,
+      firstname: true,
+      lastname: true,
     },
   });
 

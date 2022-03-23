@@ -166,10 +166,12 @@ export const Table = ({ columns, data, checkbox, refetch }) => {
                     reject
                     selectedRowIds={selectedRowIds}
                     selected={selected}
+                    refetch={refetch}
                   />
                   <AdminAccountsApproveModal
                     selectedRowIds={selectedRowIds}
                     selected={selected}
+                    refetch={refetch}
                   />
                 </div>
               </th>

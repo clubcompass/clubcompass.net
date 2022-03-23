@@ -25,7 +25,29 @@ export default gql`
 
   ##### END OF GET USER CLUBS #####
 
+  ##### DELETE USER #####
+
+  input DeleteUserArgs {
+    id: ID
+    slug: String
+    email: String
+  }
+
+  type DeleteUserPayload {
+    id: ID!
+    firstname: String!
+    lastname: String!
+  }
+
+  ##### END OF DELETE USER #####
+
   ##### GET USERS #####
+
+  type DeleteUserOptions {
+    id: ID!
+    name: String! # should be fullname?
+    type: UserType!
+  }
 
   type GetUsersPayload {
     id: ID!
@@ -33,6 +55,7 @@ export default gql`
     email: String!
     studentId: String!
     grade: Grade!
+    delete: DeleteUserOptions!
   }
 
   ##### END OF GET USERS #####
@@ -141,7 +164,7 @@ export default gql`
   }
 
   type Mutation {
-    deleteUser(id: ID!): User!
+    deleteUser(identifier: DeleteUserArgs!): DeleteUserPayload!
     updateUserInterests(id: ID!, tags: [TagInput!]!): [Tag!]!
     approveUser(userId: ID!): ApproveUserPayload!
     batchDeleteUsers(userIds: [ID!]!): [BatchDeleteUserPayload!]!

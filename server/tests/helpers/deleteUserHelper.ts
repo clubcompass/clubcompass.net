@@ -30,6 +30,9 @@ export const deleteUser = async (
     where: {
       ...identifier,
     },
+    select: {
+      id: true,
+    },
   });
   return user;
 };

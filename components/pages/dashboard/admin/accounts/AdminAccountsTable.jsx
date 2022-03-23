@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { Table } from "../../../../general/Table";
 
-export const AdminAccountsTable = ({ data }) => {
+export const AdminAccountsTable = ({ data, refetch }) => {
   // const data = useMemo(
   //   () => [
   //     {
@@ -37,7 +37,7 @@ export const AdminAccountsTable = ({ data }) => {
   );
   return (
     <div>
-      <Table columns={columns} data={data} checkbox />
+      <Table columns={columns} data={data} refetch={refetch} checkbox />
     </div>
   );
 };

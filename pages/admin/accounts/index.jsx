@@ -28,10 +28,12 @@ const AdminAccounts = () => {
 
   if (!users && loading) return <p>Loading...</p>;
 
+  console.log(users);
+
   return (
     <div>
       <AdminWrapper title="Manage Accounts" links={AdminAccountsLinks}>
-        <AdminAccountsTable data={users} />
+        <AdminAccountsTable data={users} refetch={refetch} />
       </AdminWrapper>
     </div>
   );

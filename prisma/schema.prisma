@@ -1,12 +1,10 @@
-datasource db {
-  provider = "postgresql"
-  // url      = env("DATABASE_URL")
-  url      = env("LOCAL_POSTGRES_URL")
-  // url = env("STAGING_POSTGRES_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("LOCAL_POSTGRES_URL")
 }
 
 model Club {
@@ -20,36 +18,33 @@ model Club {
   approval        Boolean?             @default(false)
   status          ClubStatus           @default(DRAFT)
   availability    ClubAvailability     @default(OPEN)
-  links           Link[]
-  applicationInfo ClubApplicationInfo?
-  tags            Tag[]
-  members         User[]               @relation("members")
-  editors         User[]               @relation("editors")
-  roles           Role[]
-  invites         Invite[]
-  teacher         User?                @relation("advisor", fields: [teacherId], references: [id])
   teacherId       String?
   createdAt       DateTime             @default(now())
   updatedAt       DateTime             @updatedAt
+  teacher         User?                @relation("advisor", fields: [teacherId], references: [id])
+  applicationInfo ClubApplicationInfo?
+  invites         Invite[]
+  links           Link[]
+  roles           Role[]
+  tags            Tag[]
+  editors         User[]               @relation("editors")
+  members         User[]               @relation("members")
 }
 
 model Link {
   id        String   @id @default(cuid())
-  club      Club     @relation(fields: [clubId], references: [id], onDelete: Cascade)
   clubId    String
   name      String
   link      String
   type      LinkType @default(WEBSITE)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  club      Club     @relation(fields: [clubId], references: [id], onDelete: Cascade)
 }
 
 model ClubApplicationInfo {
   id                                  String              @id @default(cuid())
-  club                                Club?               @relation(fields: [clubId], references: [id])
   clubId                              String?             @unique
-  projectedRevenue                    ProjectedRevenue[]
-  projectedExpenses                   ProjectedExpenses[]
   purpose                             String?
   membershipRequirements              String?
   dutiesOfMembers                     String?
@@ -60,15 +55,18 @@ model ClubApplicationInfo {
   percentAttendanceToApproveDecision  Int?
   createdAt                           DateTime            @default(now())
   updatedAt                           DateTime            @updatedAt
+  club                                Club?               @relation(fields: [clubId], references: [id])
+  projectedExpenses                   ProjectedExpenses[]
+  projectedRevenue                    ProjectedRevenue[]
 }
 
 model Tag {
   id              String   @id @default(cuid())
   name            String   @unique
-  clubs           Club[]
-  interestedUsers User[]
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+  clubs           Club[]
+  interestedUsers User[]
 }
 
 model User {
@@ -84,49 +82,27 @@ model User {
   password          String
   grade             Grade
   type              AccountType @default(STUDENT)
-  interests         Tag[]
-  clubs             Club[]      @relation("members")
-  canEdit           Club[]      @relation("editors")
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
   advisor           Club[]      @relation("advisor")
-  roles             Role[]
   invites           Invite[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  roles             Role[]
+  interests         Tag[]
+  canEdit           Club[]      @relation("editors")
+  clubs             Club[]      @relation("members")
 }
-
-// model Account {
-//   id            String      @id @default(cuid())
-//   refresh_token      String?  @db.Text
-//   access_token       String?  @db.Text
-//   expires_at         Int?
-//   token_type         String?
-//   scope              String?
-//   id_token           String?  @db.Text
-//   session_state      String?
-//   sessions      Session[]
-// }
-
-// model Session {
-//   id        String   @id @default(cuid())
-//   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   userId    String
-//   token     String
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
 
 model Invite {
   id        String       @id @default(cuid())
   status    InviteStatus @default(PENDING)
   type      InviteType   @default(OUTGOING)
-  club      Club         @relation(fields: [clubId], references: [id], onDelete: Cascade)
   clubId    String
-  user      User         @relation(fields: [userId], references: [id])
   userId    String
-  roles     Role[]
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
+  club      Club         @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  roles     Role[]
 }
 
 model Role {
@@ -134,35 +110,35 @@ model Role {
   name        String
   color       String
   description String
-  users       User[]
-  club        Club     @relation(fields: [clubId], references: [id], onDelete: Cascade)
   clubId      String
   type        RoleType @default(MEMBER)
-  invites     Invite[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  club        Club     @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  invites     Invite[]
+  users       User[]
 }
 
 model ProjectedRevenue {
   id        String               @id @default(cuid())
-  club      ClubApplicationInfo? @relation(fields: [clubId], references: [id])
   clubId    String?
   name      String?
   amount    Float?
   date      String?
   createdAt DateTime             @default(now())
   updatedAt DateTime             @updatedAt
+  club      ClubApplicationInfo? @relation(fields: [clubId], references: [id])
 }
 
 model ProjectedExpenses {
   id        String               @id @default(cuid())
-  club      ClubApplicationInfo? @relation(fields: [clubId], references: [id])
   clubId    String?
   name      String?
   amount    Float?
   date      String?
   createdAt DateTime             @default(now())
   updatedAt DateTime             @updatedAt
+  club      ClubApplicationInfo? @relation(fields: [clubId], references: [id])
 }
 
 enum Grade {
@@ -185,8 +161,8 @@ enum InviteStatus {
 }
 
 enum InviteType {
-  OUTGOING //club sends invite to user
-  INCOMING //user requests to join club
+  OUTGOING
+  INCOMING
 }
 
 enum ClubAvailability {

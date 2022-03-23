@@ -1,48 +1,36 @@
+import { useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
-import { APPROVE_USER, DELETE_USER } from "../../../../../lib/docs";
+import {
+  BATCH_APPROVE_USERS,
+  BATCH_DELETE_USERS,
+} from "../../../../../lib/docs";
 import { ModalProvider, useModalContext } from "../../../../general/Modal";
 
 import { BsCheckCircleFill } from "react-icons/bs";
+import { CgSpinner } from "react-icons/cg";
 
 export const AdminAccountsApproveModal = ({
   reject,
   selectedRowIds,
-  selected,
+  selected = [],
+  refetch,
 }) => {
+  const [deleted, setDeleted] = useState([]);
   const rowsLength = Object.keys(selectedRowIds).length;
-
-  const [approveUser] = useMutation(APPROVE_USER, {
-    onCompleted: (data) => {
-      console.log(data);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
-
-  const [declineUser] = useMutation(DELETE_USER, {
-    onCompleted: (data) => {
-      console.log(data);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
-
-  const handleConfirmation = () => {
-    if (reject) {
-      declineUser({ variables: { ids: selectedRowIds } }); // should take array of ids
-    } else {
-      approveUser({ variables: { userId: selectedRowIds } }); // should take array of ids
-    }
-  };
+  const userIds = selected.map((user) => user.id);
 
   return (
     <div>
       <ModalProvider closeColor={{ color: "#ffffff", index: 2 }}>
         <OpenModal reject={reject} rowsLength={rowsLength} />
-        <ConfirmationModal reject={reject} rowsLength={rowsLength} />
-        <CongratsModal reject={reject} rowsLength={rowsLength} />
+        <ConfirmationModal
+          reject={reject}
+          setNumberOfDeleted={setDeleted}
+          rowsLength={rowsLength}
+          userIds={userIds}
+          refetch={refetch}
+        />
+        <CongratsModal reject={reject} deleted={deleted} />
       </ModalProvider>
     </div>
   );
@@ -69,8 +57,51 @@ const OpenModal = ({ reject, rowsLength }) => {
   );
 };
 
-const ConfirmationModal = ({ reject, rowsLength }) => {
+const ConfirmationModal = ({
+  reject,
+  rowsLength,
+  userIds,
+  refetch,
+  setNumberOfDeleted,
+}) => {
   const { closeModal, next } = useModalContext();
+
+  const [batchApproveUsers, { loading: approveUsersLoading }] = useMutation(
+    BATCH_APPROVE_USERS,
+    {
+      onCompleted: ({ batchApproveUsers } = {}) => {
+        setNumberOfDeleted(batchApproveUsers.length);
+        refetch();
+        next();
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    }
+  );
+
+  const [batchDeclineUsers, { loading: declineUsersLoading }] = useMutation(
+    BATCH_DELETE_USERS,
+    {
+      onCompleted: ({ batchDeleteUsers } = {}) => {
+        setNumberOfDeleted(batchDeleteUsers.length);
+        refetch();
+        next();
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    }
+  );
+
+  const handleConfirmation = async () => {
+    console.log(userIds);
+    if (reject) {
+      await batchDeclineUsers({ variables: { userIds } });
+    } else {
+      await batchApproveUsers({ variables: { userIds } });
+    }
+  };
 
   return (
     <div className="flex flex-col gap-2">
@@ -95,27 +126,37 @@ const ConfirmationModal = ({ reject, rowsLength }) => {
         >
           Cancel
         </button>
-        {reject ? (
-          <button
-            onClick={next}
-            className="rounded-lg bg-red-500 py-2 font-semibold text-white duration-150 hover:bg-[#e63939]"
-          >
-            Reject
-          </button>
-        ) : (
-          <button
-            onClick={next}
-            className="rounded-lg bg-cc py-2 font-semibold text-white duration-150 hover:bg-[#1d58e2]"
-          >
-            Approve
-          </button>
-        )}
+
+        <button
+          onClick={handleConfirmation}
+          disabled={approveUsersLoading || declineUsersLoading}
+          className={`${
+            approveUsersLoading || declineUsersLoading
+              ? "cursor-not-allowed bg-opacity-20"
+              : reject
+              ? "hover:bg-[#e63939]"
+              : "hover:bg-[#1d58e2]"
+          } ${
+            reject ? "bg-red-500" : "bg-cc"
+          } rounded-lg  py-2 font-semibold text-white duration-150`}
+        >
+          {approveUsersLoading || declineUsersLoading ? (
+            <div className="flex flex-row items-center justify-center gap-2">
+              <CgSpinner size={15} className="animate-spin" />
+              <span>
+                {reject ? "Rejecting users..." : "Approving users..."}
+              </span>
+            </div>
+          ) : (
+            <span> {reject ? "Reject" : "Approve"}</span>
+          )}
+        </button>
       </div>
     </div>
   );
 };
 
-const CongratsModal = ({ reject, rowsLength }) => {
+const CongratsModal = ({ reject, deleted }) => {
   const { closeModal } = useModalContext();
 
   return (
@@ -129,10 +170,10 @@ const CongratsModal = ({ reject, rowsLength }) => {
       </div>
       <div className="flex flex-col gap-2">
         <h4 className="text-2xl font-semibold">
-          Successfully {reject ? "rejected" : "approved"} {rowsLength} accounts.
+          Successfully {reject ? "rejected" : "approved"} {deleted} accounts.
         </h4>
         <p className="text-lg text-ccGreyLight">
-          {rowsLength} accounts have been {reject ? "rejected" : "approved"}.{" "}
+          {deleted} accounts have been {reject ? "rejected" : "approved"}.{" "}
           {reject
             ? "They will not be able to join clubs."
             : "They will now be able to join clubs."}

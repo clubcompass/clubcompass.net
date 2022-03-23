@@ -13,21 +13,22 @@ export const batchDeleteUsers = async (
   _parent: any,
   { userIds }: batchDeleteUserArgs,
   { prisma, auth }: Context //!!!!!! add auth to get userId
-): Promise<typeof deletedUsers> => {
-  const users = userIds.map((userId) =>
-    prisma.user.delete({
-      where: {
-        id: userId,
-      },
-      select: {
-        firstname: true,
-        lastname: true,
-        studentId: true,
-      },
-    })
+): Promise<typeof users> => {
+  // what happens if invalid user id?
+  const users = await prisma.$transaction(
+    userIds.map((userId) =>
+      prisma.user.delete({
+        where: {
+          id: userId,
+        },
+        select: {
+          firstname: true,
+          lastname: true,
+          studentId: true,
+        },
+      })
+    )
   );
 
-  const deletedUsers = await prisma.$transaction(users);
-
-  return deletedUsers;
+  return users;
 };

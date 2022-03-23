@@ -1,1 +1,1 @@
-export * from "./deleteUser";
+export * from "./deleteUserHelper";

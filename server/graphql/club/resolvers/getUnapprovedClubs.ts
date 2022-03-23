@@ -56,6 +56,7 @@ export const getUnapprovedClubs = async (
 
   const clubs = unapprovedClubs.map(
     ({ id, name, availability, createdAt, roles, teacher, _count }) => {
+      console.log(roles); // when deleting on user cascade, roles can be empty causing an error on president property
       return {
         id: id,
         name: name,

@@ -59,11 +59,12 @@ export const getClub = async (
     },
   });
 
-  if (club.approval === false)
+  if (!club.approval && Object.keys(identifier)[0] === "slug") {
     throw new ApolloError(
       "The requested club has not been approved",
       "UNAPPROVED_CLUB"
     );
+  }
 
   return club;
 };
