@@ -11,11 +11,11 @@ import { validate } from "../../../utils/validation";
 import { createClubSchema } from "../../../utils/validation/schemas/club";
 
 export interface CreateClubData extends Partial<Omit<Club, "id" | "slug">> {
-  vicePresidentId?: User["id"];
-  secretaryId?: User["id"];
-  treasurerId?: User["id"];
-  teacherId?: User["id"];
-  links?: Link[];
+  // vicePresidentId?: User["id"];
+  // secretaryId?: User["id"];
+  // treasurerId?: User["id"];
+  // teacherId?: User["id"];
+  // links?: Link[];
   tags?: Tag[];
 }
 
@@ -95,36 +95,36 @@ export const createClub = async (
       color: "#FAFAFA",
       type: "LEADER",
       description: "vice president description",
-      ...(data?.vicePresidentId && {
-        users: { connect: { id: data?.vicePresidentId } },
-      }),
+      // ...(data?.vicePresidentId && {
+      //   users: { connect: { id: data?.vicePresidentId } },
+      // }),
     },
     {
       name: "secretary",
       color: "#FAFAFA",
       type: "LEADER",
       description: "secretary description",
-      ...(data?.secretaryId
-        ? { users: { connect: { id: data?.secretaryId } } }
-        : {}),
+      // ...(data?.secretaryId
+      //   ? { users: { connect: { id: data?.secretaryId } } }
+      //   : {}),
     },
     {
       name: "treasurer",
       color: "#FAFAFA",
       type: "LEADER",
       description: "treasurer description",
-      ...(data?.treasurerId
-        ? { users: { connect: { id: data?.treasurerId } } }
-        : {}),
+      // ...(data?.treasurerId
+      //   ? { users: { connect: { id: data?.treasurerId } } }
+      //   : {}),
     },
   ];
 
   const members = () => {
     const members: { id: User["id"] }[] = [];
     if (president.id) members.push({ id: president.id });
-    if (data?.vicePresidentId) members.push({ id: data?.vicePresidentId });
-    if (data?.secretaryId) members.push({ id: data?.secretaryId });
-    if (data?.treasurerId) members.push({ id: data?.treasurerId });
+    // if (data?.vicePresidentId) members.push({ id: data?.vicePresidentId });
+    // if (data?.secretaryId) members.push({ id: data?.secretaryId });
+    // if (data?.treasurerId) members.push({ id: data?.treasurerId });
     return members;
   };
 
@@ -141,12 +141,12 @@ export const createClub = async (
           connect: members(),
         },
       }),
-      ...(data?.links && { links: { create: [...data?.links] } }),
+      // ...(data?.links && { links: { create: [...data?.links] } }),
       ...(data?.tags && { tags: { connect: [...data?.tags] } }),
     },
     include: {
       tags: true,
-      links: true,
+      // links: true,
       members: {
         select: {
           firstname: true,
@@ -163,20 +163,20 @@ export const createClub = async (
     },
   });
 
-  if (data?.teacherId) {
-    await prisma.club.update({
-      where: {
-        id: club.id,
-      },
-      data: {
-        teacher: {
-          connect: {
-            id: data?.teacherId,
-          },
-        },
-      },
-    });
-  }
+  // if (data?.teacherId) {
+  //   await prisma.club.update({
+  //     where: {
+  //       id: club.id,
+  //     },
+  //     data: {
+  //       teacher: {
+  //         connect: {
+  //           id: data?.teacherId,
+  //         },
+  //       },
+  //     },
+  //   });
+  // }
 
   return club;
 };

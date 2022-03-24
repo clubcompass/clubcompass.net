@@ -2,12 +2,14 @@ import { ApolloError } from "apollo-server-micro";
 import type { User } from "@prisma/client";
 import { Context } from "../../ctx";
 
-type DeleteUserArgs = {
+export type DeleteUserArgs = {
   identifier:
     | { id: User["id"] }
     | { email: User["email"] }
     | { ccid: User["ccid"] };
 };
+
+export type DeleteUserPayload = Awaited<ReturnType<typeof deleteUser>>;
 
 export const deleteUser = async (
   _: any,
@@ -40,6 +42,5 @@ export const deleteUser = async (
     },
   });
 
-  console.log(user);
   return user;
 };

@@ -8,6 +8,7 @@ import { approveUser } from "./resolvers/approveUser";
 import { getUsers } from "./resolvers/getUsers";
 import { batchDeleteUsers } from "./resolvers/batchDeleteUsers";
 import { batchApproveUsers } from "./resolvers/batchApproveUsers";
+import { getUser } from "./resolvers/getUser";
 
 const resolvers: Resolvers = {
   Query: {
@@ -15,6 +16,7 @@ const resolvers: Resolvers = {
     getUserLeadershipClubs,
     validateUser,
     getUsers,
+    getUser,
   },
   Mutation: {
     deleteUser,

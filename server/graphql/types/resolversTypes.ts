@@ -44,6 +44,8 @@ import type {
   GetUsersPayload,
   batchDeleteUserArgs,
   batchDeleteUserPayload,
+  GetUserArgs,
+  GetUserPayload,
 } from "../user/types";
 import type {
   CreateClubArgs,
@@ -155,6 +157,7 @@ export interface UserResolvers {
     BatchApproveUsersArgs,
     BatchApproveUsersPayload
   >;
+  getUser?: Resolver<{}, GetUserArgs, GetUserPayload>;
 }
 
 export interface ClubResolvers {

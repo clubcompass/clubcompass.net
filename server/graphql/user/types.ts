@@ -7,3 +7,4 @@ export * from "./resolvers/approveUser";
 export * from "./resolvers/getUsers";
 export * from "./resolvers/batchDeleteUsers";
 export * from "./resolvers/batchDeleteUsers";
+export * from "./resolvers/getUser";

@@ -10,6 +10,18 @@ export const VALIDATE_USER = gql`
   }
 `;
 
+export const GET_USER = gql`
+  query GetUser($identifier: GetUserArgs!) {
+    getUser(identifier: $identifier) {
+      id
+      firstname
+      lastname
+      email
+      type
+    }
+  }
+`;
+
 export const GET_USER_CLUBS = gql`
   query {
     getUserClubs {
