@@ -1,16 +1,19 @@
 import React from "react";
+import { ToastProvider } from "../../../context";
 import { DashboardNav } from "./navigation";
 export const DashboardNavigationLayout = ({ children }) => {
   return (
-    <Container>
-      <DashboardNav />
-      <div className="bg-[#FAFAFA] py-6 min-h-screen w-full pl-[280px] pr-[30px]">
-        {children}
-      </div>
-    </Container>
+    <ToastProvider>
+      <Container>
+        <DashboardNav />
+        <div className="min-h-screen w-full bg-[#FAFAFA] py-6 pl-[280px] pr-[30px]">
+          {children}
+        </div>
+      </Container>
+    </ToastProvider>
   );
 };
 
 const Container = ({ children }) => (
-  <div className="flex flex-row w-full">{children}</div>
+  <div className="flex w-full flex-row">{children}</div>
 );

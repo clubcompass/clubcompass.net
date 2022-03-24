@@ -1,15 +1,21 @@
 import React from "react";
-import { LayoutProvider, useLayoutContext } from "../../../context";
+import {
+  LayoutProvider,
+  ToastProvider,
+  useLayoutContext,
+} from "../../../context";
 import { Nav, Footer } from ".";
 export const NavigationLayout = ({ children }) => {
   return (
-    <LayoutProvider>
-      <NavigationLayoutContainer>
-        <Nav />
-        <div className="px-6 lg:px-16">{children}</div>
-        <Footer />
-      </NavigationLayoutContainer>
-    </LayoutProvider>
+    <ToastProvider>
+      <LayoutProvider>
+        <NavigationLayoutContainer>
+          <Nav />
+          <div className="px-6 lg:px-16">{children}</div>
+          <Footer />
+        </NavigationLayoutContainer>
+      </LayoutProvider>
+    </ToastProvider>
   );
 };
 

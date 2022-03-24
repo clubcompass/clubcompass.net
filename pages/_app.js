@@ -10,7 +10,8 @@ import {
 import { onError } from "@apollo/client/link/error";
 import { setContext } from "@apollo/client/link/context";
 import Cookies from "js-cookie";
-import { AuthProvider } from "../context/auth";
+import { AuthProvider } from "../context/AuthProvider";
+import { ToastProvider } from "../context/ToastProvider";
 import { Layout } from "../components/Layout";
 function MyApp({ Component, pageProps }) {
   const errorLink = onError(({ graphQLErrors, networkError }) => {
@@ -58,11 +59,15 @@ function MyApp({ Component, pageProps }) {
   return (
     <ApolloProvider client={apolloClient}>
       <QueryClientProvider client={queryClient}>
+        {/* Dont need Apollo Query Provider */}
+        {/* <ToastProvider> */}
         <AuthProvider protectedRoute={pageProps.protected}>
           <Layout layout={layout}>
+            {/* Maybe Modal Provider should go into layout? */}
             <Component {...pageProps} />
           </Layout>
         </AuthProvider>
+        {/* </ToastProvider> */}
       </QueryClientProvider>
     </ApolloProvider>
   );
