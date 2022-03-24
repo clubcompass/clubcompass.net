@@ -102,15 +102,15 @@ const DashboardItem = ({ label, to, icon, notifications, disabled }) => {
       <a
         className={`mx-6 mb-6 flex flex-row items-center gap-4 rounded-md py-2 px-4 ${
           isActive
-            ? "text-cc bg-[#1C5EF915]"
+            ? "bg-[#1C5EF915] text-cc"
             : disabled
-            ? "text-gray-200 cursor-not-allowed pointer-events-none"
+            ? "pointer-events-none cursor-not-allowed text-gray-200"
             : "text-[#787F92] hover:bg-[#FAFAFA]"
         } `}>
         <Icon icon={icon} color={isActive ? "#1C5EF9" : "#787F92"} />
         <span>{label}</span>
         {icon === "activity" && !disabled && (
-          <div className="-ml-1 flex w-[20px] h-[20px] bg-red-400 items-center justify-center rounded-full">
+          <div className="-ml-1 flex h-[20px] w-[20px] items-center justify-center rounded-full bg-red-400">
             <span className="text-[10px] font-semibold text-white">
               {notifications}
             </span>

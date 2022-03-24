@@ -7,8 +7,12 @@ import {
   TextField,
   FieldSelect as Select,
 } from "../../../../general/input/control";
+import { OptionSelection } from "../../../../general/input";
+import { CcIdForm } from "../../../../general/input/CcIdForm";
 
-export const ClubForm = ({ initialValues }) => {
+export const DashboardNewBase = ({ initialValues }) => {
+  const [availability, setAvailability] = useState("Open");
+
   //! Need to check which users selected to filter them out of the list of users
   //# get email from user, set president to user
 
@@ -65,7 +69,16 @@ export const ClubForm = ({ initialValues }) => {
         text: "Club Name",
         required: true,
       },
-      placeholder: "Paul's Club",
+      placeholder: "Your Club",
+    },
+    {
+      component: TextField,
+      name: "email",
+      label: {
+        text: "Email",
+        required: true,
+      },
+      placeholder: "example@example.com",
     },
     {
       //TODO: Rich text editor with md supported
@@ -75,64 +88,44 @@ export const ClubForm = ({ initialValues }) => {
         text: "Club Description",
         required: true,
       },
-      placeholder: "A club for people who like to play games",
+      placeholder: "Description",
       textarea: true,
     },
     {
-      component: TextField,
-      name: "meetingDate",
-      label: {
-        text: "Club Meeting Date",
-        required: true,
-      },
-      placeholder: "Your club's meeting date",
+      custom: true,
+      name: "grade",
+      component: (
+        <OptionSelection
+          setCurrent={({ value }) => setAvailability(value)}
+          current={availability}
+          options={["Open", "Invite Only", "Closed"]}
+        />
+      ),
+      span: 6,
     },
-
     {
-      //TODO: Selection for zoom or room; if zoom, add zoom link if room add room number
       component: TextField,
       name: "location",
       label: {
         text: "Meeting location",
         required: true,
       },
-      placeholder: "The place where your club meets",
+      placeholder: "Location",
     },
     {
-      component: Select,
-      name: "vicePresident",
+      component: TextField,
+      name: "meetingDate",
       label: {
-        text: "Select a vice president for your club",
+        text: "Meeting Date and Time",
         required: true,
       },
-      props: {
-        name: "vicePresident",
-        options: userOptions,
-      },
+      placeholder: "Day of the week, frequency, and time",
     },
     {
-      component: Select,
-      name: "secretary",
-      label: {
-        text: "Select a secretary for your club",
-        required: true,
-      },
-      props: {
-        name: "secretary",
-        options: userOptions,
-      },
-    },
-    {
-      component: Select,
-      name: "treasurer",
-      label: {
-        text: "Select a treasurer for your club",
-        required: true,
-      },
-      props: {
-        name: "treasurer",
-        options: userOptions,
-      },
+      custom: true,
+      name: "grade",
+      component: <CcIdForm />,
+      span: 6,
     },
     {
       component: Select,
@@ -225,17 +218,25 @@ export const ClubForm = ({ initialValues }) => {
       // validationSchema={passwordSchema}
     >
       <Form className="flex max-w-3xl flex-col gap-4">
-        {form.map((field, z) => (
-          <Field key={z} {...field} z={50 - z} />
-        ))}
+        {form.map((field, z) => {
+          if (field.custom)
+            return (
+              <div
+                key={field.name}
+                style={{ gridColumn: `span ${field.span}` }}
+                className="flex">
+                {field.component}
+              </div>
+            );
+          return <Field key={z} {...field} z={50 - z} />;
+        })}
         <div className="flex flex-row items-center gap-2">
-          <button type="submit" className="w-full py-1 bg-cc text-white mt-2">
+          <button type="submit" className="mt-2 w-full bg-cc py-1 text-white">
             Submit
           </button>
           <button
             type="button"
-            className="w-full py-1 bg-yellow-600 text-white mt-2"
-          >
+            className="mt-2 w-full bg-yellow-600 py-1 text-white">
             Save As Draft
           </button>
         </div>
