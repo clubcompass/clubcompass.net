@@ -3,6 +3,7 @@ import Link from "next/link";
 import { db } from "../../../lib/database";
 import { BsPeopleFill } from "react-icons/bs";
 import { ActionModal } from "../../general/ActionModal";
+import { useBreakpoints } from "../../../hooks";
 
 export const CardFooter = ({
   name,
@@ -36,11 +37,18 @@ export const CardFooter = ({
   );
 };
 
-const CCLink = ({ slug }) => (
-  <Link href={`/club/${slug}`}>
-    <a className="font-semibold text-cc underline">Visit page</a>
-  </Link>
-);
+const CCLink = ({ slug }) => {
+  const { isSm, isXs } = useBreakpoints();
+  const isMobile = isSm || isXs;
+
+  return (
+    <Link href={`/club/${slug}`}>
+      <a className="font-semibold text-cc underline">
+        {isMobile ? "View" : "View club"}
+      </a>
+    </Link>
+  );
+};
 
 const MembersCount = ({ memberCount }) => (
   <div className="flex flex-row items-center gap-1 rounded-md bg-[#EDEDED] px-3 text-xs text-black">

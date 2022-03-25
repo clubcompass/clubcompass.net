@@ -4,7 +4,7 @@ import { DashboardUserClubs as UserClubs } from "../../components/pages/dashboar
 const Dashboard = () => {
   // error handle email verification failed
   return (
-    <div className="flex flex-col p-4">
+    <div className="flex flex-col md:p-4">
       <h1 className="font-bold uppercase text-[#626262]">Dashboard</h1>
       <UserClubs />
     </div>

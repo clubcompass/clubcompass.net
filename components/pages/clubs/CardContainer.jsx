@@ -3,7 +3,7 @@ import React from "react";
 export const CardContainer = ({ children }) => {
   const [header, content, footer] = children;
   return (
-    <div className="h-[223px] w-full flex flex-col justify-between bg-white border-[1px] p-6 rounded-xl transition duration-300 ease-in-out">
+    <div className="flex w-full flex-col justify-between rounded-xl border-[1px] bg-white p-6 transition duration-300 ease-in-out md:h-[223px]">
       <div>
         {header}
         {content}

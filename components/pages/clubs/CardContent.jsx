@@ -9,12 +9,11 @@ export const CardContent = ({ name, description }) => {
   }, [name]);
 
   return (
-    <div className="mt-2 mb-1 w-[90%]">
+    <div className="mt-2 mb-1">
       <h3
         className={`${
           lineClamp ? "line-clamp-2" : "line-clamp-3"
-        } text-left text-[17px] `}
-      >
+        } text-left text-[17px] `}>
         {description}
       </h3>
     </div>

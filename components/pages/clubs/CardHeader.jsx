@@ -2,9 +2,9 @@ import React from "react";
 import { Tags } from "../../general/tags";
 import { PrimaryTag } from "../../general/tags";
 export const CardHeader = ({ name, primaryTag, tags }) => (
-  <div className="relative flex flex-row justify-between items-center">
-    <div className="flex flex-col w-[calc(100%-54px)]">
-      <h3 id={name} className="font-bold text-[25px] leading-tight mb-2">
+  <div className="relative flex flex-row items-center justify-between">
+    <div className="flex w-[calc(100%-60px)] flex-col">
+      <h3 id={name} className="mb-2 text-[25px] font-bold leading-tight">
         {name}
       </h3>
       <Tags tags={tags} clubs />
