@@ -7,19 +7,21 @@ export type GetUserArgs = {
     | { id: User["id"] }
     | { email: User["email"] }
     | { ccid: User["ccid"] };
+  type?: User["type"];
 };
 
 export type GetUserPayload = Awaited<ReturnType<typeof getUser>>;
 
 export const getUser = async (
   _parent: any,
-  { identifier }: GetUserArgs,
+  { identifier, type }: GetUserArgs,
   { prisma }: Context
 ): Promise<typeof user> => {
   const user = await prisma.user.findUnique({
     where: {
       ...identifier,
     },
+
     select: {
       id: true,
       firstname: true,
@@ -36,9 +38,16 @@ export const getUser = async (
     });
   }
 
-  if (user.active === false) {
+  if (!user.active) {
     throw new ApolloError("User not approved", "UNAPPROVED_USER", {
       [Object.keys(identifier)[0]]: identifier,
+    });
+  }
+
+  if (type && user.type !== type) {
+    throw new ApolloError("User is not of the specified type", "WRONG_TYPE", {
+      [Object.keys(identifier)[0]]: identifier,
+      type,
     });
   }
 

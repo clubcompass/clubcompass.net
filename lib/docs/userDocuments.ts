@@ -11,8 +11,8 @@ export const VALIDATE_USER = gql`
 `;
 
 export const GET_USER = gql`
-  query GetUser($identifier: GetUserArgs!) {
-    getUser(identifier: $identifier) {
+  query GetUser($identifier: GetUserIdentifierArgs!, $type: UserType) {
+    getUser(identifier: $identifier, type: $type) {
       id
       firstname
       lastname

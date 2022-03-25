@@ -118,12 +118,11 @@ export default gql`
 
   ##### GET USER #####
 
-  input GetUserArgs {
+  input GetUserIdentifierArgs {
     id: ID
     ccid: String
     email: String
   }
-
   type GetUserPayload {
     id: ID!
     firstname: String!
@@ -179,7 +178,7 @@ export default gql`
     getUserClubs: [GetUserClubPayload!]!
     getUserLeadershipClubs: GetUserLeadershipClubsPayload!
     validateUser(ccid: String!): User!
-    getUser(identifier: GetUserArgs!): GetUserPayload!
+    getUser(identifier: GetUserIdentifierArgs!, type: UserType): GetUserPayload!
   }
 
   type Mutation {

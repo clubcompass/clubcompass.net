@@ -4,7 +4,7 @@ export const DashboardNavigationLayout = ({ children }) => {
   return (
     <Container>
       <DashboardNav />
-      <div className="bg-[#FAFAFA] py-6 min-h-screen w-full pl-[280px] pr-[30px]">
+      <div className="min-h-screen w-full bg-white py-6 pl-[280px] pr-[30px]">
         {children}
       </div>
     </Container>
@@ -12,5 +12,5 @@ export const DashboardNavigationLayout = ({ children }) => {
 };
 
 const Container = ({ children }) => (
-  <div className="flex flex-row w-full">{children}</div>
+  <div className="flex w-full flex-row">{children}</div>
 );

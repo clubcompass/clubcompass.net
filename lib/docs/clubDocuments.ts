@@ -84,6 +84,26 @@ export const GET_CLUB = gql`
   }
 `;
 
+export const CREATE_CLUB = gql`
+  mutation ($data: CreateClubArgs!) {
+    createClub(data: $data) {
+      id
+      name
+      slug
+      description
+      email
+      meetingDate
+      location
+      approval
+      status
+      availability
+      tags {
+        name
+      }
+    }
+  }
+`;
+
 export const EDIT_CLUB = gql`
   mutation ($clubId: ID!, $data: EditClubArgs!) {
     editClub(clubId: $clubId, data: $data) {

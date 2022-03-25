@@ -32,18 +32,7 @@ interface UserRoles
 
 export const createClub = async (
   _parent: any,
-  {
-    data: {
-      // name,
-      // vicePresidentId,
-      // secretaryId,
-      // treasurerId,
-      // teacherId,
-      // links,
-      // tags,
-      ...data
-    },
-  }: CreateClubArgs,
+  { data }: CreateClubArgs,
   { prisma, auth }: Context
 ): Promise<typeof club> => {
   const { valid, errors } = await validate({

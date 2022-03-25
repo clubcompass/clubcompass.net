@@ -1,99 +1,72 @@
 import React, { useState } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "@apollo/client";
 import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { db } from "../../../../../lib/database";
+import { createClubSchema } from "../../../../../server/utils/validation/schemas/club/createClubSchema";
+import { useRouter } from "next/router";
+import { GET_TAGS, CREATE_CLUB } from "../../../../../lib/docs";
 import {
-  TextField,
+  FieldButton,
+  Field as CustomField,
   FieldSelect as Select,
 } from "../../../../general/input/control";
-import { OptionSelection } from "../../../../general/input";
-import { CcIdForm } from "../../../../general/input/CcIdForm";
+import { OptionSelection, TagSelection } from "../../../../general/input";
 
-export const DashboardNewBase = ({ initialValues }) => {
-  const [availability, setAvailability] = useState("Open");
+export const DashboardNewBase = ({ next, prev, initialValues }) => {
+  const [availability, setAvailability] = useState("Open"); // move to formik field updates
+  const router = useRouter();
 
-  //! Need to check which users selected to filter them out of the list of users
-  //# get email from user, set president to user
+  const [createClub, { loading, error }] = useMutation(CREATE_CLUB, {
+    onCompleted: (data) => {
+      console.log(data);
+      next();
+    },
+    // onError: (error) => {
+    //   console.log(error);
+    // },
+    notifyOnNetworkStatusChange: true,
+  });
 
-  const { data: users, userError } = useQuery(
-    "users",
-    async () => await db.users.get({ all: true }),
-    {
-      refetchOnWindowFocus: false,
-    }
-  );
-
-  const { data: tags, error: tagError } = useQuery(
-    "tags",
-    async () => await db.tags.get(),
-    {
-      refetchOnWindowFocus: false,
-    }
-  );
-
-  const { data: teachers, teachersError } = useQuery(
-    "teachers",
-    async () => await db.users.get({ type: "TEACHER" }),
-    {
-      refetchOnWindowFocus: false,
-    }
-  );
-
-  const userOptions =
-    users &&
-    users.map(({ id, firstname, lastname }) => ({
-      value: id,
-      label: `${firstname} ${lastname}`,
-    }));
-
-  const tagOptions =
-    tags &&
-    tags.map(({ id, name }) => ({
-      value: id,
-      label: name,
-    }));
-
-  const teacherOptions =
-    teachers &&
-    teachers.map(({ id, firstname, lastname }) => ({
-      value: id,
-      label: `${firstname} ${lastname}`,
-    }));
+  const {
+    data: { getTags: tags } = {},
+    loading: { tagsLoading },
+    error: { tagError } = {},
+  } = useQuery(GET_TAGS, {
+    onCompleted: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+    notifyOnNetworkStatusChange: true,
+  });
 
   const form = [
     {
-      component: TextField,
+      component: CustomField,
       name: "name",
-      label: {
-        text: "Club Name",
-        required: true,
-      },
-      placeholder: "Your Club",
+      label: "Club Name",
+      description:
+        "Enter your club's name, try to keep it concise. For example, the school name is not necessary to include in the name of your club.",
     },
     {
-      component: TextField,
+      component: CustomField,
       name: "email",
-      label: {
-        text: "Email",
-        required: true,
-      },
-      placeholder: "example@example.com",
+      label: "Email",
+      description:
+        "Enter an email that you frequently check. This is the email through which ASB and other students will be able to contact you through.",
     },
     {
       //TODO: Rich text editor with md supported
-      component: TextField,
+      component: CustomField,
       name: "description",
-      label: {
-        text: "Club Description",
-        required: true,
-      },
-      placeholder: "Description",
+      label: "Club Description",
       textarea: true,
+      description:
+        "Enter a detailed description of your club. This will be seen by other students on your club’s preview card as well as on your club’s page.",
     },
     {
       custom: true,
-      name: "grade",
+      name: "availability",
       component: (
         <OptionSelection
           setCurrent={({ value }) => setAvailability(value)}
@@ -102,145 +75,122 @@ export const DashboardNewBase = ({ initialValues }) => {
         />
       ),
       span: 6,
+      description:
+        "Open: Anyone is able to join your club Invite Only: You can send invites to other students to join your club, and other students can send invites to your club to request joining your club.Closed: You will be able to invite other people to join you club, but nobody will be able to join or request to join your club.",
     },
     {
-      component: TextField,
+      component: CustomField,
       name: "location",
-      label: {
-        text: "Meeting location",
-        required: true,
-      },
-      placeholder: "Location",
+      label: "Meeting location",
+      description:
+        "Enter a room number, or another location. Ex: A101, Zoom Meeting, Discord Call",
     },
     {
-      component: TextField,
+      component: CustomField,
       name: "meetingDate",
-      label: {
-        text: "Meeting Date and Time",
-        required: true,
-      },
-      placeholder: "Day of the week, frequency, and time",
+      label: "Meeting Date and Time",
+      description:
+        "Enter a day or multiple days of the week and the time that your club meets on a regular basis. Try to keep this short. Ex: Every other monday at 3:00pm after school.",
     },
-    {
-      custom: true,
-      name: "grade",
-      component: <CcIdForm />,
-      span: 6,
-    },
-    {
-      component: Select,
-      name: "memberIds",
-      label: {
-        text: "Select at least 10 members for your club",
-        required: true,
-      },
-      props: {
-        isMulti: true,
-        max: 20,
-        name: "memberIds",
-        options: userOptions,
-      },
-    },
-    {
-      component: Select,
-      name: "tagIds",
-      label: {
-        text: "Select up to 4 tags for your club",
-        required: true,
-      },
-      props: {
-        isMulti: true,
-        max: 4,
-        name: "tagIds",
-        options: tagOptions,
-      },
-    },
-    {
-      component: Select,
-      name: "teacher",
-      label: {
-        text: "Choose a teacher for your club",
-        required: true,
-      },
-      props: {
-        name: "teacher",
-        options: teacherOptions,
-      },
-    },
-
-    // purpose,
-    // membershipRequirements,
-    // dutiesOfMembers,
-    // titlesAndDutiesOfOfficers,
-    // selectionOfOfficers,
-    // officerMinimumGPA,
-    // percentAttendanceForOfficialMeeting,
-    // percentAttendanceToApproveDecision,
   ];
 
-  // const passwordSchema = Yup.object().shape({
-  //   password: Yup.string()
-  //     .required("Please enter your password")
-  //     .min(8, "Must contain at least 8 characters")
-  //     .matches(/[A-Z]/, "Must contain an uppercase letter")
-  //     .matches(/[a-z]/, "Must contain an lowercase letter")
-  //     .matches(/[0-9]/, "Must contain a number")
-  //     .matches(/[!@#$%^&*()\-_=+{};:,<.>]/, "Must contain a special character"),
-  //   confirmation: Yup.string()
-  //     .required("Please confirm your password")
-  //     .oneOf([Yup.ref("password"), null], "Passwords don't match."),
-  // });
-
-  const handleSubmitAsFinal = async () => {};
   // TODO: finish all fields, add validation for all fields, submit methods with ss validation
-  const handleSubmitAsDraft = async () => {};
+  // const handleSubmitAsDraft = async () => {};
 
   return (
-    <Formik
-      initialValues={
-        initialValues || {
-          name: "",
-          description: "",
-          meetingDate: "",
-          location: "",
-          vicePresident: "",
-          secretary: "",
-          treasurer: "",
-          memberIds: [],
-          tagIds: [],
-          teacher: "",
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-2">
+        <h2 className="text-lg font-bold">Tell us about your new club.</h2>
+        <p className="text-sm text-[#5D5E5E]">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eu
+          malesuada turpis.
+        </p>
+      </div>
+      <Formik
+        initialValues={
+          initialValues || {
+            name: "",
+            email: "",
+            description: "",
+            meetingDate: "",
+            location: "",
+            tags: [],
+          }
         }
-      }
-      onSubmit={async (values, { setFieldError }) => {
-        const data = { ...values };
-        console.log(data);
-      }}
-      // validationSchema={passwordSchema}
-    >
-      <Form className="flex max-w-3xl flex-col gap-4">
-        {form.map((field, z) => {
-          if (field.custom)
-            return (
-              <div
-                key={field.name}
-                style={{ gridColumn: `span ${field.span}` }}
-                className="flex">
-                {field.component}
+        onSubmit={async (values, { setFieldError }) => {
+          console.log(values);
+          // try {
+          //   await createClub({
+          //     variables: {
+          //       data: {
+          //         ...values,
+          //         tags: values.tags.map((tag) => ({ id: tag.id })),
+          //         availability: availability.toUpperCase().replace(/ /g, "_"),
+          //       },
+          //     },
+          //   });
+          //   // router.push("/dashboard/manage/clubs");
+          // } catch (e) {
+          //   // check for type of error
+          //   // validate per field
+          //   console.log(e);
+          //   console.log(error);
+          //   // console.log(error);
+          //   // setFieldError("name", error.message);
+          //   // setFieldError("general", error.message);
+          // }
+          next();
+        }}
+        validationSchema={createClubSchema}
+      >
+        {({ values, setFieldValue, handleChange }) => {
+          return (
+            <Form className="flex max-w-3xl flex-col gap-4">
+              {form.map((field, i) => (
+                <div key={i} className="flex flex-col gap-2">
+                  {field.custom ? (
+                    <div
+                      key={field.name}
+                      style={{ gridColumn: `span ${field.span}` }}
+                      className="flex"
+                    >
+                      {field.component}
+                    </div>
+                  ) : (
+                    <Field {...field} value={values[field.name]} />
+                  )}
+                  <p className="text-xs text-gray-500">{field.description}</p>
+                </div>
+              ))}
+              <div className="flex flex-col gap-2">
+                <label htmlFor="tags" className="font-medium">
+                  Select Club Related Tags
+                </label>
+                <TagSelection
+                  tags={tags}
+                  loading={tagsLoading}
+                  error={tagError}
+                  initial={values.tags}
+                  set={(selected) => handleChange("tags", selected)}
+                  limit={4}
+                />
+                <p className="text-xs text-gray-500">
+                  Select up to 4 tags that you feel would best represent the
+                  topics that relate to your club. These are the tags that will
+                  be displayed on your club’s preview card.
+                </p>
               </div>
-            );
-          return <Field key={z} {...field} z={50 - z} />;
-        })}
-        <div className="flex flex-row items-center gap-2">
-          <button type="submit" className="mt-2 w-full bg-cc py-1 text-white">
-            Submit
-          </button>
-          <button
-            type="button"
-            className="mt-2 w-full bg-yellow-600 py-1 text-white">
-            Save As Draft
-          </button>
-        </div>
-      </Form>
-    </Formik>
+              <div className="flex w-3/4 flex-row items-center gap-2">
+                <FieldButton
+                  label="Exit"
+                  onClick={() => router.push("/dashboard")}
+                />
+                <FieldButton primary label="Continue" type="submit" />
+              </div>
+            </Form>
+          );
+        }}
+      </Formik>
+    </div>
   );
 };
