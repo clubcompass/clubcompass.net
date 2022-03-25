@@ -8,6 +8,7 @@ import { BsPeopleFill } from "react-icons/bs";
 import { useAuthContext } from "../../../../context";
 import { DashboardIcon } from "../../../custom/DashboardIcon";
 import { Loading } from "../../../general/Loading";
+import { useBreakpoints } from "../../../../hooks";
 
 export const DashboardNavItems = () => {
   const { user, loading } = useAuthContext(); //! should have loading state
@@ -97,10 +98,14 @@ const DashboardItem = ({ label, to, icon, notifications, disabled }) => {
   const router = useRouter();
   const isActive = router.pathname === to;
 
+  const { isSm, isXs } = useBreakpoints();
+  const isMobile = isSm || isXs;
+
   return (
     <Link href={to}>
       <a
-        className={`mx-6 mb-6 flex flex-row items-center gap-4 rounded-md py-2 px-4 ${
+        className={`
+        mb-6 flex flex-row items-center justify-center gap-4 rounded-md py-[0.57rem] md:mx-6 md:justify-start md:py-2 md:px-4 ${
           isActive
             ? "bg-[#1C5EF915] text-cc"
             : disabled
@@ -108,12 +113,16 @@ const DashboardItem = ({ label, to, icon, notifications, disabled }) => {
             : "text-[#787F92] hover:bg-[#FAFAFA]"
         } `}>
         <Icon icon={icon} color={isActive ? "#1C5EF9" : "#787F92"} />
-        <span>{label}</span>
-        {icon === "activity" && !disabled && (
-          <div className="-ml-1 flex h-[20px] w-[20px] items-center justify-center rounded-full bg-red-400">
-            <span className="text-[10px] font-semibold text-white">
-              {notifications}
-            </span>
+        {!isMobile && (
+          <div className="flex items-center gap-4">
+            <span>{label}</span>
+            {icon === "activity" && !disabled && (
+              <div className="-ml-1 flex h-[20px] w-[20px] items-center justify-center rounded-full bg-red-400">
+                <span className="text-[10px] font-semibold text-white">
+                  {notifications}
+                </span>
+              </div>
+            )}
           </div>
         )}
       </a>
