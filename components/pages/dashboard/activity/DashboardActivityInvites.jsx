@@ -2,9 +2,17 @@ import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { ACCEPT_INVITE, DECLINE_INVITE } from "../../../../lib/docs";
 import { db } from "../../../../lib/database";
-import { BsExclamationLg, BsCheckLg, BsXLg } from "react-icons/bs";
+import {
+  BsExclamationLg,
+  BsCheckLg,
+  BsXLg,
+  BsExclamationCircle,
+} from "react-icons/bs";
+import { Loading } from "../../../general/Loading";
 
 export const DashboardActivityInvites = ({
+  user,
+  loading,
   refetch,
   pending,
   accepted,
@@ -24,16 +32,22 @@ export const DashboardActivityInvites = ({
   // const accepted = invitesList.filter((invite) => invite.status === "ACCEPTED");
   // const declined = invitesList.filter((invite) => invite.status === "DECLINED");
 
+  if (user === null) return <Loading />;
+  if (loading) return <Loading />;
+
   return (
     <div className="flex flex-col gap-4">
       <div>
         {!pending?.length && (
           <div className="align-center mt-[20vh] flex flex-col items-center gap-4">
-            <div className="flex flex-col items-center gap-1">
+            <div className="flex flex-col items-center gap-2 text-center">
+              <div>
+                <BsExclamationCircle className="text-cc" size="65px" />
+              </div>
               <p className="text-2xl font-bold">
-                You dont have any invites yet
+                You dont have any invites yet!
               </p>
-              <p className="text-lg">Your invites will appear here</p>
+              <p className="text-lg">Your invites will appear here.</p>
             </div>
           </div>
         )}
@@ -124,14 +138,12 @@ const Invite = ({ id, userId, clubId, status, club, refetch }) => {
       <div className="flex flex-row gap-2">
         <button
           onClick={() => handleChoice("accept")}
-          className="rounded bg-[#12b95820] py-1 px-4 text-[#12b958] hover:bg-[#00800125]"
-        >
+          className="rounded bg-[#12b95820] py-1 px-4 text-[#12b958] hover:bg-[#00800125]">
           Accept
         </button>
         <button
           onClick={() => handleChoice("decline")}
-          className="rounded bg-[#FF000020] py-1 px-4 text-[#FF0000] hover:bg-[#FF000035]"
-        >
+          className="rounded bg-[#FF000020] py-1 px-4 text-[#FF0000] hover:bg-[#FF000035]">
           Decline
         </button>
       </div>
@@ -145,8 +157,7 @@ const Invite = ({ id, userId, clubId, status, club, refetch }) => {
           backgroundColor: colors[status] + "20",
           color: colors[status],
         }}
-        className="w-[177px] shrink-0 rounded-lg py-1 text-center capitalize text-white"
-      >
+        className="w-[177px] shrink-0 rounded-lg py-1 text-center capitalize text-white">
         {status.toLowerCase()}
       </span>
     );
@@ -160,8 +171,7 @@ const Invite = ({ id, userId, clubId, status, club, refetch }) => {
             backgroundColor: colors[status] + "20",
             color: colors[status],
           }}
-          className="rounded-lg p-2"
-        >
+          className="rounded-lg p-2">
           {icons[status]}
         </span>
         <div className="flex flex-col">

@@ -15,22 +15,19 @@ export const DashboardHeader = ({ name, ccid, delay }) => {
   };
 
   return (
-    <div className="mt-4 flex flex-col gap-2">
-      <h4 className="text-2xl tracking-wide">Welcome back, {name}</h4>
-      <div className="flex gap-2 items-center text-[#9B9B9B]">
+    <div className="flex flex-col gap-2">
+      <div className="flex items-center gap-2 text-[#9B9B9B]">
         <p>Your CCID:</p>
         <div
           role="button"
           onClick={setCopied}
-          className="flex items-center gap-1"
-        >
+          className="flex items-center gap-1">
           <div
             className={`${
               active
                 ? "bg-emerald-500/10 text-emerald-500"
                 : "bg-[#EBF3FF] text-[#285EF9]"
-            } w-[85px] flex justify-center items-center gap-2 px-2 rounded-sm`}
-          >
+            } flex w-[85px] items-center justify-center gap-2 rounded-sm px-2`}>
             {active ? (
               <p className="font-semibold">Copied!</p>
             ) : (

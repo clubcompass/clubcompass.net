@@ -116,7 +116,7 @@ const DashboardItem = ({ label, to, icon, notifications, disabled }) => {
         {!isMobile && (
           <div className="flex items-center gap-4">
             <span>{label}</span>
-            {icon === "activity" && !disabled && (
+            {icon === "activity" && !disabled && notifications !== 0 && (
               <div className="-ml-1 flex h-[20px] w-[20px] items-center justify-center rounded-full bg-red-400">
                 <span className="text-[10px] font-semibold text-white">
                   {notifications}

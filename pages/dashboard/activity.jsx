@@ -16,7 +16,14 @@ const Activity = () => {
     refetch,
     errors,
     invitesLoading,
-  } = useQuery(GET_USER_INVITES);
+  } = useQuery(GET_USER_INVITES, {
+    onCompleted: (data) => {
+      console.log(data);
+    },
+    onError: (e) => {
+      console.log(e);
+    },
+  });
 
   useEffect(() => {
     if (user) {
@@ -35,21 +42,20 @@ const Activity = () => {
   //   loading
   // );
 
-  if (user === null) return <Loading />;
-  if (loading) return <Loading />;
-
   return (
-    <div className="flex flex-col gap-4">
-      <h1 className="text-2xl mt-4">Your invites</h1>
+    <div className="flex flex-col gap-4 p-4">
+      <h1 className="font-bold uppercase text-[#626262]">Activity</h1>
       {!invitesLoading ? (
         <Invites
+          user={user}
+          loading={loading}
           refetch={refetch}
           accepted={acceptedInvites}
           pending={pendingInvites}
           declined={declinedInvites}
         />
       ) : (
-        <p>loading...</p>
+        <Loading />
       )}
     </div>
   );
