@@ -153,11 +153,11 @@ const Toast = ({
 
   const { icon, color } = toasts[type] || {};
 
-  const pbar = useSpring({
-    from: { width: "0%" },
-    to: { width: "100%" },
-    config: { ...config.gentle, duration: duration || 3000 },
-  });
+  // const pbar = useSpring({
+  //   from: { width: "0%" },
+  //   to: { width: "100%" },
+  //   config: { ...config.gentle, duration: duration || 3000 },
+  // });
 
   useEffect(() => {
     if (typeof duration !== "undefined") {
@@ -175,8 +175,8 @@ const Toast = ({
   return (
     <div
       style={{
-        // borderLeftWidth: "8px",
-        // borderColor: color,
+        borderLeftWidth: "8px",
+        borderColor: color,
         boxShadow: "0px 2px 20px rgb(0 0 0 / 0.10)",
         maxWidth: "30rem",
       }}
@@ -214,7 +214,7 @@ const Toast = ({
           )}
         </div>
       </div>
-      <span
+      {/* <span
         style={{
           position: "absolute",
           height: "9px",
@@ -222,10 +222,8 @@ const Toast = ({
           bottom: 0,
           left: 0,
           borderRadius: 3,
-          // width: "50%",
-          // ...pbar,
         }}
-      />
+      /> */}
     </div>
   );
 };
