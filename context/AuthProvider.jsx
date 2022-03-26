@@ -10,6 +10,7 @@ import Cookies from "js-cookie";
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import { LOGIN, REGISTER, FIND_USER_BY_SESSION } from "../lib/docs"; //CHANGE THIS
 import { useRouter } from "next/router";
+import { useToastContext } from "./ToastProvider";
 
 const AuthContext = createContext();
 
@@ -19,6 +20,7 @@ export const useAuthContext = () => {
 
 export const AuthProvider = ({ children, protectedRoute }) => {
   const router = useRouter();
+  const { addToast } = useToastContext();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [findUserBySession, { loading: sessionUserLoading }] = useLazyQuery(
@@ -51,6 +53,11 @@ export const AuthProvider = ({ children, protectedRoute }) => {
     },
     onError(error) {
       console.log(error);
+      addToast({
+        type: "error",
+        title: "Login failed",
+        message: error.message,
+      });
     },
   });
 

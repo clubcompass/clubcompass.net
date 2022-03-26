@@ -11,17 +11,20 @@ import { onError } from "@apollo/client/link/error";
 import { setContext } from "@apollo/client/link/context";
 import Cookies from "js-cookie";
 import { AuthProvider } from "../context/AuthProvider";
-import { ToastProvider } from "../context/ToastProvider";
+import { ToastProvider, useToastContext } from "../context/ToastProvider";
 import { Layout } from "../components/Layout";
 function MyApp({ Component, pageProps }) {
+  const { addToast } = useToastContext();
   const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
-      graphQLErrors.forEach(({ message }) => console.log(message));
+      graphQLErrors.forEach(({ message }) =>
+        addToast({ type: "error", message })
+      );
     }
 
     if (networkError) {
       // global handler for graphql errors
-      console.log(networkError);
+      addToast({ type: "error", message: networkError.message });
     }
   });
 
@@ -60,14 +63,14 @@ function MyApp({ Component, pageProps }) {
     <ApolloProvider client={apolloClient}>
       <QueryClientProvider client={queryClient}>
         {/* Dont need Apollo Query Provider */}
-        {/* <ToastProvider> */}
-        <AuthProvider protectedRoute={pageProps.protected}>
-          <Layout layout={layout}>
-            {/* Maybe Modal Provider should go into layout? */}
-            <Component {...pageProps} />
-          </Layout>
-        </AuthProvider>
-        {/* </ToastProvider> */}
+        <ToastProvider>
+          <AuthProvider protectedRoute={pageProps.protected}>
+            <Layout layout={layout}>
+              {/* Maybe Modal Provider should go into layout? */}
+              <Component {...pageProps} />
+            </Layout>
+          </AuthProvider>
+        </ToastProvider>
       </QueryClientProvider>
     </ApolloProvider>
   );
