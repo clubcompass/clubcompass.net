@@ -45,15 +45,14 @@ export const DashboardNewBase = ({ next, prev, initialValues }) => {
       component: CustomField,
       name: "name",
       label: "Club Name",
-      description:
-        "Enter your club's name, try to keep it concise. For example, the school name is not necessary to include in the name of your club.",
+      description: "Enter your club's name.",
     },
     {
       component: CustomField,
       name: "email",
       label: "Email",
       description:
-        "Enter an email that you frequently check. This is the email through which ASB and other students will be able to contact you through.",
+        "Enter an email that you frequently check. This email will be used by ASB and other students to contact you.",
     },
     {
       //TODO: Rich text editor with md supported
@@ -62,7 +61,7 @@ export const DashboardNewBase = ({ next, prev, initialValues }) => {
       label: "Club Description",
       textarea: true,
       description:
-        "Enter a detailed description of your club. This will be seen by other students on your club’s preview card as well as on your club’s page.",
+        "Enter a detailed description of your club. This is how students can learn more about your club.",
     },
     {
       custom: true,
@@ -75,22 +74,23 @@ export const DashboardNewBase = ({ next, prev, initialValues }) => {
         />
       ),
       span: 6,
+      // description: { avalibility },
       description:
-        "Open: Anyone is able to join your club Invite Only: You can send invites to other students to join your club, and other students can send invites to your club to request joining your club.Closed: You will be able to invite other people to join you club, but nobody will be able to join or request to join your club.",
+        "Open: Anyone can join. Invite Only: You can send invites to other students to join your club, and other students can send invites to your club to request joining your club.Closed: You will be able to invite other people to join you club, but nobody will be able to join or request to join your club.",
     },
     {
       component: CustomField,
       name: "location",
       label: "Meeting location",
       description:
-        "Enter a room number, or another location. Ex: A101, Zoom Meeting, Discord Call",
+        "Enter a room number or another location. Ex: A101, Zoom Meeting, Discord Call",
     },
     {
       component: CustomField,
       name: "meetingDate",
       label: "Meeting Date and Time",
       description:
-        "Enter a day or multiple days of the week and the time that your club meets on a regular basis. Try to keep this short. Ex: Every other monday at 3:00pm after school.",
+        "Enter the times your club meets on a regular basis. Try to keep this short. Ex: Every other monday at 3:00pm after school.",
     },
   ];
 
@@ -102,8 +102,7 @@ export const DashboardNewBase = ({ next, prev, initialValues }) => {
       <div className="flex flex-col gap-2">
         <h2 className="text-lg font-bold">Tell us about your new club.</h2>
         <p className="text-sm text-[#5D5E5E]">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eu
-          malesuada turpis.
+          This information will be displayed on your club page and card.
         </p>
       </div>
       <Formik
@@ -141,25 +140,25 @@ export const DashboardNewBase = ({ next, prev, initialValues }) => {
           // }
           next();
         }}
-        validationSchema={createClubSchema}
-      >
+        validationSchema={createClubSchema}>
         {({ values, setFieldValue, handleChange }) => {
           return (
             <Form className="flex max-w-3xl flex-col gap-4">
               {form.map((field, i) => (
-                <div key={i} className="flex flex-col gap-2">
+                <div key={i} className="flex flex-col">
                   {field.custom ? (
                     <div
                       key={field.name}
                       style={{ gridColumn: `span ${field.span}` }}
-                      className="flex"
-                    >
+                      className="flex">
                       {field.component}
                     </div>
                   ) : (
                     <Field {...field} value={values[field.name]} />
                   )}
-                  <p className="text-xs text-gray-500">{field.description}</p>
+                  <p className="pl-2 text-xs text-gray-500">
+                    {field.description}
+                  </p>
                 </div>
               ))}
               <div className="flex flex-col gap-2">
@@ -175,9 +174,8 @@ export const DashboardNewBase = ({ next, prev, initialValues }) => {
                   limit={4}
                 />
                 <p className="text-xs text-gray-500">
-                  Select up to 4 tags that you feel would best represent the
-                  topics that relate to your club. These are the tags that will
-                  be displayed on your club’s preview card.
+                  Select up to 4 tags that best represent your club. These tags
+                  will help interested students find your club.
                 </p>
               </div>
               <div className="flex w-3/4 flex-row items-center gap-2">

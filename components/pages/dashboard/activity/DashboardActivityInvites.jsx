@@ -37,7 +37,9 @@ export const DashboardActivityInvites = ({
             </div>
           </div>
         )}
-        {pending?.length !== 0 && <h3 className="mb-2 font-light">Pending</h3>}
+        {pending?.length !== 0 && (
+          <h3 className="mb-1 tracking-wider text-[#9B9B9B]">Pending</h3>
+        )}
         <div className="flex flex-col gap-3">
           {pending?.map((invite, i) => (
             <Invite key={i} {...invite} refetch={refetch} />
@@ -46,7 +48,7 @@ export const DashboardActivityInvites = ({
       </div>
       <div>
         {accepted?.length !== 0 && (
-          <h3 className="mb-2 font-light">Accepted</h3>
+          <h3 className="mb-1 tracking-wider text-[#9B9B9B]">Accepted</h3>
         )}
         <div className="flex flex-col gap-3">
           {accepted?.map((invite, i) => (
@@ -56,9 +58,9 @@ export const DashboardActivityInvites = ({
       </div>
       <div>
         {declined?.length !== 0 && (
-          <h3 className="mb-2 font-light">Declined</h3>
+          <h3 className="mb-1 text-[#9B9B9B]">Declined</h3>
         )}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 tracking-wider">
           {declined?.map((invite, i) => (
             <Invite key={i} {...invite} />
           ))}
@@ -89,7 +91,7 @@ const Invite = ({ id, userId, clubId, status, club, refetch }) => {
     },
   });
   const colors = {
-    PENDING: "#F7B402",
+    PENDING: "#FFBF00",
     ACCEPTED: "#12b958",
     DECLINED: "#FF0000",
   };
@@ -124,14 +126,12 @@ const Invite = ({ id, userId, clubId, status, club, refetch }) => {
       <div className="flex flex-row gap-2">
         <button
           onClick={() => handleChoice("accept")}
-          className="rounded bg-[#12b95820] py-1 px-4 text-[#12b958] hover:bg-[#00800125]"
-        >
+          className="rounded-lg bg-[#12b958] py-1 px-4 font-semibold text-white">
           Accept
         </button>
         <button
           onClick={() => handleChoice("decline")}
-          className="rounded bg-[#FF000020] py-1 px-4 text-[#FF0000] hover:bg-[#FF000035]"
-        >
+          className="rounded-lg bg-red-500 py-1 px-4 font-semibold text-white">
           Decline
         </button>
       </div>
@@ -142,26 +142,24 @@ const Invite = ({ id, userId, clubId, status, club, refetch }) => {
     return (
       <span
         style={{
-          backgroundColor: colors[status] + "20",
-          color: colors[status],
+          backgroundColor: colors[status],
+          color: "white",
         }}
-        className="w-[177px] shrink-0 rounded-lg py-1 text-center capitalize text-white"
-      >
+        className="w-[177px] shrink-0 rounded-lg py-1 text-center font-semibold capitalize text-white">
         {status.toLowerCase()}
       </span>
     );
   };
 
   return (
-    <div className="flex w-full flex-row items-center justify-between gap-4 rounded-lg border-[1px] bg-white px-4 py-2">
+    <div className="flex w-full flex-row items-center justify-between gap-4 rounded-lg border-2 bg-white px-4 py-2">
       <div className="flex items-center gap-4">
         <span
           style={{
-            backgroundColor: colors[status] + "20",
-            color: colors[status],
+            backgroundColor: colors[status],
+            color: "white",
           }}
-          className="rounded-lg p-2"
-        >
+          className="rounded-lg p-2">
           {icons[status]}
         </span>
         <div className="flex flex-col">

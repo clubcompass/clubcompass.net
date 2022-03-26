@@ -1,6 +1,11 @@
 import { useState } from "react";
-import { BsCheck, BsFillPeopleFill, BsPeople } from "react-icons/bs";
-import { FaFlagCheckered } from "react-icons/fa";
+import {
+  BsCheck,
+  BsFillPeopleFill,
+  BsPeople,
+  BsPeopleFill,
+} from "react-icons/bs";
+import { FaFlagCheckered, FaGlobeAmericas } from "react-icons/fa";
 import { IoInformationOutline } from "react-icons/io5";
 import { VscGlobe } from "react-icons/vsc";
 import {
@@ -48,28 +53,28 @@ const New = () => {
       name: "base",
       label: "Basic Information",
       // icon: <BsCheck size={18} />,
-      icon: <IoInformationOutline size={24} />,
+      icon: <IoInformationOutline size={20} />,
       complete: complete.base,
       disabled: disabled.base,
     },
     DashboardNewMembers: {
       name: "members",
       label: "Teacher and Members",
-      icon: <MdOutlinePeopleAlt size={24} />,
+      icon: <BsPeopleFill size={18} />,
       complete: complete.members,
       disabled: disabled.members,
     },
     DashboardNewSocials: {
       name: "socials",
       label: "Socials",
-      icon: <VscGlobe size={24} />,
+      icon: <FaGlobeAmericas size={18} />,
       complete: complete.socials,
       disabled: disabled.socials,
     },
     DashboardNewSummary: {
       name: "status",
       label: "Review and Submit",
-      icon: <FaFlagCheckered size={20} />,
+      icon: <FaFlagCheckered size={16} />,
       complete: complete.status,
       disabled: disabled.status,
     },

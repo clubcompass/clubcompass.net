@@ -11,6 +11,7 @@ import {
 import { CgSpinner } from "react-icons/cg";
 import { MdPersonSearch } from "react-icons/md";
 import { IoIosSend } from "react-icons/io";
+import { BsTrashFill } from "react-icons/bs";
 
 export const DashboardNewMembers = ({ initialValues }) => {
   //! Need to check which users selected to filter them out of the list of users
@@ -89,8 +90,7 @@ export const DashboardNewMembers = ({ initialValues }) => {
       <div className="mb-7 flex flex-col gap-2">
         <h2 className="text-lg font-bold">Invite your advisor and leaders.</h2>
         <p className="text-sm text-[#5D5E5E]">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eu
-          malesuada turpis.
+          To be an official club, you must have an advisor and leadership.
         </p>
       </div>
       {/* <div className="grid w-fit grid-flow-row grid-cols-2 content-start gap-4"> */}
@@ -111,8 +111,8 @@ const OutgoingInvites = ({ role }) => {
   // get time of invite as sent
   const Invite = ({ invite }) => {
     const statusColors = {
-      PENDING: "#ffeb52",
-      ACCEPTED: "#76fe61",
+      PENDING: "#f7b602",
+      ACCEPTED: "#12b958",
       DECLINED: "#FF5252",
     };
 
@@ -123,19 +123,18 @@ const OutgoingInvites = ({ role }) => {
       const { user, status } = invite;
       const initials = (user.firstname[0] + user.lastname[0]).toUpperCase();
       return (
-        <div className="w-fit rounded-lg border border-[#E6E6E6] bg-white p-2 shadow-md  shadow-gray-200/50">
-          <div className="flex flex-row gap-2">
+        <div className="flex items-center gap-4 whitespace-nowrap rounded-lg border border-[#E6E6E6] bg-white py-2 px-3 shadow-md  shadow-gray-200/50">
+          <div className="flex flex-row items-center gap-2">
             <div className="flex h-10 items-center justify-center rounded-md bg-[#AFC7FF] text-center">
               <span className={`w-[40px] text-[1.1rem]`}>{initials}</span>
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col">
               <p className="text-sm text-[#5D5E5E]">
                 {user.firstname} {user.lastname}
               </p>
               <div
                 style={{ backgroundColor: `${statusColors[status]}20` }}
-                className="flex flex-row items-center gap-1 rounded-full px-1 py-0.5"
-              >
+                className="mr-auto flex flex-row items-center gap-1 rounded-full px-2 py-0.5">
                 <span
                   style={{ backgroundColor: statusColors[status] }}
                   className="h-2 w-2 rounded-full"
@@ -146,6 +145,9 @@ const OutgoingInvites = ({ role }) => {
               </div>
             </div>
           </div>
+          <button onClick={() => console.log("removed")}>
+            <BsTrashFill className="text-gray-300 duration-75 hover:text-red-500" />
+          </button>
         </div>
       );
     }
@@ -153,38 +155,39 @@ const OutgoingInvites = ({ role }) => {
   };
 
   return (
-    <div className="relative my-5 grid w-fit grid-flow-row grid-cols-3 gap-4 rounded-lg border p-3 pt-6">
-      <p className="absolute -left-1 -top-2 bg-white px-1 text-xs text-gray-600">
+    <div className="relative my-5 flex w-fit gap-4 rounded-lg border p-3 pt-6">
+      <p className="absolute left-1 -top-2 bg-white px-1 text-xs text-gray-600">
         Your outgoing{" "}
         <span
           style={{ color: "#344457", backgroundColor: role.color }}
-          className="rounded-md px-1.5 py-0.5 text-[10px] font-semibold uppercase"
-        >
+          className="rounded-md px-1.5 py-0.5 text-[10px] font-semibold uppercase">
           {role.name}
         </span>{" "}
         invites will appear here.
       </p>
-      <Invite
-        invite={{
-          status: "PENDING",
-          createdAt: "2020-06-01T00:00:00.000Z",
-          user: { firstname: "John", lastname: "Doe" },
-        }}
-      />
-      <Invite
-        invite={{
-          status: "DECLINED",
-          createdAt: "2020-06-01T00:00:00.000Z",
-          user: { firstname: "John", lastname: "Doe" },
-        }}
-      />
-      <Invite
-        invite={{
-          status: "ACCEPTED",
-          createdAt: "2020-06-01T00:00:00.000Z",
-          user: { firstname: "John", lastname: "Doe" },
-        }}
-      />
+      <div className="flex gap-2 overflow-hidden overflow-x-scroll">
+        <Invite
+          invite={{
+            status: "PENDING",
+            createdAt: "2020-06-01T00:00:00.000Z",
+            user: { firstname: "John", lastname: "Doe" },
+          }}
+        />
+        <Invite
+          invite={{
+            status: "DECLINED",
+            createdAt: "2020-06-01T00:00:00.000Z",
+            user: { firstname: "Johnathan", lastname: "Doughenson" },
+          }}
+        />
+        <Invite
+          invite={{
+            status: "DECLINED",
+            createdAt: "2020-06-01T00:00:00.000Z",
+            user: { firstname: "Johnathan", lastname: "Dough" },
+          }}
+        />
+      </div>
       {/* <div className="p-2">
         <span className="text-sm">No outgoing {role.name} invites.</span>
       </div> */}
@@ -277,10 +280,9 @@ const InviteMember = ({ type, label }) => {
             setSubmitting(false);
           }
         }}
-        validationSchema={inviteSchema}
-      >
+        validationSchema={inviteSchema}>
         {({ setFieldValue, values }) => (
-          <Form className="relative grid h-auto min-h-full grid-cols-4 gap-4">
+          <Form className="relative flex flex-row items-center gap-4">
             <Field
               name="ccid"
               label={label}
@@ -291,7 +293,9 @@ const InviteMember = ({ type, label }) => {
               }
               component={CustomField}
             />
-            <FieldButton primary icon={<MdPersonSearch />} />
+            <div className="w-24">
+              <FieldButton primary icon={<MdPersonSearch size={20} />} />
+            </div>
             {/* this component also accepts label prop if you don't want to use icon */}
           </Form>
         )}

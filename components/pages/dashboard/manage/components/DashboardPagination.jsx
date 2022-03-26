@@ -37,8 +37,7 @@ export const DashboardPagination = ({ options, step, setStep, children }) => {
           key={c.type.name}
           className={`flex flex-col gap-4 ${
             c.type.name === section ? "block" : "hidden"
-          }`}
-        >
+          }`}>
           {c}
           {/* {c({
             next: () => setSection(c.type.name),
@@ -63,13 +62,11 @@ const ComponentItem = ({
     <button
       onClick={select}
       disabled={disabled}
-      className="flex flex-row items-center justify-center gap-4 px-4 first:pr-4 first:pl-0 last:pr-4 last:pl-0"
-    >
+      className="flex flex-row items-center justify-center gap-4 px-4 first:pr-4 first:pl-0 last:pr-4 last:pl-0">
       <div
         className={`${
           active ? "text-black" : "text-[#C6C6C6]"
-        } flex flex-row items-center gap-2 font-medium`}
-      >
+        } flex flex-row items-center gap-2 font-medium`}>
         <span
           style={{
             color: active ? "#ffffffe7" : complete ? "#1C5EF9" : "#C6C6C6",
@@ -79,8 +76,7 @@ const ComponentItem = ({
               ? "#1C5EF920"
               : "#FFF",
           }}
-          className="flex h-[20px] w-[20px] items-center justify-center rounded-md"
-        >
+          className="flex h-8 w-8 items-center justify-center rounded-md">
           {icon}
         </span>
         <span className="text-sm">{label}</span>
