@@ -10,7 +10,8 @@ const Account = () => {
   if (!user && !loading) return <Loading />;
 
   return (
-    <div className="flex flex-col gap-4 mt-4">
+    <div className="flex flex-col gap-4 md:p-4">
+      <h1 className="font-bold uppercase text-[#626262]">Settings</h1>
       <div className="flex flex-col gap-4">
         <Information />
         <Actions />

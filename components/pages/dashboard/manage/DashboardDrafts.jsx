@@ -33,19 +33,19 @@ export const DashboardDrafts = () => {
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex flex-col gap-2 mt-2">
-        <h2 className="font-light tracking wide">Drafts</h2>
-        <div className="grid grid-cols-cards gap-4">
+      <div className="mt-2 flex flex-col gap-2">
+        <h2 className="tracking wide font-light">Drafts</h2>
+        <div className="flex flex-col gap-4 md:grid md:grid-cols-cards">
           {drafts.map((club) => (
             <DraftCard key={club.id} {...club} />
           ))}
-          <Link href="/dashboard/manage/club/new">
-            <a>
-              <div className="h-[58px] w-full flex flex-col justify-center items-center text-cc text-lg border-[3px] border-dashed border-cc p-6 rounded-xl transition duration-300 ease-in-out">
-                Create club +
-              </div>
-            </a>
-          </Link>
+          <div className="mx-auto flex items-center md:mx-0">
+            <Link href="/dashboard/manage/club/new">
+              <a className="flex items-center rounded-lg bg-cc py-1 px-6 text-white">
+                Create club
+              </a>
+            </Link>
+          </div>
         </div>
       </div>
     </div>
@@ -56,17 +56,16 @@ const DraftCard = ({ name, slug, tags }) => {
   const partsCompleted = 3;
   const completed = partsCompleted === 14;
   return (
-    <div className="flex flex-row justify-between items-center bg-white border-[1px] rounded-lg py-3 px-6">
-      <h4 className="font-bold text-xl leading-tight">{name}</h4>
+    <div className="flex flex-row items-center justify-between rounded-lg border-[1px] bg-white py-3 px-6">
+      <h4 className="text-xl font-bold leading-tight">{name}</h4>
       <div className="flex gap-2">
         <span
           className={`${
             completed ? "bg-[#26d46f50]" : "bg-[#ffc42150]"
-          } flex flex-row items-center px-3 rounded-md text-black text-sm`}
-        >
+          } flex flex-row items-center rounded-md px-3 text-sm text-black`}>
           {partsCompleted}/14
         </span>
-        <button className="bg-cc text-white px-8 py-1 rounded-md">Edit</button>
+        <button className="rounded-md bg-cc px-8 py-1 text-white">Edit</button>
       </div>
     </div>
   );

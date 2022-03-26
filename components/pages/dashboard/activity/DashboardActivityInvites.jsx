@@ -2,9 +2,17 @@ import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { ACCEPT_INVITE, DECLINE_INVITE } from "../../../../lib/docs";
 import { db } from "../../../../lib/database";
-import { BsExclamationLg, BsCheckLg, BsXLg } from "react-icons/bs";
+import {
+  BsExclamationLg,
+  BsCheckLg,
+  BsXLg,
+  BsExclamationCircle,
+} from "react-icons/bs";
+import { Loading } from "../../../general/Loading";
 
 export const DashboardActivityInvites = ({
+  user,
+  loading,
   refetch,
   pending,
   accepted,
@@ -24,16 +32,22 @@ export const DashboardActivityInvites = ({
   // const accepted = invitesList.filter((invite) => invite.status === "ACCEPTED");
   // const declined = invitesList.filter((invite) => invite.status === "DECLINED");
 
+  if (user === null) return <Loading />;
+  if (loading) return <Loading />;
+
   return (
     <div className="flex flex-col gap-4">
       <div>
         {!pending?.length && (
           <div className="align-center mt-[20vh] flex flex-col items-center gap-4">
-            <div className="flex flex-col items-center gap-1">
+            <div className="flex flex-col items-center gap-2 text-center">
+              <div>
+                <BsExclamationCircle className="text-cc" size="65px" />
+              </div>
               <p className="text-2xl font-bold">
-                You dont have any invites yet
+                You dont have any invites yet!
               </p>
-              <p className="text-lg">Your invites will appear here</p>
+              <p className="text-lg">Your invites will appear here.</p>
             </div>
           </div>
         )}

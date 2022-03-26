@@ -1,15 +1,21 @@
 import React from "react";
 import Link from "next/link";
 import { CCIcon } from "../../../custom";
+import { useBreakpoints } from "../../../../hooks";
 
 export const DashboardNavLogo = () => {
+  const { isSm, isXs } = useBreakpoints();
+  const isMobile = isSm || isXs;
+
   return (
     <Link href="/">
-      <a className="flex items-center">
-        <div className="mr-3 w-[25px] h-[25px]">
+      <a className="flex items-center gap-4">
+        <div className="h-[25px] w-[25px]">
           <CCIcon color="cc" />
         </div>
-        <h1 className="text-lg tracking-wider font-semibold">Club Compass</h1>
+        {!isMobile && (
+          <h1 className="text-lg font-semibold tracking-wider">Club Compass</h1>
+        )}
       </a>
     </Link>
   );

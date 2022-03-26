@@ -87,8 +87,8 @@ const EmailNotVerifiedException = ({ email }) => {
   }, [sent]);
 
   return (
-    <div className="flex flex-col text-center justify-center items-center mt-[18vh] align-center">
-      <GoMailRead size={75} className="text-cc mb-2" />
+    <div className="align-center mt-[15vh] flex flex-col items-center justify-center text-center">
+      <GoMailRead size={75} className="mb-2 text-cc" />
       <h2 className="text-2xl font-bold">
         Your email address is not verified.
       </h2>
@@ -99,9 +99,8 @@ const EmailNotVerifiedException = ({ email }) => {
         onClick={() => sendEmailVerification({ variables: { email } })}
         role="button"
         className={`${
-          loading || cooldown !== 0 ? "bg-cc/40 pointer-events-none" : "bg-cc"
-        } flex flex-row items-center gap-2 text-sm mt-2 px-3 py-1  text-white rounded-lg`}
-      >
+          loading || cooldown !== 0 ? "pointer-events-none bg-cc/40" : "bg-cc"
+        } mt-2 flex flex-row items-center gap-2 rounded-lg px-3 py-1  text-sm text-white`}>
         {loading ? (
           <>
             <CgSpinner size={13} className="animate-spin" />
@@ -129,10 +128,10 @@ const EmailNotVerifiedException = ({ email }) => {
 };
 
 const AccountNotActiveException = () => (
-  <div className="flex flex-col text-center justify-center items-center mt-[18vh] align-center">
-    <MdPendingActions size={75} className="text-cc mb-2" />
+  <div className="align-center mt-[15vh] flex flex-col items-center justify-center text-center">
+    <MdPendingActions size={75} className="mb-2 text-cc" />
     <h2 className="text-2xl font-bold">Your account has not been activated.</h2>
-    <p className="text-lg text-[#686868] w-3/4">
+    <p className="w-3/4 text-lg text-[#686868]">
       Your email has been verified but ASB needs to approve your account before
       you can access Club Compass features. This process usually takes less than
       24 hours.
@@ -141,17 +140,17 @@ const AccountNotActiveException = () => (
 );
 
 const NoClubsException = () => (
-  <div className="flex flex-col gap-4 mt-[20vh] items-center align-center">
-    <div className="h-[75px] w-[75px]">
+  <div className="align-center mt-[15vh] flex flex-col items-center gap-4">
+    <div className="h-[65px] w-[65px]">
       <CCIcon color="cc" />
     </div>
-    <div className="flex flex-col items-center gap-1">
+    <div className="flex flex-col items-center gap-1 text-center">
       <p className="text-2xl font-bold">
         Looks like you haven&apos;t signed up for any clubs yet!
       </p>
       <p className="text-lg">Once you sign up, your clubs will appear here</p>
       <Link href="/clubs">
-        <a className="text-cc text-xl font-bold mt-2">Discover some &rarr;</a>
+        <a className="mt-2 text-xl font-bold text-cc">Discover some &rarr;</a>
       </Link>
     </div>
   </div>

@@ -19,6 +19,9 @@ const Cards = () => {
         // });
         setClubs(clubs);
       },
+      onError: (e) => {
+        console.log(e);
+      },
     }
   );
 
