@@ -12,9 +12,8 @@ export type batchDeleteUserPayload = Awaited<
 export const batchDeleteUsers = async (
   _parent: any,
   { userIds }: batchDeleteUserArgs,
-  { prisma, auth }: Context //!!!!!! add auth to get userId
+  { prisma }: Context //!!!!!! add auth to get userId
 ): Promise<typeof users> => {
-  // what happens if invalid user id?
   const users = await prisma.$transaction(
     userIds.map((userId) =>
       prisma.user.delete({
