@@ -50,16 +50,17 @@ export const login = async (
     remember,
   });
 
-  // setCookie({
-  //   name: "token",
-  //   value: token,
-  //   options: {
-  //     maxAge: remember ? 604800 : 86400, // 7 days for remember, 1 day otherwise
-  //     httpOnly: true,
-  //     sameSite: "strict",
-  //     secure: process.env.NODE_ENV === "production",
-  //   },
-  // });
+  setCookie({
+    name: "token",
+    value: token,
+    options: {
+      maxAge: remember ? 604800 : 86400, // 7 days for remember, 1 day otherwise
+      httpOnly: true,
+      sameSite: "strict",
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+    },
+  });
 
   return {
     user,

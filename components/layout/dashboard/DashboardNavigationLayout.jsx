@@ -5,13 +5,11 @@ import { useBreakpoints } from "../../../hooks";
 
 export const DashboardNavigationLayout = ({ children }) => {
   return (
-    // <ToastProvider>
     <Container>
       <DashboardNav />
       <div className="min-h-screen w-full bg-[#FAFAFA] py-6 pr-[20px] pl-[80px] md:pr-[30px] md:pl-[280px]">
         {children}
       </div>
-      {/* </ToastProvider> */}
     </Container>
   );
 };

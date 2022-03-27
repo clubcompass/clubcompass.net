@@ -6,21 +6,51 @@ import React, {
   useMemo,
   useCallback,
 } from "react";
+import type { User } from "@prisma/client";
 import Cookies from "js-cookie";
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import { LOGIN, REGISTER, FIND_USER_BY_SESSION } from "../lib/docs"; //CHANGE THIS
 import { useRouter } from "next/router";
-import { useToastContext } from "./ToastProvider";
+import { addApolloState, initializeApollo } from "../lib/apolloClient";
 
-const AuthContext = createContext();
+interface AuthContext {
+  user: AuthenticatedUser | null;
+  loading: boolean;
+  login: (email: string, password: string) => Promise<void>;
+  register: (email: string, password: string) => Promise<void>;
+  logout: () => void;
+}
 
-export const useAuthContext = () => {
+export interface AuthenticatedUser
+  extends Pick<
+    User,
+    | "active"
+    | "ccid"
+    | "id"
+    | "email"
+    | "emailVerified"
+    | "firstname"
+    | "lastname"
+  > {
+  __typename: "SessionUser";
+  pendingInvites: number;
+}
+
+const AuthContext = createContext<AuthContext>({
+  user: null,
+  loading: false,
+  login: async () => {},
+  register: async () => {},
+  logout: () => {},
+});
+
+export const useAuthContext = (): AuthContext => {
   return useContext(AuthContext);
 };
 
 export const AuthProvider = ({ children, protectedRoute }) => {
   const router = useRouter();
-  const { addToast } = useToastContext();
+  // const { addToast } = useToastContext();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [findUserBySession, { loading: sessionUserLoading }] = useLazyQuery(
@@ -42,22 +72,22 @@ export const AuthProvider = ({ children, protectedRoute }) => {
 
   const [login, { loading: loginLoading }] = useMutation(LOGIN, {
     onCompleted: async ({ login: { user, token } }) => {
-      console.log(token);
+      // console.log(token);
       console.log(user);
       // await findUserBySession({
       //   context: { headers: { authorization: `Bearer ${token}` } },
       // });
 
-      Cookies.set("token", token);
-      router.push("/dashboard"); // doesn't update?
+      // Cookies.set("token", token);
+      // router.push("/dashboard"); // doesn't update?
     },
     onError(error) {
       console.log(error);
-      addToast({
-        type: "error",
-        title: "Login failed",
-        message: error.message,
-      });
+      // addToast({
+      //   type: "error",
+      //   title: "Login failed",
+      //   message: error.message,
+      // });
     },
   });
 
@@ -206,3 +236,18 @@ export const AuthProvider = ({ children, protectedRoute }) => {
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
+
+// event listener to check for cookie, if it exists, then check if user is logged in, if not, redirect to login
+
+// export async function getServerSideProps() {
+//   const apolloClient = initializeApollo();
+
+//   // await apolloClient.query({
+//   //   query: ALL_POSTS_QUERY,
+//   //   variables: allPostsQueryVars,
+//   // })
+
+//   return addApolloState(apolloClient, {
+//     props: {},
+//   });
+// }

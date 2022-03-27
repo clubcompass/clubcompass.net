@@ -1,6 +1,18 @@
 import React, { useEffect, useMemo } from "react";
 import { useToastContext } from "../context";
-export default function Home() {
+
+export const getServerSideProps = async ({ req, res }) => {
+  console.log(req.cookies.token);
+  console.log(req.cookies);
+
+  return {
+    props: {
+      cookies: req.cookies,
+    },
+  };
+};
+
+export default function Home({ cookies }) {
   const { addToast } = useToastContext();
 
   const toast = {
