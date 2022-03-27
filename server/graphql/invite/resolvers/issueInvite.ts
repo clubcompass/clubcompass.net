@@ -1,7 +1,6 @@
 import { Club, User } from "@prisma/client";
 import { ApolloError } from "apollo-server-micro";
 import { Context } from "../../ctx";
-import { getAuthenticatedUser } from "../../../utils/auth";
 
 type RoleInput = {
   id: string;
@@ -20,15 +19,12 @@ export const issueInvite = async (
   { clubId, recipientCCID, inviteRoles }: IssueInviteArgs,
   { prisma, auth }: Context
 ): Promise<typeof invite> => {
-  const token = getAuthenticatedUser({ auth });
-  if (!token) throw new ApolloError("No token data");
-
-  // to issue invite you must be the president of the club, and the recipient must not be a member of the club or have an invite from the club
-  const { roles, members } = await prisma.club.findUnique({
+  const club = await prisma.club.findUnique({
     where: {
       id: clubId,
     },
     select: {
+      id: true,
       members: {
         where: {
           ccid: recipientCCID,
@@ -39,7 +35,9 @@ export const issueInvite = async (
       },
       roles: {
         where: {
-          name: "president",
+          name: {
+            equals: "president",
+          },
         },
         select: {
           users: {
@@ -52,44 +50,122 @@ export const issueInvite = async (
     },
   });
 
-  if (!roles) {
+  if (!club)
+    throw new ApolloError("Club was not found", "RESOURCE_NOT_FOUND", {
+      clubId,
+    });
+
+  if (recipientCCID === auth.ccid) {
     throw new ApolloError(
-      `Club with id ${clubId} does not exist`,
-      "CLUB_NOT_FOUND"
+      "Cannot invite yourself to a club that you own",
+      "UNAUTHORIZED_ACTION",
+      { recipientCCID }
     );
   }
 
-  if (roles[0].users[0].id !== token.id) {
-    // president id (what the fuck bro)
+  let ids = club.roles[0].users.map((user) => user.id);
+  if (!ids.includes(auth.id)) {
     throw new ApolloError(
-      `User with id ${token.id} is not a president of club with id ${clubId}`,
-      "NOT_PRESIDENT"
-    );
-  } // check for editor too
-
-  if (members.length !== 0) {
-    throw new ApolloError(
-      `User with id ${recipientCCID} is already a member of club with id ${clubId}`,
-      "ALREADY_MEMBER"
+      "You are not authorized to issue an invite to this club",
+      "UNAUTHORIZED_ACTION",
+      { id: auth.id }
     );
   }
 
-  // check if user is already invited from this club
+  if (club.members.length !== 0) {
+    throw new ApolloError(
+      "Requested user to invite is already a member in this club",
+      "UNAUTHORIZED_ACTION",
+      {
+        recipientCCID,
+      }
+    );
+  }
+
   const userInvite = await prisma.invite.findFirst({
     where: {
       clubId: clubId,
+      status: "PENDING",
       user: {
         ccid: recipientCCID,
       },
     },
-  }); // check for just pending? currently throws for all statuses
+  });
 
   if (userInvite) {
     throw new ApolloError(
-      `User with id ${recipientCCID} is already invited to club with id ${clubId}`,
-      "ALREADY_INVITED"
+      "Requested user to invite already has a pending invitation associated with your club",
+      "UNAUTHORIZED_ACTION"
     );
-  } // no dupe invites
+  }
+
+  const user = await prisma.user.findUnique({
+    where: {
+      ccid: recipientCCID,
+    },
+  });
+
+  if (!user)
+    throw new ApolloError("User was not found", "RESOURCE_NOT_FOUND", {
+      recipientCCID,
+    });
+
+  if (user.active === false)
+    throw new ApolloError("User is not approved", "UNAUTHORIZED_ACTION", {
+      recipientCCID,
+    });
+
+  // const { roles, members } = await prisma.club.findUnique({
+  //   where: {
+  //     id: clubId,
+  //   },
+  //   select: {
+  //     members: {
+  //       where: {
+  //         ccid: recipientCCID,
+  //       },
+  //       select: {
+  //         id: true,
+  //       },
+  //     },
+  //     roles: {
+  //       where: {
+  //         name: "president",
+  //       },
+  //       select: {
+  //         users: {
+  //           select: {
+  //             id: true,
+  //           },
+  //         },
+  //       },
+  //     },
+  //   },
+  // });
+
+  // if (members.length !== 0) {
+  //   throw new ApolloError(
+  //     `User with id ${recipientCCID} is already a member of club with id ${clubId}`,
+  //     "ALREADY_MEMBER"
+  //   );
+  // }
+
+  // // check if user is already invited from this club
+  // const userInvite = await prisma.invite.findFirst({
+  //   where: {
+  //     clubId: clubId,
+  //     user: {
+  //       ccid: recipientCCID,
+  //     },
+  //   },
+  // }); // check for just pending? currently throws for all statuses
+
+  // if (userInvite) {
+  //   throw new ApolloError(
+  //     `User with id ${recipientCCID} is already invited to club with id ${clubId}`,
+  //     "ALREADY_INVITED"
+  //   );
+  // } // no dupe invites
 
   const invite = await prisma.invite.create({
     data: {
@@ -124,8 +200,6 @@ export const issueInvite = async (
       roles: true,
     },
   });
-
-  console.log(invite);
 
   return invite;
 };

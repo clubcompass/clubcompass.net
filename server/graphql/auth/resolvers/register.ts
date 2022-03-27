@@ -87,6 +87,9 @@ export const register = async (
       id: newUser.id,
       ccid: newUser.ccid,
       email: newUser.email,
+      emailVerified: newUser.emailVerified,
+      active: newUser.active,
+      type: newUser.type,
     }),
   };
 };

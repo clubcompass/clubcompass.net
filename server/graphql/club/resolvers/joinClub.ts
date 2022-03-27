@@ -1,7 +1,7 @@
 import { Club } from "@prisma/client";
-import { AuthenticationError } from "apollo-server-micro";
+import { ApolloError } from "apollo-server-micro";
+
 import { Context } from "../../ctx";
-import { getAuthenticatedUser } from "../../../utils/auth";
 
 export type JoinClubArgs = {
   clubId: Club["id"];
@@ -12,13 +12,38 @@ export type JoinClubPayload = Awaited<ReturnType<typeof joinClub>>;
 export const joinClub = async (
   _parent: any,
   { clubId }: JoinClubArgs,
-  { prisma, auth }: Context
+  { prisma, auth: student }: Context
 ): Promise<typeof user> => {
-  const token = getAuthenticatedUser({ auth });
-  if (!token) throw new AuthenticationError("No token data");
+  const club = await prisma.club.findUnique({
+    where: {
+      id: clubId,
+    },
+    select: {
+      availability: true,
+      members: {
+        select: {
+          id: true,
+        },
+      },
+    },
+  });
+
+  if (!club) throw new ApolloError("Club not found", "RESOURCE_NOT_FOUND");
+  if (club.availability !== "OPEN")
+    throw new ApolloError("Club is not open", "UNAUTHORIZED_ACCESS");
+
+  const memberIds = club.members.map((member) => member.id);
+
+  if (memberIds.includes(student.id)) {
+    throw new ApolloError(
+      "You are already a member of this club",
+      "UNAUTHORIZED_ACCESS"
+    );
+  }
+
   const user = await prisma.user.update({
     where: {
-      id: token.id,
+      id: student.id,
     },
     data: {
       clubs: {

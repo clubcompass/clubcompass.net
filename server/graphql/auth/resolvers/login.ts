@@ -47,6 +47,9 @@ export const login = async (
     id: user.id,
     ccid: user.ccid,
     email: user.email,
+    emailVerified: user.emailVerified,
+    active: user.active,
+    type: user.type,
     remember,
   });
 

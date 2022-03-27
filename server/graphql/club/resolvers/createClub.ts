@@ -3,7 +3,7 @@ import {
   AuthenticationError,
   UserInputError,
 } from "apollo-server-micro";
-import type { Link, Role, Tag, User, Club } from "@prisma/client";
+import type { Role, Tag, User, Club } from "@prisma/client";
 import { Context } from "../../ctx";
 import { getAuthenticatedUser } from "../../../utils/auth";
 import { generateSlug } from "../../../utils/generateSlug";
@@ -33,30 +33,24 @@ interface UserRoles
 export const createClub = async (
   _parent: any,
   { data }: CreateClubArgs,
-  { prisma, auth }: Context
+  { prisma, auth: president }: Context
 ): Promise<typeof club> => {
   const { valid, errors } = await validate({
     schema: createClubSchema as any,
     data,
   });
 
-  console.log(data);
-
-  console.log(valid);
-  console.log(errors);
-
   if (!valid) throw new UserInputError("Invalid user input", { errors });
-
-  const president = getAuthenticatedUser({ auth });
-
-  if (!president) throw new AuthenticationError("No token data");
 
   const nameExists = await prisma.club.findUnique({
     where: { name: data?.name },
   });
 
   if (nameExists) {
-    throw new ApolloError("Club name already exists");
+    throw new ApolloError("Club name already exists", "CLUB_NAME_EXISTS", {
+      path: "name",
+      name: data?.name,
+    });
   }
 
   if (data?.teacherId) {

@@ -60,8 +60,39 @@ export const editClub = async (
       ...data
     },
   }: EditClubArgs,
-  { prisma, auth }: Context
-): Promise<typeof club> => {
+  { prisma, auth: president }: Context
+): Promise<typeof editedClub> => {
+  const club = await prisma.club.findUnique({
+    where: {
+      id: clubId,
+    },
+    select: {
+      id: true,
+      roles: {
+        where: {
+          name: "president",
+        },
+        select: {
+          users: {
+            select: {
+              id: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (!club) throw new ApolloError("Club not found", "RESOUCE_NOT_FOUND");
+
+  let ids = club.roles[0].users.map((user) => user.id);
+  if (!ids.includes(president.id)) {
+    throw new ApolloError(
+      "You are not authorized to do this",
+      "UNAUTHORIZED_ACCESS"
+    );
+  }
+
   const { valid, errors } = await validate({
     schema: editClubSchema as any,
     data: {
@@ -80,7 +111,6 @@ export const editClub = async (
 
   if (!valid) throw new UserInputError("Invalid user input", { errors });
 
-  const president = getAuthenticatedUser({ auth });
   if (!president) throw new AuthenticationError("No token data"); // better err message?
 
   const existingClub = await prisma.club.findUnique({
@@ -144,11 +174,11 @@ export const editClub = async (
     return user;
   };
 
-  if (vicePresidentId) await assignUser("vicePresidentId", vicePresidentId);
+  // if (vicePresidentId) await assignUser("vicePresidentId", vicePresidentId);
 
-  if (secretaryId) await assignUser("secretaryId", secretaryId);
+  // if (secretaryId) await assignUser("secretaryId", secretaryId);
 
-  if (treasurerId) await assignUser("treasurerId", treasurerId);
+  // if (treasurerId) await assignUser("treasurerId", treasurerId);
 
   if (teacherId) {
     await prisma.club.update({
@@ -165,13 +195,13 @@ export const editClub = async (
     });
   }
 
-  if (members) {
-    members.forEach(async (ccid) => {
-      await issueInvite({}, { clubId, recipientCCID: ccid }, { prisma, auth }); // update func if not used anywhere else
-    });
-  }
+  // if (members) {
+  //   members.forEach(async (ccid) => {
+  //     await issueInvite({}, { clubId, recipientCCID: ccid }, { prisma, auth }); // update func if not used anywhere else
+  //   });
+  // }
 
-  const club = await prisma.club.update({
+  const editedClub = await prisma.club.update({
     where: { id: clubId },
     data: {
       ...(name && { name, slug: generateSlug(name) }),
@@ -220,5 +250,5 @@ export const editClub = async (
     },
   });
 
-  return club;
+  return editedClub;
 };

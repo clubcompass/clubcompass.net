@@ -1,6 +1,8 @@
 import { Context } from "../../ctx";
-import { Club, InviteStatus } from "@prisma/client";
+import { Club } from "@prisma/client";
 import { ApolloError } from "apollo-server-micro";
+import { validate } from "../../../utils/validation";
+import { sendClubForApprovalSchema } from "../../../utils/validation/schemas/club";
 
 export type SendClubForApprovalArgs = {
   clubId: Club["id"];
@@ -13,7 +15,7 @@ export type SendClubForApprovalPayload = Awaited<
 export const sendClubForApproval = async (
   _parent: any,
   { clubId }: SendClubForApprovalArgs,
-  { prisma }: Context
+  { prisma, auth: president }: Context
 ): Promise<typeof updatedClub> => {
   const club = await prisma.club.findUnique({
     where: {
@@ -21,6 +23,13 @@ export const sendClubForApproval = async (
     },
     select: {
       id: true,
+      name: true,
+      description: true,
+      email: true,
+      meetingDate: true,
+      location: true,
+      availability: true,
+      tags: true,
       teacher: {
         select: {
           id: true,
@@ -35,8 +44,44 @@ export const sendClubForApproval = async (
           },
         },
       },
+      roles: {
+        where: {
+          name: {
+            equals: "president",
+          },
+        },
+        select: {
+          users: {
+            select: {
+              id: true,
+            },
+          },
+        },
+      },
     },
   });
+
+  if (!club) throw new ApolloError("Club not found", "RESOURCE_NOT_FOUND");
+
+  const { valid, errors } = await validate({
+    schema: sendClubForApprovalSchema,
+    data: club,
+  });
+
+  if (!valid)
+    throw new ApolloError(
+      "Your club is missing some required fields",
+      "MISSING_REQUIRED",
+      { errors }
+    );
+
+  let ids = club.roles[0].users.map((user) => user.id);
+  if (!ids.includes(president.id)) {
+    throw new ApolloError(
+      "You are not the president of this club",
+      "UNAUTHORIZED"
+    );
+  }
 
   let requiredRoles = {
     "vice president": 0,

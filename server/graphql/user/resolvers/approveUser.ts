@@ -11,8 +11,16 @@ export const approveUser = async (
   _parent: any,
   { userId }: ApproveUserArgs,
   { prisma }: Context
-): Promise<typeof user> => {
-  const user = await prisma.user.update({
+): Promise<typeof updatedUser> => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  if (!user) throw new ApolloError("User was not found", "NO_USER", { userId });
+
+  const updatedUser = await prisma.user.update({
     where: {
       id: userId,
     },
@@ -27,7 +35,5 @@ export const approveUser = async (
     },
   });
 
-  if (!user) throw new ApolloError("User was not found", "NO_USER", { userId });
-
-  return user;
+  return updatedUser;
 };
