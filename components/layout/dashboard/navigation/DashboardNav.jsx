@@ -26,7 +26,7 @@ const Container = ({ children }) => {
   return (
     <div
       className="
-      fixed flex h-screen w-[60px] flex-col overflow-hidden bg-white py-12 px-3 md:w-[250px]">
+      fixed flex h-screen w-[60px] flex-col overflow-hidden bg-white py-12 px-3 drop-shadow-md md:w-[250px]">
       {children}
     </div>
   );

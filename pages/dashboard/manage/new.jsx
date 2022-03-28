@@ -13,8 +13,8 @@ import {
   DashboardNewMembers as Members,
   DashboardNewSocials as Socials,
   DashboardNewSummary as Summary,
-} from "../../../../components/pages/dashboard/manage/new";
-import { DashboardPagination as Pagination } from "../../../../components/pages/dashboard/manage/components";
+} from "../../../components/pages/dashboard/manage/new";
+import { DashboardPagination as Pagination } from "../../../components/pages/dashboard/manage/components";
 import { MdOutlinePeopleAlt } from "react-icons/md";
 const New = () => {
   const [step, setStep] = useState(0);
@@ -80,7 +80,7 @@ const New = () => {
     },
   };
   return (
-    <div className="flex flex-col gap-4 p-6">
+    <div className="flex flex-col gap-4 md:p-4">
       {/* p-6 */}
       <h1 className="text-base font-bold uppercase text-[#626262]">New Club</h1>
       <Pagination step={step} setStep={setStep} options={paginationOptions}>

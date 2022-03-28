@@ -17,7 +17,7 @@ export const DashboardHeader = ({ name, ccid, delay }) => {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center gap-2 text-[#9B9B9B]">
-        <p>Your CCID:</p>
+        <p className="font-semibold tracking-wide">Your CCID:</p>
         <div
           role="button"
           onClick={setCopied}

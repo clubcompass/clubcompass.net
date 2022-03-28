@@ -34,13 +34,13 @@ export const DashboardDrafts = () => {
   return (
     <div className="flex flex-col gap-2">
       <div className="mt-2 flex flex-col gap-2">
-        <h2 className="tracking wide font-light">Drafts</h2>
+        <h2 className="font-semibold tracking-wide text-[#9B9B9B]">Drafts</h2>
         <div className="flex flex-col gap-4 md:grid md:grid-cols-cards">
           {drafts.map((club) => (
             <DraftCard key={club.id} {...club} />
           ))}
           <div className="mx-auto flex items-center md:mx-0">
-            <Link href="/dashboard/manage/club/new">
+            <Link href="/dashboard/manage/new">
               <a className="flex items-center rounded-lg bg-cc py-1 px-6 text-white">
                 Create club
               </a>

@@ -4,10 +4,12 @@ import { DashboardDrafts } from "../../../components/pages/dashboard/manage/Dash
 
 const Manage = () => {
   return (
-    <div className="flex flex-col gap-4 md:p-4">
+    <div className="flex flex-col gap-2 md:p-4">
       <h1 className="font-bold uppercase text-[#626262]">Manage</h1>
-      <DashboardDrafts />
-      <OwnerOfClubs />
+      <div className="flex flex-col gap-8">
+        <DashboardDrafts />
+        <OwnerOfClubs />
+      </div>
     </div>
   );
 };

@@ -52,7 +52,9 @@ export const DashboardActivityInvites = ({
           </div>
         )}
         {pending?.length !== 0 && (
-          <h3 className="mb-1 tracking-wider text-[#9B9B9B]">Pending</h3>
+          <h3 className="mb-1 font-semibold tracking-wide text-[#9B9B9B]">
+            Pending
+          </h3>
         )}
         <div className="flex flex-col gap-3">
           {pending?.map((invite, i) => (
@@ -62,7 +64,9 @@ export const DashboardActivityInvites = ({
       </div>
       <div>
         {accepted?.length !== 0 && (
-          <h3 className="mb-1 tracking-wider text-[#9B9B9B]">Accepted</h3>
+          <h3 className="mb-1 font-semibold tracking-wide text-[#9B9B9B]">
+            Accepted
+          </h3>
         )}
         <div className="flex flex-col gap-3">
           {accepted?.map((invite, i) => (
@@ -72,9 +76,11 @@ export const DashboardActivityInvites = ({
       </div>
       <div>
         {declined?.length !== 0 && (
-          <h3 className="mb-1 text-[#9B9B9B]">Declined</h3>
+          <h3 className="mb-1 font-semibold tracking-wide text-[#9B9B9B]">
+            Declined
+          </h3>
         )}
-        <div className="flex flex-col gap-3 tracking-wider">
+        <div className="flex flex-col gap-3">
           {declined?.map((invite, i) => (
             <Invite key={i} {...invite} />
           ))}

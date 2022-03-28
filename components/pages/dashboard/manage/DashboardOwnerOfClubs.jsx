@@ -34,7 +34,7 @@ export const DashboardOwnerOfClubs = () => {
   if (!user && loading) return <Loading />;
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-8">
       {!clubsLoading ? (
         <>
           {isPresidentOf && isPresidentOf?.length !== 0 ? (
@@ -62,8 +62,8 @@ export const DashboardOwnerOfClubs = () => {
 
 const ContentSection = ({ label, clubs }) => {
   return (
-    <div className="flex flex-col gap-2 mt-2">
-      <h2 className="font-light">{label}</h2>
+    <div className="flex flex-col gap-2">
+      <h2 className="font-semibold tracking-wide text-[#9B9B9B]">{label}</h2>
       <Clubs clubs={clubs} manage />
     </div>
   );

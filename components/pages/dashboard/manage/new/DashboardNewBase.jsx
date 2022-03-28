@@ -76,7 +76,11 @@ export const DashboardNewBase = ({ next, prev, initialValues }) => {
       span: 6,
       // description: { avalibility },
       description:
-        "Open: Anyone can join. Invite Only: You can send invites to other students to join your club, and other students can send invites to your club to request joining your club.Closed: You will be able to invite other people to join you club, but nobody will be able to join or request to join your club.",
+        availability === "Open"
+          ? "Open: Anyone can join."
+          : availability === "Invite Only"
+          ? "Invite Only: Students must request to join or be invited to your club."
+          : "Closed: Students must be invited to join your club.",
     },
     {
       component: CustomField,
@@ -161,22 +165,26 @@ export const DashboardNewBase = ({ next, prev, initialValues }) => {
                   </p>
                 </div>
               ))}
-              <div className="flex flex-col gap-2">
-                <label htmlFor="tags" className="font-medium">
+              <div className="mt-2 flex flex-col gap-2">
+                <label htmlFor="tags" className="font-semibold">
                   Select Club Related Tags
                 </label>
-                <TagSelection
-                  tags={tags}
-                  loading={tagsLoading}
-                  error={tagError}
-                  initial={values.tags}
-                  set={(selected) => handleChange("tags", selected)}
-                  limit={4}
-                />
-                <p className="text-xs text-gray-500">
-                  Select up to 4 tags that best represent your club. These tags
-                  will help interested students find your club.
-                </p>
+                <div className="flex flex-col gap-1">
+                  <div className="rounded-xl border-2 px-6 py-5">
+                    <TagSelection
+                      tags={tags}
+                      loading={tagsLoading}
+                      error={tagError}
+                      initial={values.tags}
+                      set={(selected) => handleChange("tags", selected)}
+                      limit={4}
+                    />
+                  </div>
+                  <p className="pl-2 text-xs text-gray-500">
+                    Select up to 4 tags that best represent your club. These
+                    tags will help interested students find your club.
+                  </p>
+                </div>
               </div>
               <div className="flex w-3/4 flex-row items-center gap-2">
                 <FieldButton
