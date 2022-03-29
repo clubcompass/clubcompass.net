@@ -133,6 +133,26 @@ export default gql`
 
   ##### END OF GET USER #####
 
+  ##### VALIDATE STUDENT #####
+
+  type ValidateStudentPayload {
+    id: ID!
+    firstname: String!
+    lastname: String!
+  }
+
+  ##### END OF VALIDATE STUDENT #####
+
+  ##### VALIDATE TEACHER #####
+
+  type ValidateTeacherPayload {
+    id: ID!
+    firstname: String!
+    lastname: String!
+  }
+
+  ##### END OF VALIDATE TEACHER #####
+
   type User {
     id: ID!
     ccid: String!
@@ -177,7 +197,8 @@ export default gql`
     getUsers(active: Boolean): [GetUsersPayload!]!
     getUserClubs: [GetUserClubPayload!]!
     getUserLeadershipClubs: GetUserLeadershipClubsPayload!
-    validateUser(ccid: String!): User!
+    validateStudent(ccid: String!): ValidateStudentPayload!
+    validateTeacher(ccid: String!): ValidateTeacherPayload!
     getUser(identifier: GetUserIdentifierArgs!, type: UserType): GetUserPayload!
   }
 

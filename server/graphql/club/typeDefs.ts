@@ -236,36 +236,47 @@ export default gql`
     email: String
     meetingDate: String
     location: String
-    approval: Boolean
-    status: ClubStatus
     availability: ClubAvailability
-    links: [LinkInput!]
-    applicationInfo: ClubApplicationInfoInput
     tags: [InputTags!]
-    invites: [InputInvites!]
-    vicePresidentId: ID
-    secretaryId: ID
-    treasurerId: ID
   }
 
-  input EditClubArgs {
-    name: String
+  type CreateClubPayload {
+    id: ID!
+    name: String!
+    slug: String!
     description: String
     email: String
     meetingDate: String
     location: String
-    approval: Boolean
-    status: ClubStatus
     availability: ClubAvailability
-    links: [LinkInput!]
-    applicationInfo: ClubApplicationInfoInput
-    tags: [InputTags!]
-    invites: [InputInvites!]
-    vicePresidentId: ID
-    secretaryId: ID
-    treasurerId: ID
-    members: [String!]
-    teacherId: ID
+    tags: [ClubPageTag!]!
+    _count: ClubMembersCount!
+    status: ClubStatus!
+    approval: Boolean!
+  }
+
+  input EditClubArgs {
+    description: String
+    email: String
+    meetingDate: String
+    location: String
+    availability: ClubAvailability
+    tags: [InputTags!]!
+  }
+
+  type EditClubPayload {
+    id: ID!
+    name: String!
+    slug: String!
+    description: String
+    email: String
+    meetingDate: String
+    location: String
+    availability: ClubAvailability
+    tags: [ClubPageTag!]
+    _count: ClubMembersCount!
+    status: ClubStatus!
+    approval: Boolean!
   }
 
   input InputInvites {
@@ -332,8 +343,9 @@ export default gql`
     leaveClub(clubId: ID!): User
     deleteClub(clubId: ID!): Club
     updateClubTags(clubId: ID!, tagIds: [ID!]!): Club
-    createClub(data: CreateClubArgs!): Club!
-    editClub(clubId: ID!, data: EditClubArgs!): Club!
+    createClub(data: CreateClubArgs!): CreateClubPayload!
+    # editClub(clubId: ID!, data: EditClubArgs!): Club!
+    editClub(clubId: ID!, data: EditClubArgs!): EditClubPayload!
     sendClubForApproval(clubId: ID!): SendClubForApprovalPayload!
     approveClub(clubId: ID!): ApproveClubPayload!
     declineClub(clubId: ID!): DeclineClubPayload!

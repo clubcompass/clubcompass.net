@@ -94,12 +94,15 @@ export const CREATE_CLUB = gql`
       email
       meetingDate
       location
-      approval
-      status
       availability
       tags {
         name
       }
+      _count {
+        members
+      }
+      status
+      approval
     }
   }
 `;
@@ -109,27 +112,20 @@ export const EDIT_CLUB = gql`
     editClub(clubId: $clubId, data: $data) {
       id
       name
+      slug
       description
-      tags {
-        name
-      }
-      description
+      email
       meetingDate
       location
       availability
-      links {
+      tags {
         name
-        link
-        type
       }
-      members {
-        firstname
-        lastname
-        roles {
-          name
-          type
-        }
+      _count {
+        members
       }
+      status
+      approval
     }
   }
 `;

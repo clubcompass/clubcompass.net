@@ -11,19 +11,6 @@ const Cors = cors();
 
 let schema: GraphQLSchema = makeExecutableSchema({ typeDefs, resolvers });
 
-// const isAuthenticated = rule({ cache: "contextual" })(
-//   async (parent, args, { auth, prisma }, info) => {
-//     console.log(auth);
-//     return false;
-//   }
-// );
-
-// const permissions = shield({
-//   Query: {
-//     getUser: isAuthenticated,
-//   },
-// });
-
 schema = applyMiddleware(schema, permissions);
 
 export default Cors(async (req, res) => {

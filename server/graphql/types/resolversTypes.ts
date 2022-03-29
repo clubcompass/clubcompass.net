@@ -36,16 +36,20 @@ import type {
   GetUserLeadershipClubsPayload,
   DeleteUserArgs,
   DeleteUserPayload,
-  ValidateUserArgs,
-  ValidateUserPayload,
+  ValidateStudentArgs,
+  ValidateStudentPayload,
   ApproveUserArgs,
   ApproveUserPayload,
   GetUsersArgs,
   GetUsersPayload,
-  batchDeleteUserArgs,
-  batchDeleteUserPayload,
+  BatchDeleteUsersArgs,
+  BatchDeleteUsersPayload,
+  BatchApproveUsersArgs,
+  BatchApproveUsersPayload,
   GetUserArgs,
   GetUserPayload,
+  ValidateTeacherArgs,
+  ValidateTeacherPayload,
 } from "../user/types";
 import type {
   CreateClubArgs,
@@ -93,10 +97,7 @@ import type {
 } from "../tag/types";
 
 import { GraphQLResolveInfo } from "graphql";
-import {
-  BatchApproveUsersArgs,
-  BatchApproveUsersPayload,
-} from "../user/resolvers/batchApproveUsers";
+import { AddLinkArgs, AddLinkPayload } from "../link/types";
 
 type Resolver<T extends {}, A extends {}, R extends any> = (
   parent: T,
@@ -148,10 +149,15 @@ export interface UserResolvers {
     GetUserLeadershipClubsArgs,
     GetUserLeadershipClubsPayload
   >;
-  validateUser?: Resolver<{}, ValidateUserArgs, ValidateUserPayload>;
+  validateStudent?: Resolver<{}, ValidateStudentArgs, ValidateStudentPayload>;
+  validateTeacher?: Resolver<{}, ValidateTeacherArgs, ValidateTeacherPayload>;
   approveUser?: Resolver<{}, ApproveUserArgs, ApproveUserPayload>;
   getUsers?: Resolver<{}, GetUsersArgs, GetUsersPayload>;
-  batchDeleteUsers?: Resolver<{}, batchDeleteUserArgs, batchDeleteUserPayload>;
+  batchDeleteUsers?: Resolver<
+    {},
+    BatchDeleteUsersArgs,
+    BatchDeleteUsersPayload
+  >;
   batchApproveUsers?: Resolver<
     {},
     BatchApproveUsersArgs,
@@ -211,6 +217,11 @@ export interface TagResolvers {
   createTags?: Resolver<{}, CreateTagsArgs, CreateTagsPayload>;
 }
 
+export interface LinkResolvers {
+  [key: string]: Resolver<any, any, any>;
+  addLink?: Resolver<{}, AddLinkArgs, AddLinkPayload>;
+}
+
 export interface Query {
   [key: string]: Resolver<any, any, any>;
   // auth
@@ -221,7 +232,7 @@ export interface Query {
   //user
   getUserClubs?: UserResolvers["getUserClubs"];
   getUserLeadershipClubs?: UserResolvers["getUserLeadershipClubs"];
-  validateUser?: UserResolvers["ValidateUser"];
+  validateStudent?: UserResolvers["ValidateStudent"];
   // club
   getClub?: ClubResolvers["getClub"];
   getClubs?: ClubResolvers["getClubs"];
