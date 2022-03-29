@@ -43,7 +43,7 @@ export const SummarySlide = ({ direct, prev, information, confirm, error }) => {
     <Container>
       <Header {...config.header} />
       {error && typeof error === "string" && (
-        <p className="text-red-500 leading-tight text-sm -my-2">{error}</p>
+        <p className="-my-2 text-sm leading-tight text-red-500">{error}</p>
       )}
       <Summary information={information} direct={direct} errors={error} />
       <Buttons buttons={config.buttons} />
@@ -73,69 +73,66 @@ const Summary = ({
     };
     const error = isError();
     return error ? (
-      <p className="text-red-500 leading-tight text-sm">{error.message}</p>
+      <p className="text-sm leading-tight text-red-500">{error.message}</p>
     ) : null;
   };
 
   return (
-    <div className="w-full max-w-[650px] flex items-center justify-center border-2 border-[#F4F4F4] py-5 rounded-xl">
-      <div className="w-full max-w-[90%] grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="flex w-full max-w-[650px] items-center justify-center rounded-xl border-2 border-[#F4F4F4] py-5">
+      <div className="flex w-full max-w-[90%] flex-col gap-4 md:grid md:grid-cols-2">
         <SummaryGroup title="Full name" direct={() => direct({ slide: 5 })}>
-          <p className="text-lg font-bold text-black break-all">
+          <p className="break-all text-lg font-bold text-black">
             {firstname} {lastname}
           </p>
           <ResponseError fields={["firstname", "lastname"]} />
         </SummaryGroup>
         <SummaryGroup title="Grade" direct={() => direct({ slide: 5 })}>
-          <p className="text-lg font-bold text-black  break-all">{grade}</p>
+          <p className="break-all text-lg font-bold  text-black">{grade}</p>
           <ResponseError fields={["grade"]} />
         </SummaryGroup>
         <SummaryGroup title="Email" direct={() => direct({ slide: 2 })}>
-          <p className="text-lg font-bold text-black break-all">{email}</p>
+          <p className="break-all text-lg font-bold text-black">{email}</p>
           <ResponseError fields={["email"]} />
         </SummaryGroup>
         <SummaryGroup title="Student ID" direct={() => direct({ slide: 3 })}>
-          <p className="text-lg font-bold text-black break-all">{studentId}</p>
+          <p className="break-all text-lg font-bold text-black">{studentId}</p>
           <ResponseError fields={["studentId"]} />
         </SummaryGroup>
 
         <div className="flex flex-col">
           <div className="flex flex-row items-center">
-            <h3 className="text-xs text-[#5D5E5E] font-semibold">Password</h3>
+            <h3 className="text-xs font-semibold text-[#5D5E5E]">Password</h3>
             <button
               onClick={() => direct({ slide: 4 })}
-              className="ml-1 px-1 uppercase text-[8px] font-bold bg-cc/10 text-cc rounded-sm"
-            >
+              className="ml-1 rounded-sm bg-cc/10 px-1 text-[8px] font-bold uppercase text-cc">
               Edit
             </button>
             <div
-              className="ml-1 px-1 cursor-pointer transition duration-200 ease-in-out transform text-xs bg-cc/10 text-cc rounded-sm"
-              onClick={() => setShown(!shown)}
-            >
+              className="ml-1 transform cursor-pointer rounded-sm bg-cc/10 px-1 text-xs text-cc transition duration-200 ease-in-out"
+              onClick={() => setShown(!shown)}>
               {shown ? <AiFillEye /> : <AiFillEyeInvisible />}
             </div>
           </div>
           <div
-            className="flex items-center cursor-pointer w-full max-w-[14rem] "
-            onClick={() => setShown(!shown)}
-          >
-            <p className="text-lg font-bold text-black break-all">
+            className="flex w-full max-w-[14rem] cursor-pointer items-center "
+            onClick={() => setShown(!shown)}>
+            <p className="break-all text-lg font-bold text-black">
               {shown ? password : password.replace(/./g, "•")}
             </p>
           </div>
           <ResponseError fields={["password"]} />
         </div>
         <SummaryGroup title="Account Verifications">
-          <div className="flex flex-col gap-1 mt-2">
+          <div className="mt-2 flex flex-col gap-1">
             <p className="text-sm font-semibold">
               Email verified:{" "}
-              <span className="rounded-sm text-xs px-2 py-0.5 bg-orange-400/10 text-orange-400">
+              <span className="rounded-sm bg-orange-400/10 px-2 py-0.5 text-xs text-orange-400">
                 Not Verified
               </span>
             </p>
             <p className="text-sm font-semibold">
               ASB Approved:{" "}
-              <span className="rounded-sm text-xs px-2 py-0.5 bg-orange-400/10 text-orange-400">
+              <span className="rounded-sm bg-orange-400/10 px-2 py-0.5 text-xs text-orange-400">
                 Unapproved
               </span>
             </p>
@@ -144,16 +141,15 @@ const Summary = ({
         <SummaryGroup
           title="Interests"
           direct={() => direct({ slide: 6 })}
-          span={2}
-        >
+          span={2}>
           {interests.length !== 0 ? (
-            <div className="grid grid-cols-4 gap-4 mt-2">
+            <div className="mt-2 flex flex-wrap gap-4 md:grid md:grid-cols-4">
               {interests.map((tag) => (
                 <Tag key={tag.id} tag={tag} />
               ))}
             </div>
           ) : (
-            <p className="text-xs mt-2">No interests selected.</p>
+            <p className="mt-2 text-xs">No interests selected.</p>
           )}
         </SummaryGroup>
       </div>
@@ -165,12 +161,11 @@ const SummaryGroup = ({ title, children, direct, span }) => {
   return (
     <div className="flex flex-col" style={{ gridColumn: `span ${span || 1}` }}>
       <div className="flex flex-row items-center">
-        <h3 className="text-xs text-[#5D5E5E] font-semibold">{title}</h3>
+        <h3 className="text-xs font-semibold text-[#5D5E5E]">{title}</h3>
         {direct && (
           <button
             onClick={direct}
-            className="ml-1 px-1 uppercase text-[8px] font-bold bg-cc/10 text-cc rounded-sm"
-          >
+            className="ml-1 rounded-sm bg-cc/10 px-1 text-[8px] font-bold uppercase text-cc">
             Edit
           </button>
         )}
@@ -186,8 +181,7 @@ export const Tag = ({ tag }) => {
   return (
     <span
       style={{ backgroundColor: clr }}
-      className="flex text-center items-center justify-center py-2 rounded uppercase font-extrabold text-[0.6rem] text-[#344357]"
-    >
+      className="flex items-center justify-center rounded py-2 px-4 text-center text-[0.6rem] font-extrabold uppercase text-[#344357]">
       {tag.name}
     </span>
   );

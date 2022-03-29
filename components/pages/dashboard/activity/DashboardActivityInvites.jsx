@@ -9,6 +9,7 @@ import {
   BsExclamationCircle,
 } from "react-icons/bs";
 import { Loading } from "../../../general/Loading";
+import { useBreakpoints } from "../../../../hooks";
 
 export const DashboardActivityInvites = ({
   user,
@@ -83,6 +84,8 @@ export const DashboardActivityInvites = ({
 };
 
 const Invite = ({ id, userId, clubId, status, club, refetch }) => {
+  const { isSm, isXs } = useBreakpoints();
+  const isMobile = isSm || isXs;
   console.log(club);
   const [acceptInvite] = useMutation(ACCEPT_INVITE, {
     onCompleted: async (data) => {
@@ -135,7 +138,7 @@ const Invite = ({ id, userId, clubId, status, club, refetch }) => {
     };
 
     return (
-      <div className="flex flex-row gap-2">
+      <div className="grid grid-cols-2 gap-2 md:flex md:flex-row">
         <button
           onClick={() => handleChoice("accept")}
           className="rounded bg-[#12b95820] py-1 px-4 text-[#12b958] hover:bg-[#00800125]">
@@ -157,14 +160,14 @@ const Invite = ({ id, userId, clubId, status, club, refetch }) => {
           backgroundColor: colors[status] + "20",
           color: colors[status],
         }}
-        className="w-[177px] shrink-0 rounded-lg py-1 text-center capitalize text-white">
+        className="w-full shrink-0 rounded-lg py-1 text-center font-semibold capitalize text-white md:w-[177px]">
         {status.toLowerCase()}
       </span>
     );
   };
 
   return (
-    <div className="flex w-full flex-row items-center justify-between gap-4 rounded-lg border-[1px] bg-white px-4 py-2">
+    <div className="flex w-full flex-col justify-between gap-4 rounded-lg border-2 bg-white px-4 py-2 md:flex-row md:items-center">
       <div className="flex items-center gap-4">
         <span
           style={{
@@ -176,9 +179,11 @@ const Invite = ({ id, userId, clubId, status, club, refetch }) => {
         </span>
         <div className="flex flex-col">
           <a className="text-xl font-semibold">{club?.name}</a>
-          <p className="text-sm text-gray-400 line-clamp-1">
-            {club?.description}
-          </p>
+          {!isMobile && (
+            <p className="text-sm text-gray-400 line-clamp-1">
+              {club?.description}
+            </p>
+          )}
         </div>
       </div>
       {status === "PENDING" && <ActionButtons />}

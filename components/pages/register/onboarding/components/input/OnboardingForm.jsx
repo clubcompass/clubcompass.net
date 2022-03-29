@@ -5,6 +5,8 @@ import {
   FieldButton,
 } from "../../../../../general/input/control";
 import { Buttons } from "../OnboardingButtons";
+import { useBreakpoints } from "../../../../../../hooks/useBreakpoints";
+
 export const OnboardingForm = ({
   values,
   isSubmitting,
@@ -18,7 +20,7 @@ export const OnboardingForm = ({
 
   if (multipleFields) {
     return (
-      <Form className="w-full grid grid-cols-6 gap-3">
+      <Form className="mx-auto grid w-[90vw] max-w-[495px] grid-cols-6 gap-3">
         {form.map((form) => {
           if (!form.custom) {
             return (
@@ -37,7 +39,9 @@ export const OnboardingForm = ({
                   />
                 </div>
                 {form.button && (
-                  <div style={{ gridColumn: `span ${6 - form.span}` }}>
+                  <div
+                    className="h-[400px] bg-red-500"
+                    style={{ gridColumn: `span ${6 - form.span}` }}>
                     <FieldButton
                       primary={form.button.primary}
                       disabled={form.button.disabled}
@@ -63,7 +67,7 @@ export const OnboardingForm = ({
     );
   } else {
     return (
-      <Form className="w-full grid grid-cols-6 gap-3">
+      <Form className="mx-auto grid w-[90vw] max-w-[495px] grid-cols-6 gap-3">
         {form.custom ? (
           <div style={{ gridColumn: `span ${form.span}` }}>
             {form.component}
@@ -85,7 +89,10 @@ export const OnboardingForm = ({
               />
             </div>
             {form.button && (
-              <div style={{ gridColumn: `span ${6 - form.span}` }}>
+              <div
+                style={{
+                  gridColumn: `span ${6 - form.span}`,
+                }}>
                 <FieldButton
                   primary={form.button.primary}
                   disabled={form.button.disabled}

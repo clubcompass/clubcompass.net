@@ -16,8 +16,7 @@ export const Container = ({ children }) => {
           item && (
             <animated.div
               style={style}
-              className="w-full flex flex-col items-center justify-center gap-6"
-            >
+              className="flex w-[90vw] max-w-full flex-col items-center justify-center gap-6">
               {children}
             </animated.div>
           )
