@@ -1,4 +1,5 @@
 import { useState, Children, useEffect, useMemo } from "react";
+import { useBreakpoints } from "../../../../../hooks";
 
 export const DashboardPagination = ({ options, step, setStep, children }) => {
   // const [index,setIndex ] = useState(0);
@@ -58,6 +59,9 @@ const ComponentItem = ({
   complete,
   select,
 }) => {
+  const { isSm, isXs } = useBreakpoints();
+  const isMobile = isSm || isXs;
+
   return (
     <button
       onClick={select}
@@ -79,7 +83,7 @@ const ComponentItem = ({
           className="flex h-8 w-8 items-center justify-center rounded-md">
           {icon}
         </span>
-        <span className="text-sm">{label}</span>
+        {!isMobile && <span className="text-sm">{label}</span>}
       </div>
     </button>
   );
