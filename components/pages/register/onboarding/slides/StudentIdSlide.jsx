@@ -61,7 +61,7 @@ export const StudentIdSlide = ({ next, prev, set, data }) => {
   return (
     <Container>
       <Header {...config.header} />
-      <div className="w-[495px] flex flex-col gap-3">
+      <div className="flex flex-col gap-3">
         <Formik
           initialValues={{ id: data.studentId }}
           onSubmit={({ id }) => {
@@ -69,8 +69,7 @@ export const StudentIdSlide = ({ next, prev, set, data }) => {
           }}
           validationSchema={Yup.object().shape({
             id: Yup.string().required().max(20),
-          })}
-        >
+          })}>
           {(props) => {
             return (
               <OnboardingForm
@@ -84,7 +83,7 @@ export const StudentIdSlide = ({ next, prev, set, data }) => {
         </Formik>
       </div>
       {error && (
-        <p className="text-red-500 text-sm">
+        <p className="text-sm text-red-500">
           An account with this Student ID address already exists.{" "}
           <Link href="/login">
             <a className="text-cc underline">Login.</a>

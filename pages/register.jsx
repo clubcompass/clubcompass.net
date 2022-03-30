@@ -18,32 +18,32 @@ import {
 } from "../components/pages/register/onboarding/slides";
 
 const Register = () => {
-  const [slide, setSlide] = useState(7);
+  const [slide, setSlide] = useState(1);
   const [error, setError] = useState(null);
-  // const [data, setData] = useState({
-  //   firstname: "",
-  //   lastname: "",
-  //   email: "",
-  //   studentId: "",
-  //   password: "",
-  //   grade: "",
-  //   interests: [],
-  // });
-
   const [data, setData] = useState({
-    firstname: "Paul",
-    lastname: "Bokelman",
-    email: "paul.bokelman1@gmail.com",
-    studentId: "1850224",
-    password: "Password123!",
-    grade: "Senior",
-    interests: [
-      { id: "cl0vxq2hl0000ropcsj6aa77y", name: "volunteering" },
-      { id: "cl0vxq2hl0001ropcnyiskhh6", name: "charity" },
-      { id: "cl0vxq2hl0002ropc91kqevai", name: "science" },
-      { id: "cl0vxq2hl0003ropc393fpmg5", name: "tech" },
-    ],
+    firstname: "",
+    lastname: "",
+    email: "",
+    studentId: "",
+    password: "",
+    grade: "",
+    interests: [],
   });
+
+  // const [data, setData] = useState({
+  //   firstname: "Paul",
+  //   lastname: "Bokelman",
+  //   email: "paul.bokelman1@gmail.com",
+  //   studentId: "1850224",
+  //   password: "Password123!",
+  //   grade: "Senior",
+  //   interests: [
+  //     { id: "cl0vxq2hl0000ropcsj6aa77y", name: "volunteering" },
+  //     { id: "cl0vxq2hl0001ropcnyiskhh6", name: "charity" },
+  //     { id: "cl0vxq2hl0002ropc91kqevai", name: "science" },
+  //     { id: "cl0vxq2hl0003ropc393fpmg5", name: "tech" },
+  //   ],
+  // });
 
   const handlePagination = {
     next: () => {
