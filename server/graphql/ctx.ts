@@ -4,7 +4,8 @@ import { prisma } from "../../config/prisma";
 import { getAuthenticatedUser, TokenPayload } from "../utils/auth";
 import { NextApiRequest, NextApiResponse } from "next";
 export type Context = {
-  auth: TokenPayload; // string
+  auth: TokenPayload | null;
+  rawToken: string;
   setCookie: ({ name, value, options }: SetCookieOptions) => void;
   prisma: PrismaClient;
 };
@@ -23,7 +24,6 @@ export const createContext = async ({
   res: NextApiResponse;
 }): Promise<Context> => {
   const token = req.headers.authorization || null;
-
   const user = token
     ? (getAuthenticatedUser({ auth: token }) as TokenPayload)
     : null; // if no token/user is found, user is null
@@ -34,6 +34,7 @@ export const createContext = async ({
 
   return {
     auth: user,
+    rawToken: token ? token.replace("Bearer ", "") : null, // currently passing through raw token, this should be stored on model...
     setCookie, // maybe shouldn't be in context?
     prisma,
   };

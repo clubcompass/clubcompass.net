@@ -13,7 +13,6 @@ export type TokenPayload = jwt.JwtPayload & {
 export const getAuthenticatedUser = ({ auth }): TokenPayload | void => {
   // query user
   if (!auth) throw new AuthenticationError("You are not logged in");
-
   // const token = auth.split("Bearer ")[1];
 
   const token = auth.replace("Bearer ", "");

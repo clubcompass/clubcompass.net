@@ -11,9 +11,7 @@ import { Loading } from "../../../general/Loading";
 import { useBreakpoints } from "../../../../hooks";
 
 export const DashboardNavItems = () => {
-  const { user, loading } = useAuthContext(); //! should have loading state
-
-  if (!user && loading) return <Loading />;
+  const { user } = useAuthContext(); //! should have loading state
 
   const roleSpecificItems = {
     // replace icon with react icon component
@@ -86,8 +84,7 @@ export const DashboardNavItems = () => {
 
   return (
     <div className="mt-16">
-      {!user && <Loading />}
-      {roleSpecificItems[user?.type]?.map((item, i) => (
+      {roleSpecificItems[user.type].map((item, i) => (
         <DashboardItem key={i} {...item} notifications={user?.pendingInvites} />
       ))}
     </div>
@@ -111,7 +108,8 @@ const DashboardItem = ({ label, to, icon, notifications, disabled }) => {
             : disabled
             ? "pointer-events-none cursor-not-allowed text-gray-200"
             : "text-[#787F92] hover:bg-[#FAFAFA]"
-        } `}>
+        } `}
+      >
         <Icon icon={icon} color={isActive ? "#1C5EF9" : "#787F92"} />
         {!isMobile && (
           <div className="flex items-center gap-4">

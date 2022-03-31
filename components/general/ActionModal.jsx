@@ -3,15 +3,16 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { ModalProvider, useModalContext } from "./Modal";
 import { CgSpinner } from "react-icons/cg";
-import { db } from "../../lib/database";
+import { useMutation } from "@apollo/client";
 import Confetti from "react-dom-confetti";
 
 import { BsCheckCircleFill } from "react-icons/bs";
+import { JOIN_CLUB, LEAVE_CLUB } from "../../lib/docs";
+import { useAuthContext } from "../../context";
 
 export const ActionModal = ({
   name,
   isMember,
-  userId,
   clubId,
   slug,
   availability,
@@ -26,7 +27,6 @@ export const ActionModal = ({
       <ModalProvider closeColor={{ color: "#ffffff", index: 2 }}>
         <OpenModal
           joined={joined}
-          userId={userId}
           closed={closed}
           clubPage={clubPage}
           draft={draft}
@@ -34,7 +34,6 @@ export const ActionModal = ({
         <ActionButton
           joined={joined}
           setJoined={setJoined}
-          userId={userId}
           clubId={clubId}
           closed={closed}
         />
@@ -44,7 +43,8 @@ export const ActionModal = ({
   );
 };
 
-const OpenModal = ({ joined, userId, closed, clubPage, draft }) => {
+const OpenModal = ({ joined, closed, clubPage, draft }) => {
+  const { user } = useAuthContext();
   const { openModal } = useModalContext();
 
   const clubPageStyle = clubPage && {
@@ -54,7 +54,7 @@ const OpenModal = ({ joined, userId, closed, clubPage, draft }) => {
     fontSize: "1rem",
   };
 
-  if (userId || draft) {
+  if (!user || draft) {
     return (
       <button
         onClick={openModal}
@@ -84,26 +84,57 @@ const OpenModal = ({ joined, userId, closed, clubPage, draft }) => {
   );
 };
 
-const ActionButton = ({ joined, setJoined, userId, clubId, closed }) => {
+const ActionButton = ({ joined, setJoined, clubId, closed }) => {
+  const { user } = useAuthContext();
+  const { closeModal, next } = useModalContext();
   const [loading, setLoading] = useState(false);
 
-  const { closeModal, next } = useModalContext();
-
-  const handleClubAction = async () => {
-    try {
-      setLoading(true);
-      if (joined) {
-        await db.clubs.removeSignup(userId, clubId);
-        return setJoined(false);
-      } else {
-        await db.clubs.signup(userId, clubId);
-        return setJoined(true);
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
+  const [joinClub] = useMutation(JOIN_CLUB, {
+    context: {
+      headers: {
+        authorization: `Bearer ${user?.token}`,
+      },
+    },
+    variables: {
+      clubId,
+    },
+    onCompleted: (data) => {
+      setJoined(true);
       setLoading(false);
       next();
+    },
+    onError: (error) => {
+      console.log(error);
+      setLoading(false);
+    },
+  });
+
+  const [leaveClub] = useMutation(LEAVE_CLUB, {
+    context: {
+      headers: {
+        authorization: `Bearer ${user?.token}`,
+      },
+    },
+    variables: {
+      clubId,
+    },
+    onCompleted: (data) => {
+      setJoined(false);
+      setLoading(false);
+      next();
+    },
+    onError: (error) => {
+      console.log(error);
+      setLoading(false);
+    },
+  });
+
+  const handleClubAction = async () => {
+    setLoading(true);
+    if (joined) {
+      return await leaveClub();
+    } else {
+      return await joinClub();
     }
   };
 

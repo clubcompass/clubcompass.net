@@ -52,8 +52,6 @@ export const sendVerificationEmail = async (
     { expiresIn: "2h" }
   );
 
-  console.log(token);
-
   await prisma.user.update({
     where: { email },
     data: {

@@ -10,11 +10,8 @@ export type GetUserInvitesPayload = Awaited<ReturnType<typeof getUserInvites>>;
 export const getUserInvites = async (
   _parent: any,
   _args: GetUserInvitesArgs,
-  { prisma, auth }: Context
+  { prisma, auth: token }: Context
 ): Promise<typeof invites> => {
-  const token = getAuthenticatedUser({ auth });
-  if (!token) throw new AuthenticationError("No token data");
-
   const userInvites = await prisma.invite.findMany({
     where: {
       user: {

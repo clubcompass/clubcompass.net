@@ -5,7 +5,7 @@ import { useAuthContext } from "../context";
 import { Clubs, ClubsToolbar } from "../components/pages/clubs";
 import { Loading } from "../components/general/Loading";
 const Cards = () => {
-  const { user, loading } = useAuthContext();
+  const { user } = useAuthContext();
   const [clubs, setClubs] = useState([]);
   const { error: clubsError, loading: clubsLoading } = useQuery(
     GET_APPROVED_CLUBS,

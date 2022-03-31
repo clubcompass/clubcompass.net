@@ -9,32 +9,14 @@ import {
   BsExclamationCircle,
 } from "react-icons/bs";
 import { Loading } from "../../../general/Loading";
+import { useAuthContext } from "../../../../context";
 
 export const DashboardActivityInvites = ({
-  user,
-  loading,
   refetch,
   pending,
   accepted,
   declined,
 }) => {
-  console.log(pending);
-  console.log(accepted);
-  console.log(declined);
-  // revalidate invites
-  // const [invitesList, setInvitesList] = useState(invites);
-  // const refetch = async () => {
-  //   const user = await db.users.get({ id: invites[0].userId }); // loading state will revalidating
-  //   console.log(user);
-  //   return setInvitesList(user.invites);
-  // };
-  // const pending = invitesList.filter((invite) => invite.status === "PENDING");
-  // const accepted = invitesList.filter((invite) => invite.status === "ACCEPTED");
-  // const declined = invitesList.filter((invite) => invite.status === "DECLINED");
-
-  if (user === null) return <Loading />;
-  if (loading) return <Loading />;
-
   return (
     <div className="flex flex-col gap-4">
       <div>
@@ -84,9 +66,14 @@ export const DashboardActivityInvites = ({
   );
 };
 
-const Invite = ({ id, userId, clubId, status, club, refetch }) => {
-  console.log(club);
+const Invite = ({ id, status, club, refetch }) => {
+  const { user } = useAuthContext();
   const [acceptInvite] = useMutation(ACCEPT_INVITE, {
+    context: {
+      headers: {
+        authorization: `Bearer ${user.token}`,
+      },
+    },
     onCompleted: async (data) => {
       console.log(data);
       return await refetch();
@@ -96,6 +83,11 @@ const Invite = ({ id, userId, clubId, status, club, refetch }) => {
     },
   });
   const [declineInvite] = useMutation(DECLINE_INVITE, {
+    context: {
+      headers: {
+        authorization: `Bearer ${user.token}`,
+      },
+    },
     onCompleted: async (data) => {
       console.log(data);
       return await refetch();
@@ -140,12 +132,14 @@ const Invite = ({ id, userId, clubId, status, club, refetch }) => {
       <div className="flex flex-row gap-2">
         <button
           onClick={() => handleChoice("accept")}
-          className="rounded-lg bg-[#12b958] py-1 px-4 font-semibold text-white">
+          className="rounded-lg bg-[#12b958] py-1 px-4 font-semibold text-white"
+        >
           Accept
         </button>
         <button
           onClick={() => handleChoice("decline")}
-          className="rounded-lg bg-red-500 py-1 px-4 font-semibold text-white">
+          className="rounded-lg bg-red-500 py-1 px-4 font-semibold text-white"
+        >
           Decline
         </button>
       </div>
@@ -159,7 +153,8 @@ const Invite = ({ id, userId, clubId, status, club, refetch }) => {
           backgroundColor: colors[status],
           color: "white",
         }}
-        className="w-[177px] shrink-0 rounded-lg py-1 text-center font-semibold capitalize text-white">
+        className="w-[177px] shrink-0 rounded-lg py-1 text-center font-semibold capitalize text-white"
+      >
         {status.toLowerCase()}
       </span>
     );
@@ -173,7 +168,8 @@ const Invite = ({ id, userId, clubId, status, club, refetch }) => {
             backgroundColor: colors[status],
             color: "white",
           }}
-          className="rounded-lg p-2">
+          className="rounded-lg p-2"
+        >
           {icons[status]}
         </span>
         <div className="flex flex-col">

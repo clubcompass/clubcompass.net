@@ -3,7 +3,7 @@ import { AuthenticationError } from "apollo-server-micro";
 import { Context } from "../../graphql/ctx";
 
 const isASB = rule({ cache: "contextual" })(
-  async (parent, args, { auth }, info) => {
+  async (_parent, _args, { auth }: Context, _info) => {
     if (
       auth.type === "ASB" &&
       auth.active === true &&
@@ -20,7 +20,7 @@ const isASB = rule({ cache: "contextual" })(
 );
 
 const isStudent = rule({ cache: "contextual" })(
-  async (parent, args, { auth }: Context, info) => {
+  async (_parent, _args, { auth }: Context, _info) => {
     if (
       auth.type === "STUDENT" &&
       auth.active === true &&
@@ -35,6 +35,8 @@ const isStudent = rule({ cache: "contextual" })(
     });
   }
 );
+
+// isTeacher permissions????
 
 export const permissions = shield(
   {

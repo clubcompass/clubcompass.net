@@ -6,8 +6,7 @@ import { GET_USER_INVITES } from "../../lib/docs";
 import { Loading } from "../../components/general/Loading";
 import { DashboardActivityInvites as Invites } from "../../components/pages/dashboard/activity/DashboardActivityInvites";
 const Activity = () => {
-  const { user, loading } = useAuthContext();
-  const router = useRouter();
+  const { user } = useAuthContext();
 
   const {
     data: {
@@ -17,6 +16,11 @@ const Activity = () => {
     errors,
     invitesLoading,
   } = useQuery(GET_USER_INVITES, {
+    context: {
+      headers: {
+        authorization: `Bearer ${user.token}`,
+      },
+    },
     onCompleted: (data) => {
       console.log(data);
     },
@@ -25,30 +29,12 @@ const Activity = () => {
     },
   });
 
-  useEffect(() => {
-    if (user) {
-      if (!user?.active || !user?.emailVerified) {
-        router.push("/dashboard");
-      }
-    }
-  }, [router, user]);
-
-  // console.log(
-  //   "renders loading",
-  //   !user && loading,
-  //   "!user",
-  //   !user,
-  //   "loading",
-  //   loading
-  // );
-
   return (
     <div className="flex flex-col gap-4 md:p-4">
       <h1 className="font-bold uppercase text-[#626262]">Activity</h1>
       {!invitesLoading ? (
         <Invites
           user={user}
-          loading={loading}
           refetch={refetch}
           accepted={acceptedInvites}
           pending={pendingInvites}

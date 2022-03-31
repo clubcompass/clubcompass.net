@@ -12,7 +12,6 @@ type TokenPayload = jwt.JwtPayload & {
 
 const verify = async (req: NextApiRequest, res: NextApiResponse) => {
   const { token } = req.query as { token: string };
-  console.log(token);
 
   jwt.verify(token, process.env.SECRET, (err: any, decoded: TokenPayload) => {
     if (err) return res.status(400).redirect(`/verification?valid=false`);

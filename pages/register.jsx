@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useMutation, useQuery } from "@apollo/client";
-import Cookies from "js-cookie";
-import { GET_TAGS, REGISTER } from "../lib/docs";
+import { useQuery } from "@apollo/client";
+import { useAuthContext } from "../context";
+import { GET_TAGS } from "../lib/docs";
 import {
   RegisterPagination as Pagination,
   RegisterContainer as Container,
@@ -18,6 +18,7 @@ import {
 } from "../components/pages/register/onboarding/slides";
 
 const Register = () => {
+  const { register } = useAuthContext();
   const [slide, setSlide] = useState(1);
   const [error, setError] = useState(null);
   const [data, setData] = useState({
@@ -57,24 +58,6 @@ const Register = () => {
     },
   };
 
-  const [register, { data: { register: { user, token } = {} } = {} }] =
-    useMutation(REGISTER, {
-      onCompleted: ({ register: { user, token } }) => {
-        console.log(user, token);
-        Cookies.set("token", token);
-        handlePagination.next();
-      },
-      onError: (error) => {
-        if (error.graphQLErrors) {
-          if (error.graphQLErrors[0].extensions.code === "UNAUTHENTICATED") {
-            return setError(error.graphQLErrors[0].message);
-          }
-          return setError(error.graphQLErrors[0].extensions?.errors);
-        }
-        return setError(error.message);
-      },
-    });
-
   const {
     data: { getTags: tags = {} } = {},
     loading: tagsLoading,
@@ -88,7 +71,8 @@ const Register = () => {
       grade: grade.toUpperCase(), // could throw error if grade is some how not a string
       ...rest,
     };
-    await register({ variables: { data: { ...user } } });
+    await register({ variables: { data: { ...user } } }); // move to auth provider
+    handlePagination.next();
 
     // if (error !== null) {
     //   return setError(error);
