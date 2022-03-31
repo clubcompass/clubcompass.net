@@ -33,6 +33,7 @@ export default gql`
   ##### GET APPROVED CLUBS #####
 
   type GetApprovedClubsPayload {
+    id: ID!
     name: String!
     slug: String!
     description: String

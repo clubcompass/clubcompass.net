@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useAuthContext } from "../../context/auth";
+import { useAuthContext } from "../../context";
 import { GET_CLUB } from "../../lib/docs";
 import { useQuery } from "@apollo/client";
 import { Club as ClubComponent } from "../../components/pages/club";
@@ -53,7 +53,8 @@ const Club = () => {
             // isMember={!user ? false : userClubs.includes(club.id)}
             userId={user && user?.id}
             clubId={club.id}
-            slug={club.slug}>
+            slug={club.slug}
+          >
             <ClubComponent.Header name={club.name} tags={club.tags} />
             <ClubComponent.Contact email={club.email} links={club.links} />
             <ClubComponent.Meeting

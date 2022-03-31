@@ -5,9 +5,10 @@ import React, {
   useMemo,
   useCallback,
 } from "react";
-import { useMutation, MutationFunction, FetchResult } from "@apollo/client";
-import { LOGIN, REGISTER, LOGOUT } from "../lib/docs"; //CHANGE THIS
 import { useRouter } from "next/router";
+import { useMutation, FetchResult } from "@apollo/client";
+import { useToastContext } from "../context";
+import { LOGIN, REGISTER, LOGOUT } from "../lib/docs"; //CHANGE THIS
 import {
   FindUserBySessionPayload as AuthenticatedUser,
   LoginArgs,
@@ -44,12 +45,19 @@ export const useAuthContext = (): AuthContext => {
 };
 
 export const AuthProvider = ({ user: initialUser, children }) => {
+  const { addToast } = useToastContext();
   const router = useRouter();
   const [user, setUser] = useState<AuthenticatedUser | null>(initialUser);
 
   const [login] = useMutation<{ login: LoginPayload }, LoginArgs>(LOGIN, {
     onCompleted: async ({ login: user }) => {
       setUser(user); // should be same result as currentUser
+      addToast({
+        type: "info",
+        title: `Welcome back ${user.firstname} ${user.lastname}`,
+        message: "You have successfully logged in. Welcome back!",
+        duration: 5000,
+      });
       await router.push("/dashboard");
     },
     onError(error) {
@@ -67,7 +75,14 @@ export const AuthProvider = ({ user: initialUser, children }) => {
     {
       onCompleted: async ({ register: user }) => {
         setUser(user); // should be same result as currentUser
-        await router.push("/clubs"); // shouldn't redirect...
+        addToast({
+          type: "info",
+          title: "Registration successful",
+          message:
+            "Before you can login, you need to confirm your email and be activated by ASB.",
+          duration: 5000,
+        });
+        // await router.push("/clubs"); // shouldn't redirect...
       },
       onError(error) {
         console.log(error);
@@ -82,6 +97,12 @@ export const AuthProvider = ({ user: initialUser, children }) => {
 
   const [logout] = useMutation<{ logout: LogoutPayload }>(LOGOUT, {
     onCompleted: async () => {
+      addToast({
+        type: "info",
+        title: "Logged out",
+        message: "You have been logged out from club compass.",
+        duration: 3000,
+      });
       await router.push("/");
       setUser(null);
     },

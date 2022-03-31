@@ -18,6 +18,7 @@ export const getApprovedClubs = async (
       },
     },
     select: {
+      id: true,
       name: true,
       slug: true,
       description: true,

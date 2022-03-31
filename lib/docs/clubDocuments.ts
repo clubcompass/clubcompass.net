@@ -3,6 +3,7 @@ import { gql } from "@apollo/client";
 export const GET_APPROVED_CLUBS = gql`
   query {
     getApprovedClubs {
+      id
       name
       slug
       description

@@ -199,7 +199,7 @@ const Toast = ({
         style={{
           marginRight: type === "loading" ? "1.5rem" : "1rem",
         }}
-        className=" flex items-center gap-2"
+        className="flex items-center gap-4"
       >
         <div style={{ color, fontSize: "21px" }}>{icon}</div>
         <div style={{ width: "90%" }} className="flex flex-col">
