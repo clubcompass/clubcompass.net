@@ -1,5 +1,8 @@
-import React from "react";
 import { useState } from "react";
+import Link from "next/link";
+import { CgSpinner } from "react-icons/cg";
+import { db } from "../../../lib/database";
+import { useAuthContext } from "../../../context/auth.js";
 import { useBreakpoints } from "../../../hooks";
 import { ActionModal } from "../../general/ActionModal";
 
@@ -57,13 +60,61 @@ export const Card = ({ title, children }) => {
   );
 };
 
-const Button = ({ availability }) => {
+const Button = ({ availability, userId, clubId }) => {
   const [joined, setJoined] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  if (availability == "CLOSED") {
+  const handleClubAction = async () => {
+    try {
+      setLoading(true);
+      if (joined) {
+        await db.clubs.removeSignup(userId, clubId);
+        return setJoined(false);
+      } else {
+        await db.clubs.signup(userId, clubId);
+        return setJoined(true);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (availability === "CLOSED") {
     return (
       <button className="h-10 w-48 cursor-default rounded-lg bg-[#E7EEFF] px-8 py-0.5 font-bold text-[#707070]">
         Closed
+      </button>
+    );
+  }
+
+  if (userId) {
+    return (
+      <button
+        className={`${joined ? "bg-[#FF5555]" : "bg-cc"} ${
+          loading && "cursor-not-allowed bg-opacity-50"
+        } flex h-10 w-48 flex-row items-center justify-center gap-1 rounded-lg px-8 py-0.5 font-bold text-white`}
+        onClick={() => handleClubAction()}
+        disabled={loading}
+      >
+        <span className="font-semibold text-white">
+          {loading ? (
+            joined ? (
+              <span className="flex flex-row items-center gap-2">
+                <CgSpinner className="animate-spin" /> Leaving...
+              </span>
+            ) : (
+              <span className="flex flex-row items-center gap-2">
+                <CgSpinner className="animate-spin" /> Joining...
+              </span>
+            )
+          ) : joined ? (
+            "Leave"
+          ) : (
+            "Join"
+          )}
+        </span>
       </button>
     );
   }
@@ -73,7 +124,8 @@ const Button = ({ availability }) => {
       className={`${
         joined ? "bg-[#FF5555]" : "bg-[#1C5EFF]"
       } h-10 w-48 rounded-lg px-8 py-0.5 text-base font-bold text-white`}
-      onClick={() => setJoined(!joined)}>
+      onClick={() => setJoined(!joined)}
+    >
       {joined ? "Leave" : "Join"}
     </button>
   );

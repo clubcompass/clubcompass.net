@@ -1,20 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { Toolbar } from ".";
 
-export const ClubsToolbar = ({ clubs, updateClubs }) => {
-  const [sortOptions, setSortOptions] = useState({
-    category: "alpha",
-    order: "desc",
-  });
+export const ClubsToolbar = ({ clubs, staticClubs, updateClubs }) => {
+  // TODO: Persist sort when filtering
   return (
     <Toolbar>
       <Toolbar.Container>
-        <Toolbar.Sort
-          clubs={clubs}
-          updateClubs={updateClubs}
-          updateGlobalSortOptions={setSortOptions}
-        />
-        <Toolbar.Filter sortOptions={sortOptions} />
+        <Toolbar.Sort clubs={clubs} updateClubs={updateClubs} />
+        <Toolbar.Filter staticClubs={staticClubs} updateClubs={updateClubs} />
         <Toolbar.Search />
       </Toolbar.Container>
     </Toolbar>
