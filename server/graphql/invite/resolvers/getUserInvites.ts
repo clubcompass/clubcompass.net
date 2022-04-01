@@ -22,6 +22,7 @@ export const getUserInvites = async (
             select: {
               id: true,
               name: true,
+              slug: true,
               description: true,
               status: true,
             },

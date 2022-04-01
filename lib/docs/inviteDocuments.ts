@@ -69,6 +69,7 @@ export const GET_USER_INVITES = gql`
           club {
             id
             name
+            slug
             description
             status
           }
@@ -83,6 +84,7 @@ export const GET_USER_INVITES = gql`
           club {
             id
             name
+            slug
             description
             status
           }
@@ -97,6 +99,7 @@ export const GET_USER_INVITES = gql`
           club {
             id
             name
+            slug
             description
             status
           }
@@ -113,6 +116,7 @@ export const GET_USER_INVITES = gql`
           club {
             id
             name
+            slug
             description
             status
           }
@@ -127,6 +131,7 @@ export const GET_USER_INVITES = gql`
           club {
             id
             name
+            slug
             description
             status
           }
@@ -141,6 +146,7 @@ export const GET_USER_INVITES = gql`
           club {
             id
             name
+            slug
             description
             status
           }

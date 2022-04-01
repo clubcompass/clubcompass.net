@@ -14,6 +14,7 @@ export default gql`
   type InviteClub {
     id: ID!
     name: String!
+    slug: String!
     description: String!
     status: String!
   }
