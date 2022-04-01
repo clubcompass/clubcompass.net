@@ -22,7 +22,7 @@ export const DashboardNavProfile = () => {
     <div className="flex flex-col items-center justify-center gap-2 md:flex-row">
       {user ? (
         <>
-          {!isMobile && (
+          {/* {!isMobile && (
             <Link href="/dashboard/account">
               <a className="inline-flex items-center rounded-md bg-ccGrey text-sm font-medium text-black hover:bg-ccGreyDark md:w-full">
                 <div className="flex h-9 w-9 items-center justify-center rounded-md bg-[#AFC7FF] text-center">
@@ -37,11 +37,11 @@ export const DashboardNavProfile = () => {
                 )}
               </a>
             </Link>
-          )}
+          )} */}
           <div
             onClick={logout}
-            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-md bg-[#FF5C5C10] md:px-2">
-            <HiOutlineLogout className="text-lg text-[#FF5C5C]" />
+            className="flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-md">
+            <HiOutlineLogout className="text-xl text-[#FF5C5C]" />
           </div>
         </>
       ) : (

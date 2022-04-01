@@ -9,24 +9,18 @@ import {
 export const DashboardNav = () => {
   return (
     <Container>
-      <div className="mx-auto">
-        <Logo />
-      </div>
+      <Logo />
       <Items />
-      <div className="absolute left-0 right-0 bottom-12 md:mx-auto md:w-[200px]">
-        <Profile />
-      </div>
+      <Profile />
     </Container>
   );
 };
 
 const Container = ({ children }) => {
-  const { isSm, isXs } = useBreakpoints();
-
   return (
     <div
       className="
-      fixed flex h-screen w-[60px] flex-col overflow-hidden bg-white py-12 px-3 md:w-[250px]">
+      fixed z-50 flex h-screen w-[60px] flex-col items-center justify-between border-r bg-white py-12 md:w-[100px]">
       {children}
     </div>
   );
