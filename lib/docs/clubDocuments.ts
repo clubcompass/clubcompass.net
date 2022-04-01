@@ -8,7 +8,9 @@ export const GET_APPROVED_CLUBS = gql`
       slug
       description
       availability
+      isMember
       tags {
+        id
         name
       }
       _count {
@@ -61,6 +63,7 @@ export const GET_CLUB = gql`
       location
       availability
       status
+      isMember
       _count {
         members
       }

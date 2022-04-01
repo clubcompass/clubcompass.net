@@ -19,7 +19,7 @@ export const Clubs = ({ clubs, manage, userId, userClubs }) => {
               slug={club.slug}
               userId={userId}
               clubId={club.id}
-              isMember={!userClubs ? false : userClubs.includes(club.id)}
+              isMember={club?.isMember}
               memberCount={club._count.members}
               manage={manage}
               availability={club.availability}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { GET_APPROVED_CLUBS } from "../lib/docs/clubDocuments";
 import { useQuery } from "@apollo/client";
 import Skeleton from "react-loading-skeleton";
@@ -10,16 +10,20 @@ const Cards = () => {
   const { user } = useAuthContext();
   const { addToast } = useToastContext();
   const [clubs, setClubs] = useState([]);
+  const [staticClubs, setStaticClubs] = useState([]); // static clubs could be abstracted to just be data returned from query
   const { loading: clubsLoading } = useQuery(GET_APPROVED_CLUBS, {
+    context: {
+      ...(user && {
+        headers: {
+          authorization: `Bearer ${user.token}`,
+        },
+      }),
+    },
+    fetchPolicy: "cache-and-network",
     onCompleted: ({ getApprovedClubs: clubs = {} } = {}) => {
       console.log(clubs);
-      const sortedClubs = clubs.sort((a, b) => {
-        if (a.name > b.name) return 1;
-        if (a.name < b.name) return -1;
-        return 0;
-      });
-      console.log(sortedClubs);
       setClubs(clubs);
+      setStaticClubs(clubs);
     },
     onError: (e) => {
       addToast({
@@ -34,13 +38,21 @@ const Cards = () => {
 
   return (
     <div className="flex flex-col gap-6">
-      <ClubsToolbar clubs={clubs} updateClubs={setClubs} />
       {clubsLoading ? (
         <SkeletonTree />
-      ) : clubs.length !== 0 ? (
-        <Clubs clubs={clubs} userClubs={[]} />
       ) : (
-        <div>No clubs found.</div>
+        <>
+          <ClubsToolbar
+            clubs={clubs}
+            staticClubs={staticClubs}
+            updateClubs={setClubs}
+          />
+          {clubs.length !== 0 ? (
+            <Clubs clubs={clubs} userClubs={[]} />
+          ) : (
+            <div>No clubs found.</div>
+          )}
+        </>
       )}
     </div>
   );

@@ -60,10 +60,6 @@ export const ToolbarSort = ({
     return;
   };
 
-  useEffect(() => {
-    console.log("updated");
-  }, [clubs]);
-
   const MenuItem = ({ value }) => (
     <Menu.Item>
       {({ active }) => (
@@ -123,7 +119,7 @@ export const ToolbarSort = ({
   };
 
   return (
-    <div className="flex flex-row items-center gap-2 z-30">
+    <div className="z-30 flex flex-row items-center gap-2">
       <Menu as="div" className="relative inline-block">
         <div>
           <Menu.Button

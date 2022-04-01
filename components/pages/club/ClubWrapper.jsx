@@ -2,7 +2,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { CgSpinner } from "react-icons/cg";
 import { db } from "../../../lib/database";
-import { useAuthContext } from "../../../context/auth.js";
+import { useAuthContext } from "../../../context";
 import { useBreakpoints } from "../../../hooks";
 import { ActionModal } from "../../general/ActionModal";
 

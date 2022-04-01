@@ -3,6 +3,7 @@ import { db } from "../../../lib/database";
 import { useQuery } from "react-query";
 import { Card as Club } from "../../pages/clubs";
 import { Loading } from "../../general/Loading";
+
 export const ClubSimilarClubs = ({ tag }) => {
   let { data, isLoading, error } = useQuery(
     "clubs",
@@ -10,8 +11,8 @@ export const ClubSimilarClubs = ({ tag }) => {
   );
 
   return (
-    <div className="flex flex-col gap-1 h-[271px]">
-      <h2 className="font-semibold text-2xl">Similar Clubs</h2>
+    <div className="flex h-[271px] flex-col gap-1">
+      <h2 className="text-2xl font-semibold">Similar Clubs</h2>
       <div className="grid grid-flow-col gap-6 overflow-x-scroll">
         {isLoading ? (
           <Loading />

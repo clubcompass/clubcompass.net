@@ -8,7 +8,7 @@ export const ClubsToolbar = ({ clubs, staticClubs, updateClubs }) => {
       <Toolbar.Container>
         <Toolbar.Sort clubs={clubs} updateClubs={updateClubs} />
         <Toolbar.Filter staticClubs={staticClubs} updateClubs={updateClubs} />
-        <Toolbar.Search />
+        <Toolbar.Search staticClubs={staticClubs} updateClubs={updateClubs} />
       </Toolbar.Container>
     </Toolbar>
   );

@@ -17,6 +17,10 @@ export const ToolbarFilter = ({ staticClubs, updateClubs }) => {
       const tags = allTags.filter((tag) => tag.approvedCount !== 0);
       setTags(tags);
     },
+    onError: (error) => {
+      // toast
+      console.log(error);
+    },
   });
 
   const hasTag = (club, selected) => {
@@ -78,6 +82,8 @@ export const ToolbarFilter = ({ staticClubs, updateClubs }) => {
     }
   }, [selectedTags, strategy, handleIncluding, handleContaining]);
 
+  console.log(selectedTags);
+
   const Tag = ({ tag, disabled }) => {
     return (
       <Menu.Item>
@@ -109,7 +115,7 @@ export const ToolbarFilter = ({ staticClubs, updateClubs }) => {
             }}
             className="rounded-md px-2 py-1.5 text-xs font-medium"
           >
-            {tag._count}
+            {tag.approvedCount}
           </span>
         </div>
       </Menu.Item>
@@ -117,7 +123,7 @@ export const ToolbarFilter = ({ staticClubs, updateClubs }) => {
   };
 
   const MenuItems = () => {
-    if (isLoading || !tags)
+    if (loading || !tags)
       return (
         <div className="flex flex-row items-center gap-2 rounded-md p-1">
           <CgSpinner className="animate-spin" />

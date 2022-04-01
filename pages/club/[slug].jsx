@@ -5,6 +5,7 @@ import { GET_CLUB } from "../../lib/docs";
 import { useQuery } from "@apollo/client";
 import { Club as ClubComponent } from "../../components/pages/club";
 import { Loading } from "../../components/general/Loading";
+import { tagSchema } from "../../components/general/tags";
 
 const Club = () => {
   const router = useRouter();
@@ -16,6 +17,14 @@ const Club = () => {
     loading: clubLoading,
     error: clubError,
   } = useQuery(GET_CLUB, {
+    context: {
+      ...(user && {
+        headers: {
+          authorization: `Bearer ${user.token}`,
+        },
+      }),
+    },
+    fetchPolicy: "cache-and-network",
     variables: {
       slug,
     },
@@ -34,9 +43,8 @@ const Club = () => {
           <ClubComponent.Wrapper
             availability={club.availability}
             name={club.name}
-            isMember={false}
-            // isMember={!user ? false : userClubs.includes(club.id)}
-            userId={user && user?.id}
+            isMember={club.isMember}
+            userId={user?.id}
             clubId={club.id}
             slug={club.slug}
           >
