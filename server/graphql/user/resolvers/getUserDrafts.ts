@@ -1,14 +1,14 @@
 import { Context } from "../../ctx";
-import { getAuthenticatedUser } from "../../../utils/auth";
-import { ApolloError } from "apollo-server-micro";
 
-export type GetUserClubsArgs = {};
+export type GetUserUnapprovedClubsArgs = {};
 
-export type GetUserClubsPayload = Awaited<ReturnType<typeof getUserClubs>>;
+export type GetUserUnapprovedClubsPayload = Awaited<
+  ReturnType<typeof getUserUnapprovedClubs>
+>;
 
-export const getUserClubs = async (
+export const getUserUnapprovedClubs = async (
   _parent: any,
-  _args: GetUserClubsArgs,
+  _args: GetUserUnapprovedClubsArgs,
   { prisma, auth: user }: Context
 ): Promise<typeof clubs> => {
   const { clubs } = await prisma.user.findUnique({
@@ -18,7 +18,7 @@ export const getUserClubs = async (
     select: {
       clubs: {
         where: {
-          approval: true,
+          approval: false,
         },
         select: {
           id: true,
@@ -35,6 +35,7 @@ export const getUserClubs = async (
               members: true,
             },
           },
+          status: true,
         },
       },
     },

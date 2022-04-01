@@ -25,35 +25,93 @@ export const DECLINE_INVITE = gql`
 `;
 
 export const GET_USER_INVITES = gql`
-  query {
+  query GetUserInvites {
     getUserInvites {
-      acceptedInvites {
-        id
-        status
-        club {
+      incoming {
+        pending {
           id
-          name
-          description
+          club {
+            id
+            name
+            description
+            status
+          }
+          roles {
+            name
+          }
+          type
+          status
+        }
+        accepted {
+          id
+          club {
+            id
+            name
+            description
+            status
+          }
+          roles {
+            name
+          }
+          type
+          status
+        }
+        declined {
+          id
+          club {
+            id
+            name
+            description
+            status
+          }
+          roles {
+            name
+          }
+          type
           status
         }
       }
-      pendingInvites {
-        id
-        status
-        club {
+      outgoing {
+        pending {
           id
-          name
-          description
+          club {
+            id
+            name
+            description
+            status
+          }
+          roles {
+            name
+          }
+          type
           status
         }
-      }
-      declinedInvites {
-        id
-        status
-        club {
+        accepted {
           id
-          name
-          description
+          club {
+            id
+            name
+            description
+            status
+          }
+          roles {
+            name
+          }
+          type
+          status
+        }
+        declined {
+          id
+          club {
+            id
+            name
+            description
+            status
+          }
+          roles {
+            name
+          }
+          type
           status
         }
       }

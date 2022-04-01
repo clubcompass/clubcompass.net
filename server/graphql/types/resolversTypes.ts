@@ -88,6 +88,10 @@ import type {
   DeclineInvitePayload,
   IssueInviteArgs,
   IssueInvitePayload,
+  DeleteIncomingInviteArgs,
+  DeleteIncomingInvitePayload,
+  DeleteOutgoingInviteArgs,
+  DeleteOutgoingInvitePayload,
 } from "../invite/types";
 import type {
   GetTagArgs,
@@ -98,6 +102,14 @@ import type {
 
 import { GraphQLResolveInfo } from "graphql";
 import { AddLinkArgs, AddLinkPayload } from "../link/types";
+import {
+  IssueTeacherInviteArgs,
+  IssueTeacherInvitePayload,
+} from "../invite/resolvers/issueTeacherInvite";
+import {
+  AcceptTeacherInviteArgs,
+  AcceptTeacherInvitePayload,
+} from "../invite/resolvers/acceptTeacherInvite";
 
 type Resolver<T extends {}, A extends {}, R extends any> = (
   parent: T,
@@ -209,6 +221,26 @@ export interface InviteResolvers {
   issueInvite?: Resolver<{}, IssueInviteArgs, IssueInvitePayload>;
   acceptInvite?: Resolver<{}, AcceptInviteArgs, AcceptInvitePayload>;
   declineInvite?: Resolver<{}, DeclineInviteArgs, DeclineInvitePayload>;
+  issueTeacherInvite?: Resolver<
+    {},
+    IssueTeacherInviteArgs,
+    IssueTeacherInvitePayload
+  >;
+  acceptTeacherInvite?: Resolver<
+    {},
+    AcceptTeacherInviteArgs,
+    AcceptTeacherInvitePayload
+  >;
+  deleteIncomingInvite?: Resolver<
+    {},
+    DeleteIncomingInviteArgs,
+    DeleteIncomingInvitePayload
+  >;
+  deleteOutgoingInvite?: Resolver<
+    {},
+    DeleteOutgoingInviteArgs,
+    DeleteOutgoingInvitePayload
+  >;
 }
 
 export interface TagResolvers {

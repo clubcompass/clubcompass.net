@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("LOCAL_POSTGRES_URL")
+  // url      = env("DATABASE_URL")
 }
 
 model Club {
