@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { RiSettings5Line } from "react-icons/ri";
+import { RiEdit2Fill, RiSettings5Line } from "react-icons/ri";
 import { HiOutlinePencilAlt } from "react-icons/hi";
 import { BiBell } from "react-icons/bi";
 import { BsPeopleFill } from "react-icons/bs";
@@ -9,6 +9,8 @@ import { useAuthContext } from "../../../../context";
 import { DashboardIcon } from "../../../custom/DashboardIcon";
 import { Loading } from "../../../general/Loading";
 import { useBreakpoints } from "../../../../hooks";
+import { FaBell } from "react-icons/fa";
+import { IoSettingsSharp } from "react-icons/io5";
 
 export const DashboardNavItems = () => {
   const { user } = useAuthContext(); //! should have loading state
@@ -83,7 +85,7 @@ export const DashboardNavItems = () => {
   };
 
   return (
-    <div className="mt-16">
+    <div className="flex flex-col gap-3">
       {roleSpecificItems[user.type].map((item, i) => (
         <DashboardItem key={i} {...item} notifications={user?.pendingInvites} />
       ))}
@@ -150,9 +152,9 @@ const Icon = ({ icon, color, isActive }) => {
         !isActive && "hover:bg-gray-100"
       } rounded-md p-[.3rem] text-xl`}>
       {icon === "home" && <DashboardIcon color={color} />}
-      {icon === "manage" && <HiOutlinePencilAlt />}
-      {icon === "activity" && <BiBell />}
-      {icon === "settings" && <RiSettings5Line />}
+      {icon === "manage" && <RiEdit2Fill />}
+      {icon === "activity" && <FaBell />}
+      {icon === "settings" && <IoSettingsSharp />}
       {icon === "accounts" && <BsPeopleFill />}
     </div>
   );
