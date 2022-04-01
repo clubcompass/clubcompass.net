@@ -19,11 +19,11 @@ const Login = () => {
 };
 
 const LoginContainer = ({ children }) => (
-  <div className="flex flex-row w-full">
-    <div className="flex w-full h-screen items-center justify-center">
+  <div className="flex w-full flex-row">
+    <div className="flex h-screen w-full items-center justify-center">
       {children[0]}
     </div>
-    <div className="hidden md:block h-screen w-full">{children[1]}</div>
+    <div className="hidden h-screen w-full md:block">{children[1]}</div>
   </div>
 );
 
@@ -41,14 +41,26 @@ const LoginContent = () => {
     setSubmitting,
   }) => {
     setSubmitting(true);
-    await login({ email, password, remember });
+    const { errors } = await login({ user: { email, password, remember } });
+    console.log(errors);
+    if (errors) {
+      const { graphQLErrors = null, networkError = null } = errors;
+      if (graphQLErrors) {
+        graphQLErrors.forEach((error) => {
+          console.log(error);
+        });
+      }
+      if (networkError) {
+        console.log(networkError);
+      }
+    }
+    console.log(JSON.stringify(errors));
     // if (error) {
     //   setSubmitting(false);
     //   console.log(error);
     //   setSSE(error);
     // } else {
     setSubmitting(false);
-    console.log("pushes to dashboard");
     // router.push("/dashboard");
     // }
   };

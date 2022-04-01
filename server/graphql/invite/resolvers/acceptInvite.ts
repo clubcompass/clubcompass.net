@@ -13,11 +13,8 @@ export type AcceptInvitePayload = Awaited<ReturnType<typeof acceptInvite>>;
 export const acceptInvite = async (
   _parent: any,
   { inviteId, clubId }: AcceptInviteArgs,
-  { prisma, auth }: Context
+  { prisma, auth: token }: Context
 ): Promise<typeof user> => {
-  const token = getAuthenticatedUser({ auth });
-  if (!token) throw new AuthenticationError("No token data");
-
   const invite = await prisma.invite.findUnique({
     where: {
       id: inviteId,
@@ -27,17 +24,23 @@ export const acceptInvite = async (
     },
   });
 
+  if (!invite)
+    throw new ApolloError("Invite was not found", "RESOURCE_NOT_FOUND", {
+      inviteId,
+    });
+
   if (invite.userId !== token.id) {
     throw new ApolloError(
-      `User Ids do not match (invite: ${invite.userId} !== user: ${token.id})`,
-      "USER_ID_MISMATCH"
-    ); // I don't think this should be a bad user input error
+      "You are trying to accept an invite that is not intended for you",
+      "UNAUTHORIZED_ACTION",
+      { userId: invite.userId, tokenId: token.id }
+    );
   }
 
   if (invite.status !== "PENDING")
     throw new ApolloError(
       "Cannot accept invite that doesn't have a pending status",
-      "INVALID_INVITE_ACCEPT_STATUS",
+      "UNAUTHORIZED_ACTION",
       { ...invite }
     );
 

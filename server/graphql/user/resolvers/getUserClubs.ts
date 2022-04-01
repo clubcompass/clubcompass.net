@@ -12,8 +12,11 @@ export const getUserClubs = async (
   { prisma, auth }: Context
 ): Promise<typeof clubs> => {
   // gets just approved clubs for user
-  const token = getAuthenticatedUser({ auth });
-  if (!token) throw new ApolloError("No token data");
+
+  console.log("auth", auth);
+  const token = auth;
+  // const token = getAuthenticatedUser({ auth });
+  // if (!token) throw new ApolloError("No token data");
 
   const { clubs } = await prisma.user.findUnique({
     where: {

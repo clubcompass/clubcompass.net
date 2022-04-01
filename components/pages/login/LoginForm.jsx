@@ -41,7 +41,7 @@ export const LoginForm = ({ handleSubmission, serverSideError }) => {
       validationSchema={loginSchema}
     >
       {({ handleChange, handleBlur, values, setFieldValue, isSubmitting }) => (
-        <Form className="w-full grid grid-cols-6 gap-3">
+        <Form className="grid w-full grid-cols-6 gap-3">
           <React.Fragment>
             {forms.map((form) => (
               <div key={form.name} style={{ gridColumn: `span ${form.span}` }}>
@@ -58,7 +58,7 @@ export const LoginForm = ({ handleSubmission, serverSideError }) => {
               </div>
             ))}
 
-            <div className="flex flex-row items-center justify-between col-span-6 mt-0 mb-4">
+            <div className="col-span-6 mt-0 mb-4 flex flex-row items-center justify-between">
               <FieldCheckbox
                 isChecked={values["remember"]}
                 toggleChecked={() =>
@@ -66,14 +66,14 @@ export const LoginForm = ({ handleSubmission, serverSideError }) => {
                 }
               />
               <Link href="/account/recovery">
-                <a className="text-cc font-medium col-span-3 text-sm">
+                <a className="col-span-3 text-sm font-medium text-cc">
                   Forgot password?
                 </a>
               </Link>
             </div>
 
             {serverSideError && (
-              <div className="text-red-500 text-xs col-span-6 -mt-4">
+              <div className="col-span-6 -mt-4 text-xs text-red-500">
                 {serverSideError}
               </div>
             )}
@@ -81,6 +81,7 @@ export const LoginForm = ({ handleSubmission, serverSideError }) => {
             <div className="col-span-6">
               <FieldButton
                 primary
+                type="submit"
                 label="Login"
                 disabled={isSubmitting}
                 loading={isSubmitting}

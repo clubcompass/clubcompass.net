@@ -1,246 +1,321 @@
-import React, { useState } from "react";
-import { useQuery } from "react-query";
-import { Formik, Form, Field } from "formik";
+import { useState, useEffect, useCallback, Children } from "react";
+import { useLazyQuery } from "@apollo/client";
+import { Formik, Form, Field, useFormikContext } from "formik";
 import * as Yup from "yup";
-import { db } from "../../../../../lib/database";
+import { GET_USER } from "../../../../../lib/docs";
 import {
-  TextField,
+  FieldButton,
+  Field as CustomField,
   FieldSelect as Select,
 } from "../../../../general/input/control";
-import { OptionSelection } from "../../../../general/input";
-import { CcIdForm } from "../../../../general/input/CcIdForm";
+import { CgSpinner } from "react-icons/cg";
+import { MdPersonSearch } from "react-icons/md";
+import { IoIosSend } from "react-icons/io";
+import { BsTrashFill } from "react-icons/bs";
 
 export const DashboardNewMembers = ({ initialValues }) => {
-  const [availability, setAvailability] = useState("Open");
-
   //! Need to check which users selected to filter them out of the list of users
   //# get email from user, set president to user
 
-  const { data: users, userError } = useQuery(
-    "users",
-    async () => await db.users.get({ all: true }),
+  const sections = [
     {
-      refetchOnWindowFocus: false,
-    }
-  );
-
-  const { data: tags, error: tagError } = useQuery(
-    "tags",
-    async () => await db.tags.get(),
-    {
-      refetchOnWindowFocus: false,
-    }
-  );
-
-  const { data: teachers, teachersError } = useQuery(
-    "teachers",
-    async () => await db.users.get({ type: "TEACHER" }),
-    {
-      refetchOnWindowFocus: false,
-    }
-  );
-
-  const userOptions =
-    users &&
-    users.map(({ id, firstname, lastname }) => ({
-      value: id,
-      label: `${firstname} ${lastname}`,
-    }));
-
-  const tagOptions =
-    tags &&
-    tags.map(({ id, name }) => ({
-      value: id,
-      label: name,
-    }));
-
-  const teacherOptions =
-    teachers &&
-    teachers.map(({ id, firstname, lastname }) => ({
-      value: id,
-      label: `${firstname} ${lastname}`,
-    }));
-
-  const form = [
-    {
-      component: TextField,
-      name: "name",
-      label: {
-        text: "Club Name",
-        required: true,
+      content: {
+        header: "Advisor",
+        description:
+          "Invite a teacher by their ccid to be your club advisor. You can have up to 2 advisors.",
+        // responsibilities: "...", // TODO: add responsibilities?
       },
-      placeholder: "Your Club",
-    },
-    {
-      component: TextField,
-      name: "email",
-      label: {
-        text: "Email",
-        required: true,
+      input: {
+        type: "TEACHER",
+        label: "Teacher CCID",
+        // help section?
+        // extra item for about the role or description
       },
-      placeholder: "example@example.com",
-    },
-    {
-      //TODO: Rich text editor with md supported
-      component: TextField,
-      name: "description",
-      label: {
-        text: "Club Description",
-        required: true,
-      },
-      placeholder: "Description",
-      textarea: true,
-    },
-    {
-      custom: true,
-      name: "grade",
-      component: (
-        <OptionSelection
-          setCurrent={({ value }) => setAvailability(value)}
-          current={availability}
-          options={["Open", "Invite Only", "Closed"]}
-        />
-      ),
-      span: 6,
-    },
-    {
-      component: TextField,
-      name: "location",
-      label: {
-        text: "Meeting location",
-        required: true,
-      },
-      placeholder: "Location",
-    },
-    {
-      component: TextField,
-      name: "meetingDate",
-      label: {
-        text: "Meeting Date and Time",
-        required: true,
-      },
-      placeholder: "Day of the week, frequency, and time",
-    },
-    {
-      custom: true,
-      name: "grade",
-      component: <CcIdForm />,
-      span: 6,
-    },
-    {
-      component: Select,
-      name: "memberIds",
-      label: {
-        text: "Select at least 10 members for your club",
-        required: true,
-      },
-      props: {
-        isMulti: true,
-        max: 20,
-        name: "memberIds",
-        options: userOptions,
+      role: {
+        name: "advisor",
+        color: "#cadaff",
       },
     },
     {
-      component: Select,
-      name: "tagIds",
-      label: {
-        text: "Select up to 4 tags for your club",
-        required: true,
+      content: {
+        header: "Vice President",
+        description:
+          "Invite a student by their ccid to be your club vice president. You can have up to 3 vice presidents.",
+        // responsibilities: "...", // TODO: add responsibilities?
       },
-      props: {
-        isMulti: true,
-        max: 4,
-        name: "tagIds",
-        options: tagOptions,
+      input: {
+        type: "STUDENT",
+        label: "Student CCID",
+      },
+      role: {
+        name: "vice president",
+        color: "#FFEAB4",
       },
     },
     {
-      component: Select,
-      name: "teacher",
-      label: {
-        text: "Choose a teacher for your club",
-        required: true,
+      content: {
+        header: "Secretary",
+        description:
+          "Invite a student by their ccid to be your club secretary. You can have up to 3 secretaries.",
+        // responsibilities: "...", // TODO: add responsibilities?
       },
-      props: {
-        name: "teacher",
-        options: teacherOptions,
+      input: {
+        type: "STUDENT",
+        label: "Student CCID",
+      },
+      role: {
+        name: "secretary",
+        color: "#FFDCE5",
       },
     },
-
-    // purpose,
-    // membershipRequirements,
-    // dutiesOfMembers,
-    // titlesAndDutiesOfOfficers,
-    // selectionOfOfficers,
-    // officerMinimumGPA,
-    // percentAttendanceForOfficialMeeting,
-    // percentAttendanceToApproveDecision,
+    {
+      content: {
+        header: "Treasurer",
+        description:
+          "Invite a student by their ccid to be your club treasurer. You can have up to 3 treasurers.",
+        // responsibilities: "...", // TODO: add responsibilities?
+      },
+      input: {
+        type: "STUDENT",
+        label: "Student CCID",
+      },
+      role: {
+        name: "treasurer",
+        color: "#F3DCFE",
+      },
+    },
   ];
-
-  // const passwordSchema = Yup.object().shape({
-  //   password: Yup.string()
-  //     .required("Please enter your password")
-  //     .min(8, "Must contain at least 8 characters")
-  //     .matches(/[A-Z]/, "Must contain an uppercase letter")
-  //     .matches(/[a-z]/, "Must contain an lowercase letter")
-  //     .matches(/[0-9]/, "Must contain a number")
-  //     .matches(/[!@#$%^&*()\-_=+{};:,<.>]/, "Must contain a special character"),
-  //   confirmation: Yup.string()
-  //     .required("Please confirm your password")
-  //     .oneOf([Yup.ref("password"), null], "Passwords don't match."),
-  // });
-
-  const handleSubmitAsFinal = async () => {};
-  // TODO: finish all fields, add validation for all fields, submit methods with ss validation
-  const handleSubmitAsDraft = async () => {};
-
   return (
-    <Formik
-      initialValues={
-        initialValues || {
-          name: "",
-          description: "",
-          meetingDate: "",
-          location: "",
-          vicePresident: "",
-          secretary: "",
-          treasurer: "",
-          memberIds: [],
-          tagIds: [],
-          teacher: "",
-        }
-      }
-      onSubmit={async (values, { setFieldError }) => {
-        const data = { ...values };
-        console.log(data);
-      }}
-      // validationSchema={passwordSchema}
-    >
-      <Form className="flex max-w-3xl flex-col gap-4">
-        {form.map((field, z) => {
-          if (field.custom)
-            return (
-              <div
-                key={field.name}
-                style={{ gridColumn: `span ${field.span}` }}
-                className="flex">
-                {field.component}
-              </div>
-            );
-          return <Field key={z} {...field} z={50 - z} />;
-        })}
-        <div className="flex flex-row items-center gap-2">
-          <button type="submit" className="mt-2 w-full bg-cc py-1 text-white">
-            Submit
-          </button>
-          <button
-            type="button"
-            className="mt-2 w-full bg-yellow-600 py-1 text-white">
-            Save As Draft
-          </button>
-        </div>
-      </Form>
-    </Formik>
+    <div className="flex flex-col gap-2">
+      <div className="mb-7 flex flex-col gap-2">
+        <h2 className="text-lg font-bold">Invite your advisor and leaders.</h2>
+        <p className="text-sm text-[#5D5E5E]">
+          To be an official club, you must have an advisor and leadership.
+        </p>
+      </div>
+      {/* <div className="grid w-fit grid-flow-row grid-cols-2 content-start gap-4"> */}
+      {/* side by side grid ^ */}
+      <div className="flex flex-col gap-4">
+        {sections.map(({ content, input, role }, i) => (
+          <InviteSectionContainer key={i} content={content}>
+            <InviteMember {...input} />
+            <OutgoingInvites role={role} />
+          </InviteSectionContainer>
+        ))}
+      </div>
+    </div>
   );
 };
+
+const OutgoingInvites = ({ role }) => {
+  // get time of invite as sent
+  const Invite = ({ invite }) => {
+    const statusColors = {
+      PENDING: "#f7b602",
+      ACCEPTED: "#12b958",
+      DECLINED: "#FF5252",
+    };
+
+    // if (userLoading)
+    // loading skeleton
+    // );
+    if (invite) {
+      const { user, status } = invite;
+      const initials = (user.firstname[0] + user.lastname[0]).toUpperCase();
+      return (
+        <div className="flex items-center gap-4 whitespace-nowrap rounded-lg border border-[#E6E6E6] bg-white py-2 px-3 shadow-md  shadow-gray-200/50">
+          <div className="flex flex-row items-center gap-2">
+            <div className="flex h-10 items-center justify-center rounded-md bg-[#AFC7FF] text-center">
+              <span className={`w-[40px] text-[1.1rem]`}>{initials}</span>
+            </div>
+            <div className="flex flex-col">
+              <p className="text-sm text-[#5D5E5E]">
+                {user.firstname} {user.lastname}
+              </p>
+              <div
+                style={{ backgroundColor: `${statusColors[status]}20` }}
+                className="mr-auto flex flex-row items-center gap-1 rounded-full px-2 py-0.5">
+                <span
+                  style={{ backgroundColor: statusColors[status] }}
+                  className="h-2 w-2 rounded-full"
+                />
+                <span className="text-[10px] capitalize">
+                  {status.toLowerCase()}
+                </span>
+              </div>
+            </div>
+          </div>
+          <button onClick={() => console.log("removed")}>
+            <BsTrashFill className="text-gray-300 duration-75 hover:text-red-500" />
+          </button>
+        </div>
+      );
+    }
+    return <p>{userError?.message}</p>;
+  };
+
+  return (
+    <div className="relative my-5 flex w-fit gap-4 rounded-lg border p-3 pt-6">
+      <p className="absolute left-1 -top-2 bg-white px-1 text-xs text-gray-600">
+        Your outgoing{" "}
+        <span
+          style={{ color: "#344457", backgroundColor: role.color }}
+          className="rounded-md px-1.5 py-0.5 text-[10px] font-semibold uppercase">
+          {role.name}
+        </span>{" "}
+        invites will appear here.
+      </p>
+      <div className="flex gap-2 overflow-hidden overflow-x-scroll">
+        <Invite
+          invite={{
+            status: "PENDING",
+            createdAt: "2020-06-01T00:00:00.000Z",
+            user: { firstname: "John", lastname: "Doe" },
+          }}
+        />
+        <Invite
+          invite={{
+            status: "DECLINED",
+            createdAt: "2020-06-01T00:00:00.000Z",
+            user: { firstname: "Johnathan", lastname: "Doughenson" },
+          }}
+        />
+        <Invite
+          invite={{
+            status: "DECLINED",
+            createdAt: "2020-06-01T00:00:00.000Z",
+            user: { firstname: "Johnathan", lastname: "Dough" },
+          }}
+        />
+      </div>
+      {/* <div className="p-2">
+        <span className="text-sm">No outgoing {role.name} invites.</span>
+      </div> */}
+      {/* no invites ^ */}
+      {/* make the widths even when there are no invites */}
+    </div>
+  );
+};
+
+const InviteMember = ({ type, label }) => {
+  const [user, setUser] = useState(null);
+  const [getUser, { loading: userLoading, error: userError }] = useLazyQuery(
+    GET_USER,
+    {
+      onCompleted: (data) => {
+        if (!data) {
+          return setUser(data);
+        }
+        return setUser(data.getUser);
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+      notifyOnNetworkStatusChange: true,
+    }
+  );
+
+  const UserPreview = () => {
+    if (userLoading)
+      return (
+        <div className="flex flex-row items-center gap-2">
+          <CgSpinner className="animate-spin" size={18} />
+          <span className="font-medium">Searching for user...</span>
+        </div>
+      );
+    if (user) {
+      const initials = (user.firstname[0] + user.lastname[0]).toUpperCase();
+      return (
+        <div className="flex flex-row items-center gap-3">
+          <div className="w-fit rounded-lg border border-[#E6E6E6] bg-white p-2 shadow-md  shadow-gray-200/50">
+            <div className="flex flex-row items-center justify-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#AFC7FF] text-center">
+                <span className="text-sm">{initials}</span>
+              </div>
+              <div className="flex flex-col gap-2">
+                <p className="text-sm text-[#5D5E5E]">
+                  {user.firstname} {user.lastname}
+                </p>
+                {/* <span className="bg-cc-light px-1 py-0.5 font-medium text-cc">
+                  send invite
+                </span> */}
+              </div>
+            </div>
+          </div>
+          <button className="flex flex-row items-center gap-2 rounded-md bg-cc px-2 py-1 text-white">
+            <span className="text-sm">Send Invite</span>
+            <IoIosSend size={15} />
+          </button>
+        </div>
+      );
+    }
+    return <p className="text-sm text-red-500">{userError?.message}</p>;
+  };
+
+  const inviteSchema = Yup.object().shape({
+    ccid: Yup.string()
+      .required("Required")
+      .min(6, "CCID cannot be less than 6 characters")
+      .max(6, "CCID cannot exceed 6 characters")
+      .test("is-alpha", "CCID cannot contain numbers.", (value) =>
+        /^[a-zA-Z]+$/.test(value)
+      ),
+  });
+
+  return (
+    <div className="flex flex-col gap-2">
+      <Formik
+        initialValues={{ ccid: "" }}
+        onSubmit={async (values, { setFieldError, setSubmitting }) => {
+          try {
+            await getUser({
+              variables: {
+                identifier: { ccid: values.ccid },
+                type: type,
+              },
+            });
+          } catch (error) {
+            console.log(error);
+          } finally {
+            setSubmitting(false);
+          }
+        }}
+        validationSchema={inviteSchema}>
+        {({ setFieldValue, values }) => (
+          <Form className="relative flex flex-row items-center gap-4">
+            <Field
+              name="ccid"
+              label={label}
+              maxLength={6}
+              value={values["ccid"]}
+              onChange={(e) =>
+                setFieldValue("ccid", e.target.value.toUpperCase())
+              }
+              component={CustomField}
+            />
+            <div className="w-24">
+              <FieldButton primary icon={<MdPersonSearch size={20} />} />
+            </div>
+            {/* this component also accepts label prop if you don't want to use icon */}
+          </Form>
+        )}
+      </Formik>
+
+      <UserPreview />
+    </div>
+  );
+};
+
+const InviteSectionContainer = ({
+  content: { header, description, max },
+  children,
+}) => (
+  <div className="flex flex-col gap-3">
+    <div>
+      <h3 className="font-bold">{header}</h3>
+      {/* shouldn't be h3? */}
+      <p className="text-sm text-[#5D5E5E]">{description}</p>
+    </div>
+    <div>{children}</div>
+  </div>
+);

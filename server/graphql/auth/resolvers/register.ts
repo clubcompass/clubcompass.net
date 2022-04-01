@@ -1,12 +1,11 @@
+import { User, Tag, Grade } from "@prisma/client";
 import { customAlphabet } from "nanoid";
 import * as bcrypt from "bcrypt";
 import { AuthenticationError, UserInputError } from "apollo-server-micro";
 import { Context } from "../../ctx";
-// import type { AuthPayload, RegisterArgs } from "../types";
 import { validate } from "../../../utils/validation";
 import { newUserSchema } from "../../../utils/validation/schemas";
 import { generateToken } from "../../../utils/auth";
-import { User, Tag, Grade } from "@prisma/client";
 
 export type RegisterData = Pick<
   User,
@@ -24,11 +23,8 @@ export const register = async (
   {
     data: { firstname, lastname, email, studentId, password, grade, interests },
   }: RegisterArgs,
-  { prisma }: Context
-): Promise<{
-  user: typeof newUser;
-  token: ReturnType<typeof generateToken>;
-}> => {
+  { prisma, setCookie }: Context
+): Promise<typeof newUser & { pendingInvites: number; token: string }> => {
   const { valid, errors } = await validate({
     schema: newUserSchema,
     data: {
@@ -51,9 +47,6 @@ export const register = async (
   });
   if (user)
     throw new AuthenticationError("A user with that email already exists");
-
-  // if (!user.emailVerified)
-  //   throw new AuthenticationError("Email is not verified");
 
   const generateCCID = async (): Promise<string> => {
     const gen = customAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 6);
@@ -79,14 +72,49 @@ export const register = async (
         connect: interests,
       },
     },
+    select: {
+      id: true,
+      ccid: true,
+      firstname: true,
+      lastname: true,
+      email: true,
+      grade: true,
+      emailVerified: true,
+      active: true,
+      type: true,
+    },
   });
 
-  return {
-    user: newUser, // doesn't need to return user?
-    token: generateToken({
-      id: newUser.id,
-      ccid: newUser.ccid,
-      email: newUser.email,
-    }),
-  };
+  const pendingInvites = await prisma.invite.count({
+    where: {
+      user: {
+        id: newUser.id,
+      },
+      status: "PENDING",
+    },
+  });
+
+  const token = generateToken({
+    id: newUser.id,
+    ccid: newUser.ccid,
+    email: newUser.email,
+    emailVerified: newUser.emailVerified,
+    active: newUser.active,
+    type: newUser.type,
+    remember: false,
+  });
+
+  setCookie({
+    name: "token",
+    value: token,
+    options: {
+      maxAge: 86400,
+      httpOnly: true,
+      sameSite: "strict",
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+    },
+  });
+
+  return { ...newUser, pendingInvites, token };
 };

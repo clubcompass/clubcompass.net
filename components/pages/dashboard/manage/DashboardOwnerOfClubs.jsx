@@ -6,7 +6,8 @@ import { Loading } from "../../../general/Loading";
 import { Clubs } from "../../clubs";
 import { useRouter } from "next/router";
 export const DashboardOwnerOfClubs = () => {
-  const { user, loading } = useAuthContext();
+  const { user } = useAuthContext();
+  console.log(user);
   const router = useRouter();
 
   const {
@@ -19,19 +20,17 @@ export const DashboardOwnerOfClubs = () => {
     } = {},
     errors,
     clubsLoading,
-  } = useQuery(GET_USER_LEADERSHIP_CLUBS);
+  } = useQuery(GET_USER_LEADERSHIP_CLUBS, {
+    context: { headers: { authorization: `Bearer ${user.token}` } },
+    onCompleted: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   console.log(hasEditorIn, hasLeadershipIn, isPresidentOf);
-
-  useEffect(() => {
-    if (user) {
-      if (!user?.active || !user?.emailVerified) {
-        router.push("/dashboard");
-      }
-    }
-  }, [router, user]);
-
-  if (!user && loading) return <Loading />;
 
   return (
     <div className="flex flex-col gap-2">
@@ -62,7 +61,7 @@ export const DashboardOwnerOfClubs = () => {
 
 const ContentSection = ({ label, clubs }) => {
   return (
-    <div className="flex flex-col gap-2 mt-2">
+    <div className="mt-2 flex flex-col gap-2">
       <h2 className="font-light">{label}</h2>
       <Clubs clubs={clubs} manage />
     </div>

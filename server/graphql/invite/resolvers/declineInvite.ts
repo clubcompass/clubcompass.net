@@ -13,28 +13,34 @@ export type DeclineInvitePayload = Awaited<ReturnType<typeof declineInvite>>;
 export const declineInvite = async (
   _parent: any,
   { inviteId }: DeclineInviteArgs,
-  { prisma, auth }: Context
+  { prisma, auth: token }: Context
 ): Promise<typeof updatedUser> => {
-  const token = getAuthenticatedUser({ auth });
-  if (!token) throw new AuthenticationError("No token data");
-
   const invite = await prisma.invite.findUnique({
     where: {
       id: inviteId,
     },
+    include: {
+      roles: true,
+    },
   });
+
+  if (!invite)
+    throw new ApolloError("Invite was not found", "RESOURCE_NOT_FOUND", {
+      inviteId,
+    });
 
   if (invite.userId !== token.id) {
     throw new ApolloError(
-      `User Ids do not match (invite: ${invite.userId} !== user: ${token.id})`,
-      "USER_ID_MISMATCH"
-    ); // I don't think this should be a bad user input error
+      "You are trying to decline an invite that is not intended for you",
+      "UNAUTHORIZED_ACTION",
+      { userId: invite.userId, tokenId: token.id }
+    );
   }
 
   if (invite.status !== "PENDING")
     throw new ApolloError(
-      "Cannot decline invite that doesn't have a pending status.",
-      "INVALID_INVITE_DECLINE_STATUS",
+      "Cannot decline invite that doesn't have a pending status",
+      "UNAUTHORIZED_ACTION",
       { ...invite }
     );
 

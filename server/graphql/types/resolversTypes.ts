@@ -1,21 +1,11 @@
-import * as Client from "@prisma/client";
 import { Context } from "../ctx";
-import {
-  Club,
-  Link,
-  ClubApplicationInfo,
-  Tag,
-  User,
-  Invite,
-  Role,
-  ProjectedRevenue,
-  ProjectedExpenses,
-} from "./schemaTypes";
 import type {
   FindUserBySessionArgs,
   FindUserBySessionPayload,
   LoginArgs,
   LoginPayload,
+  LogoutArgs,
+  LogoutPayload,
   RegisterArgs,
   RegisterPayload,
   ChangePasswordArgs,
@@ -44,6 +34,8 @@ import type {
   GetUsersPayload,
   batchDeleteUserArgs,
   batchDeleteUserPayload,
+  GetUserArgs,
+  GetUserPayload,
 } from "../user/types";
 import type {
   CreateClubArgs,
@@ -116,6 +108,7 @@ export interface AuthResolvers {
   [key: string]: Resolver<any, any, any>;
   register?: Resolver<{}, RegisterArgs, RegisterPayload>;
   login?: Resolver<{}, LoginArgs, LoginPayload>;
+  logout?: Resolver<{}, LogoutArgs, LogoutPayload>;
   checkEmail?: Resolver<{}, CheckEmailArgs, CheckEmailPayload>;
 
   SendVerificationEmail?: Resolver<
@@ -155,6 +148,7 @@ export interface UserResolvers {
     BatchApproveUsersArgs,
     BatchApproveUsersPayload
   >;
+  getUser?: Resolver<{}, GetUserArgs, GetUserPayload>;
 }
 
 export interface ClubResolvers {
@@ -236,6 +230,7 @@ export interface Mutation {
   // auth
   register?: AuthResolvers["register"];
   login?: AuthResolvers["login"];
+  logout?: AuthResolvers["logout"];
   changePassword?: AuthResolvers["changePassword"];
   // user
   deleteUser?: UserResolvers["deleteUser"];

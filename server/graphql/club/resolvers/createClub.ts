@@ -3,7 +3,7 @@ import {
   AuthenticationError,
   UserInputError,
 } from "apollo-server-micro";
-import type { Link, Role, Tag, User, Club } from "@prisma/client";
+import type { Role, Tag, User, Club } from "@prisma/client";
 import { Context } from "../../ctx";
 import { getAuthenticatedUser } from "../../../utils/auth";
 import { generateSlug } from "../../../utils/generateSlug";
@@ -11,11 +11,11 @@ import { validate } from "../../../utils/validation";
 import { createClubSchema } from "../../../utils/validation/schemas/club";
 
 export interface CreateClubData extends Partial<Omit<Club, "id" | "slug">> {
-  vicePresidentId?: User["id"];
-  secretaryId?: User["id"];
-  treasurerId?: User["id"];
-  teacherId?: User["id"];
-  links?: Link[];
+  // vicePresidentId?: User["id"];
+  // secretaryId?: User["id"];
+  // treasurerId?: User["id"];
+  // teacherId?: User["id"];
+  // links?: Link[];
   tags?: Tag[];
 }
 
@@ -32,42 +32,25 @@ interface UserRoles
 
 export const createClub = async (
   _parent: any,
-  {
-    data: {
-      // name,
-      // vicePresidentId,
-      // secretaryId,
-      // treasurerId,
-      // teacherId,
-      // links,
-      // tags,
-      ...data
-    },
-  }: CreateClubArgs,
-  { prisma, auth }: Context
+  { data }: CreateClubArgs,
+  { prisma, auth: president }: Context
 ): Promise<typeof club> => {
   const { valid, errors } = await validate({
     schema: createClubSchema as any,
     data,
   });
 
-  console.log(data);
-
-  console.log(valid);
-  console.log(errors);
-
   if (!valid) throw new UserInputError("Invalid user input", { errors });
-
-  const president = getAuthenticatedUser({ auth });
-
-  if (!president) throw new AuthenticationError("No token data");
 
   const nameExists = await prisma.club.findUnique({
     where: { name: data?.name },
   });
 
   if (nameExists) {
-    throw new ApolloError("Club name already exists");
+    throw new ApolloError("Club name already exists", "CLUB_NAME_EXISTS", {
+      path: "name",
+      name: data?.name,
+    });
   }
 
   if (data?.teacherId) {
@@ -95,36 +78,36 @@ export const createClub = async (
       color: "#FAFAFA",
       type: "LEADER",
       description: "vice president description",
-      ...(data?.vicePresidentId && {
-        users: { connect: { id: data?.vicePresidentId } },
-      }),
+      // ...(data?.vicePresidentId && {
+      //   users: { connect: { id: data?.vicePresidentId } },
+      // }),
     },
     {
       name: "secretary",
       color: "#FAFAFA",
       type: "LEADER",
       description: "secretary description",
-      ...(data?.secretaryId
-        ? { users: { connect: { id: data?.secretaryId } } }
-        : {}),
+      // ...(data?.secretaryId
+      //   ? { users: { connect: { id: data?.secretaryId } } }
+      //   : {}),
     },
     {
       name: "treasurer",
       color: "#FAFAFA",
       type: "LEADER",
       description: "treasurer description",
-      ...(data?.treasurerId
-        ? { users: { connect: { id: data?.treasurerId } } }
-        : {}),
+      // ...(data?.treasurerId
+      //   ? { users: { connect: { id: data?.treasurerId } } }
+      //   : {}),
     },
   ];
 
   const members = () => {
     const members: { id: User["id"] }[] = [];
     if (president.id) members.push({ id: president.id });
-    if (data?.vicePresidentId) members.push({ id: data?.vicePresidentId });
-    if (data?.secretaryId) members.push({ id: data?.secretaryId });
-    if (data?.treasurerId) members.push({ id: data?.treasurerId });
+    // if (data?.vicePresidentId) members.push({ id: data?.vicePresidentId });
+    // if (data?.secretaryId) members.push({ id: data?.secretaryId });
+    // if (data?.treasurerId) members.push({ id: data?.treasurerId });
     return members;
   };
 
@@ -141,12 +124,12 @@ export const createClub = async (
           connect: members(),
         },
       }),
-      ...(data?.links && { links: { create: [...data?.links] } }),
+      // ...(data?.links && { links: { create: [...data?.links] } }),
       ...(data?.tags && { tags: { connect: [...data?.tags] } }),
     },
     include: {
       tags: true,
-      links: true,
+      // links: true,
       members: {
         select: {
           firstname: true,
@@ -163,20 +146,20 @@ export const createClub = async (
     },
   });
 
-  if (data?.teacherId) {
-    await prisma.club.update({
-      where: {
-        id: club.id,
-      },
-      data: {
-        teacher: {
-          connect: {
-            id: data?.teacherId,
-          },
-        },
-      },
-    });
-  }
+  // if (data?.teacherId) {
+  //   await prisma.club.update({
+  //     where: {
+  //       id: club.id,
+  //     },
+  //     data: {
+  //       teacher: {
+  //         connect: {
+  //           id: data?.teacherId,
+  //         },
+  //       },
+  //     },
+  //   });
+  // }
 
   return club;
 };

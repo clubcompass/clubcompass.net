@@ -3,15 +3,16 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { ModalProvider, useModalContext } from "./Modal";
 import { CgSpinner } from "react-icons/cg";
-import { db } from "../../lib/database";
+import { useMutation } from "@apollo/client";
 import Confetti from "react-dom-confetti";
 
 import { BsCheckCircleFill } from "react-icons/bs";
+import { JOIN_CLUB, LEAVE_CLUB } from "../../lib/docs";
+import { useAuthContext } from "../../context";
 
 export const ActionModal = ({
   name,
   isMember,
-  userId,
   clubId,
   slug,
   availability,
@@ -26,7 +27,6 @@ export const ActionModal = ({
       <ModalProvider closeColor={{ color: "#ffffff", index: 2 }}>
         <OpenModal
           joined={joined}
-          userId={userId}
           closed={closed}
           clubPage={clubPage}
           draft={draft}
@@ -34,7 +34,6 @@ export const ActionModal = ({
         <ActionButton
           joined={joined}
           setJoined={setJoined}
-          userId={userId}
           clubId={clubId}
           closed={closed}
         />
@@ -44,7 +43,8 @@ export const ActionModal = ({
   );
 };
 
-const OpenModal = ({ joined, userId, closed, clubPage, draft }) => {
+const OpenModal = ({ joined, closed, clubPage, draft }) => {
+  const { user } = useAuthContext();
   const { openModal } = useModalContext();
 
   const clubPageStyle = clubPage && {
@@ -54,7 +54,7 @@ const OpenModal = ({ joined, userId, closed, clubPage, draft }) => {
     fontSize: "1rem",
   };
 
-  if (userId || draft) {
+  if (!user || draft) {
     return (
       <button
         onClick={openModal}
@@ -66,7 +66,8 @@ const OpenModal = ({ joined, userId, closed, clubPage, draft }) => {
             : closed
             ? "bg-[#E7EEFF] text-[#707070]"
             : "bg-cc text-white"
-        } flex flex-row items-center justify-center gap-1 rounded-md px-8 py-1 text-sm font-semibold`}>
+        } flex flex-row items-center justify-center gap-1 rounded-md px-8 py-1 text-sm font-semibold`}
+      >
         {joined ? "Leave" : closed ? "Closed" : "Join"}
       </button>
     );
@@ -75,33 +76,65 @@ const OpenModal = ({ joined, userId, closed, clubPage, draft }) => {
     <Link href="/login">
       <a
         style={clubPageStyle}
-        className="flex flex-row items-center justify-center gap-1 rounded-md bg-cc px-8 py-1">
+        className="flex flex-row items-center justify-center gap-1 rounded-md bg-cc px-8 py-1"
+      >
         <span className="text-sm font-semibold text-white">Join</span>
       </a>
     </Link>
   );
 };
 
-const ActionButton = ({ joined, setJoined, userId, clubId, closed }) => {
+const ActionButton = ({ joined, setJoined, clubId, closed }) => {
+  const { user } = useAuthContext();
+  const { closeModal, next } = useModalContext();
   const [loading, setLoading] = useState(false);
 
-  const { closeModal, next } = useModalContext();
-
-  const handleClubAction = async () => {
-    try {
-      setLoading(true);
-      if (joined) {
-        await db.clubs.removeSignup(userId, clubId);
-        return setJoined(false);
-      } else {
-        await db.clubs.signup(userId, clubId);
-        return setJoined(true);
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
+  const [joinClub] = useMutation(JOIN_CLUB, {
+    context: {
+      headers: {
+        authorization: `Bearer ${user?.token}`,
+      },
+    },
+    variables: {
+      clubId,
+    },
+    onCompleted: (data) => {
+      setJoined(true);
       setLoading(false);
       next();
+    },
+    onError: (error) => {
+      console.log(error);
+      setLoading(false);
+    },
+  });
+
+  const [leaveClub] = useMutation(LEAVE_CLUB, {
+    context: {
+      headers: {
+        authorization: `Bearer ${user?.token}`,
+      },
+    },
+    variables: {
+      clubId,
+    },
+    onCompleted: (data) => {
+      setJoined(false);
+      setLoading(false);
+      next();
+    },
+    onError: (error) => {
+      console.log(error);
+      setLoading(false);
+    },
+  });
+
+  const handleClubAction = async () => {
+    setLoading(true);
+    if (joined) {
+      return await leaveClub();
+    } else {
+      return await joinClub();
     }
   };
 
@@ -117,7 +150,7 @@ const ActionButton = ({ joined, setJoined, userId, clubId, closed }) => {
         </h4>
         <p className="text-[#686868]">
           By selecting confirm you are {joined ? "removing" : "adding"} yourself{" "}
-          {joined ? "from" : "to"} the club's roster.{" "}
+          {joined ? "from" : "to"} the club&apos;s roster.{" "}
           {joined &&
             closed &&
             "You cannot join this club again without an invite."}
@@ -127,7 +160,8 @@ const ActionButton = ({ joined, setJoined, userId, clubId, closed }) => {
       <div className="grid-col grid grid-cols-2 gap-2">
         <button
           onClick={closeModal}
-          className="rounded-md bg-gray-500/20 py-1 font-semibold">
+          className="rounded-md bg-gray-500/20 py-1 font-semibold"
+        >
           Cancel
         </button>
         <button
@@ -135,7 +169,8 @@ const ActionButton = ({ joined, setJoined, userId, clubId, closed }) => {
             loading && "cursor-not-allowed bg-opacity-50"
           } flex flex-row items-center justify-center gap-1 rounded-md px-8 py-1 focus:border-0`}
           onClick={() => handleClubAction()}
-          disabled={loading}>
+          disabled={loading}
+        >
           <span className="font-semibold text-white">
             {loading ? (
               joined ? (
@@ -187,7 +222,8 @@ const ActionCongrats = ({ joined, name, slug }) => {
       <div
         className={`flex h-[90px] w-[112%] -translate-x-[24px] -translate-y-[24px] items-center  justify-center bg-gradient-to-r ${
           joined ? "from-cc/80 to-cc" : "from-[#ff6c6c] to-[#FF5555] "
-        }`}>
+        }`}
+      >
         <BsCheckCircleFill className="text-5xl text-white" />
       </div>
       <div className="flex flex-col gap-2">
@@ -207,19 +243,22 @@ const ActionCongrats = ({ joined, name, slug }) => {
             : `You have left ${name}. It will no longer appear in your dashboard.`}
         </p>
         <div
-          className={joined ? "grid grid-cols-2 gap-2" : "flex justify-center"}>
+          className={joined ? "grid grid-cols-2 gap-2" : "flex justify-center"}
+        >
           <button
             onClick={closeModal}
             className={`rounded-lg bg-gray-500/20 py-1 font-semibold ${
               !joined && "px-16"
-            }`}>
+            }`}
+          >
             Close
           </button>
           {joined && (
             <Link
               href={
                 router.asPath === `/club/${slug}` ? "/clubs" : `/club/${slug}`
-              }>
+              }
+            >
               <a className="rounded-lg bg-cc py-1 text-center font-semibold text-white">
                 {router.asPath === `/club/${slug}`
                   ? "Explore More"

@@ -11,9 +11,7 @@ import { Loading } from "../../../general/Loading";
 import { useBreakpoints } from "../../../../hooks";
 
 export const DashboardNavItems = () => {
-  const { user, loading } = useAuthContext(); //! should have loading state
-
-  if (!user && loading) return <Loading />;
+  const { user } = useAuthContext(); //! should have loading state
 
   const roleSpecificItems = {
     // replace icon with react icon component
@@ -85,9 +83,8 @@ export const DashboardNavItems = () => {
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      {!user && <Loading />}
-      {roleSpecificItems[user?.type]?.map((item, i) => (
+    <div className="mt-16">
+      {roleSpecificItems[user.type].map((item, i) => (
         <DashboardItem key={i} {...item} notifications={user?.pendingInvites} />
       ))}
     </div>

@@ -116,6 +116,23 @@ export default gql`
 
   ##### END OF BATCH APPROVE USERS #####
 
+  ##### GET USER #####
+
+  input GetUserIdentifierArgs {
+    id: ID
+    ccid: String
+    email: String
+  }
+  type GetUserPayload {
+    id: ID!
+    firstname: String!
+    lastname: String!
+    email: String!
+    type: UserType!
+  }
+
+  ##### END OF GET USER #####
+
   type User {
     id: ID!
     ccid: String!
@@ -161,6 +178,7 @@ export default gql`
     getUserClubs: [GetUserClubPayload!]!
     getUserLeadershipClubs: GetUserLeadershipClubsPayload!
     validateUser(ccid: String!): User!
+    getUser(identifier: GetUserIdentifierArgs!, type: UserType): GetUserPayload!
   }
 
   type Mutation {

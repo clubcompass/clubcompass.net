@@ -1,42 +1,42 @@
 import { gql } from "@apollo/client";
 
 // auth payload fragment ?
+export const AUTH_PAYLOAD_FRAGMENT = gql`
+  fragment AuthPayload on AuthenticatedUserPayload {
+    id
+    ccid
+    firstname
+    lastname
+    email
+    emailVerified
+    active
+    type
+    pendingInvites
+    token
+  }
+`;
 
 export const REGISTER = gql`
   mutation register($data: RegisterArgs!) {
     register(data: $data) {
-      user {
-        id
-        ccid
-        firstname
-        lastname
-        email
-        emailVerified
-        password
-        grade
-        type
-      }
-      token
+      ...AuthPayload
     }
   }
+  ${AUTH_PAYLOAD_FRAGMENT}
 `;
 
 export const LOGIN = gql`
   mutation login($data: LoginArgs!) {
     login(data: $data) {
-      user {
-        id
-        ccid
-        firstname
-        lastname
-        email
-        emailVerified
-        password
-        grade
-        type
-      }
-      token
+      ...AuthPayload
     }
+  }
+  ${AUTH_PAYLOAD_FRAGMENT}
+`;
+
+export const LOGOUT = gql`
+  mutation logout {
+    logout
   }
 `;
 
@@ -55,20 +55,10 @@ export const CHECK_STUDENT_ID = gql`
 export const FIND_USER_BY_SESSION = gql`
   query findUserBySession {
     findUserBySession {
-      id
-      ccid
-      firstname
-      lastname
-      email
-      emailVerified
-      active
-      type
-      pendingInvites
-      # clubs {
-      #   id
-      # }
+      ...AuthPayload
     }
   }
+  ${AUTH_PAYLOAD_FRAGMENT}
 `;
 
 export const SEND_VERIFICATION_EMAIL = gql`
@@ -76,5 +66,3 @@ export const SEND_VERIFICATION_EMAIL = gql`
     sendVerificationEmail(email: $email)
   }
 `;
-
-// change password

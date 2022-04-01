@@ -11,7 +11,7 @@ export const DashboardNavProfile = () => {
   const { isSm, isXs } = useBreakpoints();
   const isMobile = isSm || isXs;
 
-  if (!user && loading) return <Loading />;
+  // if (!user && loading) return <Loading />;
 
   const name = `${user?.firstname} ${user?.lastname.charAt(0)}.`;
   const initials = (

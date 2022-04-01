@@ -1,15 +1,5 @@
 import gql from "graphql-tag";
 export default gql`
-  type RegisterPayload {
-    user: User!
-    token: String!
-  }
-
-  type LoginPayload {
-    user: User!
-    token: String!
-  }
-
   input LoginArgs {
     email: String!
     password: String!
@@ -26,18 +16,18 @@ export default gql`
     interests: [Interest!]
   }
 
-  type SessionUser {
+  type AuthenticatedUserPayload {
     id: ID!
-    ccid: String
-    firstname: String
-    lastname: String
-    email: String
-    grade: String
-    type: String
-    emailVerified: Boolean
-    active: Boolean
-    pendingInvites: Int
-    clubs: [Club!]!
+    ccid: String!
+    firstname: String!
+    lastname: String!
+    email: String!
+    grade: String!
+    type: String!
+    emailVerified: Boolean!
+    active: Boolean!
+    token: String!
+    pendingInvites: Int!
   }
 
   input Interest {
@@ -46,15 +36,16 @@ export default gql`
   }
 
   type Mutation {
-    register(data: RegisterArgs!): RegisterPayload!
-    login(data: LoginArgs!): LoginPayload!
+    register(data: RegisterArgs!): AuthenticatedUserPayload!
+    login(data: LoginArgs!): AuthenticatedUserPayload!
+    logout: Boolean!
     changePassword(password: String!): User!
   }
 
   type Query {
     checkEmail(email: String!): Boolean!
     checkStudentId(studentId: String!): Boolean!
-    findUserBySession: SessionUser!
+    findUserBySession: AuthenticatedUserPayload!
     sendVerificationEmail(email: String!): Boolean!
   }
 `;

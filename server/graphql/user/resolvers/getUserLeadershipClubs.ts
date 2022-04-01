@@ -11,11 +11,8 @@ export type GetUserLeadershipClubsPayload = Awaited<
 export const getUserLeadershipClubs = async (
   _parent: any,
   _args: GetUserLeadershipClubsArgs,
-  { prisma, auth }: Context
+  { prisma, auth: token }: Context
 ): Promise<typeof clubs> => {
-  const token = getAuthenticatedUser({ auth });
-  if (!token) throw new AuthenticationError("No token data");
-
   const user = await prisma.user.findUnique({
     where: {
       id: token.id,

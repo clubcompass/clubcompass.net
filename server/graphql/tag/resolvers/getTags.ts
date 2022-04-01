@@ -37,7 +37,5 @@ export const getTags = async (
     }
   );
 
-  console.log(tags);
-
   return tags;
 };

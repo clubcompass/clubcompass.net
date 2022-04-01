@@ -1,6 +1,5 @@
-import { AuthenticationError } from "apollo-server-micro";
+// import { AuthenticationError } from "apollo-server-micro";
 import { Context } from "../../ctx";
-import { getAuthenticatedUser } from "../../../utils/auth";
 
 export type FindUserBySessionArgs = {};
 
@@ -11,24 +10,24 @@ export type FindUserBySessionPayload = Awaited<
 export const findUserBySession = async (
   _parent: any,
   _: FindUserBySessionArgs,
-  { prisma, auth }: Context
-): Promise<typeof user & { pendingInvites: number }> => {
-  const token = getAuthenticatedUser({ auth });
-
-  if (!token) throw new AuthenticationError("No token data");
-
-  console.log("token", token);
-
+  { prisma, auth: token, rawToken }: Context
+): Promise<typeof user & { pendingInvites: number; token: string }> => {
   const user = await prisma.user.findUnique({
     where: {
       id: token.id,
     },
+    select: {
+      id: true,
+      ccid: true,
+      firstname: true,
+      lastname: true,
+      email: true,
+      grade: true,
+      emailVerified: true,
+      active: true,
+      type: true,
+    },
   });
-
-  if (!user)
-    throw new AuthenticationError("No user associated with token", {
-      token,
-    });
 
   const pendingInvites = await prisma.invite.count({
     where: {
@@ -39,5 +38,5 @@ export const findUserBySession = async (
     },
   });
 
-  return { ...user, pendingInvites };
+  return { ...user, pendingInvites, token: rawToken };
 };

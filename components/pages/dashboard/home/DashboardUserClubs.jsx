@@ -11,17 +11,30 @@ import { Clubs } from "../../clubs/Clubs";
 import { CCIcon } from "../../../custom/cc";
 import { CgSpinner } from "react-icons/cg";
 import { MdPendingActions } from "react-icons/md";
+import Cookies from "js-cookie";
 
 export const DashboardUserClubs = () => {
-  const { user, loading } = useAuthContext();
+  const { user } = useAuthContext();
   const { data: { getUserClubs: clubs } = {}, loading: loadingClubs } =
-    useQuery(GET_USER_CLUBS);
+    useQuery(GET_USER_CLUBS, {
+      context: {
+        headers: {
+          authorization: `Bearer ${user.token}`,
+        },
+      },
+      onCompleted: (data) => {
+        console.log(data);
+      },
+      onError: (e) => {
+        console.log(e);
+      },
+      notifyOnNetworkStatusChange: true,
+    });
 
-  if (!user && loading) return <Loading />;
   if (!clubs && loadingClubs) return <Loading />;
 
   const isException =
-    !user?.emailVerified || !user?.active || clubs.length === 0; // check this?
+    !user?.emailVerified || !user?.active || clubs?.length === 0; // check this?
 
   return (
     <div className="flex flex-col gap-4">
@@ -30,7 +43,7 @@ export const DashboardUserClubs = () => {
         <Exceptions
           emailVerified={user?.emailVerified}
           active={user?.active}
-          clubs={clubs.length !== 0}
+          clubs={clubs?.length !== 0}
           email={user?.email}
         />
       ) : (
@@ -100,7 +113,8 @@ const EmailNotVerifiedException = ({ email }) => {
         role="button"
         className={`${
           loading || cooldown !== 0 ? "pointer-events-none bg-cc/40" : "bg-cc"
-        } mt-2 flex flex-row items-center gap-2 rounded-lg px-3 py-1  text-sm text-white`}>
+        } mt-2 flex flex-row items-center gap-2 rounded-lg px-3 py-1  text-sm text-white`}
+      >
         {loading ? (
           <>
             <CgSpinner size={13} className="animate-spin" />

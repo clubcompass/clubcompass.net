@@ -5,18 +5,8 @@ import { useAuthContext } from "../../../../context";
 import { Loading } from "../../../general/Loading";
 import { useRouter } from "next/router";
 export const DashboardDrafts = () => {
-  const { user, loading } = useAuthContext();
+  const { user } = useAuthContext();
   const router = useRouter();
-
-  useEffect(() => {
-    if (user) {
-      if (!user?.active || !user?.emailVerified) {
-        router.push("/dashboard");
-      }
-    }
-  }, [router, user]);
-
-  if (!user && loading) return <Loading />;
 
   // const drafts = user.roles.reduce(
   //   (acc, role) =>
@@ -62,7 +52,8 @@ const DraftCard = ({ name, slug, tags }) => {
         <span
           className={`${
             completed ? "bg-[#26d46f50]" : "bg-[#ffc42150]"
-          } flex flex-row items-center rounded-md px-3 text-sm text-black`}>
+          } flex flex-row items-center rounded-md px-3 text-sm text-black`}
+        >
           {partsCompleted}/14
         </span>
         <button className="rounded-md bg-cc px-8 py-1 text-white">Edit</button>

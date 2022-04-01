@@ -2,25 +2,16 @@ import { ApolloServer } from "apollo-server-micro";
 import cors from "micro-cors";
 import { makeExecutableSchema } from "graphql-tools";
 import { applyMiddleware } from "graphql-middleware";
-import { GraphQLResolveInfo, GraphQLSchema } from "graphql";
-import { createContext, Context } from "../../server/graphql/ctx";
+import { GraphQLSchema } from "graphql";
+import { createContext } from "../../server/graphql/ctx";
 import { resolvers, typeDefs } from "../../server/graphql";
+import { permissions } from "../../server/utils/auth/permissions";
 
 const Cors = cors();
 
 let schema: GraphQLSchema = makeExecutableSchema({ typeDefs, resolvers });
 
-const middleware = async (
-  resolve: any,
-  root: unknown,
-  args: { [key: string]: unknown },
-  context: Context,
-  info: GraphQLResolveInfo
-) => {
-  return resolve(root, args, context, info);
-};
-
-schema = applyMiddleware(schema, middleware);
+schema = applyMiddleware(schema, permissions);
 
 export default Cors(async (req, res) => {
   if (req.method === "OPTIONS") {

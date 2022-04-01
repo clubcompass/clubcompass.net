@@ -1,6 +1,7 @@
 import { object, string, array } from "yup";
 
 export const createClubSchema = object().shape({
+  // single out base information
   name: string().required("Club must have a name"),
   description: string(),
   email: string().email("Email must be valid"),
@@ -10,10 +11,10 @@ export const createClubSchema = object().shape({
     ["OPEN", "INVITE_ONLY", "CLOSED"],
     "Invalid availability."
   ),
-  presidentId: string(),
-  vicePresidentId: string(),
-  secretaryId: string(),
-  treasurer: string(),
+  // presidentId: string(),
+  // vicePresidentId: string(),
+  // secretaryId: string(),
+  // treasurer: string(), <-- don't need these?
   links: array().of(
     object().shape({
       name: string().required("name of link is required"),
