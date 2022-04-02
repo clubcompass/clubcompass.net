@@ -1,44 +1,75 @@
 import { Context } from "../../ctx";
 
-export type GetUserUnapprovedClubsArgs = {};
+export type GetUserDraftsArgs = {};
 
-export type GetUserUnapprovedClubsPayload = Awaited<
-  ReturnType<typeof getUserUnapprovedClubs>
->;
+export type GetUserDraftsPayload = Awaited<ReturnType<typeof getUserDrafts>>;
 
-export const getUserUnapprovedClubs = async (
+export const getUserDrafts = async (
   _parent: any,
-  _args: GetUserUnapprovedClubsArgs,
-  { prisma, auth: user }: Context
+  _args: GetUserDraftsArgs,
+  { prisma, auth }: Context
 ): Promise<typeof clubs> => {
-  const { clubs } = await prisma.user.findUnique({
+  const user = await prisma.user.findUnique({
     where: {
-      id: user.id,
+      id: auth.id,
     },
     select: {
       clubs: {
         where: {
-          approval: false,
+          status: "DRAFT",
         },
         select: {
           id: true,
-          name: true,
           slug: true,
+          name: true,
           description: true,
+          email: true,
+          meetingDate: true,
+          location: true,
           tags: {
             select: {
               name: true,
             },
           },
-          _count: {
+          roles: {
             select: {
-              members: true,
+              name: true,
+              users: {
+                select: {
+                  id: true,
+                },
+              },
             },
           },
-          status: true,
+          teacher: {
+            select: {
+              id: true,
+            },
+          },
         },
       },
     },
+  });
+
+  const clubs = user.clubs.map((club) => {
+    let todo = [];
+
+    if (!club.description) todo.push("Provide a description");
+    if (!club.email) todo.push("Provide an email");
+    if (!club.meetingDate) todo.push("Choose a meeting date");
+    if (!club.location) todo.push("Pick a location");
+    if (!club.tags) todo.push("Choose club tags");
+    if (!club.teacher) todo.push("Invite an advisor");
+    club.roles.map((role) => {
+      if (role.users.length === 0) todo.push(`Invite a ${role.name}`);
+    });
+
+    return {
+      id: club.id,
+      name: club.name,
+      slug: club.slug,
+      todos: todo,
+    };
   });
 
   return clubs;

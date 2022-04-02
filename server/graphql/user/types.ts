@@ -9,3 +9,4 @@ export * from "./resolvers/getUsers";
 export * from "./resolvers/batchApproveUsers";
 export * from "./resolvers/batchDeleteUsers";
 export * from "./resolvers/getUser";
+export * from "./resolvers/getUserDrafts";

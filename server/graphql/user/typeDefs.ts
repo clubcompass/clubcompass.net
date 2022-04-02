@@ -16,11 +16,16 @@ export default gql`
 
   type GetUserClubPayload {
     id: ID!
-    name: String!
     slug: String!
-    description: String!
-    tags: [ClubPageTag!]
-    _count: ClubMembersCount!
+    name: String!
+    roles: [RoleName!]!
+    status: ClubStatus!
+    location: String!
+    meetingDate: String!
+  }
+
+  type RoleName {
+    name: String!
   }
 
   ##### END OF GET USER CLUBS #####
@@ -123,6 +128,7 @@ export default gql`
     ccid: String
     email: String
   }
+
   type GetUserPayload {
     id: ID!
     firstname: String!
@@ -152,6 +158,17 @@ export default gql`
   }
 
   ##### END OF VALIDATE TEACHER #####
+
+  ##### GET USER DRAFTS #####
+
+  type GetUserDraftsPayload {
+    id: ID!
+    name: String!
+    slug: String!
+    todos: [String!]!
+  }
+
+  ##### END OF GET USER DRAFTS #####
 
   type User {
     id: ID!
@@ -200,6 +217,7 @@ export default gql`
     validateStudent(ccid: String!): ValidateStudentPayload!
     validateTeacher(ccid: String!): ValidateTeacherPayload!
     getUser(identifier: GetUserIdentifierArgs!, type: UserType): GetUserPayload!
+    getUserDrafts: [GetUserDraftsPayload!]!
   }
 
   type Mutation {
