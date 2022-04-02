@@ -23,18 +23,28 @@ export const GET_USER = gql`
 `;
 
 export const GET_USER_CLUBS = gql`
-  query {
+  query GetUserClubs {
     getUserClubs {
+      id
+      slug
+      name
+      roles {
+        name
+      }
+      status
+      location
+      meetingDate
+    }
+  }
+`;
+
+export const GET_USER_DRAFTS = gql`
+  query GetUserDrafts {
+    getUserDrafts {
       id
       name
       slug
-      description
-      tags {
-        name
-      }
-      _count {
-        members
-      }
+      todos
     }
   }
 `;
