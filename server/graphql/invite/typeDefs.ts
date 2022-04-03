@@ -30,12 +30,6 @@ export default gql`
     declined: [InvitePayload!]!
   }
 
-  # type GetUserInvitesPayload {
-  #   pendingInvites: [Invite!]!
-  #   acceptedInvites: [Invite!]!
-  #   declinedInvites: [Invite!]!
-  # }
-
   type GetUserInvitesPayload {
     incoming: InvitePayloadType!
     outgoing: InvitePayloadType!
@@ -79,6 +73,11 @@ export default gql`
     id: ID!
   }
 
+  type MutateInvitePayload {
+    id: ID!
+    clubName: String!
+  }
+
   ##### END OF SHARED #####
 
   ##### QUERIES + MUTATIONS #####
@@ -93,9 +92,12 @@ export default gql`
       recipientCCID: String!
       inviteRoles: [RoleInput!]
     ): InviteId!
-    acceptInvite(inviteId: ID!, clubId: ID!): UserId!
-    declineInvite(inviteId: ID!): InviteId!
-    issueTeacherInvite(clubId: ID!, recipientCCID: String!): InviteId!
+    acceptInvite(inviteId: ID!, clubId: ID!): MutateInvitePayload!
+    declineInvite(inviteId: ID!): MutateInvitePayload!
+    issueTeacherInvite(
+      clubId: ID!
+      recipientCCID: String!
+    ): MutateInvitePayload!
     acceptTeacherInvite(inviteId: ID!, clubId: ID!): UserId!
     deleteIncomingInvite(inviteId: ID!): InviteId!
     deleteOutgoingInvite(inviteId: ID!): InviteId!

@@ -4,6 +4,7 @@ export const ACCEPT_INVITE = gql`
   mutation ($inviteId: ID!, $clubId: ID!) {
     acceptInvite(inviteId: $inviteId, clubId: $clubId) {
       id
+      clubName
     }
   }
 `;
@@ -12,6 +13,7 @@ export const DECLINE_INVITE = gql`
   mutation ($inviteId: ID!) {
     declineInvite(inviteId: $inviteId) {
       id
+      clubName
     }
   }
 `;
@@ -20,6 +22,7 @@ export const ACCEPT_TEACHER_INVITE = gql`
   mutation ($inviteId: ID!, $clubId: ID!) {
     acceptTeacherInvite(inviteId: $inviteId, clubId: $clubId) {
       id
+      clubName
     }
   }
 `;

@@ -13,13 +13,18 @@ export const acceptInvite = async (
   _parent: any,
   { inviteId, clubId }: AcceptInviteArgs,
   { prisma, auth: token }: Context
-): Promise<typeof user> => {
+): Promise<typeof response> => {
   const invite = await prisma.invite.findUnique({
     where: {
       id: inviteId,
     },
     include: {
       roles: true,
+      club: {
+        select: {
+          name: true,
+        },
+      },
     },
   });
 
@@ -72,5 +77,10 @@ export const acceptInvite = async (
     },
   });
 
-  return user;
+  const response = {
+    id: invite.id,
+    clubName: invite.club.name,
+  };
+
+  return response;
 };
