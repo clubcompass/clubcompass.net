@@ -5,6 +5,7 @@ import { IconLabel } from "../../../../general/IconLabel";
 import { ActionModal } from "../../../../general/ActionModal";
 import { FiChevronRight } from "react-icons/fi";
 import { useAuthContext } from "../../../../../context";
+import { DashboardActionModal } from "./DashboardActionModal";
 
 export const DashboardUserCard = ({ club }) => {
   const user = useAuthContext();
@@ -45,7 +46,9 @@ export const DashboardUserCard = ({ club }) => {
           </InfoContainer>
           <InfoContainer>
             Status:{" "}
-            <StatusTag colors={colors[club.status]}>{club.status}</StatusTag>
+            <StatusTag colors={colors[club.status]}>
+              {club.status.toLowerCase()}
+            </StatusTag>
           </InfoContainer>
         </div>
         <div className="flex">
@@ -70,13 +73,7 @@ export const DashboardUserCard = ({ club }) => {
           </InfoContainer>
         </div>
         <div>
-          <ActionModal
-            name={club.name}
-            isMember={true}
-            userId={user.user.id}
-            clubId={club.id}
-            slug={club.slug}
-          />
+          <DashboardActionModal />
         </div>
       </div>
     </div>

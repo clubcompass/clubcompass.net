@@ -7,6 +7,7 @@ import { GiSpaceSuit } from "react-icons/gi";
 import { IoMdPin } from "react-icons/io";
 import { ActionModal } from "../../../../general/ActionModal";
 import { useAuthContext } from "../../../../../context";
+import { DashboardActionModal } from "./DashboardActionModal";
 
 export const DashboardUserManageCard = ({ club }) => {
   const user = useAuthContext();
@@ -80,13 +81,7 @@ export const DashboardUserManageCard = ({ club }) => {
               </a>
             </Link>
           ) : (
-            <ActionModal
-              name={club.name}
-              isMember={true}
-              userId={user.user.id}
-              clubId={club.id}
-              slug={club.slug}
-            />
+            <DashboardActionModal />
           )}
         </div>
       </div>
