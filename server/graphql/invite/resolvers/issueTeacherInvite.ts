@@ -121,6 +121,7 @@ export const issueTeacherInvite = async (
 
   const invite = await prisma.invite.create({
     data: {
+      type: "INCOMING",
       club: {
         connect: {
           id: clubId,

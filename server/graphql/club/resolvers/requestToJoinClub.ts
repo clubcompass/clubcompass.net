@@ -69,7 +69,7 @@ export const requestToJoinClub = async (
               id: clubId,
             },
           },
-          type: "INCOMING",
+          type: "OUTGOING",
         },
       },
     },
