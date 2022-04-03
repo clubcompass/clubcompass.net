@@ -177,6 +177,19 @@ export const GET_USERS = gql`
   }
 `;
 
+export const GET_ADVISOR_CLUBS = gql`
+  query {
+    getAdvisorClubs {
+      id
+      slug
+      name
+      status
+      location
+      meetingDate
+    }
+  }
+`;
+
 export const BATCH_APPROVE_USERS = gql`
   mutation BatchApproveUsers($userIds: [ID!]!) {
     batchApproveUsers(userIds: $userIds) {
