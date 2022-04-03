@@ -2,10 +2,11 @@ import React from "react";
 import Link from "next/link";
 import { StatusTag } from "../../../../general/StatusTag";
 import { IconLabel } from "../../../../general/IconLabel";
-import { ActionModal } from "../../../../general/ActionModal";
 import { FiChevronRight } from "react-icons/fi";
+import { GiSpaceSuit } from "react-icons/gi";
+import { IoMdPin } from "react-icons/io";
 
-export const DashboardUserCard = ({ club }) => {
+export const DashboardUserManageCard = ({ club }) => {
   return (
     <div
       key={club.slug}
@@ -52,14 +53,11 @@ export const DashboardUserCard = ({ club }) => {
           </InfoContainer>
         </div>
         <div>
-          <ActionModal
-            name={name}
-            isMember={isMember}
-            userId={userId}
-            clubId={clubId}
-            slug={slug}
-            availability={availability}
-          />
+          <Link href={`/manage/${club.slug}`}>
+            <a className="mt-1 rounded-md bg-gray-100 px-6 py-2 text-gray-600 duration-75 hover:bg-gray-200">
+              Manage
+            </a>
+          </Link>
         </div>
       </div>
     </div>

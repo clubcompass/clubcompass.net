@@ -26,7 +26,7 @@ export const DashboardUserDraftsCards = ({ club }) => {
           <h4 className="text-xl font-semibold">{club.name}</h4>
         </div>
         <InfoList>
-          {club.tasks.slice(0, 5).map(({ message, completed }, i) => (
+          {club.todos.slice(0, 5).map(({ message, completed }, i) => (
             <li
               key={i}
               style={

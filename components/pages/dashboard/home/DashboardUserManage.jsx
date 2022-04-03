@@ -4,22 +4,22 @@ import { Loading } from "../../../general/Loading";
 import { CustomTitle } from "../../../general/CustomTitle";
 import {
   DashboardUserWrapper as CardsWrapper,
-  DashboardUserCard,
+  DashboardUserManageCard,
 } from "./components";
 
-export const DashboardUserClubs = ({ clubs }) => {
+export const DashboardUserManage = ({ clubs }) => {
   if (!clubs && loadingClubs) return <Loading />;
 
   return (
     <div className="flex flex-col gap-4">
       <>
         <CustomTitle
-          title="Your Clubs"
-          subtitle="All the clubs you are currently a part of."
+          title="Leadership In"
+          subtitle="All the clubs you are currently have leadership in."
         />
         <CardsWrapper>
           {clubs.map((club, i) => (
-            <DashboardUserCard key={i} club={club} />
+            <DashboardUserManageCard key={i} club={club} />
           ))}
         </CardsWrapper>
       </>

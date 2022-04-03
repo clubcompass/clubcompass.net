@@ -1,100 +1,54 @@
 import React from "react";
-import { DashboardUserClubs as UserClubs } from "../../components/pages/dashboard/home";
-import { DashboardUserDrafts as UserDrafts } from "../../components/pages/dashboard/home";
+import { useQuery } from "@apollo/client";
 import { useAuthContext } from "../../context";
+import { GET_USER_CLUBS } from "../../lib/docs";
+import {
+  DashboardUserClubs as UserClubs,
+  DashboardUserManage as UserManage,
+  DashboardUserDrafts as UserDrafts,
+  DashboardExceptions as Exceptions,
+} from "../../components/pages/dashboard/home";
+import {} from "../../components/pages/dashboard/home";
 
 const Dashboard = () => {
-  const clubs = {
-    leaderOf: [
-      {
-        name: "Club name",
-        description: "Club description",
-        roles: ["president"],
-        status: "APPROVED",
-        location: "A101",
-        meetingDate: "Bi-weekly on Mondays",
-        canEdit: true,
-      },
-      {
-        name: "Club name",
-        description: "Club description",
-        roles: ["president"],
-        status: "APPROVED",
-        location: "A101",
-        meetingDate: "Bi-weekly on Mondays",
-        canEdit: true,
-      },
-      {
-        name: "Club name",
-        description: "Club description",
-        roles: ["vice president"],
-        status: "APPROVED",
-        location: "A101",
-        meetingDate: "Bi-weekly on Mondays",
-        canEdit: true,
-      },
-      {
-        name: "Club name",
-        description: "Club description",
-        roles: ["treasurer"],
-        status: "APPROVED",
-        location: "A101",
-        meetingDate: "Bi-weekly on Mondays",
-        canEdit: false,
-      },
-    ],
-    memberOf: [
-      {
-        name: "Club name",
-        description: "Club description",
-        roles: [],
-        status: "APPROVED",
-        location: "A101",
-        meetingDate: "Bi-weekly on Mondays",
-        canEdit: false,
-      },
-      {
-        name: "Club name",
-        description: "Club description",
-        roles: [],
-        status: "APPROVED",
-        location: "A101",
-        meetingDate: "Bi-weekly on Mondays",
-        canEdit: false,
-      },
-      {
-        name: "Club name",
-        description: "Club description",
-        roles: [],
-        status: "APPROVED",
-        location: "A101",
-        meetingDate: "Bi-weekly on Mondays",
-        canEdit: false,
-      },
-    ],
-    drafts: [
-      {
-        name: "Club name poopy mc pooperson",
-        slug: "club-name",
-        tasks: [
-          { message: "Provide a description", completed: false },
-          { message: "Provide a location", completed: false },
-          { message: "Provide a location", completed: false },
-          { message: "Provide a meeting date", completed: false },
-          { message: "Provide a meeting date", completed: true },
-          { message: "Provide a meeting date", completed: true },
-          { message: "Provide a meeting date", completed: true },
-        ],
-        completed: 4,
-        total: 7,
-      },
-    ],
-  };
+  const { user } = useAuthContext();
+  const {
+    data: { getUserClubs: { leaderOf, memberOf, drafts } = {} } = {},
+    loading,
+    refetch,
+  } = useQuery(GET_USER_CLUBS, {
+    context: { headers: { authorization: `Bearer ${user.token}` } },
+    onCompleted: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  if (loading) return <p>loading invites...</p>;
+
+  const isException =
+    !user?.emailVerified ||
+    !user?.active ||
+    (memberOf?.length === 0 && leaderOf.length === 0 && drafts.length === 0);
+
+  if (isException) {
+    return (
+      <Exceptions
+        emailVerified={user?.emailVerified}
+        active={user?.active}
+        clubs={memberOf?.length !== 0}
+        email={user?.email}
+      />
+    );
+  }
 
   return (
     <div className="flex flex-col gap-6">
-      <UserClubs clubs={clubs.memberOf} />
-      <UserDrafts clubs={clubs.drafts} />
+      {leaderOf?.length !== 0 && <UserManage clubs={leaderOf} />}
+      {memberOf?.length !== 0 && <UserClubs clubs={memberOf} />}
+      {drafts?.length !== 0 && <UserDrafts clubs={drafts} />}
     </div>
   );
 };
