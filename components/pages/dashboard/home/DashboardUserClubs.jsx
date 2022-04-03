@@ -6,49 +6,61 @@ import { IoSend } from "react-icons/io5";
 import { GET_USER_CLUBS, SEND_VERIFICATION_EMAIL } from "../../../../lib/docs";
 import { useAuthContext } from "../../../../context";
 import { Loading } from "../../../general/Loading";
-import { DashboardHeader } from "./DashboardHeader";
 import { Clubs } from "../../clubs/Clubs";
 import { CCIcon } from "../../../custom/cc";
+import { CustomTitle } from "../../../general/CustomTitle";
 import { CgSpinner } from "react-icons/cg";
 import { MdPendingActions } from "react-icons/md";
+import {
+  DashboardUserWrapper as CardsWrapper,
+  DashboardUserCard,
+} from "./components";
 import Cookies from "js-cookie";
 
-export const DashboardUserClubs = () => {
-  const { user } = useAuthContext();
-  const { data: { getUserClubs: clubs } = {}, loading: loadingClubs } =
-    useQuery(GET_USER_CLUBS, {
-      context: {
-        headers: {
-          authorization: `Bearer ${user.token}`,
-        },
-      },
-      onCompleted: (data) => {
-        console.log(data);
-      },
-      onError: (e) => {
-        console.log(e);
-      },
-      notifyOnNetworkStatusChange: true,
-    });
+export const DashboardUserClubs = ({ clubs }) => {
+  // const { user } = useAuthContext();
+  // const { data: { getUserClubs: clubs } = {}, loading: loadingClubs } =
+  //   useQuery(GET_USER_CLUBS, {
+  //     context: {
+  //       headers: {
+  //         authorization: `Bearer ${user.token}`,
+  //       },
+  //     },
+  //     onCompleted: (data) => {
+  //       console.log(data);
+  //     },
+  //     onError: (e) => {
+  //       console.log(e);
+  //     },
+  //     notifyOnNetworkStatusChange: true,
+  //   });
 
-  if (!clubs && loadingClubs) return <Loading />;
+  // if (!clubs && loadingClubs) return <Loading />;
 
-  const isException =
-    !user?.emailVerified || !user?.active || clubs?.length === 0; // check this?
+  // const isException =
+  //   !user?.emailVerified || !user?.active || clubs?.length === 0; // check this?
 
   return (
     <div className="flex flex-col gap-4">
-      <DashboardHeader name={user?.firstname} ccid={user?.ccid} />
-      {isException ? (
+      <CustomTitle
+        title="Your Clubs"
+        subtitle="All the clubs you are currently a part of or own."
+      />
+      {/* {isException ? (
         <Exceptions
           emailVerified={user?.emailVerified}
           active={user?.active}
           clubs={clubs?.length !== 0}
           email={user?.email}
         />
-      ) : (
-        <Clubs clubs={clubs} />
-      )}
+      ) : ( */}
+      {/* <Clubs clubs={clubs} /> */}
+      <CardsWrapper>
+        {clubs.map((club, i) => (
+          <DashboardUserCard key={i} club={club} />
+        ))}
+      </CardsWrapper>
+      {/* )} */}
 
       {/* {!clubs && (
         <div className="flex mt-4 justify-center">
@@ -113,8 +125,7 @@ const EmailNotVerifiedException = ({ email }) => {
         role="button"
         className={`${
           loading || cooldown !== 0 ? "pointer-events-none bg-cc/40" : "bg-cc"
-        } mt-2 flex flex-row items-center gap-2 rounded-lg px-3 py-1  text-sm text-white`}
-      >
+        } mt-2 flex flex-row items-center gap-2 rounded-lg px-3 py-1  text-sm text-white`}>
         {loading ? (
           <>
             <CgSpinner size={13} className="animate-spin" />

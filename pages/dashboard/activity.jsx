@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useAuthContext } from "../../context";
 import { GET_USER_INVITES } from "../../lib/docs";
 import { Loading } from "../../components/general/Loading";
-import { DashboardActivityInvites as Invites } from "../../components/pages/dashboard/activity/DashboardActivityInvites";
+import { DashboardActivityInvites as Invites } from "../../components/pages/dashboard/activity";
 const Activity = () => {
   const { user } = useAuthContext();
 
@@ -31,7 +31,6 @@ const Activity = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="font-bold uppercase text-[#626262]">Activity</h1>
       {!invitesLoading ? (
         <Invites
           user={user}

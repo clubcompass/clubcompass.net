@@ -18,6 +18,7 @@ module.exports = {
       },
       gridTemplateColumns: {
         cards: "repeat(auto-fill,minmax(420px,1fr))",
+        dashboardCards: "repeat(auto-fill, minmax(350px, 1fr))",
       },
       animation: {
         drop: "drop .3s ease",

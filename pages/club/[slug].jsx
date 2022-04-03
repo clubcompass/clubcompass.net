@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useAuthContext } from "../../context/auth";
+import { useAuthContext } from "../../context";
 import { GET_CLUB } from "../../lib/docs";
 import { useQuery } from "@apollo/client";
 import { Club as ClubComponent } from "../../components/pages/club";

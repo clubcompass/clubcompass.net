@@ -36,7 +36,7 @@ export const DashboardNavItems = () => {
         disabled: !user?.emailVerified || !user?.active,
       },
       {
-        label: "Edit Profile",
+        label: "Manage Account",
         to: "/dashboard/account",
         icon: "settings",
       },
@@ -53,7 +53,7 @@ export const DashboardNavItems = () => {
         icon: "manage",
       },
       {
-        label: "Edit Profile",
+        label: "Manage Account",
         to: "/dashboard/account",
         icon: "settings",
       },
@@ -65,7 +65,7 @@ export const DashboardNavItems = () => {
         icon: "home",
       },
       {
-        label: "Edit Profile",
+        label: "Manage Account",
         to: "/dashboard/account",
         icon: "settings",
       },

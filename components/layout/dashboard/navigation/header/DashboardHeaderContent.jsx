@@ -2,12 +2,16 @@ import React from "react";
 import { useAuthContext } from "../../../../../context";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useBreakpoints } from "../../../../../hooks";
 
 export const DashboardHeaderContent = () => {
+  const { isSm, isXs } = useBreakpoints();
+  const isMobile = isSm || isXs;
+
   return (
     <Container>
       <PageTitle />
-      <PageMessage />
+      {!isMobile && <PageMessage />}
       <PageButton />
     </Container>
   );
@@ -15,7 +19,7 @@ export const DashboardHeaderContent = () => {
 
 const Container = ({ children }) => {
   return (
-    <div className="flex items-center justify-between pr-[40px]">
+    <div className="flex items-center justify-between pr-[20px] md:pr-[40px]">
       {children}
     </div>
   );
@@ -25,7 +29,7 @@ const PageTitle = () => {
   const router = useRouter();
 
   return (
-    <h1 className="text-xl font-semibold">
+    <h1 className="text-lg font-semibold md:text-xl">
       {router.pathname === "/dashboard" && "Club Dashboard"}
       {router.pathname === "/dashboard/manage" && "Mange Clubs"}
       {router.pathname === "/dashboard/activity" && "Notifications"}
@@ -44,7 +48,7 @@ const PageMessage = () => {
   const count = 7;
 
   return (
-    <div>
+    <div className="whitespace-nowrap">
       {router.pathname === "/dashboard" && `Welcome back, ${name}`}
       {router.pathname === "/dashboard/manage" &&
         `You have ${count} active drafts`}
@@ -59,11 +63,13 @@ const PageButton = () => {
 
   return router.pathname === "/dashboard/manage/club/new" ? (
     <Link href="/poo">
-      <a className="rounded-lg bg-gray-200 px-6 py-1 text-black">Save Draft</a>
+      <a className="whitespace-nowrap rounded-lg bg-gray-200 px-3 py-1 text-black md:px-6">
+        Save Draft
+      </a>
     </Link>
   ) : (
     <Link href="/dashboard/manage/club/new">
-      <a className="rounded-md bg-gradient-to-tl from-cc to-[#3771FA] px-6 py-1 text-white transition duration-200 ease-in-out hover:scale-105 hover:bg-gradient-to-br">
+      <a className="whitespace-nowrap rounded-md bg-gradient-to-tl from-cc to-[#3771FA] px-3 py-1 text-white transition duration-200 ease-in-out hover:scale-105 hover:bg-gradient-to-br md:px-6">
         New Club
       </a>
     </Link>

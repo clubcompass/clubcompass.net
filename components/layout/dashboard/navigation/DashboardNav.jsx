@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useBreakpoints } from "../../../../hooks";
 import {
   DashboardNavLogo as Logo,
   DashboardNavItems as Items,

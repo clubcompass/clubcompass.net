@@ -9,8 +9,144 @@ import {
   BsExclamationCircle,
 } from "react-icons/bs";
 import { Loading } from "../../../general/Loading";
+import { CustomTitle } from "../../../general/CustomTitle";
 import { useBreakpoints } from "../../../../hooks";
 import { useAuthContext } from "../../../../context";
+import {
+  DashboardPendingInvite as PendingInvite,
+  DashboardOutgoingInvite as OutgoingInvite,
+} from "./components";
+
+const { incoming, outgoing } = {
+  incoming: {
+    pending: [
+      {
+        id: "cl1fuv2u50112o11oe4na41sb",
+        club: {
+          id: "cl172n8t40329usxmhsppfjqz",
+          name: "All Girls STEM Society",
+          slug: "all-girls-stem-society",
+          description:
+            "To inspire young girls to persue careers in the STEM field",
+          status: "DRAFT",
+        },
+        roles: [{ name: "president" }],
+
+        type: "INCOMING",
+        status: "PENDING",
+      },
+      {
+        id: "cl1fv3dp70204o11om00zwqu6",
+        club: {
+          id: "cl172n8t40329usxmhsppfjqz",
+          name: "All Men STEM Society",
+          slug: "all-girls-stem-society",
+          description:
+            "To inspire young girls JFDSKAJF DSKLJFSAD LKJFSDA LKFJSALKF JSDALKF JDSALF JDSALFJ DSALKFJSADLJF ",
+          status: "APPROVED",
+        },
+        roles: [{ name: "secretary" }],
+        type: "INCOMING",
+        status: "PENDING",
+      },
+      {
+        id: "cl1fv3eod0228o11o3m1ul0g6",
+        club: {
+          id: "cl172n8t40329usxmhsppfjqz",
+          name: "All Boys STEM Society",
+          slug: "all-girls-stem-society",
+          description:
+            "To inspire young girls to persue careers in the STEM field",
+          status: "APPROVED",
+        },
+        roles: [],
+        type: "INCOMING",
+        status: "PENDING",
+      },
+      {
+        id: "cl1fv3h8x0254o11otwvrfrcy",
+        club: {
+          id: "cl172n8t40329usxmhsppfjqz",
+          name: "All Virgins STEM Society",
+          slug: "all-girls-stem-society",
+          description:
+            "To inspire young girls to persue careers in the STEM field",
+          status: "APPROVED",
+        },
+        roles: [{ name: "vice president" }, { name: "treasurer" }],
+        type: "INCOMING",
+        status: "PENDING",
+      },
+      {
+        id: "cl1fv3hwx0280o11oxxdfpcg4",
+        club: {
+          id: "cl172n8t40329usxmhsppfjqz",
+          name: "All Girls STEM Society",
+          slug: "all-girls-stem-society",
+          description:
+            "To inspire young girls to persue careers in the STEM field",
+          status: "APPROVED",
+        },
+        roles: [],
+        type: "INCOMING",
+        status: "PENDING",
+      },
+    ],
+    accepted: [],
+    declined: [],
+  },
+  outgoing: {
+    pending: [
+      {
+        id: "cl172n93i5007usxmstxjbveb",
+        club: {
+          id: "cl172n93i4991usxm9cu2t8x5",
+          name: "High Schoolers Against Cancer",
+          slug: "high-schoolers-against-cancer",
+          description:
+            "Dedicated to fighting cancer, volunteering for the American Cancer Society, and improving high school communities by supporting programs at the American Cancer Society",
+          status: "APPROVED",
+        },
+        roles: [],
+        createdAt: "1648938887",
+        type: "OUTGOING",
+        status: "PENDING",
+      },
+      {
+        id: "cl172n9bp8350usxmosmmzeww",
+        club: {
+          id: "cl172n9bo8335usxmvgvvao4o",
+          name: "The Shoecyclist",
+          slug: "the-shoecyclist",
+          description:
+            "To collect used shoes and donate them to the homeless shelters in our community",
+          status: "APPROVED",
+        },
+        roles: [],
+        createdAt: "1648938887",
+        type: "OUTGOING",
+        status: "PENDING",
+      },
+      {
+        id: "cl172n9bp8349usxm4ewqvx2c",
+        club: {
+          id: "cl172n9bo8335usxmvgvvao4o",
+          name: "The Shoecyclist",
+          slug: "the-shoecyclist",
+          description:
+            "To collect used shoes and donate them to the homeless shelters in our community",
+          status: "APPROVED",
+        },
+        roles: [],
+        createdAt: "1648938887",
+        type: "OUTGOING",
+        status: "PENDING",
+      },
+    ],
+    accepted: [],
+    declined: [],
+  },
+};
 
 export const DashboardActivityInvites = ({
   refetch,
@@ -19,49 +155,33 @@ export const DashboardActivityInvites = ({
   declined,
 }) => {
   return (
-    <div className="flex flex-col gap-4">
-      <div>
-        {!pending?.length && (
-          <div className="align-center mt-[20vh] flex flex-col items-center gap-4">
-            <div className="flex flex-col items-center gap-2 text-center">
-              <div>
-                <BsExclamationCircle className="text-cc" size="65px" />
-              </div>
-              <p className="text-2xl font-bold">
-                You dont have any invites yet!
-              </p>
-              <p className="text-lg">Your invites will appear here.</p>
-            </div>
-          </div>
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-4">
+        {!pending?.length && <NoInvites />}
+        {incoming.length !== 0 && (
+          <CustomTitle
+            title="Pending"
+            subtitle="You can accept or decline your pending invites."
+          />
         )}
-        {pending?.length !== 0 && (
-          <h3 className="mb-1 tracking-wider text-[#9B9B9B]">Pending</h3>
-        )}
-        <div className="flex flex-col gap-3">
-          {pending?.map((invite, i) => (
-            <Invite key={i} {...invite} refetch={refetch} />
+        <CardsWrapper>
+          {incoming.pending.map((invite, i) => (
+            <PendingInvite key={i} invite={invite} refetch={refetch} />
           ))}
-        </div>
+        </CardsWrapper>
       </div>
-      <div>
-        {accepted?.length !== 0 && (
-          <h3 className="mb-1 tracking-wider text-[#9B9B9B]">Accepted</h3>
+      <div className="flex flex-col gap-4">
+        {outgoing?.length !== 0 && (
+          <CustomTitle
+            title="Outgoing"
+            subtitle="Track the status of all your outgoing invites."
+          />
         )}
-        <div className="flex flex-col gap-3">
-          {accepted?.map((invite, i) => (
-            <Invite key={i} {...invite} />
+        <CardsWrapper>
+          {outgoing?.pending.map((invite, i) => (
+            <OutgoingInvite key={i} invite={invite} />
           ))}
-        </div>
-      </div>
-      <div>
-        {declined?.length !== 0 && (
-          <h3 className="mb-1 text-[#9B9B9B]">Declined</h3>
-        )}
-        <div className="flex flex-col gap-3 tracking-wider">
-          {declined?.map((invite, i) => (
-            <Invite key={i} {...invite} />
-          ))}
-        </div>
+        </CardsWrapper>
       </div>
     </div>
   );
@@ -183,6 +303,28 @@ const Invite = ({ id, userId, clubId, status, club, refetch }) => {
       {status === "PENDING" && <ActionButtons />}
       {status === "ACCEPTED" && <Status status={status} />}
       {status === "DECLINED" && <Status status={status} />}
+    </div>
+  );
+};
+
+const NoInvites = () => {
+  return (
+    <div className="align-center mt-[20vh] flex flex-col items-center gap-4">
+      <div className="flex flex-col items-center gap-2 text-center">
+        <div>
+          <BsExclamationCircle className="text-cc" size="65px" />
+        </div>
+        <p className="text-2xl font-bold">You dont have any invites yet!</p>
+        <p className="text-lg">Your invites will appear here.</p>
+      </div>
+    </div>
+  );
+};
+
+const CardsWrapper = ({ children }) => {
+  return (
+    <div className="flex flex-col justify-items-center gap-6 md:grid md:grid-cols-dashboardCards">
+      {children}
     </div>
   );
 };
