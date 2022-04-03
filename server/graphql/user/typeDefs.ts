@@ -62,7 +62,7 @@ export default gql`
     name: String!
     slug: String!
     tasks: [DraftTask!]!
-    uncompleted: Int!
+    completed: Int!
     total: Int!
   }
 
