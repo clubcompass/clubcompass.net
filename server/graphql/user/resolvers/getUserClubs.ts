@@ -69,27 +69,43 @@ export const getUserClubs = async (
   });
 
   const formattedDrafts = drafts.map((draft) => {
-    let todo = [];
+    let tasks = [];
 
-    if (!draft.description) todo.push("Provide a description");
-    if (!draft.email) todo.push("Provide an email");
-    if (!draft.meetingDate) todo.push("Choose a meeting date");
-    if (!draft.location) todo.push("Pick a location");
-    if (!draft.tags) todo.push("Choose club tags");
-    if (!draft.teacher) todo.push("Invite an advisor");
+    draft.description
+      ? tasks.push({ message: "Provide a description", completed: true })
+      : tasks.push({ message: "Provide a description", completed: false });
+    draft.email
+      ? tasks.push({ message: "Provide an email", completed: true })
+      : tasks.push({ message: "Provide an email", completed: false });
+    draft.meetingDate
+      ? tasks.push({ message: "Choose a meeting date", completed: true })
+      : tasks.push({ message: "Choose a meeting date", completed: false });
+    draft.location
+      ? tasks.push({ message: "Pick a location", completed: true })
+      : tasks.push({ message: "Pick a location", completed: false });
+    draft.tags
+      ? tasks.push({ message: "Choose club tags", completed: true })
+      : tasks.push({ message: "Choose club tags", completed: false });
+    draft.teacher
+      ? tasks.push({ message: "Invite an advisor", completed: true })
+      : tasks.push({ message: "Invite an advisor", completed: false });
     draft.roles.map((role) => {
-      if (role.users.length === 0) todo.push(`Invite a ${role.name}`);
+      role.users.length === 0
+        ? tasks.push({ message: `Invite a ${role.name}`, completed: true })
+        : tasks.push({ message: `Invite a ${role.name}`, completed: false });
     });
 
     return {
       id: draft.id,
       name: draft.name,
       slug: draft.slug,
-      todos: todo,
+      tasks: tasks,
+      uncompleted: tasks.filter((task) => !task.completed).length,
+      total: tasks.length,
     };
   });
 
-  const clubs = user.clubs.filter((club) => {
+  const sortedClubs = user.clubs.filter((club) => {
     if (
       !(
         club.roles.some((role) => role.name === "president") &&
@@ -99,6 +115,12 @@ export const getUserClubs = async (
       return club;
     }
   });
+
+  const clubs = sortedClubs.map((club) => ({
+    ...club,
+    president: false,
+    manage: false,
+  }));
 
   clubs.map((club) => {
     const roles = club.roles.filter((role) => {
@@ -112,6 +134,8 @@ export const getUserClubs = async (
       club.roles.some((role) => role.name === "president") &&
       club.status !== "DRAFT"
     ) {
+      club.president = true;
+      club.manage = true;
       return club;
     }
   });
@@ -121,40 +145,41 @@ export const getUserClubs = async (
       user.canEdit.some((canEdit) => canEdit.id === club.id) &&
       !club.roles.some((role) => role.name === "president")
     ) {
+      club.president = false;
+      club.manage = true;
       return club;
     }
   });
 
   const cantEdit = clubs.filter((club) => {
     if (!user.canEdit.some((canEdit) => canEdit.id === club.id)) {
+      club.president = false;
+      club.manage = false;
       return club;
     }
   });
 
-  const leadershipClubs = {
-    presidentOf: presidentOf,
-    editorOf: editorOf,
-    cantEdit: cantEdit,
-  };
+  // const leadershipClubs = {
+  //   presidentOf: presidentOf,
+  //   editorOf: editorOf,
+  //   cantEdit: cantEdit,
+  // };
+
+  const leadershipClubs = [...presidentOf, ...editorOf, ...cantEdit];
 
   const nonLeadershipClubs = clubs.filter((club) => {
-    if (
-      ![...presidentOf, ...editorOf, ...cantEdit].includes(club) &&
-      !drafts.includes(club)
-    ) {
+    if (!leadershipClubs.includes(club) && !drafts.includes(club)) {
       return club;
     }
   });
 
-  [...presidentOf, ...editorOf, ...cantEdit, ...nonLeadershipClubs].map(
-    (club) => {
-      delete club["description"];
-      delete club["email"];
-      delete club["teacher"];
-      delete club["canEdit"];
-      delete club["tags"];
-    }
-  );
+  [...leadershipClubs, ...nonLeadershipClubs].map((club) => {
+    delete club["description"];
+    delete club["email"];
+    delete club["teacher"];
+    delete club["canEdit"];
+    delete club["tags"];
+  });
 
   // const formattedClubs = [...leadershipClubs, ...nonLeadershipClubs];
 

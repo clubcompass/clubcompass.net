@@ -23,7 +23,7 @@ export const GET_USER = gql`
 `;
 
 export const GET_USER_CLUBS = gql`
-  query GetUserClubs {
+  query Clubs {
     getUserClubs {
       leaderOf {
         presidentOf {
@@ -71,7 +71,12 @@ export const GET_USER_CLUBS = gql`
         id
         name
         slug
-        todos
+        tasks {
+          message
+          completed
+        }
+        uncompleted
+        total
       }
     }
   }
@@ -173,6 +178,19 @@ export const GET_USERS = gql`
         name # fullname?
         type
       }
+    }
+  }
+`;
+
+export const GET_ADVISOR_CLUBS = gql`
+  query {
+    getAdvisorClubs {
+      id
+      slug
+      name
+      status
+      location
+      meetingDate
     }
   }
 `;

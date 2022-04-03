@@ -47,6 +47,21 @@ export const leaveClub = async (
     })
     .roles();
 
+  const clubRoles = roles.filter((role) => {
+    if (role.clubId === clubId) {
+      return role;
+    }
+  });
+
+  clubRoles.map((role) => {
+    if (role.name === "president") {
+      throw new ApolloError(
+        "You are the president of this club, you cannot leave it",
+        "UNAUTHORIZED_ACCESS"
+      );
+    }
+  });
+
   const newRoles = roles
     .filter((role) => role.clubId !== clubId)
     .map((role) => ({

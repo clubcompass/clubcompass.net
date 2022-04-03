@@ -28,14 +28,15 @@ export default gql`
     name: String!
   }
 
-  type leaderOfPayload {
-    presidentOf: [UserClubPayload!]!
-    editorOf: [UserClubPayload!]!
-    cantEdit: [UserClubPayload!]!
-  }
+  # type leaderOfPayload {
+  #   presidentOf: [UserClubPayload!]!
+  #   editorOf: [UserClubPayload!]!
+  #   cantEdit: [UserClubPayload!]!
+  # }
 
   type GetUserClubsPayload {
-    leaderOf: leaderOfPayload!
+    # leaderOf: leaderOfPayload!
+    leaderOf: [UserClubPayload!]!
     memberOf: [UserClubPayload!]!
     drafts: [UserDraftPayload!]!
   }
@@ -52,14 +53,22 @@ export default gql`
     location: String!
     status: ClubStatus!
     roles: [RoleName!]!
-    editor: Boolean!
+    president: Boolean!
+    manage: Boolean!
   }
 
   type UserDraftPayload {
     id: ID!
     name: String!
     slug: String!
-    todos: [String!]!
+    tasks: [DraftTask!]!
+    uncompleted: Int!
+    total: Int!
+  }
+
+  type DraftTask {
+    message: String!
+    completed: Boolean!
   }
 
   ##### END OF GET USER CLUBS #####
@@ -204,6 +213,19 @@ export default gql`
 
   ##### END OF GET USER DRAFTS #####
 
+  ##### GET ADVISOR CLUBS #####
+
+  type GetAdvisorClubPayload {
+    id: ID!
+    slug: String!
+    name: String!
+    status: ClubStatus!
+    location: String!
+    meetingDate: String!
+  }
+
+  ##### END OF GET ADVISOR CLUBS #####
+
   type User {
     id: ID!
     ccid: String!
@@ -253,6 +275,7 @@ export default gql`
     validateTeacher(ccid: String!): ValidateTeacherPayload!
     getUser(identifier: GetUserIdentifierArgs!, type: UserType): GetUserPayload!
     getUserDrafts: [GetUserDraftsPayload!]!
+    getAdvisorClubs: [GetAdvisorClubPayload!]!
   }
 
   type Mutation {
