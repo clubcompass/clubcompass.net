@@ -28,6 +28,40 @@ export default gql`
     name: String!
   }
 
+  type leaderOfPayload {
+    presidentOf: [UserClubPayload!]!
+    editorOf: [UserClubPayload!]!
+    cantEdit: [UserClubPayload!]!
+  }
+
+  type GetUserClubsPayload {
+    leaderOf: leaderOfPayload!
+    memberOf: [UserClubPayload!]!
+    drafts: [UserDraftPayload!]!
+  }
+
+  type TagName {
+    name: String!
+  }
+
+  type UserClubPayload {
+    id: ID!
+    slug: String!
+    name: String!
+    meetingDate: String!
+    location: String!
+    status: ClubStatus!
+    roles: [RoleName!]!
+    editor: Boolean!
+  }
+
+  type UserDraftPayload {
+    id: ID!
+    name: String!
+    slug: String!
+    todos: [String!]!
+  }
+
   ##### END OF GET USER CLUBS #####
 
   ##### DELETE USER #####
@@ -212,7 +246,8 @@ export default gql`
 
   type Query {
     getUsers(active: Boolean): [GetUsersPayload!]!
-    getUserClubs: [GetUserClubPayload!]!
+    # getUserClubs: [GetUserClubPayload!]!
+    getUserClubs: GetUserClubsPayload!
     getUserLeadershipClubs: GetUserLeadershipClubsPayload!
     validateStudent(ccid: String!): ValidateStudentPayload!
     validateTeacher(ccid: String!): ValidateTeacherPayload!

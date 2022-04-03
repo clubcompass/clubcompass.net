@@ -25,15 +25,54 @@ export const GET_USER = gql`
 export const GET_USER_CLUBS = gql`
   query GetUserClubs {
     getUserClubs {
-      id
-      slug
-      name
-      roles {
-        name
+      leaderOf {
+        presidentOf {
+          id
+          slug
+          name
+          location
+          status
+          roles {
+            name
+          }
+        }
+        editorOf {
+          id
+          slug
+          name
+          location
+          status
+          roles {
+            name
+          }
+        }
+        cantEdit {
+          id
+          slug
+          name
+          location
+          status
+          roles {
+            name
+          }
+        }
       }
-      status
-      location
-      meetingDate
+      memberOf {
+        id
+        slug
+        name
+        location
+        status
+        roles {
+          name
+        }
+      }
+      drafts {
+        id
+        name
+        slug
+        todos
+      }
     }
   }
 `;
