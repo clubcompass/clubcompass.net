@@ -2,21 +2,18 @@ import { Club, User } from "@prisma/client";
 import { ApolloError } from "apollo-server-micro";
 import { Context } from "../../ctx";
 
-type RoleInput = {
-  id: string;
-};
-
-export type IssueInviteArgs = {
+export type IssueTeacherInviteArgs = {
   clubId: Club["id"];
   recipientCCID: User["ccid"];
-  inviteRoles: RoleInput[];
 };
 
-export type IssueInvitePayload = Awaited<ReturnType<typeof issueInvite>>;
+export type IssueTeacherInvitePayload = Awaited<
+  ReturnType<typeof issueTeacherInvite>
+>;
 
-export const issueInvite = async (
+export const issueTeacherInvite = async (
   _parent: any,
-  { clubId, recipientCCID, inviteRoles }: IssueInviteArgs,
+  { clubId, recipientCCID }: IssueTeacherInviteArgs,
   { prisma, auth }: Context
 ): Promise<typeof invite> => {
   const club = await prisma.club.findUnique({
@@ -49,6 +46,8 @@ export const issueInvite = async (
       },
     },
   });
+
+  console.log("club", club);
 
   if (!club)
     throw new ApolloError("Club was not found", "RESOURCE_NOT_FOUND", {
@@ -115,8 +114,8 @@ export const issueInvite = async (
       recipientCCID,
     });
 
-  if (user.type !== "STUDENT")
-    throw new ApolloError("User is not a student", "UNAUTHORIZED_ACTION", {
+  if (user.type !== "TEACHER")
+    throw new ApolloError("User is not a teacher", "UNAUTHORIZED_ACTION", {
       recipientCCID,
     });
 
@@ -131,9 +130,6 @@ export const issueInvite = async (
         connect: {
           ccid: recipientCCID,
         },
-      },
-      roles: {
-        connect: inviteRoles,
       },
       status: "PENDING",
     },

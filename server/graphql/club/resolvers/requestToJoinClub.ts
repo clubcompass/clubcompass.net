@@ -26,6 +26,14 @@ export const requestToJoinClub = async (
           id: true,
         },
       },
+      invites: {
+        where: {
+          userId: student.id,
+        },
+        select: {
+          id: true,
+        },
+      },
     },
   });
 
@@ -34,6 +42,12 @@ export const requestToJoinClub = async (
   if (club.availability !== "INVITE_ONLY") {
     throw new ApolloError("Club is not invite only", "UNAUTHORIZED_ACTION");
   }
+
+  if (club.invites.length)
+    throw new ApolloError(
+      "You have already requested to join this club",
+      "UNAUTHORIZED_ACTION"
+    );
 
   const memberIds = club.members.map((member) => member.id);
   if (memberIds.includes(student.id)) {

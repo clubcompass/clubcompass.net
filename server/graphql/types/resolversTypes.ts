@@ -26,16 +26,22 @@ import type {
   GetUserLeadershipClubsPayload,
   DeleteUserArgs,
   DeleteUserPayload,
-  ValidateUserArgs,
-  ValidateUserPayload,
+  ValidateStudentArgs,
+  ValidateStudentPayload,
   ApproveUserArgs,
   ApproveUserPayload,
   GetUsersArgs,
   GetUsersPayload,
-  batchDeleteUserArgs,
-  batchDeleteUserPayload,
+  BatchDeleteUsersArgs,
+  BatchDeleteUsersPayload,
+  BatchApproveUsersArgs,
+  BatchApproveUsersPayload,
   GetUserArgs,
   GetUserPayload,
+  ValidateTeacherArgs,
+  ValidateTeacherPayload,
+  GetUserDraftsArgs,
+  GetUserDraftsPayload,
 } from "../user/types";
 import type {
   CreateClubArgs,
@@ -74,6 +80,10 @@ import type {
   DeclineInvitePayload,
   IssueInviteArgs,
   IssueInvitePayload,
+  DeleteIncomingInviteArgs,
+  DeleteIncomingInvitePayload,
+  DeleteOutgoingInviteArgs,
+  DeleteOutgoingInvitePayload,
 } from "../invite/types";
 import type {
   GetTagArgs,
@@ -83,10 +93,15 @@ import type {
 } from "../tag/types";
 
 import { GraphQLResolveInfo } from "graphql";
+import { AddLinkArgs, AddLinkPayload } from "../link/types";
 import {
-  BatchApproveUsersArgs,
-  BatchApproveUsersPayload,
-} from "../user/resolvers/batchApproveUsers";
+  IssueTeacherInviteArgs,
+  IssueTeacherInvitePayload,
+} from "../invite/resolvers/issueTeacherInvite";
+import {
+  AcceptTeacherInviteArgs,
+  AcceptTeacherInvitePayload,
+} from "../invite/resolvers/acceptTeacherInvite";
 
 type Resolver<T extends {}, A extends {}, R extends any> = (
   parent: T,
@@ -139,16 +154,22 @@ export interface UserResolvers {
     GetUserLeadershipClubsArgs,
     GetUserLeadershipClubsPayload
   >;
-  validateUser?: Resolver<{}, ValidateUserArgs, ValidateUserPayload>;
+  validateStudent?: Resolver<{}, ValidateStudentArgs, ValidateStudentPayload>;
+  validateTeacher?: Resolver<{}, ValidateTeacherArgs, ValidateTeacherPayload>;
   approveUser?: Resolver<{}, ApproveUserArgs, ApproveUserPayload>;
   getUsers?: Resolver<{}, GetUsersArgs, GetUsersPayload>;
-  batchDeleteUsers?: Resolver<{}, batchDeleteUserArgs, batchDeleteUserPayload>;
+  batchDeleteUsers?: Resolver<
+    {},
+    BatchDeleteUsersArgs,
+    BatchDeleteUsersPayload
+  >;
   batchApproveUsers?: Resolver<
     {},
     BatchApproveUsersArgs,
     BatchApproveUsersPayload
   >;
   getUser?: Resolver<{}, GetUserArgs, GetUserPayload>;
+  getUserDrafts?: Resolver<{}, GetUserDraftsArgs, GetUserDraftsPayload>;
 }
 
 export interface ClubResolvers {
@@ -194,12 +215,37 @@ export interface InviteResolvers {
   issueInvite?: Resolver<{}, IssueInviteArgs, IssueInvitePayload>;
   acceptInvite?: Resolver<{}, AcceptInviteArgs, AcceptInvitePayload>;
   declineInvite?: Resolver<{}, DeclineInviteArgs, DeclineInvitePayload>;
+  issueTeacherInvite?: Resolver<
+    {},
+    IssueTeacherInviteArgs,
+    IssueTeacherInvitePayload
+  >;
+  acceptTeacherInvite?: Resolver<
+    {},
+    AcceptTeacherInviteArgs,
+    AcceptTeacherInvitePayload
+  >;
+  deleteIncomingInvite?: Resolver<
+    {},
+    DeleteIncomingInviteArgs,
+    DeleteIncomingInvitePayload
+  >;
+  deleteOutgoingInvite?: Resolver<
+    {},
+    DeleteOutgoingInviteArgs,
+    DeleteOutgoingInvitePayload
+  >;
 }
 
 export interface TagResolvers {
   [key: string]: Resolver<any, any, any>;
   getTags?: Resolver<{}, GetTagArgs, GetTagsPayload>;
   createTags?: Resolver<{}, CreateTagsArgs, CreateTagsPayload>;
+}
+
+export interface LinkResolvers {
+  [key: string]: Resolver<any, any, any>;
+  addLink?: Resolver<{}, AddLinkArgs, AddLinkPayload>;
 }
 
 export interface Query {
@@ -212,7 +258,7 @@ export interface Query {
   //user
   getUserClubs?: UserResolvers["getUserClubs"];
   getUserLeadershipClubs?: UserResolvers["getUserLeadershipClubs"];
-  validateUser?: UserResolvers["ValidateUser"];
+  validateStudent?: UserResolvers["ValidateStudent"];
   // club
   getClub?: ClubResolvers["getClub"];
   getClubs?: ClubResolvers["getClubs"];

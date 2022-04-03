@@ -23,18 +23,67 @@ export const GET_USER = gql`
 `;
 
 export const GET_USER_CLUBS = gql`
-  query {
+  query GetUserClubs {
     getUserClubs {
+      leaderOf {
+        presidentOf {
+          id
+          slug
+          name
+          location
+          status
+          roles {
+            name
+          }
+        }
+        editorOf {
+          id
+          slug
+          name
+          location
+          status
+          roles {
+            name
+          }
+        }
+        cantEdit {
+          id
+          slug
+          name
+          location
+          status
+          roles {
+            name
+          }
+        }
+      }
+      memberOf {
+        id
+        slug
+        name
+        location
+        status
+        roles {
+          name
+        }
+      }
+      drafts {
+        id
+        name
+        slug
+        todos
+      }
+    }
+  }
+`;
+
+export const GET_USER_DRAFTS = gql`
+  query GetUserDrafts {
+    getUserDrafts {
       id
       name
       slug
-      description
-      tags {
-        name
-      }
-      _count {
-        members
-      }
+      todos
     }
   }
 `;

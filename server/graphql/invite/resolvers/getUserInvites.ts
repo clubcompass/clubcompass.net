@@ -1,7 +1,5 @@
-import { Invite } from "@prisma/client";
-import { AuthenticationError } from "apollo-server-micro";
+import { ApolloError } from "apollo-server-micro";
 import { Context } from "../../ctx";
-import { getAuthenticatedUser } from "./../../../utils/auth";
 
 export type GetUserInvitesArgs = {};
 
@@ -10,36 +8,88 @@ export type GetUserInvitesPayload = Awaited<ReturnType<typeof getUserInvites>>;
 export const getUserInvites = async (
   _parent: any,
   _args: GetUserInvitesArgs,
-  { prisma, auth: token }: Context
+  { prisma, auth }: Context
 ): Promise<typeof invites> => {
-  const userInvites = await prisma.invite.findMany({
+  const user = await prisma.user.findUnique({
     where: {
-      user: {
-        id: token.id,
-      },
+      id: auth.id,
     },
-    include: {
-      club: true,
+    select: {
+      invites: {
+        select: {
+          id: true,
+          club: {
+            select: {
+              id: true,
+              name: true,
+              slug: true,
+              description: true,
+              status: true,
+            },
+          },
+          roles: {
+            select: {
+              name: true,
+            },
+          },
+          type: true,
+          status: true,
+        },
+      },
     },
   });
 
-  // userInvites has 3 possible statuses (pending, accepted, rejected), separate them into their own objects
+  // console.log(user);
 
-  const pendingInvites = userInvites.filter(
-    ({ status }: Invite) => status === "PENDING"
-  );
-  const acceptedInvites = userInvites.filter(
-    ({ status }: Invite) => status === "ACCEPTED"
-  );
-  const declinedInvites = userInvites.filter(
-    ({ status }: Invite) => status === "DECLINED"
-  );
+  if (!user)
+    throw new ApolloError("User not found", "RESOURCE_NOT_FOUND", {
+      id: auth.id,
+    });
 
-  const invites = {
-    pendingInvites,
-    acceptedInvites,
-    declinedInvites,
+  let invites = {
+    incoming: {
+      pending: [],
+      accepted: [],
+      declined: [],
+    },
+    outgoing: {
+      pending: [],
+      accepted: [],
+      declined: [],
+    },
   };
+
+  invites.incoming.pending = user.invites.filter((invite) => {
+    if (invite.status === "PENDING" && invite.type === "INCOMING")
+      return invite;
+  });
+
+  invites.incoming.accepted = user.invites.filter((invite) => {
+    if (invite.status === "ACCEPTED" && invite.type === "INCOMING")
+      return invite;
+  });
+
+  invites.incoming.declined = user.invites.filter((invite) => {
+    if (invite.status === "DECLINED" && invite.type === "INCOMING")
+      return invite;
+  });
+
+  invites.outgoing.pending = user.invites.filter((invite) => {
+    if (invite.status === "PENDING" && invite.type === "OUTGOING")
+      return invite;
+  });
+
+  invites.outgoing.accepted = user.invites.filter((invite) => {
+    if (invite.status === "ACCEPTED" && invite.type === "OUTGOING")
+      return invite;
+  });
+
+  invites.outgoing.declined = user.invites.filter((invite) => {
+    if (invite.status === "DECLINED" && invite.type === "OUTGOING")
+      return invite;
+  });
+
+  console.log("invites", invites);
 
   return invites;
 };

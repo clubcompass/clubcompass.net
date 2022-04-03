@@ -2,16 +2,18 @@ import { Invite, Club } from "@prisma/client";
 import { ApolloError } from "apollo-server-micro";
 import { Context } from "../../ctx";
 
-export type AcceptInviteArgs = {
+export type AcceptTeacherInviteArgs = {
   inviteId: Invite["id"];
   clubId: Club["id"];
 };
 
-export type AcceptInvitePayload = Awaited<ReturnType<typeof acceptInvite>>;
+export type AcceptTeacherInvitePayload = Awaited<
+  ReturnType<typeof acceptTeacherInvite>
+>;
 
-export const acceptInvite = async (
+export const acceptTeacherInvite = async (
   _parent: any,
-  { inviteId, clubId }: AcceptInviteArgs,
+  { inviteId, clubId }: AcceptTeacherInviteArgs,
   { prisma, auth: token }: Context
 ): Promise<typeof user> => {
   const invite = await prisma.invite.findUnique({
@@ -48,10 +50,7 @@ export const acceptInvite = async (
       id: invite.userId,
     },
     data: {
-      roles: {
-        connect: invite.roles.map((role) => ({ id: role.id })),
-      },
-      clubs: {
+      advisor: {
         connect: {
           id: clubId,
         },

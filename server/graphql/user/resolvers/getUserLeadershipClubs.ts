@@ -1,6 +1,5 @@
-import { AuthenticationError } from "apollo-server-micro";
+import { ApolloError } from "apollo-server-micro";
 import { Context } from "../../ctx";
-import { getAuthenticatedUser } from "./../../../utils/auth";
 
 export type GetUserLeadershipClubsArgs = {};
 
@@ -15,44 +14,22 @@ export const getUserLeadershipClubs = async (
 ): Promise<typeof clubs> => {
   const user = await prisma.user.findUnique({
     where: {
-      id: token.id,
-      // id: "cl0yydiss0048c7xmcrvj2x92",
+      id: auth.id,
     },
-    include: {
+    select: {
       clubs: {
-        where: {
-          approval: true,
-        },
         select: {
           id: true,
-          name: true,
           slug: true,
-          description: true,
-          availability: true,
-          tags: {
+          name: true,
+          roles: {
             select: {
               name: true,
-            },
-          },
-          _count: {
-            select: {
-              members: true,
-            },
-          },
-          roles: {
-            where: {
               users: {
-                every: {
-                  id: {
-                    equals: token.id,
-                    // equals: "cl0yydiss0048c7xmcrvj2x92",
-                  },
+                select: {
+                  id: true,
                 },
               },
-            },
-            select: {
-              name: true,
-              type: true,
             },
           },
         },
@@ -60,61 +37,42 @@ export const getUserLeadershipClubs = async (
       canEdit: {
         select: {
           id: true,
-          name: true,
-          slug: true,
-          description: true,
-          availability: true,
-          tags: {
-            select: {
-              name: true,
-            },
-          },
-          _count: {
-            select: {
-              members: true,
-            },
-          },
         },
       },
     },
   });
 
-  const isPresidentOf = user.clubs.filter((club) =>
-    club.roles.every((role) => role.name === "president")
-  );
+  if (!user)
+    throw new ApolloError("User not found", "RESOURCE_NOT_FOUND", {
+      id: auth.id,
+    });
 
-  const hasLeadershipIn = user.clubs.filter((club) =>
-    club.roles.every(
-      (role) => role.type === "LEADER" && !isPresidentOf.includes(club)
+  user.clubs.map((club) => {
+    const roles = club.roles.filter((role) => {
+      if (role.users.some((user) => user.id === auth.id)) return role;
+    });
+    club.roles = roles;
+  });
+
+  const presidentOf = user.clubs.filter((club) => {
+    if (club.roles.some((role) => role.name === "president")) return club;
+  });
+
+  const editorOf = user.clubs.filter((club) => {
+    if (user.canEdit.some((canEdit) => canEdit.id === club.id)) return club;
+  });
+
+  const rest = user.clubs.filter((club) => {
+    if (
+      !(
+        club.roles.some((role) => role.name === "president") ||
+        user.canEdit.some((canEdit) => canEdit.id === club.id)
+      )
     )
-  );
+      return club;
+  });
 
-  const hasEditorIn = user.canEdit;
-
-  // .clubs({ include: { roles: true, editors: true } });
-
-  // const isPresidentOf = userClubs.filter((club) =>
-  //   club.roles.some((role) => role.name === "president")
-  // );
-  // const hasLeadershipIn = userClubs.filter((club) =>
-  //   club.roles.some((role) => role.type === "LEADERSHIP")
-  // );
-
-  // find roles where type is leadership but not president
-  // const hasLeadershipIn = userClubs.filter((club) =>
-  //   club.roles.some(
-  //     (role) => role.type === "LEADER" && !isPresidentOf.includes(club)
-  //   )
-  // );
-  // const hasEditorIn = userClubs.filter((club) =>
-  //   club.roles.some((role) => role.name === "editor")
-  // );
-
-  const clubs = {
-    isPresidentOf,
-    hasLeadershipIn,
-    hasEditorIn,
-  };
+  const clubs = [...presidentOf, ...editorOf, ...rest];
 
   return clubs;
 };

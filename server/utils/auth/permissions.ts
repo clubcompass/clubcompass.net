@@ -1,9 +1,20 @@
-import { shield, rule, allow, and, or } from "graphql-shield";
-import { AuthenticationError } from "apollo-server-micro";
+import { shield, rule, or } from "graphql-shield";
+import { ApolloError, AuthenticationError } from "apollo-server-micro";
 import { Context } from "../../graphql/ctx";
 
 const isASB = rule({ cache: "contextual" })(
-  async (_parent, _args, { auth }: Context, _info) => {
+  async (parent, args, { auth, prisma }, info) => {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: auth.id,
+      },
+    });
+
+    if (!user)
+      throw new ApolloError("User not found", "RESOURCE_NOT_FOUND", {
+        id: auth.id,
+      });
+
     if (
       auth.type === "ASB" &&
       auth.active === true &&
@@ -20,7 +31,18 @@ const isASB = rule({ cache: "contextual" })(
 );
 
 const isStudent = rule({ cache: "contextual" })(
-  async (_parent, _args, { auth }: Context, _info) => {
+  async (parent, args, { auth, prisma }: Context, info) => {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: auth.id,
+      },
+    });
+
+    if (!user)
+      throw new ApolloError("User not found", "RESOURCE_NOT_FOUND", {
+        id: auth.id,
+      });
+
     if (
       auth.type === "STUDENT" &&
       auth.active === true &&

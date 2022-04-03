@@ -14,7 +14,7 @@ export const declineInvite = async (
   _parent: any,
   { inviteId }: DeclineInviteArgs,
   { prisma, auth: token }: Context
-): Promise<typeof updatedUser> => {
+): Promise<typeof updatedInvite> => {
   const invite = await prisma.invite.findUnique({
     where: {
       id: inviteId,
@@ -44,26 +44,38 @@ export const declineInvite = async (
       { ...invite }
     );
 
-  const updatedUser = await prisma.user.update({
+  // const updatedUser = await prisma.user.update({
+  //   where: {
+  //     id: token.id,
+  //   },
+  //   data: {
+  //     invites: {
+  //       update: {
+  //         where: {
+  //           id: inviteId,
+  //         },
+  //         data: {
+  //           status: "DECLINED",
+  //         },
+  //       },
+  //     },
+  //   },
+  //   include: {
+  //     invites: true,
+  //   },
+  // });
+
+  const updatedInvite = await prisma.invite.update({
     where: {
-      id: token.id,
+      id: inviteId,
     },
     data: {
-      invites: {
-        update: {
-          where: {
-            id: inviteId,
-          },
-          data: {
-            status: "DECLINED",
-          },
-        },
-      },
+      status: "DECLINED",
     },
-    include: {
-      invites: true,
+    select: {
+      id: true,
     },
   });
 
-  return updatedUser;
+  return updatedInvite;
 };

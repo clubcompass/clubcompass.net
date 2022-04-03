@@ -16,11 +16,50 @@ export default gql`
 
   type GetUserClubPayload {
     id: ID!
+    slug: String!
+    name: String!
+    roles: [RoleName!]!
+    status: ClubStatus!
+    location: String!
+    meetingDate: String!
+  }
+
+  type RoleName {
+    name: String!
+  }
+
+  type leaderOfPayload {
+    presidentOf: [UserClubPayload!]!
+    editorOf: [UserClubPayload!]!
+    cantEdit: [UserClubPayload!]!
+  }
+
+  type GetUserClubsPayload {
+    leaderOf: leaderOfPayload!
+    memberOf: [UserClubPayload!]!
+    drafts: [UserDraftPayload!]!
+  }
+
+  type TagName {
+    name: String!
+  }
+
+  type UserClubPayload {
+    id: ID!
+    slug: String!
+    name: String!
+    meetingDate: String!
+    location: String!
+    status: ClubStatus!
+    roles: [RoleName!]!
+    editor: Boolean!
+  }
+
+  type UserDraftPayload {
+    id: ID!
     name: String!
     slug: String!
-    description: String!
-    tags: [ClubPageTag!]
-    _count: ClubMembersCount!
+    todos: [String!]!
   }
 
   ##### END OF GET USER CLUBS #####
@@ -123,6 +162,7 @@ export default gql`
     ccid: String
     email: String
   }
+
   type GetUserPayload {
     id: ID!
     firstname: String!
@@ -132,6 +172,37 @@ export default gql`
   }
 
   ##### END OF GET USER #####
+
+  ##### VALIDATE STUDENT #####
+
+  type ValidateStudentPayload {
+    id: ID!
+    firstname: String!
+    lastname: String!
+  }
+
+  ##### END OF VALIDATE STUDENT #####
+
+  ##### VALIDATE TEACHER #####
+
+  type ValidateTeacherPayload {
+    id: ID!
+    firstname: String!
+    lastname: String!
+  }
+
+  ##### END OF VALIDATE TEACHER #####
+
+  ##### GET USER DRAFTS #####
+
+  type GetUserDraftsPayload {
+    id: ID!
+    name: String!
+    slug: String!
+    todos: [String!]!
+  }
+
+  ##### END OF GET USER DRAFTS #####
 
   type User {
     id: ID!
@@ -175,10 +246,13 @@ export default gql`
 
   type Query {
     getUsers(active: Boolean): [GetUsersPayload!]!
-    getUserClubs: [GetUserClubPayload!]!
+    # getUserClubs: [GetUserClubPayload!]!
+    getUserClubs: GetUserClubsPayload!
     getUserLeadershipClubs: GetUserLeadershipClubsPayload!
-    validateUser(ccid: String!): User!
+    validateStudent(ccid: String!): ValidateStudentPayload!
+    validateTeacher(ccid: String!): ValidateTeacherPayload!
     getUser(identifier: GetUserIdentifierArgs!, type: UserType): GetUserPayload!
+    getUserDrafts: [GetUserDraftsPayload!]!
   }
 
   type Mutation {
