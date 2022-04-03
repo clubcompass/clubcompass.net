@@ -61,11 +61,6 @@ export const getUserClubs = async (
     });
 
   const drafts = user.clubs.filter((club) => {
-    const roles = club.roles.filter((role) => {
-      if (role.users.some((user) => user.id === auth.id)) return role;
-    });
-    club.roles = roles;
-
     if (
       (club.status === "DRAFT" ||
         club.status === "REVIEW" ||
@@ -79,15 +74,7 @@ export const getUserClubs = async (
       )
     )
       return club;
-    }
   });
-
-  // drafts.map((club) => {
-  //   const roles = club.roles.filter((role) => {
-  //     if (role.users.some((user) => user.id === auth.id)) return role;
-  //   });
-  //   club.roles = roles;
-  // });
 
   const formattedDrafts = drafts.map((draft) => {
     let tasks = [];
@@ -170,7 +157,7 @@ export const getUserClubs = async (
   const cantEdit = clubs.filter((club) => {
     if (
       !user.canEdit.some((canEdit) => canEdit.id === club.id) &&
-      club.status !== "DRAFT"
+      club.roles.length !== 0
     ) {
       club.president = false;
       club.manage = false;
