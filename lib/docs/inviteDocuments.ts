@@ -78,6 +78,7 @@ export const GET_USER_INVITES = gql`
           }
           type
           status
+          createdAt
         }
         accepted {
           id
@@ -93,6 +94,7 @@ export const GET_USER_INVITES = gql`
           }
           type
           status
+          createdAt
         }
         declined {
           id
@@ -108,6 +110,7 @@ export const GET_USER_INVITES = gql`
           }
           type
           status
+          createdAt
         }
       }
       outgoing {
@@ -125,6 +128,7 @@ export const GET_USER_INVITES = gql`
           }
           type
           status
+          createdAt
         }
         accepted {
           id
@@ -140,6 +144,7 @@ export const GET_USER_INVITES = gql`
           }
           type
           status
+          createdAt
         }
         declined {
           id
@@ -155,6 +160,7 @@ export const GET_USER_INVITES = gql`
           }
           type
           status
+          createdAt
         }
       }
     }

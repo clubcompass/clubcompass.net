@@ -9,6 +9,7 @@ export default gql`
     roles: [InviteRole!]!
     type: InviteType!
     status: InviteStatus!
+    createdAt: DateTime!
   }
 
   type InviteClub {

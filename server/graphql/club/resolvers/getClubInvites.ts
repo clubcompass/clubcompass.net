@@ -34,6 +34,7 @@ export const getClubInvites = async (
             },
           },
           type: true,
+          createdAt: true,
         },
       },
     },

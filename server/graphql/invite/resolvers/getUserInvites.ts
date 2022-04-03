@@ -34,6 +34,7 @@ export const getUserInvites = async (
           },
           type: true,
           status: true,
+          createdAt: true,
         },
       },
     },
@@ -88,8 +89,6 @@ export const getUserInvites = async (
     if (invite.status === "DECLINED" && invite.type === "OUTGOING")
       return invite;
   });
-
-  console.log("invites", invites);
 
   return invites;
 };

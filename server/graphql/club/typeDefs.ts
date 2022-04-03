@@ -169,6 +169,7 @@ export default gql`
     user: InviteUser!
     roles: [InviteRole!]!
     type: InviteType!
+    createdAt: DateTime!
   }
 
   type InviteRole {
