@@ -6,7 +6,7 @@ import { IoMdPin } from "react-icons/io";
 
 export const IconLabel = ({ children, icon }) => {
   return (
-    <div className="flex items-center gap-2 rounded-md bg-gray-100 px-2 text-black">
+    <div className="flex items-center gap-2 rounded-md bg-gray-100 px-2 capitalize text-black">
       {icon && <Icon icon={icon} />}
       {children}
     </div>

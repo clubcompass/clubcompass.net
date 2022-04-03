@@ -10,6 +10,8 @@ import {
 export const DashboardUserManage = ({ clubs }) => {
   if (!clubs && loadingClubs) return <Loading />;
 
+  console.log(clubs);
+
   return (
     <div className="flex flex-col gap-4">
       <>

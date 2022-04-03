@@ -13,12 +13,12 @@ export const DashboardUserDraftsCard = ({ club }) => {
         <span className="flex items-center gap-1 rounded-md bg-gray-100 px-2">
           <span className="h-[15px] w-[15px] -rotate-90">
             <ProgressCircle
-              completed={club.completed}
+              completed={club.total - club.uncompleted}
               radius={5}
               total={club.total}
             />
           </span>
-          {club.completed} out of {club.total}
+          {club.total - club.uncompleted} out of {club.total}
         </span>
       </div>
       <div className="flex w-full flex-col gap-4 rounded-lg border px-6 py-4">
@@ -26,7 +26,7 @@ export const DashboardUserDraftsCard = ({ club }) => {
           <h4 className="text-xl font-semibold">{club.name}</h4>
         </div>
         <InfoList>
-          {club.todos.slice(0, 5).map(({ message, completed }, i) => (
+          {club.tasks.slice(0, 5).map(({ message, completed }, i) => (
             <li
               key={i}
               style={
@@ -40,9 +40,9 @@ export const DashboardUserDraftsCard = ({ club }) => {
               {message}
             </li>
           ))}
-          {club.completed > 5 && (
+          {club.uncompleted > 5 && (
             <span className="text-sm text-gray-300">
-              +{club.completed - 5} More
+              +{club.uncompleted - 5} More
             </span>
           )}
         </InfoList>

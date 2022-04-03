@@ -5,7 +5,7 @@ import { MdContentCopy } from "react-icons/md";
 import { CustomTitle } from "../../../general/CustomTitle";
 import {
   DashboardUserWrapper as CardsWrapper,
-  DashboardUserDraftsCards,
+  DashboardUserDraftsCard,
 } from "./components";
 
 export const DashboardUserDrafts = ({ clubs }) => {
@@ -17,7 +17,7 @@ export const DashboardUserDrafts = ({ clubs }) => {
       />
       <CardsWrapper>
         {clubs.map((club, i) => (
-          <DashboardUserDraftsCards key={i} club={club} />
+          <DashboardUserDraftsCard key={i} club={club} />
         ))}
       </CardsWrapper>
     </div>

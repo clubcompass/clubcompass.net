@@ -4,8 +4,22 @@ import { StatusTag } from "../../../../general/StatusTag";
 import { IconLabel } from "../../../../general/IconLabel";
 import { ActionModal } from "../../../../general/ActionModal";
 import { FiChevronRight } from "react-icons/fi";
+import { useAuthContext } from "../../../../../context";
 
 export const DashboardUserCard = ({ club }) => {
+  const user = useAuthContext();
+
+  const colors = {
+    PENDING: {
+      bg: "#FFF2E4",
+      fg: "#FF921B",
+    },
+    APPROVED: {
+      bg: "#EDF4FE",
+      fg: "#2575E5",
+    },
+  };
+
   return (
     <div
       key={club.slug}
@@ -15,17 +29,17 @@ export const DashboardUserCard = ({ club }) => {
         <div className="flex flex-col gap-2">
           <InfoContainer>
             Role:{" "}
-            <IconLabel color={"#2575E5"} icon="president">
-              Presidnet
-            </IconLabel>
-            {/* Make with user's role and role color */}
+            {club.roles.length === 0 ? (
+              <IconLabel icon="member">Member</IconLabel>
+            ) : (
+              club.roles.map((name, i) => (
+                <IconLabel icon={name}>{name}</IconLabel>
+              ))
+            )}
           </InfoContainer>
           <InfoContainer>
             Status:{" "}
-            <StatusTag colors={{ bg: "#EDF4FE", fg: "#2575E5" }}>
-              Approved
-            </StatusTag>
-            {/* Make with club's status and color */}
+            <StatusTag colors={colors[club.status]}>{club.status}</StatusTag>
           </InfoContainer>
         </div>
         <div className="flex">
@@ -42,23 +56,20 @@ export const DashboardUserCard = ({ club }) => {
           <InfoContainer>
             Location:{" "}
             <IconLabel color={"#2575E5"} icon="location">
-              A101
-              {/* make with actual location */}
+              {club.location}
             </IconLabel>
           </InfoContainer>
           <InfoContainer>
-            Time: <span className="text-black">Bi-weekly; Mondays</span>
-            {/* make with actual time */}
+            Time: <span className="text-black">{club.meetingDate}</span>
           </InfoContainer>
         </div>
         <div>
           <ActionModal
-            name={name}
-            isMember={isMember}
-            userId={userId}
-            clubId={clubId}
-            slug={slug}
-            availability={availability}
+            name={club.name}
+            isMember={true}
+            userId={user.user.id}
+            clubId={club.id}
+            slug={club.slug}
           />
         </div>
       </div>
