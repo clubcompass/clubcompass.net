@@ -67,7 +67,9 @@ export const getUserClubs = async (
     club.roles = roles;
 
     if (
-      (club.status === "DRAFT" || club.status === "REVIEW") &&
+      (club.status === "DRAFT" ||
+        club.status === "REVIEW" ||
+        club.status === "DECLINED") &&
       club.roles.some(
         (role) =>
           role.name === "president" &&
@@ -114,10 +116,17 @@ export const getUserClubs = async (
         : tasks.push({ message: `Invite a ${role.name}`, completed: true });
     });
 
+    tasks.sort((a, b) => {
+      if (a.completed === b.completed) return 0;
+      if (a.completed === false) return -1;
+      return 1;
+    });
+
     return {
       id: draft.id,
       name: draft.name,
       slug: draft.slug,
+      status: draft.status,
       tasks: tasks,
       completed: tasks.filter((task) => task.completed).length,
       total: tasks.length,

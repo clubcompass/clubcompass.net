@@ -61,6 +61,7 @@ export default gql`
     id: ID!
     name: String!
     slug: String!
+    status: DraftStatus!
     tasks: [DraftTask!]!
     completed: Int!
     total: Int!
@@ -69,6 +70,12 @@ export default gql`
   type DraftTask {
     message: String!
     completed: Boolean!
+  }
+
+  enum DraftStatus {
+    DRAFT
+    DECLINED
+    REVIEW
   }
 
   ##### END OF GET USER CLUBS #####
