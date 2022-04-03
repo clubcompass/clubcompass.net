@@ -22,9 +22,9 @@ const isASB = rule({ cache: "contextual" })(
 const isStudent = rule({ cache: "contextual" })(
   async (_parent, _args, { auth }: Context, _info) => {
     if (
-      auth.type === "STUDENT" &&
-      auth.active === true &&
-      auth.emailVerified === true
+      auth.type === "STUDENT"
+      // auth.active === true &&
+      // auth.emailVerified === true
     )
       return true;
     return new AuthenticationError("Unauthorized", {
@@ -62,7 +62,7 @@ export const permissions = shield(
       declineInvite: isStudent,
       approveUser: isASB,
       batchApproveUsers: isASB,
-      deleteUser: isASB,
+      deleteUser: or(isStudent, isASB),
       batchDeleteUsers: isASB,
       updateUserInterests: isStudent,
     },

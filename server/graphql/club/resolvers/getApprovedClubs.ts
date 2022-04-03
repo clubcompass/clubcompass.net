@@ -11,7 +11,6 @@ export const getApprovedClubs = async (
   _args: GetApprovedClubsArgs,
   { prisma, auth: user }: Context
 ): Promise<typeof clubs & { isMember?: boolean }> => {
-  console.log(user);
   const clubs = await prisma.club.findMany({
     where: {
       approval: {

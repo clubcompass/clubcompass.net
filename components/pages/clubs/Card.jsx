@@ -9,5 +9,5 @@ export const Card = ({ children }) => <>{children}</>;
 
 Card.Container = Container;
 Card.Header = Header;
-Card.Content = Content;
 Card.Footer = Footer;
+Card.Content = Content;

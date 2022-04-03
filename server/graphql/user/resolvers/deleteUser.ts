@@ -14,7 +14,7 @@ export type DeleteUserPayload = Awaited<ReturnType<typeof deleteUser>>;
 export const deleteUser = async (
   _: any,
   { identifier }: DeleteUserArgs,
-  { prisma }: Context
+  { prisma, auth: token }: Context
 ): Promise<typeof user> => {
   const exists = await prisma.user.findUnique({
     where: {
@@ -29,6 +29,12 @@ export const deleteUser = async (
     throw new ApolloError("User was not found", "NO_USER", {
       [Object.keys(identifier)[0]]: identifier,
     });
+
+  // if (token.id !== exists.id)
+  //   throw new ApolloError(
+  //     "You are not authorized to delete this user",
+  //     "UNAUTHORIZED"
+  //   );
 
   const user = await prisma.user.delete({
     // optimize payload (only return id?)

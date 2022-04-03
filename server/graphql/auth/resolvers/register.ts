@@ -6,11 +6,12 @@ import { Context } from "../../ctx";
 import { validate } from "../../../utils/validation";
 import { newUserSchema } from "../../../utils/validation/schemas";
 import { generateToken } from "../../../utils/auth";
+import { sendVerificationEmail } from "./sendVerificationEmail";
 
 export type RegisterData = Pick<
   User,
   "firstname" | "lastname" | "email" | "password" | "studentId"
-> & { interests: Partial<Tag> } & { grade: Partial<Grade> };
+> & { interests: Pick<Tag, "id">[] } & { grade: Partial<Grade> };
 
 export interface RegisterArgs {
   data: RegisterData;
@@ -23,7 +24,7 @@ export const register = async (
   {
     data: { firstname, lastname, email, studentId, password, grade, interests },
   }: RegisterArgs,
-  { prisma, setCookie }: Context
+  { prisma, auth, setCookie, rawToken }: Context
 ): Promise<typeof newUser & { pendingInvites: number; token: string }> => {
   const { valid, errors } = await validate({
     schema: newUserSchema,
@@ -37,6 +38,8 @@ export const register = async (
       interests,
     },
   });
+
+  console.log(interests);
 
   if (!valid) throw new UserInputError("Invalid user input", { errors });
 
@@ -68,9 +71,11 @@ export const register = async (
       studentId,
       password: hashedPassword,
       grade,
-      interests: {
-        connect: interests,
-      },
+      // if interests is empty, it should not be connected
+      // interests: {
+      //   connect: interests,
+      // },
+      // ...(interests.length !== 0 && { interests: { connect: interests } }),
     },
     select: {
       id: true,

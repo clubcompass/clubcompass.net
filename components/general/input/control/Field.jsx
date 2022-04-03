@@ -48,8 +48,10 @@ export const Field = ({
                     touched[field.name] && errors[field.name] && "text-red-500"
                   } text-cc`
                 : `${
-                    touched[field.name] && errors[field.name] && "text-red-500"
-                  } text-gray-500`
+                    touched[field.name] && errors[field.name]
+                      ? "text-red-500"
+                      : "text-gray-500"
+                  }`
               : "text-disabled translate-y-0 capitalize text-[#686868]"
           } pointer-events-none absolute top-[15px] left-[18px] bg-white px-1 font-semibold leading-[0.9] `}
         >

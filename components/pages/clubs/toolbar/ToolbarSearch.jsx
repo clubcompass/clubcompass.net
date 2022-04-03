@@ -74,7 +74,7 @@ export const ToolbarSearch = ({ staticClubs, updateClubs }) => {
             >
               <div className="relative top-16 my-8 inline-flex w-[46rem] origin-top transform flex-col gap-4 divide-y-2 divide-gray-100 overflow-hidden rounded-xl bg-white text-left align-middle shadow-xl transition-all">
                 <Search q={q} set={set} close={close} />
-                <Results results={results} />
+                <Results results={results} q={q} />
               </div>
             </Transition.Child>
           </div>
@@ -112,7 +112,7 @@ const Search = ({ q, set, close }) => {
   );
 };
 
-const Results = ({ results }) => {
+const Results = ({ results, q }) => {
   const router = useRouter();
   const [index, setIndex] = useState(0);
   const current = results[index]?.id;
@@ -128,8 +128,6 @@ const Results = ({ results }) => {
           ? (outer.current.scrollBottom = 0)
           : (outer.current.scrollTop -= 30);
         setIndex(index + 1);
-        // items.current[index]?.scrollIntoView();
-        // scroll();
       }
       if (keyCode === 38 && index > 0) {
         // scroll to item
@@ -137,19 +135,18 @@ const Results = ({ results }) => {
         index === 1
           ? (outer.current.scrollTop = 0)
           : (outer.current.scrollTop -= 20);
-
         setIndex(index - 1);
-
-        // items.current[index]?.scrollIntoView();
-        // scroll();
       }
       if (keyCode === 13) {
         router.push(`/club/${results[index].slug}`);
-        // updateClubs(results[index].id); // programmatically redirect to club page
       }
     },
     [index, results, router]
   );
+
+  useEffect(() => {
+    setIndex(0);
+  }, [q]);
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown, false);
@@ -177,6 +174,7 @@ const Results = ({ results }) => {
       },
     };
     const active = r.id === current;
+
     return (
       <div
         onMouseEnter={() =>
@@ -189,9 +187,16 @@ const Results = ({ results }) => {
         } flex cursor-pointer flex-row items-end justify-between gap-2 rounded-lg px-3 py-2.5 text-black`}
       >
         <div className="flex max-w-lg flex-col gap-1">
-          <span className={`${active && "text-cc"} font-semibold`}>
-            {r.name}
-          </span>
+          <span
+            className={`${
+              active && "text-cc"
+            } text-base font-medium capitalize`}
+            dangerouslySetInnerHTML={{
+              __html: r.name
+                .toLowerCase()
+                .replace(q, `<b class="font-bold">${q}</b>`),
+            }}
+          ></span>
 
           <div className="flex flex-row items-center gap-2">
             <div

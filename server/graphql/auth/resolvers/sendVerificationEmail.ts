@@ -16,9 +16,13 @@ export type SendVerificationEmailPayload = Awaited<
 export const sendVerificationEmail = async (
   _parent: any,
   { email }: SendVerificationEmailArgs,
-  { prisma }: Context
+  { prisma, auth }: Context
 ): Promise<boolean> => {
   const url = process.env.NEXT_PUBLIC_URL as string;
+
+  if (!url) throw new Error("NEXT_PUBLIC_URL is not set");
+  if (auth.email !== email)
+    throw new AuthenticationError("You are not authorized to send this email");
 
   const { valid, errors } = await validate({
     schema: newUserSchema.fields.email,
@@ -29,10 +33,12 @@ export const sendVerificationEmail = async (
 
   const user = await prisma.user.findUnique({
     where: { email },
-    select: { id: true, firstname: true, lastname: true },
+    select: { id: true, firstname: true, lastname: true, emailVerified: true },
   });
 
   if (!user) throw new AuthenticationError("User not found", { email });
+  if (user.emailVerified)
+    throw new AuthenticationError("User already verified");
 
   const transporter = nodemailer.createTransport({
     port: 1025,
@@ -231,8 +237,6 @@ export const sendVerificationEmail = async (
       text: `Your verification code is: random string`,
       html: html,
     });
-    console.log(info);
-    console.log("Message sent: %s", info.messageId);
   } catch (e) {
     console.log(e);
   }

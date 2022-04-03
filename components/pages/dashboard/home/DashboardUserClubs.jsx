@@ -62,6 +62,7 @@ export const DashboardUserClubs = () => {
 };
 
 const EmailNotVerifiedException = ({ email }) => {
+  const { user } = useAuthContext();
   const [initialSent, setInitialSent] = useState(false);
   const [sent, setSent] = useState(false);
   const [cooldown, setCooldown] = useState(0);
@@ -69,6 +70,11 @@ const EmailNotVerifiedException = ({ email }) => {
   const [sendEmailVerification, { loading }] = useLazyQuery(
     SEND_VERIFICATION_EMAIL,
     {
+      context: {
+        headers: {
+          authorization: `Bearer ${user.token}`,
+        },
+      },
       onCompleted: () => {
         setInitialSent(true);
         setSent(true);

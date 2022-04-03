@@ -18,33 +18,33 @@ import {
 } from "../components/pages/register/onboarding/slides";
 
 const Register = () => {
-  const { register } = useAuthContext();
-  const [slide, setSlide] = useState(1);
+  const { user, register } = useAuthContext();
+  const [slide, setSlide] = useState(7);
   const [error, setError] = useState(null);
-  const [data, setData] = useState({
-    firstname: "",
-    lastname: "",
-    email: "",
-    studentId: "",
-    password: "",
-    grade: "",
-    interests: [],
-  });
-
   // const [data, setData] = useState({
-  //   firstname: "Paul",
-  //   lastname: "Bokelman",
-  //   email: "paul.bokelman1@gmail.com",
-  //   studentId: "1850224",
-  //   password: "Password123!",
-  //   grade: "Senior",
-  //   interests: [
-  //     { id: "cl0vxq2hl0000ropcsj6aa77y", name: "volunteering" },
-  //     { id: "cl0vxq2hl0001ropcnyiskhh6", name: "charity" },
-  //     { id: "cl0vxq2hl0002ropc91kqevai", name: "science" },
-  //     { id: "cl0vxq2hl0003ropc393fpmg5", name: "tech" },
-  //   ],
+  //   firstname: "",
+  //   lastname: "",
+  //   email: "",
+  //   studentId: "",
+  //   password: "",
+  //   grade: "Freshman",
+  //   interests: [],
   // });
+
+  const [data, setData] = useState({
+    firstname: "Paul",
+    lastname: "Bokelman",
+    email: "paul.bokelman2@gmail.com",
+    studentId: "1850225",
+    password: "Password123!",
+    grade: "Senior",
+    interests: [
+      { id: "cl0vxq2hl0000ropcsj6aa77y", name: "volunteering" },
+      { id: "cl0vxq2hl0001ropcnyiskhh6", name: "charity" },
+      { id: "cl0vxq2hl0002ropc91kqevai", name: "science" },
+      { id: "cl0vxq2hl0003ropc393fpmg5", name: "tech" },
+    ],
+  });
 
   const handlePagination = {
     next: () => {
@@ -62,7 +62,14 @@ const Register = () => {
     data: { getTags: tags = {} } = {},
     loading: tagsLoading,
     error: tagError,
-  } = useQuery(GET_TAGS);
+  } = useQuery(GET_TAGS, {
+    onComplete: (data) => {
+      console.log(data);
+    },
+    onError: (e) => {
+      console.log(e);
+    },
+  });
 
   const handleConfirmation = async () => {
     const { interests, grade, ...rest } = data;
@@ -71,17 +78,15 @@ const Register = () => {
       grade: grade.toUpperCase(), // could throw error if grade is some how not a string
       ...rest,
     };
-    await register({ variables: { data: { ...user } } }); // move to auth provider
-    handlePagination.next();
-
-    // if (error !== null) {
-    //   return setError(error);
-    // } else {
-    //   await login({
-    //     user: { email: user.email, password: data.password, remember: true },
-    //   });
-    //   handlePagination.next();
-    // }
+    try {
+      const { errors } = await register({ user }); // move to auth provider
+      if (errors) {
+        return console.log(errors);
+      }
+      handlePagination.next();
+    } catch (e) {
+      setError(e);
+    }
   };
 
   const updateData = (values) => {

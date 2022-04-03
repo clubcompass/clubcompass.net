@@ -3,12 +3,13 @@ import Link from "next/link";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useLazyQuery } from "@apollo/client";
+import { useToastContext } from "../../../../../context";
 import { Buttons, Header, Container } from "../components";
 import { OnboardingForm } from "../components/input/OnboardingForm";
 import { CHECK_EMAIL } from "../../../../../lib/docs";
 export const EmailSlide = ({ next, prev, set, data }) => {
+  const { addToast } = useToastContext();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
 
   const [checkEmail] = useLazyQuery(CHECK_EMAIL); // loading and handling
 
@@ -46,10 +47,12 @@ export const EmailSlide = ({ next, prev, set, data }) => {
     ],
   };
 
-  const handleEmailSubmission = async ({ email, setSubmitting }) => {
+  const handleEmailSubmission = async ({
+    email,
+    setSubmitting,
+    setFieldError,
+  }) => {
     setLoading(true);
-    setError(false);
-    console.log(email);
     try {
       await checkEmail({ variables: { email } });
       set({
@@ -57,8 +60,17 @@ export const EmailSlide = ({ next, prev, set, data }) => {
       });
       next();
     } catch (e) {
-      if (e?.graphQLErrors[0]?.extensions?.code === "UNAUTHENTICATED")
-        setError(true);
+      if (e?.graphQLErrors[0]?.extensions?.code === "UNAUTHENTICATED") {
+        setFieldError("email", e.message);
+      } else {
+        addToast({
+          type: "error",
+          title: "Error",
+          message: "Something went wrong, please try again.",
+          duration: 3000,
+        });
+        setFieldError("email", "something went wrong");
+      }
     } finally {
       setLoading(false);
       setSubmitting(false);
@@ -75,13 +87,17 @@ export const EmailSlide = ({ next, prev, set, data }) => {
           verify this email
         </span>
       </div> */}
-      <div className="w-[495px] flex flex-col gap-3">
+      <div className="flex w-[495px] flex-col gap-3">
         <Formik
           initialValues={{ email: data.email }}
-          onSubmit={(values, { setSubmitting }) => {
+          onSubmit={(values, { setSubmitting, setFieldError }) => {
             // check email
             console.log(values.email);
-            handleEmailSubmission({ email: values.email, setSubmitting });
+            handleEmailSubmission({
+              email: values.email,
+              setSubmitting,
+              setFieldError,
+            });
           }}
           validationSchema={Yup.object().shape({
             email: Yup.string().email().required("Required"),
@@ -99,14 +115,6 @@ export const EmailSlide = ({ next, prev, set, data }) => {
           }}
         </Formik>
       </div>
-      {error && (
-        <p className="text-red-500 text-sm">
-          An account with this email address already exists,{" "}
-          <Link href="/login">
-            <a className="text-cc underline">Login.</a>
-          </Link>
-        </p>
-      )}
       {!config.usePaginationAsSubmission && (
         <Buttons buttons={config.buttons} />
       )}

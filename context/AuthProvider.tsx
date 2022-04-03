@@ -1,14 +1,8 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useMemo,
-  useCallback,
-} from "react";
+import React, { createContext, useContext, useState, useMemo } from "react";
 import { useRouter } from "next/router";
-import { useMutation, FetchResult } from "@apollo/client";
+import { useMutation, FetchResult, useLazyQuery } from "@apollo/client";
 import { useToastContext } from "../context";
-import { LOGIN, REGISTER, LOGOUT } from "../lib/docs"; //CHANGE THIS
+import { LOGIN, REGISTER, LOGOUT, SEND_VERIFICATION_EMAIL } from "../lib/docs"; //CHANGE THIS
 import {
   FindUserBySessionPayload as AuthenticatedUser,
   LoginArgs,
@@ -16,6 +10,8 @@ import {
   LogoutPayload,
   RegisterArgs,
   RegisterPayload,
+  SendVerificationEmailArgs,
+  SendVerificationEmailPayload,
 } from "../server/graphql/auth/types";
 
 interface AuthContext {
@@ -70,11 +66,44 @@ export const AuthProvider = ({ user: initialUser, children }) => {
     },
   });
 
+  const [sendVerificationCode] = useLazyQuery<
+    { sendVerificationEmail: SendVerificationEmailPayload },
+    SendVerificationEmailArgs
+  >(SEND_VERIFICATION_EMAIL, {
+    onCompleted: async () => {
+      addToast({
+        type: "info",
+        title: `Verification code sent to ${user?.email}`,
+        message: "Please check your email and verify your account",
+        duration: 5000,
+      });
+    },
+    onError: (error) => {
+      console.log(error);
+      addToast({
+        type: "error",
+        title: "Verification code failed",
+        message: error.message,
+        duration: 5000,
+      });
+    },
+  });
+
   const [register] = useMutation<{ register: RegisterPayload }, RegisterArgs>(
     REGISTER,
     {
       onCompleted: async ({ register: user }) => {
         setUser(user); // should be same result as currentUser
+        await sendVerificationCode({
+          variables: {
+            email: user.email,
+          },
+          context: {
+            headers: {
+              authorization: `Bearer ${user.token}`,
+            },
+          },
+        });
         addToast({
           type: "info",
           title: "Registration successful",
@@ -82,15 +111,16 @@ export const AuthProvider = ({ user: initialUser, children }) => {
             "Before you can login, you need to confirm your email and be activated by ASB.",
           duration: 5000,
         });
+        // end
         // await router.push("/clubs"); // shouldn't redirect...
       },
       onError(error) {
         console.log(error);
-        // addToast({
-        //   type: "error",
-        //   title: "Register failed",
-        //   message: error.message,
-        // });
+        addToast({
+          type: "error",
+          title: "Register failed",
+          message: error.message,
+        });
       },
     }
   );
