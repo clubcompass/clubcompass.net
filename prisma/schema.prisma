@@ -79,7 +79,6 @@ model User {
   email             String      @unique
   emailVerified     Boolean     @default(false)
   verificationToken String?     @unique // should be moved to a separate table
-  token             String?      @unique
   active            Boolean     @default(false)
   password          String
   grade             Grade

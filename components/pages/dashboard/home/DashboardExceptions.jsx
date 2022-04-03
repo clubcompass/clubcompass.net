@@ -1,5 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { GoMailRead } from "react-icons/go";
+import { IoSend } from "react-icons/io5";
+import { MdPendingActions } from "react-icons/md";
+import { useLazyQuery } from "@apollo/client";
+import { SEND_VERIFICATION_EMAIL } from "../../../../lib/docs";
 import { CCIcon } from "../../../custom";
 
 export const DashboardExceptions = ({

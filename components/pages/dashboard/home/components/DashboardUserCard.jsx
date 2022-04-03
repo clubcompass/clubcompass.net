@@ -10,11 +10,15 @@ export const DashboardUserCard = ({ club }) => {
   const user = useAuthContext();
 
   const colors = {
-    PENDING: {
+    REVIEW: {
       bg: "#FFF2E4",
       fg: "#FF921B",
     },
     APPROVED: {
+      bg: "#EDF4FE",
+      fg: "#2575E5",
+    },
+    DRAFT: {
       bg: "#EDF4FE",
       fg: "#2575E5",
     },
@@ -32,8 +36,10 @@ export const DashboardUserCard = ({ club }) => {
             {club.roles.length === 0 ? (
               <IconLabel icon="member">Member</IconLabel>
             ) : (
-              club.roles.map((name, i) => (
-                <IconLabel icon={name}>{name}</IconLabel>
+              club.roles.map(({ name }, i) => (
+                <IconLabel key={i} icon={name}>
+                  {name}
+                </IconLabel>
               ))
             )}
           </InfoContainer>

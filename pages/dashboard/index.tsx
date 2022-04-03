@@ -9,6 +9,7 @@ import {
   DashboardExceptions as Exceptions,
 } from "../../components/pages/dashboard/home";
 import {} from "../../components/pages/dashboard/home";
+import { Loading } from "../../components/general/Loading";
 
 const Dashboard = () => {
   const { user } = useAuthContext();
@@ -26,7 +27,7 @@ const Dashboard = () => {
     },
   });
 
-  if (loading) return <p>loading invites...</p>;
+  if (loading) return <Loading />;
 
   const isException =
     !user?.emailVerified ||

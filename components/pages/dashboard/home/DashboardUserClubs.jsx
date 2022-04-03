@@ -8,8 +8,6 @@ import {
 } from "./components";
 
 export const DashboardUserClubs = ({ clubs }) => {
-  if (!clubs && loadingClubs) return <Loading />;
-
   return (
     <div className="flex flex-col gap-4">
       <>

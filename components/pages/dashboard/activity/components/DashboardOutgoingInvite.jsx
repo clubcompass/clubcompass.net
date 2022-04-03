@@ -5,13 +5,17 @@ import { StatusTag } from "../../../../general/StatusTag";
 
 export const DashboardOutgoingInvite = ({ invite }) => {
   const colors = {
-    ACCEPTED: {
-      bg: "#FFF2E4",
-      fg: "#FF921B",
+    DECLINED: {
+      bg: "#FDF2F2",
+      fg: "#EC5962",
     },
-    PENDING: {
+    ACCEPTED: {
       bg: "#EDF4FE",
       fg: "#2575E5",
+    },
+    PENDING: {
+      bg: "#FFF2E4",
+      fg: "#FF921B",
     },
   };
 

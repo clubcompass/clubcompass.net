@@ -44,9 +44,9 @@ const isStudent = rule({ cache: "contextual" })(
       });
 
     if (
-      auth.type === "STUDENT" &&
-      auth.active === true &&
-      auth.emailVerified === true
+      user.type === "STUDENT" &&
+      user.active === true &&
+      user.emailVerified === true
     )
       return true;
     return new AuthenticationError("Unauthorized", {

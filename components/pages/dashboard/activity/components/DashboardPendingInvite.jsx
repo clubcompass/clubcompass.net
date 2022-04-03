@@ -6,37 +6,69 @@ import { ACCEPT_INVITE, DECLINE_INVITE } from "../../../../../lib/docs";
 import { useAuthContext } from "../../../../../context";
 import { StatusTag } from "../../../../general/StatusTag";
 import { IconLabel } from "../../../../general/IconLabel";
+import { useToastContext } from "../../../../../context";
+import { CgSpinner } from "react-icons/cg";
 
-export const DashboardPendingInvite = ({ invite }) => {
+export const DashboardPendingInvite = ({ invite, refetch }) => {
   const { user } = useAuthContext();
-  const [acceptInvite] = useMutation(ACCEPT_INVITE, {
-    context: {
-      headers: {
-        authorization: `Bearer ${user.token}`,
+  const { addToast } = useToastContext();
+
+  const [acceptInvite, { loading: acceptLoading }] = useMutation(
+    ACCEPT_INVITE,
+    {
+      context: {
+        headers: {
+          authorization: `Bearer ${user.token}`,
+        },
       },
-    },
-    onCompleted: async (data) => {
-      console.log(data);
-      // return await refetch();
-    },
-    onError: (err) => {
-      console.log(err);
-    },
-  });
-  const [declineInvite] = useMutation(DECLINE_INVITE, {
-    context: {
-      headers: {
-        authorization: `Bearer ${user.token}`,
+      onCompleted: async (data) => {
+        addToast({
+          type: "info",
+          title: "Accepted invite.",
+          message: `Successfully accepted invite to ${"club name"}`,
+        });
+        return await refetch();
       },
-    },
-    onCompleted: async (data) => {
-      console.log(data);
-      // return await refetch();
-    },
-    onError: (err) => {
-      console.log(err);
-    },
-  });
+      onError: (err) => {
+        addToast({
+          type: "error",
+          title: "An error has occurred",
+          message:
+            "Unable to accept invite at this time. Please try again later.",
+          duration: 5000,
+        });
+      },
+      notifyOnNetworkStatusChange: true,
+    }
+  );
+  const [declineInvite, { loading: declineLoading }] = useMutation(
+    DECLINE_INVITE,
+    {
+      context: {
+        headers: {
+          authorization: `Bearer ${user.token}`,
+        },
+      },
+      onCompleted: async (data) => {
+        addToast({
+          type: "info",
+          title: "Declined invite.",
+          message: `Successfully declined invite to ${"club name"}`,
+        });
+        return await refetch();
+      },
+      onError: (err) => {
+        addToast({
+          type: "error",
+          title: "An error has occurred",
+          message:
+            "Unable to decline invite at this time. Please try again later.",
+          duration: 5000,
+        });
+      },
+      notifyOnNetworkStatusChange: true,
+    }
+  );
 
   const handleChoice = async (choice) => {
     console.log(choice);
@@ -90,7 +122,7 @@ export const DashboardPendingInvite = ({ invite }) => {
         <h5 className="font-semibold">Invite Information</h5>
         <div className="flex flex-col gap-3">
           <InfoContainer>
-            Club Description:
+            Club Status:
             <StatusTag colors={colors[invite.club.status]}>
               {invite.club.status.toLowerCase()}
             </StatusTag>
@@ -112,14 +144,30 @@ export const DashboardPendingInvite = ({ invite }) => {
         </div>
         <div className="mt-1 flex gap-4">
           <button
-            onClick={() => handleChoice("accept")}
+            onClick={() => handleChoice("decline")}
+            disabled={declineLoading}
             className="rounded-md bg-gray-100 px-8 py-2 text-gray-600 duration-75 hover:bg-gray-200">
-            Decline
+            {declineLoading ? (
+              <span className="flex items-center gap-2">
+                <CgSpinner className="animate-spin" />
+                Declining...
+              </span>
+            ) : (
+              "Decline"
+            )}
           </button>
           <button
-            onClick={() => handleChoice("decline")}
+            onClick={() => handleChoice("accept")}
+            disabled={acceptLoading}
             className="rounded-md bg-[#EBFAE2] px-8 py-2 text-[#2A9E00] duration-75 hover:bg-[#dbf0d0]">
-            Accept
+            {acceptLoading ? (
+              <span className="flex items-center gap-2">
+                <CgSpinner className="animate-spin" />
+                Accepting...
+              </span>
+            ) : (
+              "Accept"
+            )}
           </button>
         </div>
       </div>
