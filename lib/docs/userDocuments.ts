@@ -55,6 +55,7 @@ export const GET_USER_CLUBS = gql`
         id
         name
         slug
+        status
         tasks {
           message
           completed

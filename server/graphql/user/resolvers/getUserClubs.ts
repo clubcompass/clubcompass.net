@@ -113,6 +113,7 @@ export const getUserClubs = async (
       id: draft.id,
       name: draft.name,
       slug: draft.slug,
+      status: draft.status,
       tasks: tasks,
       completed: tasks.filter((task) => task.completed).length,
       total: tasks.length,
