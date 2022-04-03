@@ -5,7 +5,7 @@ import { StatusTag } from "../../../../general/StatusTag";
 import { FiChevronRight } from "react-icons/fi";
 import { ProgressCircle } from "../../../../general/ProgressCircle";
 
-export const DashboardUserDraftsCards = ({ club }) => {
+export const DashboardUserDraftsCard = ({ club }) => {
   return (
     <div className="flex w-full flex-col gap-2">
       <div className="flex gap-2">
