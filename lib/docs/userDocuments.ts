@@ -23,49 +23,33 @@ export const GET_USER = gql`
 `;
 
 export const GET_USER_CLUBS = gql`
-  query Clubs {
+  query {
     getUserClubs {
       leaderOf {
-        presidentOf {
-          id
-          slug
-          name
-          location
-          status
-          roles {
-            name
-          }
-        }
-        editorOf {
-          id
-          slug
-          name
-          location
-          status
-          roles {
-            name
-          }
-        }
-        cantEdit {
-          id
-          slug
-          name
-          location
-          status
-          roles {
-            name
-          }
-        }
-      }
-      memberOf {
         id
         slug
         name
+        meetingDate
         location
         status
         roles {
           name
         }
+        president
+        manage
+      }
+      memberOf {
+        id
+        slug
+        name
+        meetingDate
+        location
+        status
+        roles {
+          name
+        }
+        president
+        manage
       }
       drafts {
         id
