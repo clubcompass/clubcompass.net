@@ -6,19 +6,40 @@ import { FiChevronRight } from "react-icons/fi";
 import { ProgressCircle } from "../../../../general/ProgressCircle";
 
 export const DashboardUserDraftsCard = ({ club }) => {
+  const colors = {
+    DRAFT: {
+      bg: "#FFF2E4",
+      fg: "#FF921B",
+    },
+    REVIEW: {
+      bg: "#EDF4FE",
+      fg: "#2575E5",
+    },
+    APPROVED: {
+      bg: "#EBFAE2",
+      fg: "#2A9E00",
+    },
+    DECLINED: {
+      bg: "#FDF2F2",
+      fg: "#EC5962",
+    },
+  };
+
   return (
     <div className="flex w-full flex-col gap-2">
       <div className="flex gap-2">
-        <StatusTag colors={{ bg: "#FFF2E4", fg: "#FF921B" }}>Draft</StatusTag>
+        <StatusTag colors={{ bg: "#FFF2E4", fg: "#FF921B" }}>
+          {club.status}
+        </StatusTag>
         <span className="flex items-center gap-1 rounded-md bg-gray-100 px-2">
           <span className="h-[15px] w-[15px] -rotate-90">
             <ProgressCircle
-              completed={club.total - club.uncompleted}
+              completed={club.completed}
               radius={5}
               total={club.total}
             />
           </span>
-          {club.total - club.uncompleted} out of {club.total}
+          {club.completed} out of {club.total}
         </span>
       </div>
       <div className="flex w-full flex-col gap-4 rounded-lg border px-6 py-4">
@@ -40,9 +61,9 @@ export const DashboardUserDraftsCard = ({ club }) => {
               {message}
             </li>
           ))}
-          {club.uncompleted > 5 && (
+          {club.completed < 5 && (
             <span className="text-sm text-gray-300">
-              +{club.uncompleted - 5} More
+              +{club.completed - 5} More
             </span>
           )}
         </InfoList>
