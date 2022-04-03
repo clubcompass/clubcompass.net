@@ -23,7 +23,7 @@ export const GET_USER = gql`
 `;
 
 export const GET_USER_CLUBS = gql`
-  query GetUserClubs {
+  query Clubs {
     getUserClubs {
       leaderOf {
         presidentOf {
@@ -71,7 +71,12 @@ export const GET_USER_CLUBS = gql`
         id
         name
         slug
-        todos
+        tasks {
+          message
+          completed
+        }
+        uncompleted
+        total
       }
     }
   }

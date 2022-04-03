@@ -69,23 +69,39 @@ export const getUserClubs = async (
   });
 
   const formattedDrafts = drafts.map((draft) => {
-    let todo = [];
+    let tasks = [];
 
-    if (!draft.description) todo.push("Provide a description");
-    if (!draft.email) todo.push("Provide an email");
-    if (!draft.meetingDate) todo.push("Choose a meeting date");
-    if (!draft.location) todo.push("Pick a location");
-    if (!draft.tags) todo.push("Choose club tags");
-    if (!draft.teacher) todo.push("Invite an advisor");
+    draft.description
+      ? tasks.push({ message: "Provide a description", completed: true })
+      : tasks.push({ message: "Provide a description", completed: false });
+    draft.email
+      ? tasks.push({ message: "Provide an email", completed: true })
+      : tasks.push({ message: "Provide an email", completed: false });
+    draft.meetingDate
+      ? tasks.push({ message: "Choose a meeting date", completed: true })
+      : tasks.push({ message: "Choose a meeting date", completed: false });
+    draft.location
+      ? tasks.push({ message: "Pick a location", completed: true })
+      : tasks.push({ message: "Pick a location", completed: false });
+    draft.tags
+      ? tasks.push({ message: "Choose club tags", completed: true })
+      : tasks.push({ message: "Choose club tags", completed: false });
+    draft.teacher
+      ? tasks.push({ message: "Invite an advisor", completed: true })
+      : tasks.push({ message: "Invite an advisor", completed: false });
     draft.roles.map((role) => {
-      if (role.users.length === 0) todo.push(`Invite a ${role.name}`);
+      role.users.length === 0
+        ? tasks.push({ message: `Invite a ${role.name}`, completed: true })
+        : tasks.push({ message: `Invite a ${role.name}`, completed: false });
     });
 
     return {
       id: draft.id,
       name: draft.name,
       slug: draft.slug,
-      todos: todo,
+      tasks: tasks,
+      uncompleted: tasks.filter((task) => !task.completed).length,
+      total: tasks.length,
     };
   });
 

@@ -59,7 +59,14 @@ export default gql`
     id: ID!
     name: String!
     slug: String!
-    todos: [String!]!
+    tasks: [DraftTask!]!
+    uncompleted: Int!
+    total: Int!
+  }
+
+  type DraftTask {
+    message: String!
+    completed: Boolean!
   }
 
   ##### END OF GET USER CLUBS #####
