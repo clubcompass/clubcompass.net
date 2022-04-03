@@ -58,6 +58,34 @@ const isStudent = rule({ cache: "contextual" })(
   }
 );
 
+const isTeacher = rule({ cache: "contextual" })(
+  async (parent, args, { auth, prisma }: Context, info) => {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: auth.id,
+      },
+    });
+
+    if (!user)
+      throw new ApolloError("User not found", "RESOURCE_NOT_FOUND", {
+        id: auth.id,
+      });
+
+    if (
+      auth.type === "TEACHER" &&
+      auth.active === true &&
+      auth.emailVerified === true
+    )
+      return true;
+    return new AuthenticationError("Unauthorized", {
+      id: auth.id,
+      type: auth.type,
+      emailVerified: auth.emailVerified,
+      active: auth.active,
+    });
+  }
+);
+
 export const permissions = shield(
   {
     Query: {
@@ -66,6 +94,7 @@ export const permissions = shield(
       getUnapprovedClubs: isASB,
       getUsers: isASB,
       getClubInvites: isStudent,
+      getAdvisorClubs: isTeacher,
     },
     Mutation: {
       approveClub: isASB,

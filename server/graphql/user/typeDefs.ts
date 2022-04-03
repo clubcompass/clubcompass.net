@@ -204,6 +204,19 @@ export default gql`
 
   ##### END OF GET USER DRAFTS #####
 
+  ##### GET ADVISOR CLUBS #####
+
+  type GetAdvisorClubPayload {
+    id: ID!
+    slug: String!
+    name: String!
+    status: ClubStatus!
+    location: String!
+    meetingDate: String!
+  }
+
+  ##### END OF GET ADVISOR CLUBS #####
+
   type User {
     id: ID!
     ccid: String!
@@ -253,6 +266,7 @@ export default gql`
     validateTeacher(ccid: String!): ValidateTeacherPayload!
     getUser(identifier: GetUserIdentifierArgs!, type: UserType): GetUserPayload!
     getUserDrafts: [GetUserDraftsPayload!]!
+    getAdvisorClubs: [GetAdvisorClubPayload!]!
   }
 
   type Mutation {
