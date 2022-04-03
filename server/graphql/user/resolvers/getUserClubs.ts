@@ -105,7 +105,7 @@ export const getUserClubs = async (
     };
   });
 
-  const clubs = user.clubs.filter((club) => {
+  const sortedClubs = user.clubs.filter((club) => {
     if (
       !(
         club.roles.some((role) => role.name === "president") &&
@@ -115,6 +115,12 @@ export const getUserClubs = async (
       return club;
     }
   });
+
+  const clubs = sortedClubs.map((club) => ({
+    ...club,
+    president: false,
+    manage: false,
+  }));
 
   clubs.map((club) => {
     const roles = club.roles.filter((role) => {
@@ -128,6 +134,8 @@ export const getUserClubs = async (
       club.roles.some((role) => role.name === "president") &&
       club.status !== "DRAFT"
     ) {
+      club.president = true;
+      club.manage = true;
       return club;
     }
   });
@@ -137,40 +145,41 @@ export const getUserClubs = async (
       user.canEdit.some((canEdit) => canEdit.id === club.id) &&
       !club.roles.some((role) => role.name === "president")
     ) {
+      club.president = false;
+      club.manage = true;
       return club;
     }
   });
 
   const cantEdit = clubs.filter((club) => {
     if (!user.canEdit.some((canEdit) => canEdit.id === club.id)) {
+      club.president = false;
+      club.manage = false;
       return club;
     }
   });
 
-  const leadershipClubs = {
-    presidentOf: presidentOf,
-    editorOf: editorOf,
-    cantEdit: cantEdit,
-  };
+  // const leadershipClubs = {
+  //   presidentOf: presidentOf,
+  //   editorOf: editorOf,
+  //   cantEdit: cantEdit,
+  // };
+
+  const leadershipClubs = [...presidentOf, ...editorOf, ...cantEdit];
 
   const nonLeadershipClubs = clubs.filter((club) => {
-    if (
-      ![...presidentOf, ...editorOf, ...cantEdit].includes(club) &&
-      !drafts.includes(club)
-    ) {
+    if (!leadershipClubs.includes(club) && !drafts.includes(club)) {
       return club;
     }
   });
 
-  [...presidentOf, ...editorOf, ...cantEdit, ...nonLeadershipClubs].map(
-    (club) => {
-      delete club["description"];
-      delete club["email"];
-      delete club["teacher"];
-      delete club["canEdit"];
-      delete club["tags"];
-    }
-  );
+  [...leadershipClubs, ...nonLeadershipClubs].map((club) => {
+    delete club["description"];
+    delete club["email"];
+    delete club["teacher"];
+    delete club["canEdit"];
+    delete club["tags"];
+  });
 
   // const formattedClubs = [...leadershipClubs, ...nonLeadershipClubs];
 
