@@ -54,7 +54,7 @@ const OpenModal = ({ joined, closed, clubPage, draft }) => {
     fontSize: "1rem",
   };
 
-  if (!user || draft) {
+  if (user) {
     return (
       <button
         onClick={openModal}
@@ -64,7 +64,7 @@ const OpenModal = ({ joined, closed, clubPage, draft }) => {
           joined
             ? "bg-[#FF5555] text-white"
             : closed
-            ? "bg-[#E7EEFF] text-[#707070]"
+            ? "bg-gray-100 text-[#707070]"
             : "bg-cc text-white"
         } flex flex-row items-center justify-center gap-1 rounded-md px-8 py-1 text-sm font-semibold`}
       >
@@ -88,6 +88,8 @@ const ActionButton = ({ joined, setJoined, clubId, closed }) => {
   const { user } = useAuthContext();
   const { closeModal, next } = useModalContext();
   const [loading, setLoading] = useState(false);
+
+  console.log(clubId);
 
   const [joinClub] = useMutation(JOIN_CLUB, {
     context: {

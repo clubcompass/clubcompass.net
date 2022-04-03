@@ -9,8 +9,9 @@ export type GetApprovedClubsPayload = Awaited<
 export const getApprovedClubs = async (
   _parent: any,
   _args: GetApprovedClubsArgs,
-  { prisma }: Context
-): Promise<typeof clubs> => {
+  { prisma, auth: user }: Context
+): Promise<typeof clubs & { isMember?: boolean }> => {
+  console.log(user);
   const clubs = await prisma.club.findMany({
     where: {
       approval: {
@@ -18,6 +19,7 @@ export const getApprovedClubs = async (
       },
     },
     select: {
+      id: true,
       name: true,
       slug: true,
       description: true,
@@ -25,6 +27,7 @@ export const getApprovedClubs = async (
       tags: {
         select: {
           name: true,
+          id: true,
         },
       },
       _count: {
@@ -34,5 +37,27 @@ export const getApprovedClubs = async (
       },
     },
   });
+
+  // if user return approved clubs with isMember bool on each club, else return approved clubs
+  if (user) {
+    const userClubs = await prisma.user.findUnique({
+      where: {
+        id: user.id,
+      },
+      select: {
+        clubs: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+
+    return clubs.map((club) => {
+      const isMember = userClubs.clubs.some((c) => c.id === club.id);
+      return { ...club, isMember };
+    });
+  }
+
   return clubs;
 };

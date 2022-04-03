@@ -9,8 +9,8 @@ export type GetClubPayload = Awaited<ReturnType<typeof getClub>>;
 export const getClub = async (
   _parent: any,
   identifier: GetClubArgs,
-  { prisma }: Context
-): Promise<typeof club> => {
+  { prisma, auth: user }: Context
+): Promise<typeof club & { isMember?: boolean }> => {
   const club = await prisma.club.findUnique({
     where: {
       ...identifier,
@@ -64,6 +64,23 @@ export const getClub = async (
       "The requested club has not been approved",
       "UNAPPROVED_CLUB"
     );
+  }
+
+  if (user) {
+    const userClubs = await prisma.user.findUnique({
+      where: {
+        id: user.id,
+      },
+      select: {
+        clubs: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+
+    return { ...club, isMember: userClubs.clubs.some((c) => c.id === club.id) };
   }
 
   return club;

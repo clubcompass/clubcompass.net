@@ -14,16 +14,18 @@ import { useToastContext } from "../context";
 
 export default function Home() {
   const { addToast } = useToastContext();
-  const toast = {
-    type: "error",
-    duration: null,
-  };
   return (
     <div>
       <h1>Homepage</h1>
       <button
         onClick={() => {
-          addToast(toast);
+          addToast({
+            type: "info",
+            title: "Registration successful",
+            message:
+              "Before you can login, you need to confirm your email and be activated by ASB.",
+            duration: 5000,
+          });
         }}
       >
         Add toast

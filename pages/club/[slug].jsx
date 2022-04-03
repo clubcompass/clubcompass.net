@@ -5,11 +5,11 @@ import { GET_CLUB } from "../../lib/docs";
 import { useQuery } from "@apollo/client";
 import { Club as ClubComponent } from "../../components/pages/club";
 import { Loading } from "../../components/general/Loading";
+import { tagSchema } from "../../components/general/tags";
 
 const Club = () => {
   const router = useRouter();
-  const { user, loading } = useAuthContext();
-  const [slugLoaded, setSlugLoaded] = useState(false);
+  const { user } = useAuthContext();
   const { slug } = router.query;
 
   const {
@@ -17,28 +17,22 @@ const Club = () => {
     loading: clubLoading,
     error: clubError,
   } = useQuery(GET_CLUB, {
+    context: {
+      ...(user && {
+        headers: {
+          authorization: `Bearer ${user.token}`,
+        },
+      }),
+    },
+    fetchPolicy: "cache-and-network",
     variables: {
       slug,
     },
   });
 
-  if (!club || clubLoading) return <p>loading...</p>;
-
-  // const userClubs = user?.clubs.reduce((acc, club) => {
-  //   if (club.approval === "APPROVED") {
-  //     acc.push(club.id);
-  //   }
-  //   return acc;
-  // }, []);
-
-  console.log("name", slugLoaded);
-  console.log("clubs", clubLoading);
-
-  if (!user || loading) return <Loading />;
-
   if (clubLoading) return <Loading />;
 
-  if (clubError) return "An error has occurred: " + clubError.message;
+  if (clubError) return "An error has occurred: " + clubError.message; // toast this mf
 
   console.log(club);
 
@@ -49,11 +43,11 @@ const Club = () => {
           <ClubComponent.Wrapper
             availability={club.availability}
             name={club.name}
-            isMember={false}
-            // isMember={!user ? false : userClubs.includes(club.id)}
-            userId={user && user?.id}
+            isMember={club.isMember}
+            userId={user?.id}
             clubId={club.id}
-            slug={club.slug}>
+            slug={club.slug}
+          >
             <ClubComponent.Header name={club.name} tags={club.tags} />
             <ClubComponent.Contact email={club.email} links={club.links} />
             <ClubComponent.Meeting
@@ -62,7 +56,10 @@ const Club = () => {
               availability={club.availability}
             />
             <ClubComponent.Content description={club.description} />
-            <ClubComponent.Members members={club.members} />
+            <ClubComponent.Members
+              members={club.members}
+              primaryColor={tagSchema[club.tags[0].name]}
+            />
             <ClubComponent.SimilarClubs tag={club.tags[0].id} />
           </ClubComponent.Wrapper>
         </ClubComponent>

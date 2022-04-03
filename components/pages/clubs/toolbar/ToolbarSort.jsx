@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { HiChevronDown } from "react-icons/hi";
 export const ToolbarSort = ({
@@ -53,10 +53,11 @@ export const ToolbarSort = ({
   const handleSort = (value) => {
     if (value.category === "alpha") handleAlpha(value);
     if (value.category === "pop") handlePopularity(value);
-    return updateGlobalSearchOptions({
-      category: value.category,
-      order: value.order,
-    });
+    // return updateGlobalSearchOptions({
+    //   category: value.category,
+    //   order: value.order,
+    // });
+    return;
   };
 
   const MenuItem = ({ value }) => (
@@ -118,7 +119,7 @@ export const ToolbarSort = ({
   };
 
   return (
-    <div className="flex flex-row items-center gap-2 z-30">
+    <div className="z-30 flex flex-row items-center gap-2">
       <Menu as="div" className="relative inline-block">
         <div>
           <Menu.Button

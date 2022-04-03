@@ -20,18 +20,18 @@ export const CardFooter = ({
       <CCLink slug={slug} />
       <div className="flex flex-row gap-2">
         <MembersCount memberCount={memberCount} />
-        {manage ? (
+        {/* {manage ? (
           <ManageButton slug={slug} />
-        ) : (
-          <ActionModal
-            name={name}
-            isMember={isMember}
-            userId={userId}
-            clubId={clubId}
-            slug={slug}
-            availability={availability}
-          />
-        )}
+        ) : ( */}
+        <ActionModal
+          name={name}
+          isMember={isMember}
+          userId={userId}
+          clubId={clubId}
+          slug={slug}
+          availability={availability}
+        />
+        {/* )} */}
       </div>
     </div>
   );

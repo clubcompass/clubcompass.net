@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from ".";
 
-export const ClubMembers = ({ members: allMembers }) => {
+export const ClubMembers = ({ members: allMembers, primaryColor }) => {
   const [leaders, members] = allMembers.reduce(
     ([leaders, members], current) =>
       current.roles.find((role) => role?.type === "LEADER")
@@ -27,7 +27,11 @@ export const ClubMembers = ({ members: allMembers }) => {
             </span>
           )}
           {members.map((member) => (
-            <Member member={member} key={member.id} />
+            <Member
+              member={member}
+              key={member.id}
+              primaryColor={primaryColor.bg}
+            />
           ))}
         </div>
       </Card>
@@ -35,15 +39,14 @@ export const ClubMembers = ({ members: allMembers }) => {
   );
 };
 
-const Member = ({ member }) => {
-  // console.log(member.roles[0]);
+const Member = ({ member, primaryColor }) => {
   return (
     <div className="mb-2 flex items-center justify-between">
       <div className="flex items-center">
         <Avatar
           firstname={member.firstname}
           lastname={member.lastname}
-          color={member.roles[0]?.color}
+          color={member.roles[0]?.color || primaryColor}
         />
         <span className="ml-3">
           {member.firstname} {member.lastname}
@@ -59,7 +62,7 @@ const Member = ({ member }) => {
             ))}
           </span>
         ) : (
-          <Label role="Member" color="#9FDDFC" />
+          <Label role="Member" color={primaryColor} />
         )}
       </div>
     </div>

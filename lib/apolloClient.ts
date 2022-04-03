@@ -34,19 +34,35 @@ let apolloClient: ApolloClient<any> | null = null;
 //   };
 // });
 
-const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors) {
-    graphQLErrors.forEach(({ message }) =>
-      // addToast({ type: "error", message })
-      console.log(message)
-    );
-  }
+const errorLink = onError(
+  ({ graphQLErrors, networkError, operation, forward }) => {
+    if (graphQLErrors) {
+      for (let err of graphQLErrors) {
+        console.log(err);
+        // switch (err.extensions.code) {
+        //   // Apollo Server sets code to UNAUTHENTICATED
+        //   // when an AuthenticationError is thrown in a resolver
+        //   case 'UNAUTHENTICATED':
 
-  if (networkError) {
-    console.log(networkError);
-    //   addToast({ type: "error", message: networkError.message });
+        //     // Modify the operation context with a new token
+        //     const oldHeaders = operation.getContext().headers;
+        //     operation.setContext({
+        //       headers: {
+        //         ...oldHeaders,
+        //         authorization: getNewToken(),
+        //       },
+        //     });
+        //     // Retry the request, returning the new observable
+        //     return forward(operation);
+        // }
+      }
+    }
+    // use RetryLink to retry the request
+    if (networkError) {
+      console.log(`[Network error]: ${networkError}`);
+    }
   }
-});
+);
 
 const httpLink = createHttpLink({
   uri: process.env.NEXT_PUBLIC_API_URL,

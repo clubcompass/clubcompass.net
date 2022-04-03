@@ -33,9 +33,11 @@ export default gql`
   ##### GET APPROVED CLUBS #####
 
   type GetApprovedClubsPayload {
+    id: ID!
     name: String!
     slug: String!
     description: String
+    isMember: Boolean
     availability: ClubAvailability!
     tags: [ClubPageTag!]
     _count: ClubMembersCount!
@@ -117,6 +119,7 @@ export default gql`
     email: String!
     links: [Link!]!
     _count: ClubMembersCount!
+    isMember: Boolean
     members: [ClubPageMember!]!
   }
 
@@ -204,6 +207,7 @@ export default gql`
   }
 
   type ClubPageTag {
+    id: ID!
     name: String!
   }
 

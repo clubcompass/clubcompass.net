@@ -6,6 +6,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      // fontFamily: {
+      //   display: ["Inter", "system-ui", "sans-serif"],
+      //   body: ["Inter", "system-ui", "sans-serif"],
+      // },
       colors: {
         cc: "#1C5EF9",
         "cc-temp": "#3771FA",
