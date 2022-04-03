@@ -67,9 +67,15 @@ export const getUserClubs = async (
     club.roles = roles;
 
     if (
-      club.roles.some((role) => role.name === "president") &&
-      club.status === "DRAFT"
-    ) {
+      (club.status === "DRAFT" || club.status === "REVIEW") &&
+      club.roles.some(
+        (role) =>
+          role.name === "president" &&
+          role.users.some((user) => {
+            return user.id === auth.id;
+          })
+      )
+    )
       return club;
     }
   });
@@ -104,8 +110,8 @@ export const getUserClubs = async (
       : tasks.push({ message: "Invite an advisor", completed: false });
     draft.roles.map((role) => {
       role.users.length === 0
-        ? tasks.push({ message: `Invite a ${role.name}`, completed: true })
-        : tasks.push({ message: `Invite a ${role.name}`, completed: false });
+        ? tasks.push({ message: `Invite a ${role.name}`, completed: false })
+        : tasks.push({ message: `Invite a ${role.name}`, completed: true });
     });
 
     return {
@@ -113,40 +119,28 @@ export const getUserClubs = async (
       name: draft.name,
       slug: draft.slug,
       tasks: tasks,
-      uncompleted: tasks.filter((task) => !task.completed).length,
+      completed: tasks.filter((task) => task.completed).length,
       total: tasks.length,
     };
   });
 
-  const sortedClubs = user.clubs.filter((club) => {
-    if (
-      !(
-        club.roles.some((role) => role.name === "president") &&
-        club.status === "DRAFT"
-      )
-    ) {
-      return club;
-    }
+  const unformattedClubs = user.clubs.filter((club) => {
+    const roles = club.roles.filter((role) => {
+      if (role.users.some((user) => user.id === auth.id)) return role;
+    });
+    club.roles = roles;
+
+    if (club.status === "APPROVED") return club;
   });
 
-  const clubs = sortedClubs.map((club) => ({
+  const clubs = unformattedClubs.map((club) => ({
     ...club,
     president: false,
     manage: false,
   }));
 
-  clubs.map((club) => {
-    const roles = club.roles.filter((role) => {
-      if (role.users.some((user) => user.id === auth.id)) return role;
-    });
-    club.roles = roles;
-  });
-
   const presidentOf = clubs.filter((club) => {
-    if (
-      club.roles.some((role) => role.name === "president") &&
-      club.status !== "DRAFT"
-    ) {
+    if (club.roles.some((role) => role.name === "president")) {
       club.president = true;
       club.manage = true;
       return club;
@@ -175,18 +169,10 @@ export const getUserClubs = async (
     }
   });
 
-  // const leadershipClubs = {
-  //   presidentOf: presidentOf,
-  //   editorOf: editorOf,
-  //   cantEdit: cantEdit,
-  // };
-
   const leadershipClubs = [...presidentOf, ...editorOf, ...cantEdit];
 
   const nonLeadershipClubs = clubs.filter((club) => {
-    if (!leadershipClubs.includes(club) && !drafts.includes(club)) {
-      return club;
-    }
+    if (!leadershipClubs.includes(club)) return club;
   });
 
   [...leadershipClubs, ...nonLeadershipClubs].map((club) => {
@@ -197,15 +183,11 @@ export const getUserClubs = async (
     delete club["tags"];
   });
 
-  // const formattedClubs = [...leadershipClubs, ...nonLeadershipClubs];
-
   const response = {
     leaderOf: leadershipClubs,
     memberOf: nonLeadershipClubs,
     drafts: formattedDrafts,
   };
-
-  console.log(response);
 
   return response;
 };

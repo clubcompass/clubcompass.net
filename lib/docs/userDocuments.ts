@@ -59,7 +59,7 @@ export const GET_USER_CLUBS = gql`
           message
           completed
         }
-        uncompleted
+        completed
         total
       }
     }
