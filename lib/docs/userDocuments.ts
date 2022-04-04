@@ -1,21 +1,8 @@
 import { gql } from "@apollo/client";
 
-export const VALIDATE_STUDENT = gql`
+export const VALIDATE_USER = gql`
   query ($ccid: String!) {
-    validateStudent(ccid: $ccid) {
-      id
-      firstname
-      lastname
-      ccid
-      email
-      type
-    }
-  }
-`;
-
-export const VALIDATE_TEACHER = gql`
-  query ($ccid: String!) {
-    validateTeacher(ccid: $ccid) {
+    validateUser(ccid: $ccid) {
       id
       firstname
       lastname
