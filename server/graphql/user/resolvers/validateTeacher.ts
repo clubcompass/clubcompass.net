@@ -23,8 +23,10 @@ export const validateTeacher = async (
       id: true,
       firstname: true,
       lastname: true,
-      active: true,
+      ccid: true,
+      email: true,
       type: true,
+      active: true,
     },
   });
 

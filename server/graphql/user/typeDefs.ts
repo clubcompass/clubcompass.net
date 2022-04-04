@@ -195,6 +195,9 @@ export default gql`
     id: ID!
     firstname: String!
     lastname: String!
+    ccid: String!
+    email: String!
+    type: UserType!
   }
 
   ##### END OF VALIDATE STUDENT #####
@@ -205,6 +208,9 @@ export default gql`
     id: ID!
     firstname: String!
     lastname: String!
+    ccid: String!
+    email: String!
+    type: UserType!
   }
 
   ##### END OF VALIDATE TEACHER #####
