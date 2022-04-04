@@ -10,7 +10,6 @@ export default gql`
 
   type AddLinkPayload {
     id: ID!
-    links: [LinkContent!]!
   }
 
   ##### END OF ADD LINK #####

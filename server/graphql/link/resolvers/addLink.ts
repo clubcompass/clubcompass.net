@@ -72,14 +72,14 @@ export const addLink = async (
     },
     select: {
       id: true,
-      links: {
-        select: {
-          id: true,
-          name: true,
-          link: true,
-          type: true,
-        },
-      },
+      // links: {
+      //   select: {
+      //     id: true,
+      //     name: true,
+      //     link: true,
+      //     type: true,
+      //   },
+      // },
     },
   });
 

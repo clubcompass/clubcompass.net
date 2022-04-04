@@ -3,3 +3,4 @@ export * from "./userDocuments";
 export * from "./tagDocuments";
 export * from "./clubDocuments";
 export * from "./inviteDocuments";
+export * from "./linkDocuments";
