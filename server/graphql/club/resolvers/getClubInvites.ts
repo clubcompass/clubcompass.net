@@ -25,6 +25,9 @@ export const getClubInvites = async (
               id: true,
               firstname: true,
               lastname: true,
+              type: true,
+              email: true,
+              ccid: true,
             },
           },
           roles: {
@@ -33,6 +36,7 @@ export const getClubInvites = async (
               name: true,
             },
           },
+          status: true,
           type: true,
           createdAt: true,
         },

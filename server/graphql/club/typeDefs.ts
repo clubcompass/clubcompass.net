@@ -171,6 +171,7 @@ export default gql`
     id: ID!
     user: InviteUser!
     roles: [InviteRole!]!
+    status: InviteStatus!
     type: InviteType!
     createdAt: DateTime!
   }
@@ -184,6 +185,14 @@ export default gql`
     id: ID!
     firstname: String!
     lastname: String!
+    type: UserType!
+    email: String!
+    ccid: String!
+  }
+
+  enum UserType {
+    STUDENT
+    TEACHER
   }
 
   ##### END OF GET CLUB INVITES #####

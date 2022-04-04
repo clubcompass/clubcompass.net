@@ -200,3 +200,26 @@ export const DECLINE_CLUB = gql`
     }
   }
 `;
+
+export const GET_CLUB_INVITES = gql`
+  query ($clubId: ID!) {
+    getClubInvites(clubId: $clubId) {
+      id
+      user {
+        id
+        firstname
+        lastname
+        type
+        email
+        ccid
+      }
+      roles {
+        id
+        name
+      }
+      status
+      type
+      createdAt
+    }
+  }
+`;
