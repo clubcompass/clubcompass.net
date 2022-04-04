@@ -39,6 +39,7 @@ export const ModalProvider = ({ children, closeColor }) => {
   }, [isOpen]);
 
   const value = {
+    isOpen: isOpen,
     closeModal: () => setIsOpen(false),
     openModal: () => setIsOpen(true),
     next: () => handleNext(),
@@ -60,8 +61,7 @@ export const ModalProvider = ({ children, closeColor }) => {
         isOpen={isOpen}
         closeModal={() => setIsOpen(false)}
         closeColor={closeColor}
-        index={index}
-      >
+        index={index}>
         {transition((style, item) => (
           <animated.div style={style}>{children[index]}</animated.div>
         ))}
@@ -83,8 +83,7 @@ const ModalContainer = ({
         <Dialog
           as="div"
           className="fixed inset-0 z-50 overflow-y-auto"
-          onClose={closeModal}
-        >
+          onClose={closeModal}>
           <div className="min-h-screen px-4 text-center">
             <Transition.Child
               as={Fragment}
@@ -93,16 +92,14 @@ const ModalContainer = ({
               enterTo="opacity-100"
               leave="ease-in duration-200"
               leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Dialog.Overlay className="fixed inset-0 backdrop-blur-sm bg-black/20" />
+              leaveTo="opacity-0">
+              <Dialog.Overlay className="fixed inset-0 bg-black/20 backdrop-blur-sm" />
             </Transition.Child>
 
             {/* This element is to trick the browser into centering the modal contents. */}
             <span
               className="inline-block h-[90vh] align-middle"
-              aria-hidden="true"
-            >
+              aria-hidden="true">
               &#8203;
             </span>
             <Transition.Child
@@ -112,9 +109,8 @@ const ModalContainer = ({
               enterTo="opacity-100 scale-100"
               leave="ease-in duration-200"
               leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+              leaveTo="opacity-0 scale-95">
+              <div className="my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 {children}
                 <button
                   onClick={closeModal}
@@ -124,8 +120,7 @@ const ModalContainer = ({
                         ? closeColor?.color
                         : "#9AA3B0",
                   }}
-                  className="absolute top-3 right-4"
-                >
+                  className="absolute top-3 right-4">
                   <CgClose />
                 </button>
               </div>

@@ -7,7 +7,7 @@ import {
   DashboardUserCard,
 } from "./components";
 
-export const DashboardUserClubs = ({ clubs }) => {
+export const DashboardUserClubs = ({ clubs, refetch }) => {
   return (
     <div className="flex flex-col gap-4">
       <>
@@ -17,7 +17,7 @@ export const DashboardUserClubs = ({ clubs }) => {
         />
         <CardsWrapper>
           {clubs.map((club, i) => (
-            <DashboardUserCard key={i} club={club} />
+            <DashboardUserCard key={i} club={club} refetch={refetch} />
           ))}
         </CardsWrapper>
       </>
