@@ -7,6 +7,7 @@ export type GetUserProfilePayload = Awaited<ReturnType<typeof getUserProfile>>;
 
 export const getUserProfile = async (
   _parent: any,
+  _args: GetUserProfileArgs,
   { prisma, auth }: Context
 ): Promise<typeof user> => {
   const user = await prisma.user.findUnique({
