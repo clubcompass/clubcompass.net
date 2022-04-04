@@ -11,8 +11,7 @@ export const RemindIcon = ({ color }) => {
       xmlnsXlink="http://www.w3.org/1999/xlink"
       width="100%"
       height="100%"
-      viewBox="0 0 298.95 240.588"
-    >
+      viewBox="0 0 298.95 240.588">
       <defs>
         <clipPath id="clip-path">
           <rect
@@ -24,7 +23,7 @@ export const RemindIcon = ({ color }) => {
           />
         </clipPath>
       </defs>
-      <g id="Group_1384" data-name="Group 1384" clip-path="url(#clip-path)">
+      <g id="Group_1384" data-name="Group 1384" clipPath="url(#clip-path)">
         <path
           id="Path_503"
           data-name="Path 503"

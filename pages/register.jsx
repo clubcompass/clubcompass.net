@@ -18,6 +18,7 @@ import {
 } from "../components/pages/register/onboarding/slides";
 
 const Register = () => {
+  const { user } = useAuthContext();
   const { register } = useAuthContext();
   const [slide, setSlide] = useState(1);
   const [error, setError] = useState(null);

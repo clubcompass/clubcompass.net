@@ -37,9 +37,9 @@ const New = () => {
       label: "Socials",
       icon: <FaGlobeAmericas size={18} />,
       header: {
-        title: "Tell us about your new club.",
+        title: "Add links to your club.",
         subtitle:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eu malesuada turpis.",
+          "Add any link to socials, websites, videos, etc. to spice up your club page.",
       },
     },
     {
@@ -59,10 +59,7 @@ const New = () => {
       <Base />
       <Members />
       <Socials />
-      <p>hi</p>
-      {/* 
-        <Socials />
-        <Summary /> */}
+      <Summary />
     </Pagination>
   );
 };
