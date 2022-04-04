@@ -34,7 +34,7 @@ const PageTitle = () => {
       {router.pathname === "/dashboard/manage" && "Mange Clubs"}
       {router.pathname === "/dashboard/activity" && "Notifications"}
       {router.pathname === "/dashboard/account" && "Manage Account"}
-      {router.pathname === "/dashboard/manage/club/new" && "New Club"}
+      {router.pathname === "/dashboard/new" && "New Club"}
     </h1>
   );
 };
@@ -54,6 +54,7 @@ const PageMessage = () => {
         `You have ${count} active drafts`}
       {router.pathname === "/dashboard/activity" &&
         `You have ${count} pending invites and ${count} outgoing invites`}
+      {router.pathname === "/dashboard/new" && `5 out of 12 steps completed`}
     </div>
   );
 };

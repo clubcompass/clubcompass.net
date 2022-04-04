@@ -1,6 +1,11 @@
+import {
+  Fragment,
+  useEffect,
+  useState,
+  createContext,
+  useContext,
+} from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useEffect, useState } from "react";
-import { createContext, useContext } from "react";
 import { useTransition, animated, config } from "react-spring";
 
 import { CgClose } from "react-icons/cg";
@@ -61,7 +66,8 @@ export const ModalProvider = ({ children, closeColor }) => {
         isOpen={isOpen}
         closeModal={() => setIsOpen(false)}
         closeColor={closeColor}
-        index={index}>
+        index={index}
+      >
         {transition((style, item) => (
           <animated.div style={style}>{children[index]}</animated.div>
         ))}
@@ -83,7 +89,8 @@ const ModalContainer = ({
         <Dialog
           as="div"
           className="fixed inset-0 z-50 overflow-y-auto"
-          onClose={closeModal}>
+          onClose={closeModal}
+        >
           <div className="min-h-screen px-4 text-center">
             <Transition.Child
               as={Fragment}
@@ -92,14 +99,16 @@ const ModalContainer = ({
               enterTo="opacity-100"
               leave="ease-in duration-200"
               leaveFrom="opacity-100"
-              leaveTo="opacity-0">
+              leaveTo="opacity-0"
+            >
               <Dialog.Overlay className="fixed inset-0 bg-black/20 backdrop-blur-sm" />
             </Transition.Child>
 
             {/* This element is to trick the browser into centering the modal contents. */}
             <span
               className="inline-block h-[90vh] align-middle"
-              aria-hidden="true">
+              aria-hidden="true"
+            >
               &#8203;
             </span>
             <Transition.Child
@@ -109,7 +118,8 @@ const ModalContainer = ({
               enterTo="opacity-100 scale-100"
               leave="ease-in duration-200"
               leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95">
+              leaveTo="opacity-0 scale-95"
+            >
               <div className="my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 {children}
                 <button
@@ -120,7 +130,8 @@ const ModalContainer = ({
                         ? closeColor?.color
                         : "#9AA3B0",
                   }}
-                  className="absolute top-3 right-4">
+                  className="absolute top-3 right-4"
+                >
                   <CgClose />
                 </button>
               </div>
