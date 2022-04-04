@@ -22,6 +22,17 @@ export const GET_USER = gql`
   }
 `;
 
+export const GET_USER_PROFILE = gql`
+  query {
+    getUserProfile {
+      studentId
+      interests {
+        name
+      }
+    }
+  }
+`;
+
 export const GET_USER_CLUBS = gql`
   query {
     getUserClubs {
