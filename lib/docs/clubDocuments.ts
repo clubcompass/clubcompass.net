@@ -200,3 +200,14 @@ export const DECLINE_CLUB = gql`
     }
   }
 `;
+
+export const GET_CLUB_LINKS = gql`
+  query ($clubId: ID!) {
+    getClubLinks(clubId: $clubId) {
+      id
+      name
+      link
+      type
+    }
+  }
+`;

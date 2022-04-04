@@ -333,6 +333,13 @@ export default gql`
     clubs: Int!
   }
 
+  type GetClubLinkPayload {
+    id: ID!
+    name: String!
+    link: String!
+    type: LinkType!
+  }
+
   ##### QUERIES + MUTATIONS #####
 
   type Query {
@@ -341,6 +348,7 @@ export default gql`
     getUnapprovedClubs: [GetUnapprovedClubsPayload!]!
     getAdminApprovedClubs: [GetAdminApprovedClubsPayload!]!
     getClubInvites(clubId: ID!): [GetClubInvitesPayload!]!
+    getClubLinks(clubId: ID!): [GetClubLinkPayload!]!
   }
 
   type Mutation {

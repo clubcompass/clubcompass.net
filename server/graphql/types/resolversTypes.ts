@@ -74,6 +74,8 @@ import type {
   RequestToJoinClubPayload,
   GetClubInvitesArgs,
   GetClubInvitesPayload,
+  GetClubLinksArgs,
+  GetClubLinksPayload,
 } from "../club/types";
 import type {
   GetUserInvitesArgs,
@@ -106,6 +108,10 @@ import {
   AcceptTeacherInviteArgs,
   AcceptTeacherInvitePayload,
 } from "../invite/resolvers/acceptTeacherInvite";
+import {
+  DeleteLinkArgs,
+  DeleteLinkPayload,
+} from "../link/resolvers/deleteLink";
 
 type Resolver<T extends {}, A extends {}, R extends any> = (
   parent: T,
@@ -213,6 +219,7 @@ export interface ClubResolvers {
     RequestToJoinClubPayload
   >;
   getClubInvites?: Resolver<{}, GetClubInvitesArgs, GetClubInvitesPayload>;
+  getClubLinks?: Resolver<{}, GetClubLinksArgs, GetClubLinksPayload>;
 }
 
 export interface InviteResolvers {
@@ -252,6 +259,7 @@ export interface TagResolvers {
 export interface LinkResolvers {
   [key: string]: Resolver<any, any, any>;
   addLink?: Resolver<{}, AddLinkArgs, AddLinkPayload>;
+  deleteLink?: Resolver<{}, DeleteLinkArgs, DeleteLinkPayload>;
 }
 
 export interface Query {
