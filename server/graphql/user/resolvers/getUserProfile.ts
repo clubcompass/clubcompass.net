@@ -15,6 +15,7 @@ export const getUserProfile = async (
       id: auth.id,
     },
     select: {
+      grade: true,
       studentId: true,
       interests: {
         select: {
