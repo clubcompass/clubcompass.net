@@ -30,7 +30,7 @@ export const validateStudent = async (
     },
   });
 
-  if (!user) throw new ApolloError("User does not found", "NO_USER", { ccid });
+  if (!user) throw new ApolloError("User not found", "NO_USER", { ccid });
   if (user.active === false)
     throw new ApolloError("Requested user is not active", "CONSTRAINT_FAILED", {
       ccid,
