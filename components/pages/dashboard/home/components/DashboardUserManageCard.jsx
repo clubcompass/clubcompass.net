@@ -9,7 +9,7 @@ import { ActionModal } from "../../../../general/ActionModal";
 import { useAuthContext } from "../../../../../context";
 import { DashboardActionModal } from "./DashboardActionModal";
 
-export const DashboardUserManageCard = ({ club }) => {
+export const DashboardUserManageCard = ({ club, refetch }) => {
   const user = useAuthContext();
   const colors = {
     REVIEW: {
@@ -60,7 +60,7 @@ export const DashboardUserManageCard = ({ club }) => {
           </Link>
         </div>
       </div>
-      <div className="flex flex-col gap-4 px-6">
+      <div className="flex flex-col gap-4 px-6 pb-2">
         <h5 className="font-semibold">Meeting Information</h5>
         <div className="flex list-disc flex-col gap-2">
           <InfoContainer>
@@ -81,7 +81,7 @@ export const DashboardUserManageCard = ({ club }) => {
               </a>
             </Link>
           ) : (
-            <DashboardActionModal />
+            <DashboardActionModal club={club} refetch={refetch} />
           )}
         </div>
       </div>

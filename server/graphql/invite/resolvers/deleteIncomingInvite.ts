@@ -21,16 +21,28 @@ export const deleteIncomingInvite = async (
     },
     select: {
       id: true,
-      userId: true,
       type: true,
+      club: {
+        select: {
+          id: true,
+          roles: {
+            where: {
+              name: {
+                equals: "president",
+              },
+            },
+            select: {
+              users: {
+                select: {
+                  id: true,
+                },
+              },
+            },
+          },
+        },
+      },
     },
   });
-
-  console.log("userID", user.id);
-
-  console.log("invite", invite);
-
-  console.log(invite.userId);
 
   if (!invite)
     throw new ApolloError("Invite was not found", "RESOURCE_NOT_FOUND", {
@@ -43,11 +55,14 @@ export const deleteIncomingInvite = async (
       "UNAUTHORIZED_ACTION"
     );
 
-  if (invite.userId !== user.id)
+  let ids = invite.club.roles[0].users.map((user) => user.id);
+  if (!ids.includes(user.id)) {
     throw new ApolloError(
-      "You are not the owner of this invite",
-      "UNAUTHORIZED_ACTION"
+      "You are not authorized to delete an invite issued by the president of this club",
+      "UNAUTHORIZED_ACTION",
+      { id: user.id }
     );
+  }
 
   const deletedInvite = await prisma.invite.delete({
     where: {

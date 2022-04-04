@@ -44,6 +44,7 @@ export const ModalProvider = ({ children, closeColor }) => {
   }, [isOpen]);
 
   const value = {
+    isOpen: isOpen,
     closeModal: () => setIsOpen(false),
     openModal: () => setIsOpen(true),
     next: () => handleNext(),

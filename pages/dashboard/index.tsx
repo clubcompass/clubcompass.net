@@ -47,8 +47,12 @@ const Dashboard = () => {
 
   return (
     <div className="flex flex-col gap-6">
-      {leaderOf?.length !== 0 && <UserManage clubs={leaderOf} />}
-      {memberOf?.length !== 0 && <UserClubs clubs={memberOf} />}
+      {leaderOf?.length !== 0 && (
+        <UserManage clubs={leaderOf} refetch={refetch} />
+      )}
+      {memberOf?.length !== 0 && (
+        <UserClubs clubs={memberOf} refetch={refetch} />
+      )}
       {drafts?.length !== 0 && <UserDrafts clubs={drafts} />}
     </div>
   );

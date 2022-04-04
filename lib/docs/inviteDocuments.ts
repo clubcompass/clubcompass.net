@@ -4,6 +4,7 @@ export const ACCEPT_INVITE = gql`
   mutation ($inviteId: ID!, $clubId: ID!) {
     acceptInvite(inviteId: $inviteId, clubId: $clubId) {
       id
+      clubName
     }
   }
 `;
@@ -12,6 +13,7 @@ export const DECLINE_INVITE = gql`
   mutation ($inviteId: ID!) {
     declineInvite(inviteId: $inviteId) {
       id
+      clubName
     }
   }
 `;
@@ -20,6 +22,7 @@ export const ACCEPT_TEACHER_INVITE = gql`
   mutation ($inviteId: ID!, $clubId: ID!) {
     acceptTeacherInvite(inviteId: $inviteId, clubId: $clubId) {
       id
+      clubName
     }
   }
 `;
@@ -78,6 +81,7 @@ export const GET_USER_INVITES = gql`
           }
           type
           status
+          createdAt
         }
         accepted {
           id
@@ -93,6 +97,7 @@ export const GET_USER_INVITES = gql`
           }
           type
           status
+          createdAt
         }
         declined {
           id
@@ -108,6 +113,7 @@ export const GET_USER_INVITES = gql`
           }
           type
           status
+          createdAt
         }
       }
       outgoing {
@@ -125,6 +131,7 @@ export const GET_USER_INVITES = gql`
           }
           type
           status
+          createdAt
         }
         accepted {
           id
@@ -140,6 +147,7 @@ export const GET_USER_INVITES = gql`
           }
           type
           status
+          createdAt
         }
         declined {
           id
@@ -155,6 +163,7 @@ export const GET_USER_INVITES = gql`
           }
           type
           status
+          createdAt
         }
       }
     }

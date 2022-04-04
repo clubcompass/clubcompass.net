@@ -14,13 +14,18 @@ export const declineInvite = async (
   _parent: any,
   { inviteId }: DeclineInviteArgs,
   { prisma, auth: token }: Context
-): Promise<typeof updatedInvite> => {
+): Promise<typeof response> => {
   const invite = await prisma.invite.findUnique({
     where: {
       id: inviteId,
     },
     include: {
       roles: true,
+      club: {
+        select: {
+          name: true,
+        },
+      },
     },
   });
 
@@ -77,5 +82,10 @@ export const declineInvite = async (
     },
   });
 
-  return updatedInvite;
+  const response = {
+    id: invite.id,
+    clubName: invite.club.name,
+  };
+
+  return response;
 };

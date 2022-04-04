@@ -7,7 +7,7 @@ import { FiChevronRight } from "react-icons/fi";
 import { useAuthContext } from "../../../../../context";
 import { DashboardActionModal } from "./DashboardActionModal";
 
-export const DashboardUserCard = ({ club }) => {
+export const DashboardUserCard = ({ club, refetch }) => {
   const user = useAuthContext();
 
   const colors = {
@@ -73,7 +73,7 @@ export const DashboardUserCard = ({ club }) => {
           </InfoContainer>
         </div>
         <div>
-          <DashboardActionModal />
+          <DashboardActionModal club={club} refetch={refetch} />
         </div>
       </div>
     </div>

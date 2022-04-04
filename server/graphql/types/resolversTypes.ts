@@ -44,6 +44,8 @@ import type {
   GetUserDraftsPayload,
   GetAdvisorClubsArgs,
   GetAdvisorClubsPayload,
+  GetUserProfileArgs,
+  GetUserProfilePayload,
 } from "../user/types";
 import type {
   CreateClubArgs,
@@ -173,6 +175,7 @@ export interface UserResolvers {
   getUser?: Resolver<{}, GetUserArgs, GetUserPayload>;
   getUserDrafts?: Resolver<{}, GetUserDraftsArgs, GetUserDraftsPayload>;
   getAdvisorClubs?: Resolver<{}, GetAdvisorClubsArgs, GetAdvisorClubsPayload>;
+  getUserProfile?: Resolver<{}, GetUserProfileArgs, GetUserProfilePayload>;
 }
 
 export interface ClubResolvers {

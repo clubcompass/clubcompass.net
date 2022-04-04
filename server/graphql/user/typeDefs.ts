@@ -233,6 +233,19 @@ export default gql`
 
   ##### END OF GET ADVISOR CLUBS #####
 
+  ##### GET USER PROFILE #####
+
+  type GetUserProfilePayload {
+    studentId: String!
+    interests: [InterestName!]!
+  }
+
+  type InterestName {
+    name: String!
+  }
+
+  ##### END OF GET USER PROFILE #####
+
   type User {
     id: ID!
     ccid: String!
@@ -283,6 +296,7 @@ export default gql`
     getUser(identifier: GetUserIdentifierArgs!, type: UserType): GetUserPayload!
     getUserDrafts: [GetUserDraftsPayload!]!
     getAdvisorClubs: [GetAdvisorClubPayload!]!
+    getUserProfile: GetUserProfilePayload!
   }
 
   type Mutation {
