@@ -116,7 +116,8 @@ const DashboardItem = ({ label, to, icon, notifications, disabled }) => {
               : disabled
               ? "pointer-events-none cursor-not-allowed text-gray-200"
               : "text-[#787F92]"
-          } `}>
+          } `}
+      >
         {isActive && !isMobile && (
           <span className="absolute h-[20px] w-[5px] -translate-x-6 rounded-lg bg-cc" />
         )}
@@ -150,7 +151,8 @@ const Icon = ({ icon, color, isActive }) => {
     <div
       className={`${
         !isActive && "hover:bg-gray-100"
-      } rounded-md p-[.3rem] text-xl`}>
+      } rounded-md p-[.3rem] text-xl`}
+    >
       {icon === "home" && <DashboardIcon color={color} />}
       {icon === "manage" && <RiEdit2Fill />}
       {icon === "activity" && <FaBell />}
@@ -164,8 +166,8 @@ const Label = ({ label }) => {
   return (
     <div className="relative">
       <div className="absolute ml-2 flex items-center">
-        <span className="h-0 w-0 border-t-4 border-b-4 border-r-4 border-b-transparent border-r-black border-t-transparent" />
-        <p className="whitespace-nowrap rounded-md bg-black px-4 text-white">
+        <span className="relative left-[1px] h-0 w-0 border-t-8 border-b-8 border-r-8 border-b-transparent border-r-[#201C27] border-t-transparent" />
+        <p className="whitespace-nowrap rounded-lg bg-[#201C27] px-3 py-0.5 text-white">
           {label}
         </p>
       </div>
