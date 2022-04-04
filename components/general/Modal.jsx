@@ -1,6 +1,11 @@
+import {
+  Fragment,
+  useEffect,
+  useState,
+  createContext,
+  useContext,
+} from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useEffect, useState } from "react";
-import { createContext, useContext } from "react";
 import { useTransition, animated, config } from "react-spring";
 
 import { CgClose } from "react-icons/cg";
@@ -39,6 +44,7 @@ export const ModalProvider = ({ children, closeColor }) => {
   }, [isOpen]);
 
   const value = {
+    isOpen: isOpen,
     closeModal: () => setIsOpen(false),
     openModal: () => setIsOpen(true),
     next: () => handleNext(),
@@ -95,7 +101,7 @@ const ModalContainer = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Overlay className="fixed inset-0 backdrop-blur-sm bg-black/20" />
+              <Dialog.Overlay className="fixed inset-0 bg-black/20 backdrop-blur-sm" />
             </Transition.Child>
 
             {/* This element is to trick the browser into centering the modal contents. */}
@@ -114,7 +120,7 @@ const ModalContainer = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+              <div className="my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 {children}
                 <button
                   onClick={closeModal}

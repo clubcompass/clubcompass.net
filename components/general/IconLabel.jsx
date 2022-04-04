@@ -1,5 +1,9 @@
 import React from "react";
-import { BsPersonFill, BsPiggyBankFill } from "react-icons/bs";
+import {
+  BsFillPersonBadgeFill,
+  BsPersonFill,
+  BsPiggyBankFill,
+} from "react-icons/bs";
 import { FaChessQueen, FaCrown } from "react-icons/fa";
 import { HiPencilAlt } from "react-icons/hi";
 import { IoMdPin } from "react-icons/io";
@@ -18,7 +22,7 @@ const Icon = ({ icon }) => {
     <>
       {icon === "member" && <BsPersonFill />}
       {icon === "president" && <FaCrown size={14} />}
-      {icon === "vice president" && <FaChessQueen size={14} />}
+      {icon === "vice president" && <BsFillPersonBadgeFill size={14} />}
       {icon === "treasurer" && <BsPiggyBankFill />}
       {icon === "secretary" && <HiPencilAlt />}
       {icon === "location" && <IoMdPin size={14} />}

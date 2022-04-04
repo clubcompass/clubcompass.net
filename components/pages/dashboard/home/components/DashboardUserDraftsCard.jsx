@@ -12,8 +12,8 @@ export const DashboardUserDraftsCard = ({ club }) => {
       fg: "#FF921B",
     },
     REVIEW: {
-      bg: "#EDF4FE",
-      fg: "#2575E5",
+      bg: "#EBFAE2",
+      fg: "#2A9E00",
     },
     APPROVED: {
       bg: "#EBFAE2",
@@ -28,8 +28,8 @@ export const DashboardUserDraftsCard = ({ club }) => {
   return (
     <div className="flex w-full flex-col gap-2">
       <div className="flex gap-2">
-        <StatusTag colors={{ bg: "#FFF2E4", fg: "#FF921B" }}>
-          {club.status}
+        <StatusTag colors={colors[club.status]}>
+          {club.status.toLowerCase()}
         </StatusTag>
         <span className="flex items-center gap-1 rounded-md bg-gray-100 px-2">
           <span className="h-[15px] w-[15px] -rotate-90">
@@ -63,7 +63,7 @@ export const DashboardUserDraftsCard = ({ club }) => {
           ))}
           {club.completed < 5 && (
             <span className="text-sm text-gray-300">
-              +{club.completed - 5} More
+              +{club.total - club.completed - 5} More
             </span>
           )}
         </InfoList>

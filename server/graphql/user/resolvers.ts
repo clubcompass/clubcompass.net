@@ -12,6 +12,7 @@ import { getUser } from "./resolvers/getUser";
 import { validateTeacher } from "./resolvers/validateTeacher";
 import { getUserDrafts } from "./resolvers/getUserDrafts";
 import { getAdvisorClubs } from "./resolvers/getAdvisorClubs";
+import { getUserProfile } from "./resolvers/getUserProfile";
 
 const resolvers: Resolvers = {
   Query: {
@@ -23,6 +24,7 @@ const resolvers: Resolvers = {
     getUser,
     getUserDrafts,
     getAdvisorClubs,
+    getUserProfile,
   },
   Mutation: {
     deleteUser,
