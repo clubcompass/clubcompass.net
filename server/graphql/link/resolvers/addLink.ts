@@ -1,6 +1,9 @@
 import { Context } from "../../ctx";
 import { Club, Link } from "@prisma/client";
 import { ApolloError } from "apollo-server-micro";
+import { addLinkSchema } from "../../../utils/validation/schemas/link";
+import { validate } from "../../../utils/validation";
+import { UserInputError } from "apollo-server-micro";
 
 export type EditClubData = {
   name: Link["name"];
@@ -20,6 +23,13 @@ export const addLink = async (
   { clubId, data }: AddLinkArgs,
   { auth: president, prisma }: Context
 ): Promise<typeof response> => {
+  const { valid, errors } = await validate({
+    schema: addLinkSchema,
+    data,
+  });
+
+  if (!valid) throw new UserInputError("Invalid user input", { errors });
+
   const club = await prisma.club.findUnique({
     where: {
       id: clubId,
