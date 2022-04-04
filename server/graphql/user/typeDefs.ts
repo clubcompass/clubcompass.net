@@ -236,6 +236,7 @@ export default gql`
   ##### GET USER PROFILE #####
 
   type GetUserProfilePayload {
+    grade: String!
     studentId: String!
     interests: [InterestName!]!
   }

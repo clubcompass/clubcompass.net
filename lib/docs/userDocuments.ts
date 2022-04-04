@@ -25,6 +25,7 @@ export const GET_USER = gql`
 export const GET_USER_PROFILE = gql`
   query {
     getUserProfile {
+      grade
       studentId
       interests {
         name
