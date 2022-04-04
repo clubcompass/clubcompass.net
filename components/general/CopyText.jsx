@@ -27,8 +27,7 @@ export const CopyText = ({ children, tooltip }) => {
     <div>
       <button
         onClick={handleCopyClick}
-        className="flex items-center font-semibold w-full break-all text-left"
-      >
+        className="flex w-full items-center break-all text-left font-semibold">
         {tooltip ? (
           <ToolTip content={isCopied ? "Copied!" : "Copy"}>{children}</ToolTip>
         ) : (

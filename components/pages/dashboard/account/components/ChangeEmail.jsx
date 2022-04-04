@@ -8,7 +8,7 @@ import { Field as CustomField } from "../../../../general/input/control";
 export const ChangeEmail = ({ email }) => {
   return (
     <div>
-      <div className="flex gap-2 items-center">
+      <div className="flex items-center gap-2">
         <ModalProvider button={"Edit"} title={"Change email"}>
           <OpenModal />
           <EmailForm email={email} />
@@ -25,8 +25,7 @@ const OpenModal = () => {
   return (
     <button
       onClick={openModal}
-      className="ml-2 py-0.3 px-4 rounded-md bg-gray-500/10 text-gray-500 hover:bg-gray-500/20 duration-150 ease"
-    >
+      className="py-0.3 ease ml-2 rounded-md bg-gray-100 px-4 text-gray-600 duration-150 hover:bg-gray-200">
       Edit
     </button>
   );
@@ -53,8 +52,7 @@ const EmailForm = ({ email }) => {
           console.log(values);
           next();
         }} // make actually work
-        validationSchema={loginSchema}
-      >
+        validationSchema={loginSchema}>
         <Form className="grid grid-cols-8 gap-2">
           <div style={{ gridColumn: "span 6" }}>
             <Field
@@ -67,8 +65,7 @@ const EmailForm = ({ email }) => {
           </div>
           <button
             type="submit"
-            className="col-span-2 h-[44px] bg-cc text-white rounded-xl"
-          >
+            className="col-span-2 h-[44px] rounded-xl bg-cc text-white">
             Send
           </button>
         </Form>
@@ -101,14 +98,12 @@ const EmailConfirm = () => {
               <button
                 type="submit"
                 onClick={next}
-                className="py-2 bg-cc text-white rounded-xl"
-              >
+                className="rounded-xl bg-cc py-2 text-white">
                 Confirm
               </button>
               <span
                 onClick={prev}
-                className="cursor-pointer text-center text-gray-500 duration-150 ease hover:bg-gray-100 py-1 rounded-xl mt-2"
-              >
+                className="ease mt-2 cursor-pointer rounded-xl py-1 text-center text-gray-500 duration-150 hover:bg-gray-100">
                 Back
               </span>
             </div>
@@ -131,8 +126,7 @@ const EmailCongrats = () => {
       <div className="mx-auto">
         <button
           onClick={closeModal}
-          className="px-8 py-2 text-white bg-cc rounded-lg"
-        >
+          className="rounded-lg bg-cc px-8 py-2 text-white">
           Got it!
         </button>
       </div>

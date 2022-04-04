@@ -1,7 +1,4 @@
 import React from "react";
-import { useState } from "react";
-import { CopyText } from "../../../general/CopyText";
-import { MdContentCopy } from "react-icons/md";
 import { CustomTitle } from "../../../general/CustomTitle";
 import {
   DashboardUserWrapper as CardsWrapper,

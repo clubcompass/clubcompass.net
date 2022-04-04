@@ -19,8 +19,8 @@ export const DashboardNavProfile = () => {
               onClick={logout}
               onMouseEnter={showTip}
               onMouseLeave={showTip}
-              className="flex  cursor-pointer items-center justify-center rounded-full border md:p-2">
-              <BiArrowToRight className="text-xl text-[#787F92] md:text-2xl" />
+              className="flex cursor-pointer items-center justify-center rounded-full border p-1 md:p-2">
+              <BiArrowToRight className="text-lg text-[#787F92] md:text-2xl" />
             </div>
             <div className="-translate-y-3">
               {hover && <Label label="Logout" />}
