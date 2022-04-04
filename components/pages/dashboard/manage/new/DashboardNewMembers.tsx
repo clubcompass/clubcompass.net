@@ -1,21 +1,118 @@
 import React from "react";
+import { FiChevronDown } from "react-icons/fi";
 import { MdGroupAdd } from "react-icons/md";
 import { StatusTag } from "../../../../general/StatusTag";
+import { GetClubInvitesPayload } from "../../../../../server/graphql/club/types";
 
-type Member = {
-  status: string;
-  name: string;
-  ccid: string;
-  email: string;
-  type: string;
-  role: string; // ?
-};
+const members: GetClubInvitesPayload = [
+  {
+    id: "cl1ju6orc3488ba1orbc1veom",
+    user: {
+      id: "cl1ju6fan0299a41oz8om9rlo",
+      firstname: "Allie",
+      lastname: "Henson",
+      type: "STUDENT",
+      email: "alliehenson@turnling.com",
+      ccid: "NOQNZU",
+    },
+    roles: [],
+    status: "PENDING",
+    type: "INCOMING",
+    createdAt: "2022-04-03T22:09:46.200Z",
+  },
+  {
+    id: "cl1ju6orc3487ba1oonsh6yap",
+    user: {
+      id: "cl1ju6jj10937a41obufteydm",
+      firstname: "Mendez",
+      lastname: "Walter",
+      type: "STUDENT",
+      email: "mendezwalter@turnling.com",
+      ccid: "OJRIBG",
+    },
+    roles: [],
+    status: "PENDING",
+    type: "INCOMING",
+    createdAt: "2022-04-03T22:09:46.200Z",
+  },
+  {
+    id: "cl1ju6orc3486ba1oj2aqdozy",
+    user: {
+      id: "cl1ju6od81674a41ofy4swx1a",
+      firstname: "Golden",
+      lastname: "Hewitt",
+      type: "STUDENT",
+      email: "goldenhewitt@turnling.com",
+      ccid: "UTWWJS",
+    },
+    roles: [],
+    status: "PENDING",
+    type: "INCOMING",
+    createdAt: "2022-04-03T22:09:46.200Z",
+  },
+  {
+    id: "cl1ju6orc3485ba1o8djo2dck",
+    user: {
+      id: "cl1ju6evw0232a41o4j7k5owr",
+      firstname: "Celina",
+      lastname: "Ewing",
+      type: "STUDENT",
+      email: "celinaewing@turnling.com",
+      ccid: "WRQAWD",
+    },
+    roles: [],
+    status: "PENDING",
+    type: "INCOMING",
+    createdAt: "2022-04-03T22:09:46.200Z",
+  },
+  {
+    id: "cl1ju6orc3484ba1o33p6kies",
+    user: {
+      id: "cl1ju6kei1070a41oecs089vy",
+      firstname: "Winters",
+      lastname: "Huffman",
+      type: "STUDENT",
+      email: "wintershuffman@turnling.com",
+      ccid: "PHKGAL",
+    },
+    roles: [],
+    status: "PENDING",
+    type: "INCOMING",
+    createdAt: "2022-04-03T22:09:46.200Z",
+  },
+];
 
 export const DashboardNewMembers = () => {
+  const members: Member[] = [
+    {
+      status: "PENDING",
+      name: "John Doe",
+      ccid: "123456789",
+      email: "johndoe@gmail.com",
+      type: "STUDENT",
+      role: "Member",
+    },
+    {
+      status: "DECLINED",
+      name: "John Doe",
+      ccid: "123456589",
+      email: "johndoe@gmail.com",
+      type: "STUDENT",
+      role: "Member",
+    },
+    {
+      status: "ACCEPTED",
+      name: "John Doe",
+      ccid: "121456589",
+      email: "johndoe@gmail.com",
+      type: "STUDENT",
+      role: "Member",
+    },
+  ];
   return (
     <div className="flex flex-col items-start gap-2">
       <InviteButton />
-      <Members />
+      <Members members={members} />
     </div>
   );
 };
@@ -41,8 +138,8 @@ const Member = ({ status, name, ccid, email, type, role }) => {
       <div className="w-fit">
         <StatusTag colors={colors[status]}>{status.toLowerCase()}</StatusTag>
       </div>
-      <div className="flex w-[32rem] flex-row items-center justify-between rounded-md border px-3 py-3">
-        <div className="flex flex-col gap-2">
+      <div className="flex w-[27rem] flex-row items-center justify-between rounded-lg border px-5 py-3 font-medium">
+        <div className="flex flex-col">
           <div className="flex flex-row items-center gap-2">
             <span>{name}</span>
             <span className="text-[#D6D6D6]">#{ccid}</span>
@@ -51,36 +148,27 @@ const Member = ({ status, name, ccid, email, type, role }) => {
             <span className="text-[#848484]">{email}</span>
           </div>
         </div>
-        <div className="flex flex-col gap-2">
-          <span className="capitalize">{type.toLowerCase()}</span>
-          <span>{role}</span>
+        <div className="flex flex-col">
+          <span className="text-right capitalize text-[#848484]">
+            {type.toLowerCase()}
+          </span>
+          <MemberDropDown role={role} />
         </div>
       </div>
     </div>
   );
 };
 
-const Members = () => {
-  const members: Member[] = [
-    {
-      status: "PENDING",
-      name: "John Doe",
-      ccid: "123456789",
-      email: "johndoe@gmail.com",
-      type: "STUDENT",
-      role: "Member",
-    },
+const MemberDropDown = ({ role }: { role: string }) => {
+  return (
+    <div className="relative flex w-fit flex-row items-center gap-1">
+      <span>{role}</span>
+      <FiChevronDown color="#A5A5A5" size={16} className="relative top-[1px]" />
+    </div>
+  );
+};
 
-    {
-      status: "DECLINED",
-      name: "John Doe",
-      ccid: "123456589",
-      email: "johndoe@gmail.com",
-      type: "STUDENT",
-      role: "Member",
-    },
-  ];
-
+const Members = ({ members }: { members: Member[] }) => {
   return (
     <div className="mt-4 flex flex-col gap-2">
       <h4 className="font-medium">Members</h4>
