@@ -72,6 +72,8 @@ import type {
   RequestToJoinClubPayload,
   GetClubInvitesArgs,
   GetClubInvitesPayload,
+  GetClubRolesArgs,
+  GetClubRolesPayload,
 } from "../club/types";
 import type {
   GetUserInvitesArgs,
@@ -210,6 +212,7 @@ export interface ClubResolvers {
     RequestToJoinClubPayload
   >;
   getClubInvites?: Resolver<{}, GetClubInvitesArgs, GetClubInvitesPayload>;
+  getClubRoles?: Resolver<{}, GetClubRolesArgs, GetClubRolesPayload>;
 }
 
 export interface InviteResolvers {

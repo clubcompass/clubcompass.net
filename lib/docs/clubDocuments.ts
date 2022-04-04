@@ -223,3 +223,14 @@ export const GET_CLUB_INVITES = gql`
     }
   }
 `;
+
+export const GET_CLUB_ROLES = gql`
+  query ($clubId: ID!) {
+    getClubRoles(clubId: $clubId) {
+      id
+      name
+      type
+      color
+    }
+  }
+`;

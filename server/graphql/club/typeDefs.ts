@@ -342,6 +342,13 @@ export default gql`
     clubs: Int!
   }
 
+  type GetClubRolePayload {
+    id: ID!
+    name: String!
+    type: RoleType!
+    color: String!
+  }
+
   ##### QUERIES + MUTATIONS #####
 
   type Query {
@@ -350,6 +357,7 @@ export default gql`
     getUnapprovedClubs: [GetUnapprovedClubsPayload!]!
     getAdminApprovedClubs: [GetAdminApprovedClubsPayload!]!
     getClubInvites(clubId: ID!): [GetClubInvitesPayload!]!
+    getClubRoles(clubId: ID!): [GetClubRolePayload!]!
   }
 
   type Mutation {
