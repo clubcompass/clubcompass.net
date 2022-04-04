@@ -8,6 +8,7 @@ type Option = {
 
 interface Props extends FieldProps {
   label: string;
+  description: string;
   direction: "row" | "column";
   options: Option[];
   span?: number;
@@ -15,6 +16,7 @@ interface Props extends FieldProps {
 
 export const DashboardRadio = ({
   label,
+  description,
   direction,
   options,
   span,
@@ -25,9 +27,11 @@ export const DashboardRadio = ({
     <div
       role="group"
       aria-labelledby={label}
-      style={{ gridColumn: `span ${span}` }}
-    >
-      <OptionsContainer label={label} direction={direction}>
+      style={{ gridColumn: `span ${span}` }}>
+      <OptionsContainer
+        label={label}
+        description={description}
+        direction={direction}>
         {options.map((option) => (
           <Option key={option.value} {...option} {...rest} />
         ))}
@@ -56,15 +60,24 @@ const Option = ({
 
 const OptionsContainer = ({
   label,
+  description,
   direction,
   children,
 }: {
   label: string;
+  description: string;
   direction: "row" | "column";
   children: ReactChild[];
 }) => (
   <div className="flex flex-col gap-2">
-    <label className="text-sm">{label}</label>
+    {(label || description) && (
+      <div className="flex flex-col">
+        {label && <span className="text-sm">{label}</span>}
+        {description && (
+          <span className="text-sm text-gray-300">{description}</span>
+        )}
+      </div>
+    )}
     <div style={{ flexDirection: direction || "row" }} className="flex gap-3">
       {children}
     </div>

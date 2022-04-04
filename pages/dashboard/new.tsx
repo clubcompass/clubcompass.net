@@ -19,8 +19,7 @@ const New = () => {
       icon: <IoInformationOutline size={20} />,
       header: {
         title: "Tell us about your new club.",
-        subtitle:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eu malesuada turpis.",
+        subtitle: "This is the basic information needed to create your club.",
       },
     },
     {
@@ -59,7 +58,7 @@ const New = () => {
     <Pagination sections={paginationSections}>
       <Base />
       <Members />
-      <p>hi</p>
+      <Socials />
       <p>hi</p>
       {/* 
         <Socials />

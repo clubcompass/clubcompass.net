@@ -63,7 +63,7 @@ export const DashboardUserDraftsCard = ({ club }) => {
           ))}
           {club.completed < 5 && (
             <span className="text-sm text-gray-300">
-              +{club.completed - 5} More
+              +{club.total - club.completed - 5} More
             </span>
           )}
         </InfoList>

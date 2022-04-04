@@ -1,18 +1,63 @@
 import React, { useState } from "react";
+import Link from "next/link";
 import { useMutation, useQuery } from "@apollo/client";
 import { Formik, Form, Field, FormikProps } from "formik";
 import { useRouter } from "next/router";
 import { createClubSchema } from "../../../../../server/utils/validation/schemas/club/createClubSchema";
+import { usePaginationContext } from "../components";
 import { GET_TAGS, CREATE_CLUB } from "../../../../../lib/docs";
 import {
   DashboardField as CustomField,
   DashboardRadio as CustomRadio,
 } from "../components";
+import { useAuthContext } from "../../../../../context";
+import {
+  CreateClubArgs,
+  CreateClubPayload,
+} from "../../../../../server/graphql/club/types";
 
 export const DashboardNewBase = () => {
+  const { user } = useAuthContext();
   const router = useRouter();
+  const { next } = usePaginationContext();
 
-  // const handleSubmitAsDraft = async () => {};
+  const [createClub] = useMutation<
+    { createClub: CreateClubPayload },
+    CreateClubArgs
+  >(CREATE_CLUB, {
+    context: {
+      headers: { authorization: `Bearer ${user.token}` },
+    },
+    onCompleted: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const handleSubmitAsDraft = async ({
+    name,
+    description,
+    availability,
+    location,
+    meetingDate,
+    tags,
+  }) => {
+    await createClub({
+      variables: {
+        data: {
+          name: name,
+          ...(availability && { availability }),
+          ...(description && { description }),
+          ...(location && { location }),
+          ...(meetingDate && { meetingDate }),
+          ...(tags && { tags }),
+        },
+      },
+    });
+    next();
+  };
 
   return (
     <div className="flex flex-col gap-6">
@@ -20,20 +65,21 @@ export const DashboardNewBase = () => {
         initialValues={{
           name: "",
           description: "",
-          color: "",
+          email: "",
+          availability: "",
           location: "",
           meetingDate: "",
-          // tags: [],
+          tags: [],
         }}
         onSubmit={async (values, { setFieldError }) => {
-          console.log(values);
+          await handleSubmitAsDraft(values);
         }}
-        // validationSchema={createClubSchema}
-      >
-        <Form className="grid w-full grid-cols-2 gap-4">
+        validationSchema={createClubSchema}>
+        <Form className="grid w-full grid-cols-2 gap-6">
           <Field
             name="name"
             label="Club Name"
+            description="Make it clear, but not too long."
             placeholder="Robotics"
             span={1}
             required
@@ -42,6 +88,9 @@ export const DashboardNewBase = () => {
           <Field
             name="description"
             label="Description"
+            description="This is how members learn more about your club. Make sure you
+              provide enough detail for people to understand what your club is
+              all about."
             placeholder="Robotics is a club that teaches students how to build robots."
             span={2}
             textarea
@@ -51,6 +100,8 @@ export const DashboardNewBase = () => {
             component={CustomRadio}
             name="availability"
             label="Availability"
+            description="Open: Anyone can join. Invite Only: Users must request to join
+              your club. Closed: Members must be invited by the club to join."
             direction="column"
             options={[
               { label: "Open", value: "OPEN" },
@@ -62,6 +113,7 @@ export const DashboardNewBase = () => {
           <Field
             name="location"
             label="Meeting Location"
+            description="A room number works best. If it is outside of school, put where meetings are hosted at."
             placeholder="A101"
             span={1}
             component={CustomField}
@@ -69,20 +121,20 @@ export const DashboardNewBase = () => {
           <Field
             name="meetingDate"
             label="Meeting Date and Time"
-            placeholder="Every other Monday at 3:00pm after school"
+            description="The shorter the better."
+            placeholder="Every other Monday at 3:00pm"
             span={1}
             component={CustomField}
           />
 
           <div className="mt-3 flex flex-row items-center gap-3">
-            <button className="rounded-md bg-[#F4F4F4] px-9 py-2" type="button">
-              Dashboard
-            </button>
+            <Link href="/dashboard">
+              <a className="rounded-md bg-[#F4F4F4] px-9 py-2">Dashboard</a>
+            </Link>
             {/* should say save as draft when club created */}
             <button
               className="rounded-md bg-cc px-9 py-2 text-white"
-              type="submit"
-            >
+              type="submit">
               Continue
             </button>
           </div>

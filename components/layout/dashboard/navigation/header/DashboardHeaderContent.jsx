@@ -69,7 +69,7 @@ const PageButton = () => {
       </a>
     </Link>
   ) : (
-    <Link href="/dashboard/manage/club/new">
+    <Link href="/dashboard/new">
       <a className="whitespace-nowrap rounded-md bg-gradient-to-tl from-cc to-[#3771FA] px-3 py-1 text-white transition duration-200 ease-in-out hover:scale-105 hover:bg-gradient-to-br md:px-6">
         New Club
       </a>
