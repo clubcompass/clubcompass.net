@@ -126,14 +126,15 @@ export const DashboardNewBase = () => {
             span={1}
             component={CustomField}
           />
-
-          <div className="mt-3 flex flex-row items-center gap-3">
+          <div className="mt-3 grid w-[380px] grid-cols-2 items-center gap-3">
             <Link href="/dashboard">
-              <a className="rounded-md bg-[#F4F4F4] px-9 py-2">Dashboard</a>
+              <a className="rounded-md bg-gray-100 px-9 py-2 text-center duration-100 hover:bg-gray-200">
+                Dashboard
+              </a>
             </Link>
             {/* should say save as draft when club created */}
             <button
-              className="rounded-md bg-cc px-9 py-2 text-white"
+              className="rounded-md bg-cc px-9 py-2 text-white duration-100 hover:bg-ccDark"
               type="submit">
               Continue
             </button>

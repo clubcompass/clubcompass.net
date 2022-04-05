@@ -1,21 +1,16 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { Field, Form, Formik } from "formik";
 import React from "react";
+import { CgSpinner } from "react-icons/cg";
 import { useAuthContext, useToastContext } from "../../../../../context";
-import { ADD_LINK, DELETE_LINK, GET_CLUB_LINKS } from "../../../../../lib/docs";
-import { addLinkSchema } from "../../../../../server/utils/validation/schemas/link/addLinkSchema";
-import { CustomTitle } from "../../../../general/CustomTitle";
-import { ModalProvider, useModalContext } from "../../../../general/Modal";
-import {
-  DashboardField as CustomField,
-  DashboardDropdown as CustomDropdown,
-  DashboardLinks,
-} from "../components";
-import { BiLink } from "react-icons/bi";
+import { DELETE_LINK, GET_CLUB_LINKS } from "../../../../../lib/docs";
+import { ModalProvider } from "../../../../general/Modal";
+import { DashboardLinks, usePaginationContext } from "../components";
+import { LinkAddButton, LinkAddForm } from "../components/links";
 
 export const DashboardNewLinks = () => {
   const { user } = useAuthContext();
   const { addToast } = useToastContext();
+  const { next, prev } = usePaginationContext();
 
   const {
     data: { getClubLinks: links } = {},
@@ -25,7 +20,7 @@ export const DashboardNewLinks = () => {
   } = useQuery(GET_CLUB_LINKS, {
     context: { headers: { authorization: `Bearer ${user.token}` } },
     variables: {
-      clubId: "cl1lcixvu0026ezv5w9vorzqr",
+      clubId: "cl1lmh60y10468xv5r4di76cy",
     },
     onCompleted: (data) => {
       console.log(data);
@@ -41,166 +36,35 @@ export const DashboardNewLinks = () => {
     },
   });
 
-  const [deleteLink, { loading: deleteLoading }] = useMutation(DELETE_LINK, {
-    context: {
-      headers: {
-        authorization: `Bearer ${user.token}`,
-      },
-    },
-    onCompleted: async (data) => {
-      addToast({
-        type: "info",
-        title: "Successfully deleted link",
-        message: "Removed link from your club.",
-        duration: 5000,
-      });
-      return await refetch();
-    },
-    onError: (err) => {
-      addToast({
-        type: "error",
-        title: "An unexpected error occurred",
-        message: "Failed to remove link. Please try again later.",
-        duration: 10000,
-      });
-    },
-  });
-
-  const handleDelete = async ({ id }) => {
-    await deleteLink({
-      variables: {
-        clubId: "cl1lcixvu0026ezv5w9vorzqr",
-        data: {
-          linkId: id,
-        },
-      },
-    });
-  };
-
-  if (loading) return <p>Loading invites...</p>;
+  if (loading)
+    return (
+      <span>
+        <CgSpinner className="animate-spin" />
+        Loading invites...
+      </span>
+    );
   if (error)
     return <p>There was a problem fetching your links. Try again later.</p>;
 
   return (
     <>
       <ModalProvider>
-        <OpenModal />
-        <ActionPage refetch={refetch} />
+        <LinkAddButton />
+        <LinkAddForm refetch={refetch} />
       </ModalProvider>
-      <DashboardLinks links={links} canDelete />
+      <DashboardLinks links={links} canDelete refetch={refetch} />
+      <div className="mt-3 grid w-[380px] grid-cols-2 items-center gap-3">
+        <button
+          onClick={() => prev()}
+          className="rounded-md bg-gray-100 px-9 py-2 duration-100 hover:bg-gray-200">
+          Back
+        </button>
+        <button
+          onClick={() => next()}
+          className="rounded-md bg-cc px-9 py-2 text-white duration-100 hover:bg-ccDark">
+          Continue
+        </button>
+      </div>
     </>
-  );
-};
-
-const OpenModal = () => {
-  const { openModal } = useModalContext();
-  return (
-    <button
-      onClick={openModal}
-      className="flex w-fit flex-row items-center gap-2 rounded-lg border border-[#E4E4E4] bg-white px-5 py-2.5 text-[#727272] shadow-md shadow-black/[0.04] transition duration-200 hover:border-[#b3b3b3] hover:text-black"
-      type="button">
-      <BiLink size={19} />
-      Add Link
-    </button>
-  );
-};
-
-const ActionPage = ({ refetch }) => {
-  const { user } = useAuthContext();
-  const { closeModal } = useModalContext();
-  const { addToast } = useToastContext();
-
-  const [addLink, { loading }] = useMutation(ADD_LINK, {
-    context: {
-      headers: { authorization: `Bearer ${user.token}` },
-    },
-    onCompleted: (data) => {
-      addToast({
-        type: "info",
-        title: "Successfully added link",
-        message: "Added link to your club.",
-        duration: 5000,
-      });
-    },
-    onError: (error) => {
-      addToast({
-        type: "error",
-        title: "An unexpected error occurred",
-        message: "Failed to add link. Please try again later.",
-        duration: 10000,
-      });
-    },
-  });
-
-  const handleSubmission = async ({ name, link, type }) => {
-    await addLink({
-      variables: {
-        clubId: "cl1lcixvu0026ezv5w9vorzqr",
-        data: {
-          name,
-          link,
-          type,
-        },
-      },
-    });
-    closeModal();
-    return await refetch();
-  };
-
-  return (
-    <div className="flex flex-col gap-4 px-4">
-      <CustomTitle
-        title="Add Link"
-        subtitle="This link will be viewable for visitors of your club page."
-      />
-      <Formik
-        initialValues={{
-          name: "",
-          link: "",
-          type: "",
-        }}
-        onSubmit={async (values, { setFieldError }) => {
-          await handleSubmission(values);
-        }}
-        validationSchema={addLinkSchema}>
-        <Form className="grid w-full gap-6">
-          <Field
-            name="name"
-            label="Link Name"
-            placeholder="Website"
-            span={1}
-            required
-            component={CustomField}
-          />
-          <Field
-            name="link"
-            label="Link URL"
-            placeholder="https://www.clubcompass.net"
-            span={1}
-            required
-            component={CustomField}
-          />
-          <Field
-            name="type"
-            label="Link Type"
-            required
-            component={CustomDropdown}
-          />
-          <div className="grid grid-cols-2 gap-3">
-            <button
-              onClick={closeModal}
-              className="rounded-md bg-gray-200 py-2">
-              Cancel
-            </button>
-            <button
-              disabled={loading}
-              className="rounded-md bg-black py-2 text-white"
-              type="submit">
-              {loading ? "Adding..." : "Add"}
-            </button>
-          </div>
-        </Form>
-      </Formik>
-    </div>
   );
 };

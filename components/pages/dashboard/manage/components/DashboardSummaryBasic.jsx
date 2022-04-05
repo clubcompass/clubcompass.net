@@ -53,7 +53,7 @@ const Tags = ({ tags }) => {
   return (
     <div className="flex gap-1">
       {tags.map((tag, i) => (
-        <Tag tag={tag.name} />
+        <Tag key={i} tag={tag.name} />
       ))}
     </div>
   );

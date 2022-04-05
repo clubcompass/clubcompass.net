@@ -58,7 +58,7 @@ export const PaginationProvider = ({
   const next = (): void => {
     if (step === children.length - 1) return;
     setStep((step) => step + 1);
-    setSection(sections[step]);
+    setSection(sections[step + 1]);
   };
 
   const direct = (step: number): void => {
@@ -69,7 +69,7 @@ export const PaginationProvider = ({
   const prev = (): void => {
     if (step === 0) return;
     setStep((step) => step - 1);
-    setSection(sections[step]);
+    setSection(sections[step - 1]);
   };
 
   const completeSection = (name: string): void => {

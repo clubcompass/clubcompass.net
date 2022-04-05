@@ -6,6 +6,7 @@ import {
   DashboardSummaryMembers,
 } from "../components";
 import { GET_CLUB_DRAFT_SUMMARY } from "../../../../../lib/docs";
+import { CgSpinner } from "react-icons/cg";
 
 export const DashboardNewSummary = () => {
   const {
@@ -25,7 +26,12 @@ export const DashboardNewSummary = () => {
     notifyOnNetworkStatusChange: true,
   });
 
-  if (summaryLoading) return <p>loading summary...</p>;
+  if (summaryLoading)
+    return (
+      <span>
+        <CgSpinner className="animate-spin" /> Loading summary...
+      </span>
+    );
   if (summaryError)
     return (
       <p>
