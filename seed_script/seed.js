@@ -1,38 +1,46 @@
 const axios = require("axios");
 const users = require("./users.json");
 const clubs = require("./clubs.json");
-require("dotenv").config();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const seed_tags = async () => {
-  await axios.post("http://localhost:3000/api/tag/create", {
-    names: [
-      "volunteering",
-      "charity",
-      "science",
-      "tech",
-      "math",
-      "engineering",
-      "writing",
-      "sports",
-      "health",
-      "politics",
-      "music",
-      "arts",
-      "performing arts",
-      "academic competition",
-      "tutoring",
-      "culture",
-      "socializing",
-      "debate",
-      "business",
-      "community",
-      "education",
-      "public speaking",
-      "social activism",
-    ],
-  });
+  const names = [
+    "volunteering",
+    "charity",
+    "science",
+    "tech",
+    "math",
+    "engineering",
+    "writing",
+    "sports",
+    "health",
+    "politics",
+    "music",
+    "arts",
+    "performing arts",
+    "academic competition",
+    "tutoring",
+    "culture",
+    "socializing",
+    "debate",
+    "business",
+    "community",
+    "education",
+    "public speaking",
+    "social activism",
+  ];
+
+  for (let i = 0; i < names.length; i++) {
+    const name = names[i];
+    await prisma.tag.create({
+      data: {
+        name,
+      },
+    });
+  }
+
+  return;
 };
 
 const seed_users = async () => {
@@ -48,7 +56,7 @@ const seed_users = async () => {
       lastname: user.lastname,
       email: user.email,
       grade: user.grade,
-      password: "tae&&c9x56n@b&vr9gyp",
+      password: "$2b$10$HihvZx6IXwiFCdveslht7O3AYaCH5esQ4Y7VjLTIbUyJjOyulNc8G",
       emailVerified: true,
       tagIds: [
         tags[Math.floor(Math.random() * tags.length)].id,
@@ -99,8 +107,6 @@ const seed_clubs = async () => {
   const tag_ids = Array.from([...tags], (tag) => {
     return tag.id;
   });
-
-  // console.log(tagIds);
 
   let formatted_clubs = [];
 

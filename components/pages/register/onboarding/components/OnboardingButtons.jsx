@@ -3,7 +3,7 @@ import Link from "next/link";
 import { OnboardingFieldButton as Button } from "./input/OnboardingFieldButton";
 export const Buttons = ({ buttons, asSubmission }) => {
   return (
-    <div className="w-full col-span-6 max-w-[495px]">
+    <div className="col-span-6 w-full">
       <div className="flex flex-row gap-2">
         {buttons.map((btn, index) => {
           if (btn.type === "link") {

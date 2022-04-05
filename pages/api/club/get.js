@@ -2,6 +2,7 @@ import { prisma } from "../../../config/prisma";
 import { redis } from "../../../config/redis";
 
 export default async (req, res) => {
+  console.log("running");
   const { source, slug, clubId, tagIds, status } = req.query;
 
   if (source === "DB") {
@@ -13,6 +14,11 @@ export default async (req, res) => {
         },
         include: {
           tags: true,
+          _count: {
+            select: {
+              members: true,
+            },
+          },
         },
       });
 
@@ -53,6 +59,11 @@ export default async (req, res) => {
         },
         include: {
           tags: true,
+          _count: {
+            select: {
+              members: true,
+            },
+          },
         },
       });
 
@@ -97,17 +108,40 @@ export default async (req, res) => {
     }
 
     if (slug !== undefined) {
+      console.log("hello");
+      console.log(slug);
+
       const response = await prisma.club.findUnique({
         where: {
           slug: slug,
         },
         include: {
-          applicationInfo: {
+          links: true,
+          tags: true,
+          members: {
             include: {
-              teacher: true,
-              projectedRevenue: true,
-              projectedExpenses: true,
+              roles: true,
             },
+          },
+        },
+      });
+
+      const clubId = response.id;
+
+      response.members.map((member) => {
+        member.roles = member.roles.filter((role) => role.clubId === clubId);
+      });
+
+      return res.status(200).json({ ...response });
+    }
+
+    const response = await prisma.club.findMany({
+      include: {
+        applicationInfo: {
+          include: {
+            teacher: true,
+            projectedRevenue: true,
+            projectedExpenses: true,
           },
           links: true,
           tags: true,
@@ -124,34 +158,6 @@ export default async (req, res) => {
             },
           },
         },
-      });
-
-      return res.status(200).json({ ...response });
-    }
-
-    const response = await prisma.club.findMany({
-      include: {
-        applicationInfo: {
-          include: {
-            teacher: true,
-            projectedRevenue: true,
-            projectedExpenses: true,
-          },
-        },
-        links: true,
-        tags: true,
-        members: {
-          include: {
-            roles: true,
-          },
-        },
-        editors: true,
-        roles: true,
-        invites: {
-          include: {
-            user: true,
-          },
-        },
       },
     });
 
@@ -159,14 +165,27 @@ export default async (req, res) => {
   }
 
   if (source === "CACHE") {
-    await redis.connect();
+    if (status === "APPROVED") {
+      await redis.connect();
 
-    const response = await redis.get("clubs");
+      const response = await redis.get("approved_clubs");
 
-    await redis.quit();
+      await redis.quit();
 
-    const data = JSON.parse(response);
+      const data = JSON.parse(response);
 
-    return res.status(200).json([...data]);
+      return res.status(200).json([...data]);
+    }
+    if (slug !== undefined) {
+      await redis.connect();
+
+      const response = await redis.get(slug);
+
+      await redis.quit();
+
+      const data = JSON.parse(response);
+
+      return res.status(200).json({ ...data });
+    }
   }
 };

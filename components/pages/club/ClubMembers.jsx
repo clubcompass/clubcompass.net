@@ -1,17 +1,17 @@
 import React from "react";
 import { Card } from ".";
 
-export const ClubMembers = ({ members: allMembers }) => {
+export const ClubMembers = ({ members: allMembers, primaryColor }) => {
   const [leaders, members] = allMembers.reduce(
     ([leaders, members], current) =>
-      current.roles.find((role) => role?.type === "LEADERSHIP")
+      current.roles.find((role) => role?.type === "LEADER")
         ? [[...leaders, current], members]
         : [leaders, [...members, current]],
     [[], []]
   );
 
   return (
-    <div className="grid md:grid-cols-2 md:gap-8 w-full">
+    <div className="grid w-full md:grid-cols-2 md:gap-8">
       <Card title={`Leaders (${leaders.length})`}>
         <div className="max-h-[200px] overflow-y-scroll">
           {leaders.map((member) => (
@@ -21,8 +21,17 @@ export const ClubMembers = ({ members: allMembers }) => {
       </Card>
       <Card title={`Members (${members.length})`}>
         <div className="max-h-[192px] overflow-y-scroll">
+          {members.length === 0 && (
+            <span className="flex justify-center text-ccGreyLight">
+              There are currently no members
+            </span>
+          )}
           {members.map((member) => (
-            <Member member={member} key={member.id} />
+            <Member
+              member={member}
+              key={member.id}
+              primaryColor={primaryColor.bg}
+            />
           ))}
         </div>
       </Card>
@@ -30,14 +39,14 @@ export const ClubMembers = ({ members: allMembers }) => {
   );
 };
 
-const Member = ({ member }) => {
+const Member = ({ member, primaryColor }) => {
   return (
-    <div className="flex justify-between items-center mb-2">
+    <div className="mb-2 flex items-center justify-between">
       <div className="flex items-center">
         <Avatar
           firstname={member.firstname}
           lastname={member.lastname}
-          color={member.roles[0]?.color}
+          color={member.roles[0]?.color || primaryColor}
         />
         <span className="ml-3">
           {member.firstname} {member.lastname}
@@ -53,7 +62,7 @@ const Member = ({ member }) => {
             ))}
           </span>
         ) : (
-          <Label role="Member" color="#9FDDFC" />
+          <Label role="Member" color={primaryColor} />
         )}
       </div>
     </div>
@@ -64,7 +73,7 @@ const Avatar = ({ firstname, lastname, color }) => {
   const initials = `${firstname.charAt(0)}${lastname.charAt(0)}`;
   return (
     <div
-      className="flex items-center justify-center w-10 h-10 rounded-lg bg-[#9FDDFC]"
+      className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#9FDDFC]"
       style={{ backgroundColor: color }}
     >
       <p className="text-sm font-medium">{initials}</p>
@@ -75,10 +84,10 @@ const Avatar = ({ firstname, lastname, color }) => {
 const Label = ({ role, color }) => {
   return (
     <div
-      className="px-3 py-1 ml-1 rounded-sm"
+      className="ml-1 rounded-sm bg-[#9FDDFC] px-3 py-1"
       style={{ backgroundColor: color }}
     >
-      <p className="uppercase truncate text-[0.6rem] font-semibold">{role}</p>
+      <p className="truncate text-[0.6rem] font-semibold uppercase">{role}</p>
     </div>
   );
 };

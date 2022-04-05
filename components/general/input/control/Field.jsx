@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSpring, animated, config } from "react-spring";
+import { useSpring, animated, config, to } from "react-spring";
 import { MdError } from "react-icons/md";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 export const Field = ({
@@ -10,6 +10,7 @@ export const Field = ({
   value,
   form: { touched, errors },
   type,
+  textarea,
   ...props
 }) => {
   const [active, setActive] = useState(false);
@@ -47,36 +48,62 @@ export const Field = ({
                     touched[field.name] && errors[field.name] && "text-red-500"
                   } text-cc`
                 : `${
-                    touched[field.name] && errors[field.name] && "text-red-500"
-                  } text-gray-500`
-              : "translate-y-0 text-disabled capitalize text-[#686868]"
-          } absolute top-[15px] left-[18px] font-semibold bg-white px-1 leading-[0.9] pointer-events-none `}
+                    touched[field.name] && errors[field.name]
+                      ? "text-red-500"
+                      : "text-gray-500"
+                  }`
+              : "text-disabled translate-y-0 capitalize text-[#686868]"
+          } pointer-events-none absolute top-[15px] left-[18px] bg-white px-1 font-semibold leading-[0.9] `}
         >
           {label}
         </animated.label>
-        <input
-          id={id}
-          value={value}
-          type={type === "password" ? (hidden ? "password" : "text") : type}
-          className={`${
-            isContent || active
-              ? active
-                ? "border-cc ring-2"
-                : "border-[#E3E7EA]"
-              : ""
-          } ${
-            touched[field.name] &&
-            errors[field.name] &&
-            "border-red-500 ring-2 ring-red-500/20"
-          } outline-none px-4 py-2 font-bold text-base border-2 rounded-xl w-full transition duration-200 ease-in-out`}
-          {...field}
-          {...props}
-          onFocus={() => setActive(true)}
-          onBlur={() => setActive(false)}
-        />
+        {textarea ? (
+          <textarea
+            id={id}
+            value={value}
+            type={type === "password" ? (hidden ? "password" : "text") : type}
+            className={`${
+              isContent || active
+                ? active
+                  ? "border-cc ring-2"
+                  : "border-[#E3E7EA]"
+                : ""
+            } ${
+              touched[field.name] &&
+              errors[field.name] &&
+              "border-red-500 ring-2 ring-red-500/20"
+            } w-full rounded-xl border-2 px-4 py-2 text-base font-bold outline-none transition duration-200 ease-in-out`}
+            {...field}
+            {...props}
+            onFocus={() => setActive(true)}
+            onBlur={() => setActive(false)}
+          />
+        ) : (
+          <input
+            id={id}
+            value={value}
+            type={type === "password" ? (hidden ? "password" : "text") : type}
+            className={`${
+              isContent || active
+                ? active
+                  ? "border-cc ring-2"
+                  : "border-[#E3E7EA]"
+                : ""
+            } ${
+              touched[field.name] &&
+              errors[field.name] &&
+              "border-red-500 ring-2 ring-red-500/20"
+            } w-full rounded-xl border-2 px-4 py-2 text-base font-bold outline-none transition duration-200 ease-in-out`}
+            {...field}
+            {...props}
+            onFocus={() => setActive(true)}
+            onBlur={() => setActive(false)}
+          />
+        )}
+
         {type === "password" && (
           <div
-            className="absolute top-[14px] right-[18px] cursor-pointer transition duration-200 ease-in-out transform"
+            className="absolute top-[14px] right-[18px] transform cursor-pointer transition duration-200 ease-in-out"
             onClick={() => setHidden(!hidden)}
           >
             {hidden ? <AiFillEye /> : <AiFillEyeInvisible />}
@@ -96,15 +123,15 @@ export const Field = ({
 const ErrorIcon = () => {
   return (
     <div className="absolute top-[-8px] -right-1">
-      <MdError className="text-red-500 text-lg bg-white rounded-full" />
+      <MdError className="rounded-full bg-white text-lg text-red-500" />
     </div>
   );
 };
 
 const ErrorMessage = ({ message }) => {
   return (
-    <div className="w-full relative mt-2">
-      <p className="text-red-500 text-xs">{message}</p>
+    <div className="relative mt-2 w-full">
+      <p className="text-xs text-red-500">{message}</p>
     </div>
   );
 };

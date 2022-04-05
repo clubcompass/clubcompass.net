@@ -5,14 +5,13 @@ import { Buttons, Header, Container } from "../components";
 import { OnboardingForm } from "../components/input/OnboardingForm";
 import { OptionSelection } from "../../../../general/input";
 export const InformationSlide = ({ next, prev, set, data }) => {
-  const [grade, setGrade] = useState(data.grade);
   //# Make OptionSelection an Onboarding option
   const config = {
     usePaginationAsSubmission: true,
     header: {
       title: "Who are you?",
       description:
-        "To help identify users, Club Compass uses first and last names and not customized usernames.",
+        "To help identify users, Club Compass uses your actual name.",
     },
     control: [
       {
@@ -34,8 +33,9 @@ export const InformationSlide = ({ next, prev, set, data }) => {
         name: "grade",
         component: (
           <OptionSelection
-            setCurrent={({ value }) => setGrade(value)}
-            current={grade}
+            name="grade"
+            // setCurrent={({ value }) => setGrade(value)}
+            current={data.grade}
             options={["Freshman", "Sophomore", "Junior", "Senior"]}
           />
         ),
@@ -60,7 +60,7 @@ export const InformationSlide = ({ next, prev, set, data }) => {
     ],
   };
 
-  const handleSubmission = ({ firstname, lastname, setSubmitting }) => {
+  const handleSubmission = ({ firstname, lastname, grade, setSubmitting }) => {
     set({
       firstname: firstname,
       lastname: lastname,
@@ -86,7 +86,7 @@ export const InformationSlide = ({ next, prev, set, data }) => {
   return (
     <Container>
       <Header {...config.header} />
-      <div className="w-[495px] flex flex-col gap-3">
+      <div className="flex flex-col gap-3">
         <Formik
           initialValues={{
             firstname: data.firstname,
@@ -99,8 +99,7 @@ export const InformationSlide = ({ next, prev, set, data }) => {
               setSubmitting,
             });
           }}
-          validationSchema={informationSchema}
-        >
+          validationSchema={informationSchema}>
           {(props) => {
             return (
               <OnboardingForm

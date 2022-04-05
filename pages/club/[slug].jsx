@@ -1,33 +1,38 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useQuery } from "react-query";
-import { db } from "../../lib/database";
+import { useAuthContext } from "../../context";
+import { GET_CLUB } from "../../lib/docs";
+import { useQuery } from "@apollo/client";
 import { Club as ClubComponent } from "../../components/pages/club";
 import { Loading } from "../../components/general/Loading";
+import { tagSchema } from "../../components/general/tags";
 
 const Club = () => {
   const router = useRouter();
-  const [slugLoaded, setSlugLoaded] = useState(false);
+  const { user } = useAuthContext();
   const { slug } = router.query;
 
   const {
-    data: club,
+    data: { getClub: club = {} } = {},
+    loading: clubLoading,
     error: clubError,
-    isLoading: clubLoading,
-  } = useQuery("club", async () => await db.clubs.get.by.slug(slug), {
-    enabled: slugLoaded,
+  } = useQuery(GET_CLUB, {
+    context: {
+      ...(user && {
+        headers: {
+          authorization: `Bearer ${user.token}`,
+        },
+      }),
+    },
+    fetchPolicy: "cache-and-network",
+    variables: {
+      slug,
+    },
   });
 
-  console.log("name", slugLoaded);
-  console.log("clubs", clubLoading);
+  if (clubLoading) return <Loading />;
 
-  useEffect(() => {
-    slug === undefined ? setSlugLoaded(false) : setSlugLoaded(true);
-  }, [slug]);
-
-  if (clubLoading === true) return <Loading />;
-
-  if (clubError) return "An error has occurred: " + clubError.message;
+  if (clubError) return "An error has occurred: " + clubError.message; // toast this mf
 
   console.log(club);
 
@@ -35,7 +40,13 @@ const Club = () => {
     <div className="flex flex-col">
       {club && (
         <ClubComponent>
-          <ClubComponent.Wrapper availability={club.availability}>
+          <ClubComponent.Wrapper
+            availability={club.availability}
+            name={club.name}
+            isMember={club.isMember}
+            userId={user?.id}
+            clubId={club.id}
+            slug={club.slug}>
             <ClubComponent.Header name={club.name} tags={club.tags} />
             <ClubComponent.Contact email={club.email} links={club.links} />
             <ClubComponent.Meeting
@@ -44,8 +55,11 @@ const Club = () => {
               availability={club.availability}
             />
             <ClubComponent.Content description={club.description} />
-            <ClubComponent.Members members={club.members} />
-            <ClubComponent.SimilarClubs tag={club.tags[0].id} />
+            <ClubComponent.Members
+              members={club.members}
+              primaryColor={tagSchema[club.tags[0].name]}
+            />
+            {/* <ClubComponent.SimilarClubs tag={club.tags[0].id} /> */}
           </ClubComponent.Wrapper>
         </ClubComponent>
       )}

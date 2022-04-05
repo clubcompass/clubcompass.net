@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useAuthContext } from "../../context/auth";
+import { useAuthContext } from "../../context";
 import { updatePassword } from "../../lib/auth";
 import { db } from "../../lib/database";
 import {
@@ -106,6 +106,14 @@ const Register = () => {
       {slides[slide - 1]}
     </Container>
   );
+};
+
+export const getStaticProps = async () => {
+  return {
+    props: {
+      navigationLayout: false,
+    },
+  };
 };
 
 export default Register;

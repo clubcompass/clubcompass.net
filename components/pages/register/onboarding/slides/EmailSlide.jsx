@@ -1,27 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import axios from "axios";
-import { useTransition, animated } from "react-spring";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { db } from "../../../../../lib/database";
+import { useLazyQuery } from "@apollo/client";
+import { useToastContext } from "../../../../../context";
 import { Buttons, Header, Container } from "../components";
 import { OnboardingForm } from "../components/input/OnboardingForm";
-import { Field } from "../../../../general/input/control";
+import { CHECK_EMAIL } from "../../../../../lib/docs";
 export const EmailSlide = ({ next, prev, set, data }) => {
-  const [email, setEmail] = useState(data.email);
-  const [user, setUser] = useState(false);
-  const [coolingDown, setCooldown] = useState({ status: false, time: 0 });
-  const [sent, setSent] = useState(false);
-  const [disabled, setDisabled] = useState(true);
+  const { addToast } = useToastContext();
   const [loading, setLoading] = useState(false);
-  const [code, setCode] = useState(null);
-  const [confirmationCode, setConfirmationCode] = useState("");
-  const [confirmationCodeError, setConfirmationCodeError] = useState({
-    confirmation: "Confirmation code is required",
-  });
+
+  const [checkEmail, { error }] = useLazyQuery(CHECK_EMAIL); // loading and handling
 
   const config = {
+    usePaginationAsSubmission: true,
     header: {
       title: "What is your email address?",
       description:
@@ -32,23 +25,7 @@ export const EmailSlide = ({ next, prev, set, data }) => {
         label: "Email",
         name: "email",
         type: "text",
-        span: 4,
-        button: {
-          label: sent
-            ? coolingDown.status
-              ? coolingDown.time
-              : "Send again"
-            : "Send",
-          primary: true,
-          disabled: coolingDown.status,
-          type: "function",
-        },
-      },
-      confirmation: {
-        label: "Confirmation Code",
-        id: "confirmation-code-input",
-        name: "confirmation",
-        type: "text",
+        span: 6,
       },
     },
     buttons: [
@@ -60,150 +37,87 @@ export const EmailSlide = ({ next, prev, set, data }) => {
         action: prev,
       },
       {
-        disabled: disabled,
+        disabled: loading,
         primary: true,
+        loading: loading,
         label: "Continue",
         type: "function",
-        loading: loading,
-        action: () => {
-          setLoading(true);
-          set({
-            email: email,
-          });
-          next();
-          setLoading(false);
-        },
+        action: () => {},
       },
     ],
   };
 
-  const transition = useTransition(sent, {
-    from: { opacity: 0, transform: "translate(30px, 0px)" },
-    enter: { opacity: 1, transform: "translate(0px, 0px)" },
-    leave: { opacity: 0, transform: "translate(30px, 0px)" },
-  });
-
-  const sendEmail = async ({ email, setSubmitting }) => {
-    setUser(false);
-    const user = await db.users.get({ email });
-    if (user) {
-      setUser(true);
-      return setSubmitting(false);
-    }
-    setEmail(email);
+  const handleEmailSubmission = async ({
+    email,
+    setSubmitting,
+    setFieldError,
+  }) => {
+    setLoading(true);
     try {
-      const response = await axios.post(
-        "/api/auth/mail",
-        { email },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            secret_key: process.env.NEXT_PUBLIC_API_AUTHENTICATION_KEY,
-          },
-        }
-      );
-      //# Use server to confirm code
-      setCode(response.data.code);
-      setSent(true);
-      setSubmitting(false);
-      setCooldown({ status: true, time: 60 });
+      await checkEmail({ variables: { email } });
+      set({
+        email,
+      });
+      next();
     } catch (e) {
-      console.log(e);
+      if (e?.graphQLErrors[0]?.extensions?.code === "UNAUTHENTICATED") {
+        setFieldError("email", e.message);
+      } else {
+        addToast({
+          type: "error",
+          title: "Error",
+          message: "Something went wrong, please try again.",
+          duration: 3000,
+        });
+        setFieldError("email", "something went wrong");
+      }
+    } finally {
+      setLoading(false);
+      setSubmitting(false);
     }
   };
-
-  useEffect(() => {
-    if (coolingDown.time === 0) {
-      setCooldown({ status: false, time: 0 });
-    }
-    if (!coolingDown.time) return;
-    const intervalId = setInterval(() => {
-      setCooldown((prev) => ({ ...prev, time: coolingDown.time - 1 }));
-    }, 1000);
-    return () => clearInterval(intervalId);
-  }, [coolingDown.time]);
-
-  useEffect(() => {
-    if (confirmationCode.replace(/-/g, "") === code) {
-      setConfirmationCodeError({});
-      setDisabled(false);
-    } else {
-      if (confirmationCode.length > 0) {
-        setConfirmationCodeError({ confirmation: "Invalid confirmation code" });
-      } else {
-        setConfirmationCodeError({
-          confirmation: "Incorrect confirmation code",
-        });
-      }
-      setDisabled(true);
-    }
-    return () => setDisabled(false);
-  }, [code, confirmationCode]);
 
   return (
     <Container>
       <Header {...config.header} />
-      <div className="w-[495px] flex flex-col gap-3">
+      {/* <div className="flex flex-row items-center text-black">
+        <RiErrorWarningFill />
+        <span>
+          Please ensure you are not using your powayusd email, you will need to
+          verify this email
+        </span>
+      </div> */}
+      <div className="flex flex-col gap-3">
         <Formik
           initialValues={{ email: data.email }}
-          onSubmit={(values, { setSubmitting }) => {
-            sendEmail({ email: values.email, setSubmitting });
+          onSubmit={(values, { setSubmitting, setFieldError }) => {
+            // check email
+            console.log(values.email);
+            handleEmailSubmission({
+              email: values.email,
+              setSubmitting,
+              setFieldError,
+            });
           }}
           validationSchema={Yup.object().shape({
             email: Yup.string().email().required("Required"),
           })}
         >
           {(props) => {
-            return <OnboardingForm {...props} form={config.control.email} />;
+            return (
+              <OnboardingForm
+                {...props}
+                form={config.control.email}
+                usePaginationAsSubmission={config.usePaginationAsSubmission}
+                buttons={config.buttons}
+              />
+            );
           }}
         </Formik>
-
-        {sent && code && (
-          <>
-            {transition(
-              (style, item) =>
-                item && (
-                  <animated.div style={style} className="w-full">
-                    <Field
-                      field={{
-                        name: "confirmation",
-                        label: "Confirmation Code",
-                      }}
-                      value={confirmationCode}
-                      {...config.control.confirmation}
-                      onChange={(e) => {
-                        const value = e.target.value.match(/^\d|-$/)
-                          ? e.target.value
-                          : "";
-                        if (value.length === 0) {
-                          setConfirmationCode(value);
-                        } else {
-                          const v = value.split("-").join("");
-                          const finalVal = v.match(/.{1,3}/g).join("-");
-                          setConfirmationCode(finalVal);
-                        }
-                      }}
-                      maxLength={7}
-                      form={{
-                        touched: { confirmation: true },
-                        errors: confirmationCodeError,
-                      }}
-                    />
-                  </animated.div>
-                )
-            )}
-          </>
-        )}
       </div>
-      {user && (
-        <p className="text-red-500 text-sm">
-          An account with this email address already exists,{" "}
-          <Link href="/login">
-            <a className="text-cc underline">Login.</a>
-          </Link>
-        </p>
+      {!config.usePaginationAsSubmission && (
+        <Buttons buttons={config.buttons} />
       )}
-      <Buttons buttons={config.buttons} />
     </Container>
   );
 };

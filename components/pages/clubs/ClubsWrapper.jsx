@@ -1,9 +1,11 @@
 import React from "react";
 
-export const ClubsWrapper = ({ children }) => {
+const ClubsWrapper = ({ children }) => {
   return (
-    <div className="grid justify-items-center grid-cols-cards gap-2">
+    <div className="flex flex-col justify-items-center gap-6 md:grid md:grid-cols-cards">
       {children}
     </div>
   );
 };
+
+export default ClubsWrapper;

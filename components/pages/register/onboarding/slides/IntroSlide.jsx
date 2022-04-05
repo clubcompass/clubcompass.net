@@ -26,7 +26,9 @@ export const IntroSlide = ({ next, prev }) => {
   return (
     <Container>
       <Header {...config.header} />
-      <Buttons buttons={config.buttons} />
+      <div className="w-[600px]">
+        <Buttons buttons={config.buttons} />
+      </div>
       <p className="text-sm">
         Already have an account?{" "}
         <Link href="/login">

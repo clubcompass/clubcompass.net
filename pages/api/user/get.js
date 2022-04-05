@@ -9,10 +9,14 @@ export default async (req, res) => {
         id: id,
       },
       include: {
-        clubs: true,
-        roles: true,
         canEdit: true,
         advisor: true,
+        roles: true,
+        clubs: {
+          include: {
+            tags: true,
+          },
+        },
         invites: {
           include: {
             club: true,

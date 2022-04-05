@@ -8,9 +8,9 @@ export const PasswordSlide = ({ next, prev, set, data }) => {
   const config = {
     usePaginationAsSubmission: true,
     header: {
-      title: "What's your password? (We won't look)",
+      title: "What's your password?",
       description:
-        "You will need this password to log into your Club Compass account so make sure its something you'll remember.",
+        "You will need to remember this password to log into your Club Compass account.",
     },
     control: [
       {
@@ -68,16 +68,18 @@ export const PasswordSlide = ({ next, prev, set, data }) => {
   return (
     <Container>
       <Header {...config.header} />
-      <div className="w-[495px] flex flex-col gap-3">
+      <div className="flex w-[90vw] max-w-[495px] flex-col gap-3">
         <ValidatePassword password={password} />
         <Formik
-          initialValues={{ password: data.password, confirmation: "" }}
+          initialValues={{
+            password: data.password,
+            confirmation: data.password,
+          }}
           onSubmit={(values, { setSubmitting }) => {
             handleSubmission({ password: values.password });
             setSubmitting(false);
           }}
-          validationSchema={passwordSchema}
-        >
+          validationSchema={passwordSchema}>
           {(props) => {
             setPassword(props.values.password);
             return (
@@ -98,7 +100,7 @@ export const PasswordSlide = ({ next, prev, set, data }) => {
   );
 };
 
-const ValidatePassword = ({ password }) => {
+export const ValidatePassword = ({ password }) => {
   const [passes, setPassing] = useState({
     length: false,
     uppercase: false,
@@ -118,31 +120,31 @@ const ValidatePassword = ({ password }) => {
     setPassing(passes);
   }, [password]);
 
-  const Pass = () => <div className="bg-green-500 h-2 w-2 rounded-full" />;
+  const Pass = () => <div className="h-2 w-2 rounded-full bg-green-500" />;
 
-  const Fail = () => <div className="bg-red-500 h-2 w-2 rounded-full" />;
+  const Fail = () => <div className="h-2 w-2 rounded-full bg-red-500" />;
 
   return (
-    <div className="w-full flex flex-row items-center gap-4">
+    <div className="flex flex-row flex-wrap items-center justify-center gap-4 text-xs md:text-sm">
       <div className="flex flex-row items-center gap-2">
         {passes.length ? <Pass /> : <Fail />}
-        <p className="text-sm text-gray-600">8 characters</p>
+        <p className="text-gray-600">8 characters</p>
       </div>
       <div className="flex flex-row items-center gap-2">
         {passes.uppercase ? <Pass /> : <Fail />}
-        <p className="text-sm text-gray-600">1 uppercase</p>
+        <p className="text-gray-600">1 uppercase</p>
       </div>
       <div className="flex flex-row items-center gap-2">
         {passes.lowercase ? <Pass /> : <Fail />}
-        <p className="text-sm text-gray-600">1 lowercase</p>
+        <p className="text-gray-600">1 lowercase</p>
       </div>
       <div className="flex flex-row items-center gap-2">
         {passes.number ? <Pass /> : <Fail />}
-        <p className="text-sm text-gray-600">1 number</p>
+        <p className="text-gray-600">1 number</p>
       </div>
       <div className="flex flex-row items-center gap-2">
         {passes.special ? <Pass /> : <Fail />}
-        <p className="text-sm text-gray-600">1 special</p>
+        <p className="text-gray-600">1 special</p>
       </div>
     </div>
   );

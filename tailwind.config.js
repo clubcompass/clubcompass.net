@@ -6,6 +6,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      // fontFamily: {
+      //   display: ["Inter", "system-ui", "sans-serif"],
+      //   body: ["Inter", "system-ui", "sans-serif"],
+      // },
       colors: {
         cc: "#1C5EF9",
         "cc-temp": "#3771FA",
@@ -13,9 +17,12 @@ module.exports = {
         ccDark: "#1653E3",
         ccGrey: "#F8FAFB",
         ccGreyDark: "#F2F2F2",
+        ccGreyDarker: "#787F92",
+        ccGreyLight: "#686868",
       },
       gridTemplateColumns: {
-        cards: "repeat(auto-fill,minmax(443px,1fr))",
+        cards: "repeat(auto-fill,minmax(420px,1fr))",
+        dashboardCards: "repeat(auto-fill, minmax(350px, 1fr))",
       },
       animation: {
         drop: "drop .3s ease",
@@ -46,5 +53,8 @@ module.exports = {
   plugins: [
     require("@tailwindcss/line-clamp"),
     require("tailwind-scrollbar-hide"),
+    require("@tailwindcss/forms")({
+      strategy: "class",
+    }),
   ],
 };

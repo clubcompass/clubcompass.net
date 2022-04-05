@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useField } from "formik";
 import { Loading } from "../Loading";
 import { tagSchema } from "../tags";
-export const TagSelection = ({ tags, loading, error, limit, set, initial }) => {
+export const TagSelection = ({ tags, loading, error, limit, initial }) => {
+  const [field, meta, { setValue }] = useField("tags");
+  console.log(tags);
+  // console.log(field, meta, helpers);
   const [selected, setSelected] = useState(initial);
   const [limitReached, setLimitReached] = useState(false);
 
@@ -10,14 +14,12 @@ export const TagSelection = ({ tags, loading, error, limit, set, initial }) => {
       setSelected(
         selected.filter((c) => c.id !== tag.id && c.name !== tag.name)
       );
+      setValue(selected.filter((c) => c.id !== tag.id && c.name !== tag.name));
     } else {
       setSelected([...selected, tag]);
+      setValue([...selected, tag]);
     }
   };
-
-  useEffect(() => {
-    set(selected);
-  }, [set, selected]);
 
   useEffect(() => {
     if (selected.length === limit) {
@@ -47,8 +49,8 @@ export const TagSelection = ({ tags, loading, error, limit, set, initial }) => {
 };
 
 const Container = ({ children }) => (
-  <div className="w-full max-w-[900px]">
-    <div className="grid grid-cols-5 gap-2">{children}</div>
+  <div className="flex items-center justify-center">
+    <div className="grid grid-cols-6 gap-2">{children}</div>
   </div>
 );
 
@@ -73,12 +75,11 @@ export const Tag = ({ tag, select, limitReached, selected }) => {
           : limitReached
           ? "cursor-disabled pointer-events-none"
           : "cursor-pointer"
-      } flex items-center justify-center py-2 rounded uppercase font-extrabold text-[0.6rem]`}
+      } flex items-center justify-center rounded py-2 text-[0.6rem] font-extrabold uppercase`}
       onClick={() => {
         setToggled(!toggled);
         select({ tag });
-      }}
-    >
+      }}>
       {tag.name}
     </span>
   );

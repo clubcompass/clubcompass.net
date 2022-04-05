@@ -1,10 +1,13 @@
 import React from "react";
-import { Card as Club, ClubsWrapper } from ".";
-export const Clubs = ({ clubs }) => {
+import ClubsWrapper from "./ClubsWrapper";
+import Club from "./Card";
+// import { db } from "../../../lib/database"; // get user clubs
+
+const Clubs = ({ clubs }) => {
   return (
     <ClubsWrapper>
-      {clubs.map((club, index) => (
-        <Club key={club.slug}>
+      {clubs.map((club) => (
+        <Club key={club.id}>
           <Club.Container>
             <Club.Header
               name={club.name}
@@ -12,10 +15,19 @@ export const Clubs = ({ clubs }) => {
               tags={club.tags}
             />
             <Club.Content name={club.name} description={club.description} />
-            <Club.Footer slug={club.slug} />
+            <Club.Footer
+              name={club.name}
+              slug={club.slug}
+              clubId={club.id}
+              isMember={club.isMember}
+              memberCount={club._count.members}
+              availability={club.availability}
+            />
           </Club.Container>
         </Club>
       ))}
     </ClubsWrapper>
   );
 };
+
+export default Clubs;

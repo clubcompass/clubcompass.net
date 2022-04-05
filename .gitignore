@@ -36,3 +36,9 @@ yarn-error.log*
 prisma/.env
 requests.http
 commit_message.md
+prisma/database.db
+pal.js
+.env.test
+
+#prisma
+/prisma/schema2.prisma
