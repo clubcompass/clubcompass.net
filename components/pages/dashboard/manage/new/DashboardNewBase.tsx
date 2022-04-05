@@ -17,6 +17,7 @@ export const DashboardNewBase = () => {
   const handleSubmitAsDraft = async ({
     name,
     description,
+    email,
     availability,
     location,
     meetingDate,
@@ -27,6 +28,7 @@ export const DashboardNewBase = () => {
         variables: {
           clubId,
           data: {
+            email,
             ...(availability && { availability }),
             ...(description && { description }),
             ...(location && { location }),
@@ -42,6 +44,7 @@ export const DashboardNewBase = () => {
       variables: {
         data: {
           name: name,
+          email: email,
           ...(availability && { availability }),
           ...(description && { description }),
           ...(location && { location }),
@@ -68,8 +71,7 @@ export const DashboardNewBase = () => {
         onSubmit={async (values: Club, { setFieldError }) => {
           await handleSubmitAsDraft(values);
         }}
-        validationSchema={createClubSchema}
-      >
+        validationSchema={createClubSchema}>
         <Form className="grid w-full grid-cols-2 gap-6">
           <Field
             name="name"
@@ -89,6 +91,15 @@ export const DashboardNewBase = () => {
             placeholder="Robotics is a club that teaches students how to build robots."
             span={2}
             textarea
+            component={CustomField}
+          />
+          <Field
+            name="email"
+            label="Club Email"
+            description="This is the email members and ASB will use to communicate with you."
+            placeholder="example@example.com"
+            span={1}
+            required
             component={CustomField}
           />
           <Field
@@ -129,8 +140,7 @@ export const DashboardNewBase = () => {
             </Link>
             <button
               className="rounded-md bg-cc px-9 py-2 text-white duration-100 hover:bg-ccDark"
-              type="submit"
-            >
+              type="submit">
               Continue
             </button>
           </div>
