@@ -94,16 +94,16 @@ export const AuthProvider = ({ user: initialUser, children }) => {
     {
       onCompleted: async ({ register: user }) => {
         setUser(user); // should be same result as currentUser
-        await sendVerificationCode({
-          variables: {
-            email: user.email,
-          },
-          context: {
-            headers: {
-              authorization: `Bearer ${user.token}`,
-            },
-          },
-        });
+        // await sendVerificationCode({
+        //   variables: {
+        //     email: user.email,
+        //   },
+        //   context: {
+        //     headers: {
+        //       authorization: `Bearer ${user.token}`,
+        //     },
+        //   },
+        // });
         addToast({
           type: "info",
           title: "Registration successful",

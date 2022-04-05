@@ -12,7 +12,7 @@ export const tagSchema = {
   music: { bg: "#ffc9ec", fg: "#FA52BF" },
   arts: { bg: "#e3f2ff", fg: "#50A9F7" },
   "performing arts": { bg: "#ffc7a3", fg: "#E16C23" },
-  "academic competition": { bg: "#fcf490", fg: "#a9a123" },
+  competition: { bg: "#fcf490", fg: "#a9a123" },
   tutoring: { bg: "#dbffe1", fg: "#2cd047" },
   culture: { bg: "#e5e5e5", fg: "#5c5c5c" },
   socializing: { bg: "#d0cfff", fg: "#5b59d5" },
