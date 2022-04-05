@@ -77,7 +77,7 @@ model User {
   firstname         String
   lastname          String
   email             String      @unique
-  emailVerified     Boolean     @default(false)
+  emailVerified     Boolean     @default(true)
   verificationToken String?     @unique // should be moved to a separate table
   active            Boolean     @default(false)
   password          String
