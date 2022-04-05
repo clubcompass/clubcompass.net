@@ -11,7 +11,7 @@ export const EmailSlide = ({ next, prev, set, data }) => {
   const { addToast } = useToastContext();
   const [loading, setLoading] = useState(false);
 
-  const [checkEmail] = useLazyQuery(CHECK_EMAIL); // loading and handling
+  const [checkEmail, { error }] = useLazyQuery(CHECK_EMAIL); // loading and handling
 
   const config = {
     usePaginationAsSubmission: true,
@@ -101,7 +101,8 @@ export const EmailSlide = ({ next, prev, set, data }) => {
           }}
           validationSchema={Yup.object().shape({
             email: Yup.string().email().required("Required"),
-          })}>
+          })}
+        >
           {(props) => {
             return (
               <OnboardingForm
@@ -114,14 +115,6 @@ export const EmailSlide = ({ next, prev, set, data }) => {
           }}
         </Formik>
       </div>
-      {error && (
-        <p className="text-sm text-red-500">
-          An account with this email address already exists,{" "}
-          <Link href="/login">
-            <a className="text-cc underline">Login.</a>
-          </Link>
-        </p>
-      )}
       {!config.usePaginationAsSubmission && (
         <Buttons buttons={config.buttons} />
       )}

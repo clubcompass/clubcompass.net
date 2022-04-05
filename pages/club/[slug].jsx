@@ -60,7 +60,7 @@ const Club = () => {
               members={club.members}
               primaryColor={tagSchema[club.tags[0].name]}
             />
-            <ClubComponent.SimilarClubs tag={club.tags[0].id} />
+            {/* <ClubComponent.SimilarClubs tag={club.tags[0].id} /> */}
           </ClubComponent.Wrapper>
         </ClubComponent>
       )}

@@ -5,9 +5,11 @@ import {
   CardFooter as Footer,
 } from ".";
 
-export const Card = ({ children }) => <>{children}</>;
+const Card = ({ children }) => <>{children}</>;
 
 Card.Container = Container;
 Card.Header = Header;
-Card.Footer = Footer;
 Card.Content = Content;
+Card.Footer = Footer;
+
+export default Card;

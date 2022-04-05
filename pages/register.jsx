@@ -21,30 +21,30 @@ const Register = () => {
   const { user, register } = useAuthContext();
   const [slide, setSlide] = useState(1);
   const [error, setError] = useState(null);
-  // const [data, setData] = useState({
-  //   firstname: "",
-  //   lastname: "",
-  //   email: "",
-  //   studentId: "",
-  //   password: "",
-  //   grade: "Freshman",
-  //   interests: [],
-  // });
-
   const [data, setData] = useState({
-    firstname: "Paul",
-    lastname: "Bokelman",
-    email: "paul.bokelman2@gmail.com",
-    studentId: "1850225",
-    password: "Password123!",
-    grade: "Senior",
-    interests: [
-      { id: "cl0vxq2hl0000ropcsj6aa77y", name: "volunteering" },
-      { id: "cl0vxq2hl0001ropcnyiskhh6", name: "charity" },
-      { id: "cl0vxq2hl0002ropc91kqevai", name: "science" },
-      { id: "cl0vxq2hl0003ropc393fpmg5", name: "tech" },
-    ],
+    firstname: "",
+    lastname: "",
+    email: "",
+    studentId: "",
+    password: "",
+    grade: "Freshman",
+    interests: [],
   });
+
+  // const [data, setData] = useState({
+  //   firstname: "Paul",
+  //   lastname: "Bokelman",
+  //   email: "paul.bokelman8@gmail.com",
+  //   studentId: "1852325",
+  //   password: "Password123!",
+  //   grade: "Senior",
+  //   interests: [
+  //     { id: "cl0vxq2hl0000ropcsj6aa77y", name: "volunteering" },
+  //     { id: "cl0vxq2hl0001ropcnyiskhh6", name: "charity" },
+  //     { id: "cl0vxq2hl0002ropc91kqevai", name: "science" },
+  //     { id: "cl0vxq2hl0003ropc393fpmg5", name: "tech" },
+  //   ],
+  // });
 
   const handlePagination = {
     next: () => {

@@ -88,7 +88,8 @@ export const StudentIdSlide = ({ next, prev, set, data }) => {
           }}
           validationSchema={Yup.object().shape({
             id: Yup.string().required().max(20),
-          })}>
+          })}
+        >
           {(props) => {
             return (
               <OnboardingForm
@@ -101,14 +102,14 @@ export const StudentIdSlide = ({ next, prev, set, data }) => {
           }}
         </Formik>
       </div>
-      {error && (
+      {/* {error && (
         <p className="text-sm text-red-500">
           An account with this Student ID address already exists.{" "}
           <Link href="/login">
             <a className="text-cc underline">Login.</a>
           </Link>
         </p>
-      )}
+      )} */}
       {!config.usePaginationAsSubmission && (
         <Buttons buttons={config.buttons} />
       )}
