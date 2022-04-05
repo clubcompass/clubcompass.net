@@ -14,7 +14,7 @@ import { Loading } from "../../components/general/Loading";
 const Dashboard = () => {
   const { user } = useAuthContext();
   const {
-    data: { getUserClubs: { leaderOf, memberOf, drafts } = {} } = {},
+    data: { getUserClubs: { leaderOf = {}, memberOf = {}, drafts = {} } } = {},
     loading,
     refetch,
   } = useQuery(GET_USER_CLUBS, {

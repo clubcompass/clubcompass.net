@@ -14,7 +14,7 @@ export const getUserLeadershipClubs = async (
 ): Promise<typeof clubs> => {
   const user = await prisma.user.findUnique({
     where: {
-      id: auth.id,
+      id: token.id,
     },
     select: {
       clubs: {
@@ -44,12 +44,12 @@ export const getUserLeadershipClubs = async (
 
   if (!user)
     throw new ApolloError("User not found", "RESOURCE_NOT_FOUND", {
-      id: auth.id,
+      id: token.id,
     });
 
   user.clubs.map((club) => {
     const roles = club.roles.filter((role) => {
-      if (role.users.some((user) => user.id === auth.id)) return role;
+      if (role.users.some((user) => user.id === token.id)) return role;
     });
     club.roles = roles;
   });
