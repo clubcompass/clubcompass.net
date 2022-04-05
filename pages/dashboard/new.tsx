@@ -11,6 +11,7 @@ import {
   PaginationProvider as Pagination,
   Section,
 } from "../../components/pages/dashboard/manage/components";
+import { ManagementProvider } from "../../components/pages/dashboard/manage/context";
 const New = () => {
   const paginationSections: Section[] = [
     {
@@ -55,12 +56,14 @@ const New = () => {
   ];
 
   return (
-    <Pagination sections={paginationSections}>
-      <Base />
-      <Members />
-      <Links />
-      <Summary />
-    </Pagination>
+    <ManagementProvider>
+      <Pagination sections={paginationSections}>
+        <Base />
+        <Members />
+        <Links />
+        <Summary />
+      </Pagination>
+    </ManagementProvider>
   );
 };
 

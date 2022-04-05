@@ -10,10 +10,14 @@ import {
   DashboardMembers as Members,
   DashboardAddMemberModal,
 } from "../shared";
+import { useManagementContext } from "../context";
 
 export const DashboardNewMembers = () => {
   const { user } = useAuthContext();
   const { addToast } = useToastContext();
+  const { clubId } = useManagementContext();
+  console.log(clubId);
+
   const { loading, error, data } = useQuery<
     { getClubInvites: GetClubInvitesPayload },
     GetClubInvitesArgs
@@ -24,7 +28,7 @@ export const DashboardNewMembers = () => {
       },
     },
     variables: {
-      clubId: "cl12yw8sj0026x9pck6j4zgoe",
+      clubId,
     },
     onCompleted: (data) => {
       console.log(data);
