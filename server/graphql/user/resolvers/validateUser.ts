@@ -2,17 +2,15 @@ import { Context } from "../../ctx";
 import { User } from "@prisma/client";
 import { ApolloError } from "apollo-server-micro";
 
-export type ValidateStudentArgs = {
+export type ValidateUserArgs = {
   ccid: User["ccid"];
 };
 
-export type ValidateStudentPayload = Awaited<
-  ReturnType<typeof validateStudent>
->;
+export type ValidateUserPayload = Awaited<ReturnType<typeof validateUser>>;
 
-export const validateStudent = async (
+export const validateUser = async (
   _parent: any,
-  { ccid }: ValidateStudentArgs,
+  { ccid }: ValidateUserArgs,
   { prisma }: Context
 ): Promise<typeof user> => {
   const user = await prisma.user.findUnique({
@@ -23,23 +21,29 @@ export const validateStudent = async (
       id: true,
       firstname: true,
       lastname: true,
-      active: true,
+      ccid: true,
+      email: true,
       type: true,
+      active: true,
+      emailVerified: true,
     },
   });
 
-  if (!user) throw new ApolloError("User does not found", "NO_USER", { ccid });
+  if (!user) throw new ApolloError("User not found", "NO_USER", { ccid });
   if (user.active === false)
     throw new ApolloError("Requested user is not active", "CONSTRAINT_FAILED", {
       ccid,
     });
-  if (user.type !== "STUDENT")
+  if (user.emailVerified === false)
+    throw new ApolloError("Email not verified", "CONSTRAINT_FAILED", {
+      emailVerified: user.emailVerified,
+    });
+
+  if (user.type === "ASB" || user.type === "ADMIN")
     throw new ApolloError(
-      "Requested user is not a student",
+      "User is not a student or teacher",
       "CONSTRAINT_FAILED",
-      {
-        ccid,
-      }
+      { ccid }
     );
 
   return user;

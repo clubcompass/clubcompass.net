@@ -171,6 +171,7 @@ export default gql`
     id: ID!
     user: InviteUser!
     roles: [InviteRole!]!
+    status: InviteStatus!
     type: InviteType!
     createdAt: DateTime!
   }
@@ -184,6 +185,14 @@ export default gql`
     id: ID!
     firstname: String!
     lastname: String!
+    type: UserType!
+    email: String!
+    ccid: String!
+  }
+
+  enum UserType {
+    STUDENT
+    TEACHER
   }
 
   ##### END OF GET CLUB INVITES #####
@@ -376,6 +385,11 @@ export default gql`
     name: String!
     type: LinkType!
     link: String!
+  type GetClubRolePayload {
+    id: ID!
+    name: String!
+    type: RoleType!
+    color: String!
   }
 
   ##### QUERIES + MUTATIONS #####
@@ -388,6 +402,7 @@ export default gql`
     getClubInvites(clubId: ID!): [GetClubInvitesPayload!]!
     getClubLinks(clubId: ID!): [GetClubLinkPayload!]!
     getClubDraftSummary(clubId: ID!): GetClubDraftSummaryPayload!
+    getClubRoles(clubId: ID!): [GetClubRolePayload!]!
   }
 
   type Mutation {

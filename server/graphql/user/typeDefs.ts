@@ -189,25 +189,18 @@ export default gql`
 
   ##### END OF GET USER #####
 
-  ##### VALIDATE STUDENT #####
+  ##### VALIDATE USER #####
 
-  type ValidateStudentPayload {
+  type ValidateUserPayload {
     id: ID!
     firstname: String!
     lastname: String!
+    ccid: String!
+    email: String!
+    type: UserType!
   }
 
-  ##### END OF VALIDATE STUDENT #####
-
-  ##### VALIDATE TEACHER #####
-
-  type ValidateTeacherPayload {
-    id: ID!
-    firstname: String!
-    lastname: String!
-  }
-
-  ##### END OF VALIDATE TEACHER #####
+  ##### END OF VALIDATE USER #####
 
   ##### GET USER DRAFTS #####
 
@@ -287,13 +280,23 @@ export default gql`
     id: ID!
   }
 
+  input UpdateUserInterestsArgs {
+    userId: ID!
+    roles: [RoleInput!]
+    clubId: ID!
+  }
+
+  type UpdateUserRolesPayload {
+    status: String!
+    message: String!
+  }
+
   type Query {
     getUsers(active: Boolean): [GetUsersPayload!]!
     # getUserClubs: [GetUserClubPayload!]!
     getUserClubs: GetUserClubsPayload!
     getUserLeadershipClubs: GetUserLeadershipClubsPayload!
-    validateStudent(ccid: String!): ValidateStudentPayload!
-    validateTeacher(ccid: String!): ValidateTeacherPayload!
+    validateUser(ccid: String!): ValidateUserPayload!
     getUser(identifier: GetUserIdentifierArgs!, type: UserType): GetUserPayload!
     getUserDrafts: [GetUserDraftsPayload!]!
     getAdvisorClubs: [GetAdvisorClubPayload!]!
@@ -306,5 +309,11 @@ export default gql`
     approveUser(userId: ID!): ApproveUserPayload!
     batchDeleteUsers(userIds: [ID!]!): [BatchDeleteUserPayload!]!
     batchApproveUsers(userIds: [ID!]!): [BatchApproveUserPayload!]!
+    # updateUserRoles(data: UpdateUserInterestsArgs!): UpdateUserRolesPayload!
+    updateUserRoles(
+      userId: ID!
+      roles: [RoleInput!]
+      clubId: ID!
+    ): UpdateUserRolesPayload!
   }
 `;

@@ -14,3 +14,4 @@ export * from "./resolvers/getClubInvites";
 export * from "./resolvers/getAdminApprovedClubs";
 export * from "./resolvers/getClubLinks";
 export * from "./resolvers/getClubDraftSummary";
+export * from "./resolvers/getClubRoles";

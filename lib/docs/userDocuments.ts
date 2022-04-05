@@ -6,6 +6,9 @@ export const VALIDATE_USER = gql`
       id
       firstname
       lastname
+      ccid
+      email
+      type
     }
   }
 `;
@@ -208,6 +211,15 @@ export const BATCH_DELETE_USERS = gql`
       firstname
       lastname
       studentId
+    }
+  }
+`;
+
+export const UPDATE_USER_ROLES = gql`
+  mutation UpdateUserRoles($userId: ID!, $clubId: ID!, $roles: [RoleInput!]) {
+    updateUserRoles(userId: $userId, clubId: $clubId, roles: $roles) {
+      status
+      message
     }
   }
 `;

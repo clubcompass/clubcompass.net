@@ -42,6 +42,10 @@ import type {
   GetAdvisorClubsPayload,
   GetUserProfileArgs,
   GetUserProfilePayload,
+  ValidateUserArgs,
+  ValidateUserPayload,
+  UpdateUserRolesArgs,
+  UpdateUserRolesPayload,
 } from "../user/types";
 import type {
   CreateClubArgs,
@@ -74,6 +78,8 @@ import type {
   GetClubLinksPayload,
   GetClubDraftSummaryArgs,
   GetClubDraftSummaryPayload,
+  GetClubRolesArgs,
+  GetClubRolesPayload,
 } from "../club/types";
 import type {
   GetUserInvitesArgs,
@@ -178,6 +184,8 @@ export interface UserResolvers {
   getUserDrafts?: Resolver<{}, GetUserDraftsArgs, GetUserDraftsPayload>;
   getAdvisorClubs?: Resolver<{}, GetAdvisorClubsArgs, GetAdvisorClubsPayload>;
   getUserProfile?: Resolver<{}, GetUserProfileArgs, GetUserProfilePayload>;
+  validateUser?: Resolver<{}, ValidateUserArgs, ValidateUserPayload>;
+  updateUserRoles?: Resolver<{}, UpdateUserRolesArgs, UpdateUserRolesPayload>;
 }
 
 export interface ClubResolvers {
@@ -221,6 +229,7 @@ export interface ClubResolvers {
     GetClubDraftSummaryArgs,
     GetClubDraftSummaryPayload
   >;
+  getClubRoles?: Resolver<{}, GetClubRolesArgs, GetClubRolesPayload>;
 }
 
 export interface InviteResolvers {

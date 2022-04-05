@@ -251,3 +251,37 @@ export const GET_CLUB_DRAFT_SUMMARY = gql`
     }
   }
 `;
+
+export const GET_CLUB_INVITES = gql`
+  query ($clubId: ID!) {
+    getClubInvites(clubId: $clubId) {
+      id
+      user {
+        id
+        firstname
+        lastname
+        type
+        email
+        ccid
+      }
+      roles {
+        id
+        name
+      }
+      status
+      type
+      createdAt
+    }
+  }
+`;
+
+export const GET_CLUB_ROLES = gql`
+  query ($clubId: ID!) {
+    getClubRoles(clubId: $clubId) {
+      id
+      name
+      type
+      color
+    }
+  }
+`;
