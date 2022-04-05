@@ -27,13 +27,15 @@ export const DashboardRadio = ({
     <div
       role="group"
       aria-labelledby={label}
-      style={{ gridColumn: `span ${span}` }}>
+      style={{ gridColumn: `span ${span}` }}
+    >
       <OptionsContainer
         label={label}
         description={description}
-        direction={direction}>
+        direction={direction}
+      >
         {options.map((option) => (
-          <Option key={option.value} {...option} {...rest} />
+          <Option key={option.value} {...option} current={value} {...rest} />
         ))}
       </OptionsContainer>
     </div>
@@ -43,14 +45,16 @@ export const DashboardRadio = ({
 const Option = ({
   label,
   value,
+  current,
   ...field
-}: Option & Omit<FieldProps["field"], "value">) => {
+}: Option & Omit<FieldProps["field"], "value"> & { current: string }) => {
   return (
     <div className="flex flex-row items-center gap-2">
       <input
         className="form-radio h-4 w-4 cursor-pointer border-gray-300 text-cc focus:ring-cc"
         type="radio"
         value={value}
+        checked={value === current}
         {...field}
       />
       <label className="text-sm font-medium">{label}</label>
