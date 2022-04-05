@@ -31,11 +31,11 @@ export const DashboardAccountInformation = () => {
   return (
     <div className="flex flex-col gap-8">
       {/* <Icon name={name} /> */}
-      <div className="flex gap-12">
+      <div className="flex gap-8">
         <InfoItem label="Name" value={name} />
         <InfoItem label="CCID" value={user?.ccid} />
       </div>
-      <div className="flex gap-12">
+      <div className="flex gap-8">
         <InfoItem label="Grade" value={grade.toLowerCase()} />
         <InfoItem label="StudentID" value={studentId} />
       </div>
@@ -62,7 +62,7 @@ const InfoItem = ({ label, value }) => {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex">
-        <label className="text-md text-gray-300">{label}</label>
+        <label className="text-md text-gray-400">{label}</label>
         {label === "Email" && <ChangeEmail />}
       </div>
       <div className="flex gap-2 text-lg">
