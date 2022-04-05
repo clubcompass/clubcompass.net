@@ -66,8 +66,7 @@ const OpenModal = ({ joined, closed, clubPage, draft }) => {
             : closed
             ? "bg-gray-100 text-[#707070]"
             : "bg-cc text-white"
-        } flex flex-row items-center justify-center gap-1 rounded-md px-8 py-1 text-sm font-semibold`}
-      >
+        } flex flex-row items-center justify-center gap-1 rounded-md px-8 py-1 text-sm font-semibold`}>
         {joined ? "Leave" : closed ? "Closed" : "Join"}
       </button>
     );
@@ -76,8 +75,7 @@ const OpenModal = ({ joined, closed, clubPage, draft }) => {
     <Link href="/login">
       <a
         style={clubPageStyle}
-        className="flex flex-row items-center justify-center gap-1 rounded-md bg-cc px-8 py-1"
-      >
+        className="flex flex-row items-center justify-center gap-1 rounded-md bg-cc px-8 py-1">
         <span className="text-sm font-semibold text-white">Join</span>
       </a>
     </Link>
@@ -162,8 +160,7 @@ const ActionButton = ({ joined, setJoined, clubId, closed }) => {
       <div className="grid-col grid grid-cols-2 gap-2">
         <button
           onClick={closeModal}
-          className="rounded-md bg-gray-500/20 py-1 font-semibold"
-        >
+          className="rounded-md bg-gray-500/20 py-1 font-semibold">
           Cancel
         </button>
         <button
@@ -171,8 +168,7 @@ const ActionButton = ({ joined, setJoined, clubId, closed }) => {
             loading && "cursor-not-allowed bg-opacity-50"
           } flex flex-row items-center justify-center gap-1 rounded-md px-8 py-1 focus:border-0`}
           onClick={() => handleClubAction()}
-          disabled={loading}
-        >
+          disabled={loading}>
           <span className="font-semibold text-white">
             {loading ? (
               joined ? (
@@ -222,10 +218,9 @@ const ActionCongrats = ({ joined, name, slug }) => {
   return (
     <div className="flex flex-col">
       <div
-        className={`flex h-[90px] w-[112%] -translate-x-[24px] -translate-y-[24px] items-center  justify-center bg-gradient-to-r ${
+        className={`flex h-[90px] w-[112%] -translate-x-[24px] -translate-y-[24px] items-center justify-center  rounded-t-2xl bg-gradient-to-r ${
           joined ? "from-cc/80 to-cc" : "from-[#ff6c6c] to-[#FF5555] "
-        }`}
-      >
+        }`}>
         <BsCheckCircleFill className="text-5xl text-white" />
       </div>
       <div className="flex flex-col gap-2">
@@ -245,22 +240,19 @@ const ActionCongrats = ({ joined, name, slug }) => {
             : `You have left ${name}. It will no longer appear in your dashboard.`}
         </p>
         <div
-          className={joined ? "grid grid-cols-2 gap-2" : "flex justify-center"}
-        >
+          className={joined ? "grid grid-cols-2 gap-2" : "flex justify-center"}>
           <button
             onClick={closeModal}
             className={`rounded-lg bg-gray-500/20 py-1 font-semibold ${
               !joined && "px-16"
-            }`}
-          >
+            }`}>
             Close
           </button>
           {joined && (
             <Link
               href={
                 router.asPath === `/club/${slug}` ? "/clubs" : `/club/${slug}`
-              }
-            >
+              }>
               <a className="rounded-lg bg-cc py-1 text-center font-semibold text-white">
                 {router.asPath === `/club/${slug}`
                   ? "Explore More"
