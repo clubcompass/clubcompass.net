@@ -1,4 +1,4 @@
-import { Context } from "@apollo/client";
+import { Context } from "../../ctx";
 import { Club } from "@prisma/client";
 
 export type GetClubRolesArgs = {

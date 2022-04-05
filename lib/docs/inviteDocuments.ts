@@ -44,10 +44,10 @@ export const DELETE_OUTGOING_INVITE = gql`
 `;
 
 export const ISSUE_INVITE = gql`
-  mutation ($clubId: ID!, $recipientCcid: String!, $inviteRoles: [RoleInput!]) {
+  mutation ($clubId: ID!, $recipientCCID: String!, $inviteRoles: [RoleInput!]) {
     issueInvite(
       clubId: $clubId
-      recipientCCID: $recipientCcid
+      recipientCCID: $recipientCCID
       inviteRoles: $inviteRoles
     ) {
       id
@@ -56,8 +56,8 @@ export const ISSUE_INVITE = gql`
 `;
 
 export const ISSUE_TEACHER_INVITE = gql`
-  mutation ($clubId: ID!, $recipientCcid: String!) {
-    issueTeacherInvite(clubId: $clubId, recipientCCID: $recipientCcid) {
+  mutation ($clubId: ID!, $recipientCCID: String!) {
+    issueTeacherInvite(clubId: $clubId, recipientCCID: $recipientCCID) {
       id
     }
   }

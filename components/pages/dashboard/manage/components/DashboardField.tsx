@@ -30,7 +30,7 @@ export const DashboardField = ({
           <textarea
             className={`${
               label && "mt-1"
-            } form-input  block h-24 w-full rounded-md border-gray-300 text-sm shadow-sm focus:border-cc focus:ring focus:ring-cc-light focus:ring-opacity-50`}
+            } form-input block h-24 w-full rounded-md border-gray-300 text-sm shadow-sm focus:border-cc focus:ring focus:ring-cc-light focus:ring-opacity-50`}
             placeholder={placeholder || ""}
             {...field}
           />
