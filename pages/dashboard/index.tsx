@@ -14,7 +14,7 @@ import { Loading } from "../../components/general/Loading";
 const Dashboard = () => {
   const { user } = useAuthContext();
   const {
-    data: { getUserClubs: { leaderOf = {}, memberOf = {}, drafts = {} } } = {},
+    data: { getUserClubs } = {},
     loading,
     refetch,
   } = useQuery(GET_USER_CLUBS, {
@@ -32,14 +32,16 @@ const Dashboard = () => {
   const isException =
     !user?.emailVerified ||
     !user?.active ||
-    (memberOf?.length === 0 && leaderOf.length === 0 && drafts.length === 0);
+    (getUserClubs.memberOf?.length === 0 &&
+      getUserClubs.leaderOf.length === 0 &&
+      getUserClubs.drafts.length === 0);
 
   if (isException) {
     return (
       <Exceptions
         emailVerified={user?.emailVerified}
         active={user?.active}
-        clubs={memberOf?.length !== 0}
+        clubs={getUserClubs.memberOf?.length !== 0}
         email={user?.email}
       />
     );
@@ -47,13 +49,15 @@ const Dashboard = () => {
 
   return (
     <div className="flex flex-col gap-6">
-      {leaderOf?.length !== 0 && (
-        <UserManage clubs={leaderOf} refetch={refetch} />
+      {getUserClubs.leaderOf?.length !== 0 && (
+        <UserManage clubs={getUserClubs.leaderOf} refetch={refetch} />
       )}
-      {memberOf?.length !== 0 && (
-        <UserClubs clubs={memberOf} refetch={refetch} />
+      {getUserClubs.memberOf?.length !== 0 && (
+        <UserClubs clubs={getUserClubs.memberOf} refetch={refetch} />
       )}
-      {drafts?.length !== 0 && <UserDrafts clubs={drafts} />}
+      {getUserClubs.drafts?.length !== 0 && (
+        <UserDrafts clubs={getUserClubs.drafts} />
+      )}
     </div>
   );
 };

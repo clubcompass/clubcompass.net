@@ -5,6 +5,7 @@ import { BsCheckCircleFill } from "react-icons/bs";
 import { BsCheckLg, BsXLg } from "react-icons/bs";
 import Link from "next/link";
 import { APPROVE_CLUB, DECLINE_CLUB } from "../../../../lib/docs";
+import { useAuthContext } from "../../../../context";
 import { CgSpinner } from "react-icons/cg";
 
 export const AdminClubsApproveModal = ({
@@ -38,7 +39,8 @@ const OpenModal = ({ reject }) => {
       onClick={openModal}
       className={`${
         reject ? "bg-red-500 hover:bg-[#e63939]" : "bg-cc hover:bg-[#1d58e2]"
-      } rounded-lg px-8 py-1 font-semibold text-white duration-150`}>
+      } rounded-lg px-8 py-1 font-semibold text-white duration-150`}
+    >
       {reject ? (
         <span className="flex items-center gap-2">
           <BsXLg /> Reject
@@ -53,10 +55,16 @@ const OpenModal = ({ reject }) => {
 };
 
 const ConfirmationModal = ({ reject, name, clubId, refetch }) => {
+  const { user } = useAuthContext();
   const { closeModal, next } = useModalContext();
   const [approvedClub, { loading: approvalLoading }] = useMutation(
     APPROVE_CLUB,
     {
+      context: {
+        headers: {
+          authorization: `Bearer ${user?.token}`,
+        },
+      },
       variables: {
         clubId,
       },
@@ -73,6 +81,11 @@ const ConfirmationModal = ({ reject, name, clubId, refetch }) => {
   );
 
   const [declineClub, { loading: denialLoading }] = useMutation(DECLINE_CLUB, {
+    context: {
+      headers: {
+        authorization: `Bearer ${user?.token}`,
+      },
+    },
     variables: {
       clubId,
     },
@@ -100,7 +113,8 @@ const ConfirmationModal = ({ reject, name, clubId, refetch }) => {
       <p className="text-lg text-ccGreyLight">
         You are about to {reject ? "decline" : "approve"}{" "}
         <span
-          className={`font-semibold ${reject ? "text-red-500" : "text-cc"}`}>
+          className={`font-semibold ${reject ? "text-red-500" : "text-cc"}`}
+        >
           {name}.
         </span>{" "}
         {reject
@@ -110,7 +124,8 @@ const ConfirmationModal = ({ reject, name, clubId, refetch }) => {
       <div className="grid grid-cols-2 gap-4">
         <button
           onClick={closeModal}
-          className="rounded-lg bg-gray-200 py-2 font-semibold duration-150 hover:bg-[#dbdde0]">
+          className="rounded-lg bg-gray-200 py-2 font-semibold duration-150 hover:bg-[#dbdde0]"
+        >
           Cancel
         </button>
         {reject ? (
@@ -121,7 +136,8 @@ const ConfirmationModal = ({ reject, name, clubId, refetch }) => {
               denialLoading
                 ? " cursor-not-allowed bg-opacity-20"
                 : "hover:bg-[#e63939]"
-            } rounded-lg bg-red-500 py-2 font-semibold text-white duration-150`}>
+            } rounded-lg bg-red-500 py-2 font-semibold text-white duration-150`}
+          >
             {denialLoading ? (
               <div className="flex flex-row items-center justify-center gap-2">
                 <CgSpinner size={15} className="animate-spin" />
@@ -139,7 +155,8 @@ const ConfirmationModal = ({ reject, name, clubId, refetch }) => {
               approvalLoading
                 ? "cursor-not-allowed bg-opacity-20"
                 : "hover:bg-[#1d58e2]"
-            } rounded-lg bg-cc py-2 font-semibold text-white duration-150`}>
+            } rounded-lg bg-cc py-2 font-semibold text-white duration-150`}
+          >
             {approvalLoading ? (
               <div className="flex flex-row items-center justify-center gap-2">
                 <CgSpinner size={15} className="animate-spin" />
@@ -163,7 +180,8 @@ const CongratsModal = ({ reject, name, clubId, email }) => {
       <div
         className={`flex h-[90px] w-[112%] -translate-x-[24px] -translate-y-[24px] items-center justify-center  rounded-t-2xl bg-gradient-to-r ${
           reject ? "from-[#ff6c6c] to-[#FF5555]" : "from-cc/80 to-cc"
-        }`}>
+        }`}
+      >
         <BsCheckCircleFill className="text-5xl text-white" />
       </div>
       <div className="flex flex-col gap-2">
@@ -180,14 +198,16 @@ const CongratsModal = ({ reject, name, clubId, email }) => {
         <div className="grid grid-cols-2 gap-4">
           <button
             onClick={closeModal}
-            className="rounded-lg bg-gray-200 py-2 font-semibold">
+            className="rounded-lg bg-gray-200 py-2 font-semibold"
+          >
             Close
           </button>
           {reject ? (
             <a
               // onClick={closeModal}
               href={`mailto:${email}`}
-              className="rounded-lg bg-red-500 py-2 text-center font-semibold text-white">
+              className="rounded-lg bg-red-500 py-2 text-center font-semibold text-white"
+            >
               Contact creator
             </a>
           ) : (
