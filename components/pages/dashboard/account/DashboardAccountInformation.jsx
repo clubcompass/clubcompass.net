@@ -10,8 +10,6 @@ import { GET_USER_PROFILE } from "../../../../lib/docs";
 export const DashboardAccountInformation = () => {
   const { user } = useAuthContext();
 
-  if (!user && !loading) return <Loading />;
-
   const name = `${user?.firstname} ${user?.lastname}`;
 
   const {
@@ -103,7 +101,8 @@ const CopyText = ({ value, children }) => {
       onClick={handleCopy}
       className={`${
         isCopied ? "bg-[#EBFAE2] text-[#2A9E00]" : "bg-[#EBF2FF] text-[#2B61F0]"
-      } rounded-md px-3`}>
+      } rounded-md px-3`}
+    >
       {isCopied ? "Copied!" : children}
     </button>
   );

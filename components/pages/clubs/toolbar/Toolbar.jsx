@@ -1,13 +1,15 @@
 import {
   ToolbarContainer as Container,
   ToolbarSort as Sort,
-  ToolbarFilter as Filter,
   ToolbarSearch as Search,
+  ToolbarFilter as Filter,
 } from ".";
 
-export const Toolbar = ({ children }) => <>{children}</>;
+const Toolbar = ({ children }) => <>{children}</>;
 
 Toolbar.Container = Container;
 Toolbar.Sort = Sort;
-Toolbar.Filter = Filter;
 Toolbar.Search = Search;
+Toolbar.Filter = Filter;
+
+export default Toolbar;

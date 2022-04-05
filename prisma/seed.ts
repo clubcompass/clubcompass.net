@@ -24,7 +24,7 @@ const seed_tags = async () => {
     "music",
     "arts",
     "performing arts",
-    "academic competition",
+    "competition",
     "tutoring",
     "culture",
     "socializing",

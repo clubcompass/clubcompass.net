@@ -16,7 +16,7 @@ export const ClubWrapper = ({
   slug,
   draft,
 }) => {
-  const [header, contact, meeting, content, members, similar] = children;
+  const [header, contact, meeting, content, members] = children; // similar
   const { isMd, isSm, isXs } = useBreakpoints();
   const isMobile = isMd || isSm || isXs;
 
@@ -46,7 +46,7 @@ export const ClubWrapper = ({
           <Card title="Meetings">{meeting}</Card>
         </div>
       </div>
-      {similar}
+      {/* {similar} */}
     </div>
   );
 };

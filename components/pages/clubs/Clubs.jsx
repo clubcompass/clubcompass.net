@@ -1,8 +1,9 @@
 import React from "react";
-import { Card as Club, ClubsWrapper } from ".";
+import ClubsWrapper from "./ClubsWrapper";
+import Club from "./Card";
 // import { db } from "../../../lib/database"; // get user clubs
 
-export const Clubs = ({ clubs }) => {
+const Clubs = ({ clubs }) => {
   return (
     <ClubsWrapper>
       {clubs.map((club) => (
@@ -28,3 +29,5 @@ export const Clubs = ({ clubs }) => {
     </ClubsWrapper>
   );
 };
+
+export default Clubs;

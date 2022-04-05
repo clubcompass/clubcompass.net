@@ -1,8 +1,7 @@
 import React from "react";
-import { Toolbar } from ".";
+import Toolbar from "./Toolbar";
 
-export const ClubsToolbar = ({ clubs, staticClubs, updateClubs }) => {
-  // TODO: Persist sort when filtering
+const ClubsToolbar = ({ clubs, staticClubs, updateClubs }) => {
   return (
     <Toolbar>
       <Toolbar.Container>
@@ -13,3 +12,5 @@ export const ClubsToolbar = ({ clubs, staticClubs, updateClubs }) => {
     </Toolbar>
   );
 };
+
+export default ClubsToolbar;
