@@ -8,7 +8,7 @@ export const DashboardSummaryBasic = ({ club }) => {
   const { direct } = usePaginationContext();
   return (
     <div className="flex w-[480px] flex-col gap-4 ">
-      <div className="flex gap-4">
+      <div className="flex items-center gap-4">
         <h3 className="text-2xl font-semibold">{club.name}</h3>
         <EditButton value={0} />
       </div>
@@ -30,7 +30,10 @@ export const DashboardSummaryBasic = ({ club }) => {
         </InfoItem>
       </div>
       <div className="border-b pb-4">
-        <h5 className="text-gray-400">Description</h5>
+        <div className="flex items-center gap-4">
+          <h5 className="text-gray-400">Description</h5>
+          <EditButton value={0} />
+        </div>
         <p className="w-[800px]">{club.description}</p>
       </div>
     </div>
