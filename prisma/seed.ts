@@ -320,7 +320,7 @@ const seed_clubs = async () => {
     const availability =
       availabilities[Math.floor(Math.random() * availabilities.length)];
 
-    clubQuery.status = status;
+    clubQuery.status = "APPROVED";
     clubQuery.approval = approval;
     clubQuery.availability = availability;
 
