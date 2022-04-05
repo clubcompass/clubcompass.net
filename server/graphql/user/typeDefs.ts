@@ -280,6 +280,17 @@ export default gql`
     id: ID!
   }
 
+  input UpdateUserInterestsArgs {
+    userId: ID!
+    roles: [RoleInput!]
+    clubId: ID!
+  }
+
+  type UpdateUserRolesPayload {
+    status: String!
+    message: String!
+  }
+
   type Query {
     getUsers(active: Boolean): [GetUsersPayload!]!
     # getUserClubs: [GetUserClubPayload!]!
@@ -298,5 +309,11 @@ export default gql`
     approveUser(userId: ID!): ApproveUserPayload!
     batchDeleteUsers(userIds: [ID!]!): [BatchDeleteUserPayload!]!
     batchApproveUsers(userIds: [ID!]!): [BatchApproveUserPayload!]!
+    # updateUserRoles(data: UpdateUserInterestsArgs!): UpdateUserRolesPayload!
+    updateUserRoles(
+      userId: ID!
+      roles: [RoleInput!]
+      clubId: ID!
+    ): UpdateUserRolesPayload!
   }
 `;

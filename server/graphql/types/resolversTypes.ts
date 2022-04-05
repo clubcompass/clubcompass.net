@@ -44,6 +44,8 @@ import type {
   GetUserProfilePayload,
   ValidateUserArgs,
   ValidateUserPayload,
+  UpdateUserRolesArgs,
+  UpdateUserRolesPayload,
 } from "../user/types";
 import type {
   CreateClubArgs,
@@ -174,7 +176,8 @@ export interface UserResolvers {
   getUserDrafts?: Resolver<{}, GetUserDraftsArgs, GetUserDraftsPayload>;
   getAdvisorClubs?: Resolver<{}, GetAdvisorClubsArgs, GetAdvisorClubsPayload>;
   getUserProfile?: Resolver<{}, GetUserProfileArgs, GetUserProfilePayload>;
-  validateUser: Resolver<{}, ValidateUserArgs, ValidateUserPayload>;
+  validateUser?: Resolver<{}, ValidateUserArgs, ValidateUserPayload>;
+  updateUserRoles?: Resolver<{}, UpdateUserRolesArgs, UpdateUserRolesPayload>;
 }
 
 export interface ClubResolvers {

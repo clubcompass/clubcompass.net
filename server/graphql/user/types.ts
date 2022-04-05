@@ -11,3 +11,4 @@ export * from "./resolvers/getUserDrafts";
 export * from "./resolvers/getAdvisorClubs";
 export * from "./resolvers/getUserProfile";
 export * from "./resolvers/validateUser";
+export * from "./resolvers/updateUserRoles";

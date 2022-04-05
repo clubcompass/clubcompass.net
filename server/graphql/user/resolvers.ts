@@ -12,6 +12,7 @@ import { getUserDrafts } from "./resolvers/getUserDrafts";
 import { getAdvisorClubs } from "./resolvers/getAdvisorClubs";
 import { getUserProfile } from "./resolvers/getUserProfile";
 import { validateUser } from "./resolvers/validateUser";
+import { updateUserRoles } from "./resolvers/updateUserRoles";
 
 const resolvers: Resolvers = {
   Query: {
@@ -30,6 +31,7 @@ const resolvers: Resolvers = {
     approveUser,
     batchDeleteUsers,
     batchApproveUsers,
+    updateUserRoles,
   },
 };
 export default resolvers;
