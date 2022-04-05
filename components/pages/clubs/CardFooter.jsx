@@ -8,13 +8,12 @@ import { useBreakpoints } from "../../../hooks";
 export const CardFooter = ({
   name,
   slug,
-  userId,
   clubId,
   isMember,
   memberCount,
-  manage,
   availability,
 }) => {
+  console.log(name, slug, clubId, isMember, memberCount, availability);
   return (
     <div className="flex w-full flex-row items-center justify-between">
       <CCLink slug={slug} />
@@ -26,7 +25,6 @@ export const CardFooter = ({
         <ActionModal
           name={name}
           isMember={isMember}
-          userId={userId}
           clubId={clubId}
           slug={slug}
           availability={availability}

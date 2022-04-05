@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Formik } from "formik";
+import { Form, Formik } from "formik";
 import { Buttons, Header, Container } from "../components";
 import { TagSelection } from "../../../../general/input";
+import { OnboardingForm } from "../components/input/OnboardingForm";
 export const InterestsSlide = ({ next, prev, tagInfo, set, data }) => {
   const [selectedTags, setSelectedTags] = useState(data.interests);
   // TODO: fix this
@@ -13,6 +14,24 @@ export const InterestsSlide = ({ next, prev, tagInfo, set, data }) => {
       description:
         "You can choose up to 4 interests to help Club Compass filter and find clubs just for you.",
     },
+
+    control: {
+      tags: {
+        custom: true,
+        name: "tags",
+        component: (
+          <TagSelection
+            tags={tags}
+            loading={tagsLoading}
+            error={tagError}
+            initial={selectedTags}
+            limit={4}
+          />
+        ),
+        span: 6,
+      },
+    },
+
     buttons: [
       {
         disabled: false,
@@ -26,10 +45,7 @@ export const InterestsSlide = ({ next, prev, tagInfo, set, data }) => {
         primary: true,
         label: "Continue",
         type: "function",
-        action: () => {
-          set({ interests: selectedTags });
-          next();
-        },
+        action: () => {},
       },
     ],
   };
@@ -37,13 +53,16 @@ export const InterestsSlide = ({ next, prev, tagInfo, set, data }) => {
   return (
     <Container>
       <Header {...config.header} />
-
       <Formik
         initialValues={{
           tags: data.interests,
         }}
         onSubmit={(values, { setSubmitting }) => {
           console.log(values);
+          set({
+            interests: values.tags,
+          });
+          next();
           // handleSubmission({
           //   ...values,
           //   setSubmitting,
@@ -51,27 +70,21 @@ export const InterestsSlide = ({ next, prev, tagInfo, set, data }) => {
         }}
         // validationSchema={informationSchema}
       >
-        {/* {(props) => {
-            return (
-              <OnboardingForm
-                {...props}
-                form={config.control}
-                usePaginationAsSubmission={config.usePaginationAsSubmission}
-                buttons={config.buttons}
-              />
-            );
-          }} */}
-
-        <TagSelection
-          tags={tags}
-          loading={tagsLoading}
-          error={tagError}
-          initial={selectedTags}
-          // set={(selected) => setSelectedTags(selected)}
-          limit={4}
-        />
-        <Buttons buttons={config.buttons} />
+        {(props) => {
+          return (
+            <OnboardingForm
+              {...props}
+              form={config.control.tags}
+              usePaginationAsSubmission={config.usePaginationAsSubmission}
+              buttons={config.buttons}
+            />
+          );
+        }}
       </Formik>
+      {!config.usePaginationAsSubmission && (
+        <Buttons buttons={config.buttons} />
+      )}
+      {/* <Buttons buttons={config.buttons} asSubmission={true} /> */}
     </Container>
   );
 };

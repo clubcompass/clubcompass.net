@@ -111,7 +111,7 @@ export const permissions = shield(
       declineInvite: isStudent,
       approveUser: isASB,
       batchApproveUsers: isASB,
-      deleteUser: isASB,
+      deleteUser: or(isStudent, isASB),
       batchDeleteUsers: isASB,
       updateUserInterests: isStudent,
     },

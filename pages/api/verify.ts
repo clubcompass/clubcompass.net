@@ -14,7 +14,13 @@ const verify = async (req: NextApiRequest, res: NextApiResponse) => {
   const { token } = req.query as { token: string };
 
   jwt.verify(token, process.env.SECRET, (err: any, decoded: TokenPayload) => {
-    if (err) return res.status(400).redirect(`/verification?valid=false`);
+    if (err) {
+      console.log(err);
+      return res
+        .status(400)
+        .redirect(`/dashboard?valid=false`)
+        .json({ verified: false });
+    }
     return decoded;
   }); // might pose problem
 
@@ -26,8 +32,13 @@ const verify = async (req: NextApiRequest, res: NextApiResponse) => {
     },
   });
 
+  console.log(verificationToken, token);
+
   if (verificationToken !== token)
-    return res.status(400).redirect(`/dashboard?valid=false`);
+    return res
+      .status(400)
+      .redirect(`/dashboard?valid=false`)
+      .json({ verified: false });
 
   await prisma.user.update({
     where: { id: user.id },

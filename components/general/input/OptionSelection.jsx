@@ -1,7 +1,9 @@
 import React from "react";
 import { Tab } from "@headlessui/react";
+import { useField } from "formik";
 
-export const OptionSelection = ({ options, current, setCurrent }) => {
+export const OptionSelection = ({ name, options, current, setCurrent }) => {
+  const [field, meta, { setValue }] = useField(name);
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
@@ -11,20 +13,21 @@ export const OptionSelection = ({ options, current, setCurrent }) => {
       <Tab.Group
         defaultIndex={options.indexOf(current)}
         onChange={(index) => {
-          setCurrent({ value: options[index] });
+          setValue(options[index]);
+          // setCurrent({ value: options[index] });
         }}
       >
-        <Tab.List className="flex p-1 space-x-1 border-2 rounded-xl">
+        <Tab.List className="flex space-x-1 rounded-xl border-2 p-1">
           {options.map((name) => (
             <Tab
               key={name}
               className={({ selected }) =>
                 classNames(
-                  "w-full py-2 text-sm leading-5 font-medium rounded-lg",
-                  "focus:outline-none focus:ring-2 ring-offset-2 ring-offset-[#A0C0FC] ring-white ring-opacity-60 capitalize",
+                  "w-full rounded-lg py-2 text-sm font-medium leading-5",
+                  "capitalize ring-white ring-opacity-60 ring-offset-2 ring-offset-[#A0C0FC] focus:outline-none focus:ring-2",
                   selected
-                    ? "bg-cc shadow text-white"
-                    : "hover:bg-[#EEEFEF] text-black"
+                    ? "bg-cc text-white shadow"
+                    : "text-black hover:bg-[#EEEFEF]"
                 )
               }
             >

@@ -12,6 +12,7 @@ import { MdError } from "react-icons/md";
 import { BsFillCheckCircleFill, BsFillInfoCircleFill } from "react-icons/bs";
 import { TiWarning } from "react-icons/ti";
 import { CgSpinner } from "react-icons/cg";
+import { newIssueUrl } from "../utils";
 
 interface ToastContext {
   addToast(toast: Omit<Toast, "id">): void;
@@ -26,6 +27,10 @@ export interface Toast {
   type?: "error" | "success" | "info" | "warning" | "loading";
   progress?: boolean;
   duration?: number | null; // ms or never go away, default is 3000ms
+
+  body?: string; // only for error
+  report?: boolean; // only for error
+
   custom?: {
     icon: ReactChild;
     color: string;
@@ -73,12 +78,7 @@ export const ToastProvider = ({ children }: { children: ReactChild }) => {
     <ToastContext.Provider value={value}>
       <Toaster>
         {transitions((style, { id, ...props }) => (
-          <animated.div
-            key={id}
-            style={style}
-            className="toast-message"
-            onClick={() => removeToast(id)}
-          >
+          <animated.div key={id} style={style}>
             <Toast key={id} remove={() => removeToast(id)} {...props} />
           </animated.div>
         ))}
@@ -105,6 +105,8 @@ const Toast = ({
   progress,
   duration,
   type,
+  report,
+  body,
   custom,
   remove,
 }: Omit<Toast, "id"> & { remove: () => void }) => {
@@ -202,7 +204,7 @@ const Toast = ({
         className="flex items-center gap-4"
       >
         <div style={{ color, fontSize: "21px" }}>{icon}</div>
-        <div style={{ width: "90%" }} className="flex flex-col">
+        <div style={{ width: "90%" }} className="flex flex-col items-start">
           <h4 style={{ color }} className="font-semibold">
             {title || toasts[type].default.title}
           </h4>
@@ -211,6 +213,44 @@ const Toast = ({
               {" "}
               {message || toasts[type].default.message}
             </p>
+          )}
+
+          {type === "error" && (report || body) && (
+            <div className="flex flex-row items-center gap-1">
+              {report && (
+                <button
+                  onClick={() =>
+                    window
+                      .open(
+                        newIssueUrl({
+                          title: "Briefly describe the issue here.",
+                          body: generateTemplate(body),
+                          labels: ["bug"],
+                          template: "bug_report.md",
+                          assignee: "paul-bokelman",
+                        }),
+                        "_blank"
+                      )
+                      .focus()
+                  }
+                  style={{ color: "#3C3D41", backgroundColor: "#F4F4F4" }}
+                  className="mt-2 rounded-md px-3 py-1 text-sm font-medium"
+                >
+                  Report issue
+                </button>
+              )}
+              {body && (
+                <button
+                  style={{ color: "#3C3D41" }}
+                  className="mt-2 rounded-md px-3 py-1 text-sm font-medium underline"
+                  onClick={() => {
+                    alert(body);
+                  }}
+                >
+                  Stack trace
+                </button>
+              )}
+            </div>
           )}
         </div>
       </div>
@@ -237,4 +277,48 @@ const Toaster = ({ children }: { children: ReactChild }) => {
       {children}
     </div>
   );
+};
+
+const generateTemplate = (body: Toast["body"]) => {
+  const message = JSON.parse(body)?.message;
+  const template = `
+  ${message && `# ${message}`}
+  
+  ## Describe the bug
+  A clear and concise description of what the bug is.
+  
+  ## To Reproduce
+  Steps to reproduce the behavior:
+  1. Go to '...'
+  2. Click on '....'
+  3. Scroll down to '....'
+  4. See error
+  
+  ## Expected behavior
+  A clear and concise description of what you expected to happen.
+  
+  ## Screenshots
+  If applicable, add screenshots to help explain your problem.
+  
+  ## Desktop (please complete the following information):
+   - OS: [e.g. iOS]
+   - Browser [e.g. chrome, safari]
+   - Version [e.g. 22]
+  
+  ## Smartphone (please complete the following information):
+   - Device: [e.g. iPhone6]
+   - OS: [e.g. iOS8.1]
+   - Browser [e.g. stock browser, safari]
+   - Version [e.g. 22]
+  
+  ## Additional context
+  Add any other context about the problem here.
+
+  ${
+    body &&
+    `## Stack trace
+  \`\`\`js\n${body}\n\`\`\``
+  }`;
+
+  return template;
 };
