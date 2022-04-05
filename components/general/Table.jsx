@@ -155,8 +155,7 @@ export const Table = ({ columns, data, checkbox, refetch }) => {
       <table
         {...getTableProps()}
         className="w-full border-separate"
-        style={{ borderSpacing: "0 10px" }}
-      >
+        style={{ borderSpacing: "0 10px" }}>
         <thead>
           {checkbox && (
             <tr>
@@ -201,8 +200,7 @@ export const Table = ({ columns, data, checkbox, refetch }) => {
                     ...column.getHeaderProps(column.getSortByToggleProps()),
                   })}
                   className="text-left first:pl-4"
-                  title=""
-                >
+                  title="">
                   <span className="flex items-center gap-2 text-ccGreyLight">
                     {["delete"].includes(column.id) ? (
                       <ToggleComponent
@@ -237,16 +235,14 @@ export const Table = ({ columns, data, checkbox, refetch }) => {
                     <td
                       key={i}
                       {...cell.getCellProps()}
-                      className="border-b-2 border-t-2 py-2 first:rounded-l-lg first:border-l-2 first:pl-4 last:rounded-r-lg last:border-r-2"
-                    >
+                      className="border-b-2 border-t-2 py-2 first:rounded-l-lg first:border-l-2 first:pl-4 last:rounded-r-lg last:border-r-2">
                       {["slug", "id"].includes(cell.column.id) && cell.value ? (
                         <Link
                           href={
                             cell.column.id === "id"
                               ? `/admin/club/${cell.value}`
                               : `/club/${cell.value}`
-                          }
-                        >
+                          }>
                           <a className="rounded-md bg-cc py-1 px-4 text-sm font-semibold text-white">
                             {cell.column.id === "id" ? "Review" : "View"}
                           </a>
@@ -275,29 +271,25 @@ export const Table = ({ columns, data, checkbox, refetch }) => {
           <button
             onClick={() => gotoPage(0)}
             disabled={!canPreviousPage}
-            className={!canPreviousPage && "text-gray-300"}
-          >
+            className={!canPreviousPage && "text-gray-300"}>
             <BiFirstPage />
           </button>
           <button
             onClick={() => previousPage()}
             disabled={!canPreviousPage}
-            className={!canPreviousPage && "text-gray-300"}
-          >
+            className={!canPreviousPage && "text-gray-300"}>
             <BiChevronLeft />
           </button>
           <button
             onClick={() => nextPage()}
             disabled={!canNextPage}
-            className={!canNextPage && "text-gray-300"}
-          >
+            className={!canNextPage && "text-gray-300"}>
             <BiChevronRight />
           </button>
           <button
             onClick={() => gotoPage(pageCount - 1)}
             disabled={!canNextPage}
-            className={!canNextPage && "text-gray-300"}
-          >
+            className={!canNextPage && "text-gray-300"}>
             <BiLastPage />
           </button>
         </div>
@@ -321,8 +313,7 @@ export const Table = ({ columns, data, checkbox, refetch }) => {
           value={pageSize}
           onChange={(e) => {
             setPageSize(Number(e.target.value));
-          }}
-        >
+          }}>
           {[10, 20, 30, 40, 50].map((pageSize) => (
             <option key={pageSize} value={pageSize}>
               Show {pageSize}
@@ -330,22 +321,6 @@ export const Table = ({ columns, data, checkbox, refetch }) => {
           ))}
         </select>
       </div>
-      {checkbox && (
-        <pre>
-          <code>
-            {JSON.stringify(
-              {
-                selectedRowIds: selectedRowIds,
-                "selectedFlatRows[].original": selectedFlatRows.map(
-                  (d) => d.original
-                ),
-              },
-              null,
-              2
-            )}
-          </code>
-        </pre>
-      )}
     </>
   );
 };
@@ -357,8 +332,7 @@ const ToggleComponent = ({ enabled, setEnabled }) => {
         checked={enabled}
         onChange={setEnabled}
         className={`${enabled ? "bg-red-500" : "bg-gray-300"}
-      relative inline-flex h-[22px] w-[42px] flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
-      >
+      relative inline-flex h-[22px] w-[42px] flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}>
         <span className="sr-only">Toggle delete unlock</span>
         <span
           aria-hidden="true"
@@ -367,8 +341,7 @@ const ToggleComponent = ({ enabled, setEnabled }) => {
               ? "translate-x-[20px] text-red-500"
               : "translate-x-0 text-gray-300"
           }
-        pointer-events-none flex h-[18px] w-[18px] transform items-center justify-center rounded-full bg-white text-xs shadow-lg ring-0 transition duration-200 ease-in-out`}
-        >
+        pointer-events-none flex h-[18px] w-[18px] transform items-center justify-center rounded-full bg-white text-xs shadow-lg ring-0 transition duration-200 ease-in-out`}>
           {enabled ? <IoMdUnlock /> : <IoMdLock />}
         </span>
       </Switch>

@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useBreakpoints } from "../../../../../hooks";
 
 export const DashboardHeaderContent = () => {
+  const router = useRouter();
+
   const { isSm, isXs } = useBreakpoints();
   const isMobile = isSm || isXs;
 
@@ -12,7 +14,8 @@ export const DashboardHeaderContent = () => {
     <Container>
       <PageTitle />
       {!isMobile && <PageMessage />}
-      <PageButton />
+      {!router.pathname.includes("admin") &&
+        !router.pathname.includes("new") && <PageButton />}
     </Container>
   );
 };
@@ -35,6 +38,10 @@ const PageTitle = () => {
       {router.pathname === "/dashboard/activity" && "Notifications"}
       {router.pathname === "/dashboard/account" && "Manage Account"}
       {router.pathname === "/dashboard/new" && "New Club"}
+      {router.pathname === "/admin/accounts" && "Manage Accounts"}
+      {router.pathname === "/admin/accounts/manage" && "Manage Accounts"}
+      {router.pathname === "/admin" && "Manage Clubs"}
+      {router.pathname === "/admin/manage" && "Manage Clubs"}
     </h1>
   );
 };
@@ -62,13 +69,7 @@ const PageMessage = () => {
 const PageButton = () => {
   const router = useRouter();
 
-  return router.pathname === "/dashboard/manage/club/new" ? (
-    <Link href="/poo">
-      <a className="whitespace-nowrap rounded-lg bg-gray-200 px-3 py-1 text-black md:px-6">
-        Save Draft
-      </a>
-    </Link>
-  ) : (
+  return (
     <Link href="/dashboard/new">
       <a className="whitespace-nowrap rounded-md bg-gradient-to-tl from-cc to-[#3771FA] px-3 py-1 text-white transition duration-200 ease-in-out hover:scale-105 hover:bg-gradient-to-br md:px-6">
         New Club

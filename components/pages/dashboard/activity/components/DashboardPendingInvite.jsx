@@ -94,6 +94,10 @@ export const DashboardPendingInvite = ({ invite, refetch }) => {
       bg: "#FFF2E4",
       fg: "#FF921B",
     },
+    REVIEW: {
+      bg: "#FFF2E4",
+      fg: "#FF921B",
+    },
     APPROVED: {
       bg: "#EDF4FE",
       fg: "#2575E5",

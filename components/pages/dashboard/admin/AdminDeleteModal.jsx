@@ -4,6 +4,7 @@ import { DELETE_CLUB, DELETE_USER } from "../../../../lib/docs";
 import { BsCheckCircleFill, BsTrashFill } from "react-icons/bs";
 import { ModalProvider, useModalContext } from "../../../general/Modal";
 import { CgSpinner } from "react-icons/cg";
+import { useAuthContext } from "../../../../context";
 
 export const AdminDeleteModal = ({ deleting, value, refetch }) => {
   const [deletedItem, setDeletedItem] = useState({ name: "" });
@@ -37,15 +38,15 @@ const OpenModal = ({ deleting }) => {
 };
 
 const ConfirmationModal = ({ value, isClub, setDeletedItem, refetch }) => {
+  const { user } = useAuthContext();
   const { closeModal, next } = useModalContext();
 
   // choosing function by state might pose an issue
 
-  console.log(value);
-
   const [deleteClub, { loading: clubDeletionLoading }] = useMutation(
     DELETE_CLUB,
     {
+      context: { headers: { authorization: `Bearer ${user.token}` } },
       variables: { clubId: value.id },
       onCompleted: ({ deleteClub: club = {} } = {}) => {
         setDeletedItem({ name: club?.name });
@@ -62,6 +63,7 @@ const ConfirmationModal = ({ value, isClub, setDeletedItem, refetch }) => {
   const [deleteUser, { loading: userDeletionLoading }] = useMutation(
     DELETE_USER,
     {
+      context: { headers: { authorization: `Bearer ${user.token}` } },
       variables: { identifier: { id: value.id } },
       onCompleted: ({ deleteUser: user = {} } = {}) => {
         setDeletedItem({ name: `${user?.firstname} ${user?.lastname}` });
@@ -103,8 +105,7 @@ const ConfirmationModal = ({ value, isClub, setDeletedItem, refetch }) => {
       <div className="grid w-full grid-cols-2 gap-4">
         <button
           onClick={closeModal}
-          className="rounded-lg bg-gray-200 py-2 font-semibold duration-150 hover:bg-[#dbdde0]"
-        >
+          className="rounded-lg bg-gray-200 py-2 font-semibold duration-150 hover:bg-[#dbdde0]">
           Cancel
         </button>
         <button
@@ -114,8 +115,7 @@ const ConfirmationModal = ({ value, isClub, setDeletedItem, refetch }) => {
             clubDeletionLoading || userDeletionLoading
               ? "cursor-not-allowed bg-opacity-20"
               : "hover:bg-[#e63939]"
-          } rounded-lg bg-red-500 py-2 font-semibold text-white duration-150 `}
-        >
+          } rounded-lg bg-red-500 py-2 font-semibold text-white duration-150 `}>
           {clubDeletionLoading || userDeletionLoading ? (
             <div className="flex flex-row items-center justify-center gap-2">
               <CgSpinner size={15} className="animate-spin" />
@@ -135,7 +135,7 @@ const CongratsModal = ({ value, isClub }) => {
 
   return (
     <div>
-      <div className="flex h-[90px] w-[112%] -translate-x-[24px] -translate-y-[24px] items-center  justify-center bg-gradient-to-r from-[#ff6c6c] to-[#FF5555]">
+      <div className="flex h-[90px] w-[112%] -translate-x-[24px] -translate-y-[24px] items-center justify-center rounded-t-2xl bg-gradient-to-r from-[#ff6c6c] to-[#FF5555]">
         <BsCheckCircleFill className="text-5xl text-white" />
       </div>
       <div className="flex flex-col gap-2">
@@ -149,8 +149,7 @@ const CongratsModal = ({ value, isClub }) => {
         <div className="flex justify-center">
           <button
             onClick={closeModal}
-            className="w-full rounded-lg bg-gray-200 py-2 font-semibold"
-          >
+            className="w-full rounded-lg bg-gray-200 py-2 font-semibold">
             Close
           </button>
         </div>

@@ -5,14 +5,17 @@ import {
   AdminClubsTable,
   AdminWrapper,
 } from "../../components/pages/dashboard/admin";
+import { useAuthContext } from "../../context";
 
 export const AdminLinks = [
-  { label: "Applications", link: "/admin" },
-  { label: "Manage", link: "/admin/manage" },
+  { label: "Club Applications", link: "/admin" },
+  { label: "Manage Clubs", link: "/admin/manage" },
 ];
 const AdminDashboard = () => {
+  const { user } = useAuthContext();
   const { data: { getUnapprovedClubs: unapprovedClubs } = {}, loading } =
     useQuery(GET_UNAPPROVED_CLUBS, {
+      context: { headers: { authorization: `Bearer ${user.token}` } },
       onCompleted: (data) => {
         console.log(data);
       },
@@ -25,7 +28,7 @@ const AdminDashboard = () => {
 
   return (
     <div>
-      <AdminWrapper title="Manage Clubs" links={AdminLinks}>
+      <AdminWrapper links={AdminLinks}>
         <AdminClubsTable data={unapprovedClubs} />
       </AdminWrapper>
     </div>

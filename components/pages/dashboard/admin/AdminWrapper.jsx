@@ -7,7 +7,7 @@ export const AdminWrapper = ({ title, links, children }) => {
 
   return (
     <div className="flex flex-col gap-8 p-6">
-      <h4 className="text-2xl font-semibold">{title}</h4>
+      {title && <h4 className="text-2xl font-semibold">{title}</h4>}
       <div>
         <div className="flex gap-4 border-b-4 text-lg">
           {links.map((link, i) => (
@@ -15,10 +15,9 @@ export const AdminWrapper = ({ title, links, children }) => {
               <a
                 className={`  ${
                   router.pathname === link.link
-                    ? "text-black underline decoration-cc decoration-4 underline-offset-8"
+                    ? "text-black underline decoration-cc decoration-4 underline-offset-[6px]"
                     : "text-ccGreyLight hover:text-black"
-                }`}
-              >
+                }`}>
                 {link.label}
               </a>
             </Link>

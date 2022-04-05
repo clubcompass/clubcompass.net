@@ -51,7 +51,7 @@ export const DashboardActivityInvites = () => {
           </CardsWrapper>
         </div>
       )}
-      {outgoing?.length !== 0 && (
+      {outgoing?.pending.length !== 0 && (
         <div className="flex flex-col gap-4">
           <CustomTitle
             title="Outgoing"

@@ -28,8 +28,11 @@ export const DashboardNewSocials = () => {
     variables: {
       clubId: "cl1kbbu9220686pv5sccz6gmd",
     },
-    onCompleted: (data) => {},
+    onCompleted: (data) => {
+      console.log(data);
+    },
     onError: (err) => {
+      console.log(err);
       addToast({
         type: "error",
         title: "An unexpected error occurred",

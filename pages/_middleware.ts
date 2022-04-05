@@ -8,6 +8,9 @@ const middleware = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const token = cookies?.token || null;
 
+  console.log(url);
+  console.log(token);
+
   if (url.includes("/dashboard")) {
     if (!token) {
       return NextResponse.redirect(new URL("/login", clientURL));

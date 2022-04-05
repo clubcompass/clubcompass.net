@@ -3,18 +3,21 @@ import { useQuery } from "@apollo/client";
 import { GET_USERS } from "../../../lib/docs";
 import { AdminAccountsTable } from "../../../components/pages/dashboard/admin/accounts";
 import { AdminWrapper } from "../../../components/pages/dashboard/admin";
+import { useAuthContext } from "../../../context";
 
 export const AdminAccountsLinks = [
-  { label: "Applications", link: "/admin/accounts" },
-  { label: "Manage", link: "/admin/accounts/manage" },
+  { label: "Account Applications", link: "/admin/accounts" },
+  { label: "Manage Accounts", link: "/admin/accounts/manage" },
 ];
 
 const AdminAccounts = () => {
+  const { user } = useAuthContext();
   const {
     data: { getUsers: users } = {},
     loading,
     refetch,
   } = useQuery(GET_USERS, {
+    context: { headers: { authorization: `Bearer ${user.token}` } },
     variables: {
       active: false,
     },
@@ -32,7 +35,7 @@ const AdminAccounts = () => {
 
   return (
     <div>
-      <AdminWrapper title="Manage Accounts" links={AdminAccountsLinks}>
+      <AdminWrapper links={AdminAccountsLinks}>
         <AdminAccountsTable data={users} refetch={refetch} />
       </AdminWrapper>
     </div>

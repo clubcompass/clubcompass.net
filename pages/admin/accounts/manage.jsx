@@ -3,13 +3,16 @@ import { GET_USERS } from "../../../lib/docs";
 import { AdminWrapper } from "../../../components/pages/dashboard/admin";
 import { AdminAccountsLinks } from ".";
 import { AdminAccountsManage } from "../../../components/pages/dashboard/admin/accounts";
+import { useAuthContext } from "../../../context";
 
 const AdminAccountsManagePage = () => {
+  const { user } = useAuthContext();
   const {
     data: { getUsers: users } = {},
     loading,
     refetch,
   } = useQuery(GET_USERS, {
+    context: { headers: { authorization: `Bearer ${user.token}` } },
     variables: {
       active: true,
     },
@@ -25,7 +28,7 @@ const AdminAccountsManagePage = () => {
 
   return (
     <div>
-      <AdminWrapper title="Manage Accounts" links={AdminAccountsLinks}>
+      <AdminWrapper links={AdminAccountsLinks}>
         <AdminAccountsManage data={users} refetch={refetch} />
       </AdminWrapper>
     </div>

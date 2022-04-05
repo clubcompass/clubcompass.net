@@ -62,8 +62,8 @@ export const getUnapprovedClubs = async (
         name: name,
         availability: availability,
         createdAt: new Date(createdAt).toLocaleDateString("en-US"),
-        president: `${roles[0].users[0].firstname} ${roles[0].users[0].lastname}`,
-        teacher: `${teacher.firstname} ${teacher.lastname}`,
+        president: `${roles[0].users[0]?.firstname} ${roles[0].users[0]?.lastname}`,
+        teacher: `${teacher?.firstname} ${teacher?.lastname}`,
         _count: _count.members,
       };
     }

@@ -8,6 +8,7 @@ import { ModalProvider, useModalContext } from "../../../../general/Modal";
 
 import { BsCheckCircleFill } from "react-icons/bs";
 import { CgSpinner } from "react-icons/cg";
+import { useAuthContext, useToastContext } from "../../../../../context";
 
 export const AdminAccountsApproveModal = ({
   reject,
@@ -50,8 +51,7 @@ const OpenModal = ({ reject, rowsLength }) => {
           : reject
           ? "bg-red-500/20"
           : "bg-cc/20"
-      } rounded-lg px-8 py-1 font-semibold text-white duration-150`}
-    >
+      } rounded-lg px-8 py-1 font-semibold text-white duration-150`}>
       {reject ? "Reject" : "Approve"} ({rowsLength})
     </button>
   );
@@ -64,38 +64,55 @@ const ConfirmationModal = ({
   refetch,
   setNumberOfDeleted,
 }) => {
+  const { user } = useAuthContext();
   const { closeModal, next } = useModalContext();
+  const { addToast } = useToastContext();
 
   const [batchApproveUsers, { loading: approveUsersLoading }] = useMutation(
     BATCH_APPROVE_USERS,
     {
+      context: { headers: { authorization: `Bearer ${user.token}` } },
       onCompleted: ({ batchApproveUsers } = {}) => {
         setNumberOfDeleted(batchApproveUsers.length);
         refetch();
         next();
       },
       onError: (error) => {
-        console.log(error);
+        addToast({
+          type: "error",
+          title: "An error has occurred",
+          message:
+            "Unable to approve users at this time. Please try again later.",
+          duration: 10000,
+        });
       },
+      notifyOnNetworkStatusChange: true,
     }
   );
 
   const [batchDeclineUsers, { loading: declineUsersLoading }] = useMutation(
     BATCH_DELETE_USERS,
     {
+      context: { headers: { authorization: `Bearer ${user.token}` } },
       onCompleted: ({ batchDeleteUsers } = {}) => {
         setNumberOfDeleted(batchDeleteUsers.length);
         refetch();
         next();
       },
       onError: (error) => {
-        console.log(error);
+        addToast({
+          type: "error",
+          title: "An error has occurred",
+          message:
+            "Unable to approve users at this time. Please try again later.",
+          duration: 10000,
+        });
       },
+      notifyOnNetworkStatusChange: true,
     }
   );
 
   const handleConfirmation = async () => {
-    console.log(userIds);
     if (reject) {
       await batchDeclineUsers({ variables: { userIds } });
     } else {
@@ -109,8 +126,7 @@ const ConfirmationModal = ({
       <p className="text-lg text-ccGreyLight">
         You are about to {reject ? "reject" : "approve"}
         <span
-          className={`font-semibold ${reject ? "text-red-500" : "text-cc"}`}
-        >
+          className={`font-semibold ${reject ? "text-red-500" : "text-cc"}`}>
           {" "}
           {rowsLength} selected
         </span>{" "}
@@ -122,8 +138,7 @@ const ConfirmationModal = ({
       <div className="grid grid-cols-2 gap-4">
         <button
           onClick={closeModal}
-          className="rounded-lg bg-gray-200 py-2 font-semibold duration-150 hover:bg-[#dbdde0]"
-        >
+          className="rounded-lg bg-gray-200 py-2 font-semibold duration-150 hover:bg-[#dbdde0]">
           Cancel
         </button>
 
@@ -138,8 +153,7 @@ const ConfirmationModal = ({
               : "hover:bg-[#1d58e2]"
           } ${
             reject ? "bg-red-500" : "bg-cc"
-          } rounded-lg  py-2 font-semibold text-white duration-150`}
-        >
+          } rounded-lg  py-2 font-semibold text-white duration-150`}>
           {approveUsersLoading || declineUsersLoading ? (
             <div className="flex flex-row items-center justify-center gap-2">
               <CgSpinner size={15} className="animate-spin" />
@@ -162,10 +176,9 @@ const CongratsModal = ({ reject, deleted }) => {
   return (
     <div>
       <div
-        className={`flex h-[90px] w-[112%] -translate-x-[24px] -translate-y-[24px] items-center  justify-center bg-gradient-to-r ${
+        className={`flex h-[90px] w-[112%] -translate-x-[24px] -translate-y-[24px] items-center justify-center  rounded-t-2xl bg-gradient-to-r ${
           reject ? "from-[#ff6c6c] to-[#FF5555]" : "from-cc/80 to-cc"
-        }`}
-      >
+        }`}>
         <BsCheckCircleFill className="text-5xl text-white" />
       </div>
       <div className="flex flex-col gap-2">
@@ -181,8 +194,7 @@ const CongratsModal = ({ reject, deleted }) => {
         <div className="flex justify-center">
           <button
             onClick={closeModal}
-            className="w-full rounded-lg bg-gray-200 py-2 font-semibold"
-          >
+            className="w-full rounded-lg bg-gray-200 py-2 font-semibold">
             Close
           </button>
         </div>

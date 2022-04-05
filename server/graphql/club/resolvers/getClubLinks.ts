@@ -11,8 +11,8 @@ export const getClubLinks = async (
   _parent: any,
   { clubId }: GetClubLinksArgs,
   { prisma }: Context
-): Promise<typeof links> => {
-  const { links } = await prisma.club.findUnique({
+): Promise<typeof data["links"] | []> => {
+  const data = await prisma.club.findUnique({
     where: {
       id: clubId,
     },
@@ -28,7 +28,7 @@ export const getClubLinks = async (
     },
   });
 
-  console.log(links);
+  console.log(data);
 
-  return links;
+  return data?.links || [];
 };

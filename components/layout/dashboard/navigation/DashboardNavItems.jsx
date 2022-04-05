@@ -23,12 +23,12 @@ export const DashboardNavItems = () => {
         to: "/dashboard",
         icon: "home",
       },
-      {
-        label: "Manage Clubs",
-        to: "/dashboard/manage",
-        icon: "manage",
-        disabled: !user?.emailVerified || !user?.active,
-      },
+      // {
+      //   label: "Manage Clubs",
+      //   to: "/dashboard/manage",
+      //   icon: "manage",
+      //   disabled: !user?.emailVerified || !user?.active,
+      // },
       {
         label: "Activity",
         to: "/dashboard/activity",
@@ -72,12 +72,12 @@ export const DashboardNavItems = () => {
     ],
     ASB: [
       {
-        label: "Clubs",
+        label: "Manage Clubs",
         to: "/admin",
         icon: "home",
       },
       {
-        label: "Accounts",
+        label: "Manage Accounts",
         to: "/admin/accounts",
         icon: "accounts",
       },
@@ -116,8 +116,7 @@ const DashboardItem = ({ label, to, icon, notifications, disabled }) => {
               : disabled
               ? "pointer-events-none cursor-not-allowed text-gray-200"
               : "text-[#787F92]"
-          } `}
-      >
+          } `}>
         {isActive && !isMobile && (
           <span className="absolute h-[20px] w-[5px] -translate-x-6 rounded-lg bg-cc" />
         )}
@@ -139,8 +138,7 @@ const Icon = ({ icon, color, isActive }) => {
     <div
       className={`${
         !isActive && "hover:bg-gray-100"
-      } rounded-md p-[.3rem] text-xl`}
-    >
+      } rounded-md p-[.3rem] text-xl`}>
       {icon === "home" && <DashboardIcon color={color} />}
       {icon === "manage" && <RiEdit2Fill />}
       {icon === "activity" && <FaBell />}
