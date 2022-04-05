@@ -33,7 +33,7 @@ import { IoMdLock } from "react-icons/io";
 
 type NewUser = ValidateUserPayload & { roles: { id: string }[] };
 
-export const InviteUsers = () => {
+export const InviteUsers = ({ refetch }: { refetch: () => void }) => {
   const { user } = useAuthContext();
   const { addToast } = useToastContext();
   const { clubId } = useManagementContext();
@@ -149,6 +149,7 @@ export const InviteUsers = () => {
 
       <User {...newUser} roles={allRoles} setNewUserRoles={setNewUserRoles} />
       <InviteButton
+        refetch={refetch}
         clubId={clubId}
         roles={newUser?.roles}
         type={newUser?.type}
@@ -301,11 +302,13 @@ const InviteButton = ({
   ccid,
   type,
   roles,
+  refetch,
 }: {
   clubId: string;
   ccid: string;
   type: NewUser["type"];
   roles: { id: string }[];
+  refetch: () => void;
 }) => {
   const { user } = useAuthContext();
   const { addToast } = useToastContext();
@@ -321,6 +324,7 @@ const InviteButton = ({
     },
     onCompleted: (data) => {
       console.log(data);
+      refetch();
     },
     onError: (error) => {
       console.log(error);
@@ -344,6 +348,7 @@ const InviteButton = ({
     },
     onCompleted: (data) => {
       console.log(data);
+      refetch();
     },
     onError: (error) => {
       console.log(error);

@@ -2,9 +2,9 @@ import React from "react";
 import type { GetClubInvitesPayload } from "../../../../../server/graphql/club/types";
 import { DashboardMemberCard as Member } from ".";
 
-type Props = { members: GetClubInvitesPayload };
+type Props = { members: GetClubInvitesPayload; refetch: () => void };
 
-export const DashboardMembers = ({ members }: Props) => {
+export const DashboardMembers = ({ members, refetch }: Props) => {
   const accepted = members.filter((member) => member.status === "ACCEPTED");
   const pending = members.filter((member) => member.status === "PENDING");
   const declined = members.filter((member) => member.status === "DECLINED");

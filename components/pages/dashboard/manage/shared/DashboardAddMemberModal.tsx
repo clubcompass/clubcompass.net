@@ -7,9 +7,10 @@ import { GetClubInvitesPayload } from "../../../../../server/graphql/club/types"
 
 type Props = {
   members: GetClubInvitesPayload;
+  refetch: () => void;
 };
 
-export const DashboardAddMemberModal = ({ members }: Props) => {
+export const DashboardAddMemberModal = ({ members, refetch }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const closeModal = () => {
@@ -59,7 +60,7 @@ export const DashboardAddMemberModal = ({ members }: Props) => {
               leaveTo="opacity-0 scale-95"
             >
               <div className="my-8 inline-block w-full max-w-xl transform overflow-hidden rounded-2xl bg-white py-6 px-9 text-left align-middle shadow-xl transition-all">
-                <ModalContent members={members} />
+                <ModalContent members={members} refetch={refetch} />
                 <button onClick={closeModal} className="absolute top-3 right-4">
                   <CgClose />
                 </button>
@@ -72,14 +73,13 @@ export const DashboardAddMemberModal = ({ members }: Props) => {
   );
 };
 
-const ModalContent = ({ members }: Props) => {
+const ModalContent = ({ members, refetch }: Props) => {
   // should be able to pass in props.members
   return (
     <div className="flex flex-col gap-2">
       <Header />
-      <div className="divide-y divide-red-500" />
       <div className="flex flex-col gap-6">
-        <InviteUsers />
+        <InviteUsers refetch={refetch} />
         <CurrentMembers members={members} />
       </div>
     </div>
@@ -91,8 +91,8 @@ const Header = () => {
     <div className="flex flex-col gap-3">
       <h3 className="text-xl font-medium">Invite a new member</h3>
       <p className=" text-[#868991]">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eu
-        malesuada turpis.
+        Here you can invite a new member to join your club. You can invite
+        members by their ccid and assign them a role.
       </p>
     </div>
   );
