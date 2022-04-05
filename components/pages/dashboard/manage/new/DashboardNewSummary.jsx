@@ -1,12 +1,44 @@
+import { useQuery } from "@apollo/client";
 import React from "react";
+import {
+  DashboardSummaryBasic,
+  DashboardSummaryLinks,
+  DashboardSummaryMembers,
+} from "../components";
+import { GET_CLUB_DRAFT_SUMMARY } from "../../../../../lib/docs";
 
 export const DashboardNewSummary = () => {
-  // summary of all the club information from the form and a submission button
+  const {
+    data: { getClubDraftSummary: draftSummary } = {},
+    loading: summaryLoading,
+    error: summaryError,
+  } = useQuery(GET_CLUB_DRAFT_SUMMARY, {
+    variables: {
+      clubId: "cl1lcixvu0026ezv5w9vorzqr",
+    },
+    onCompleted: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+    notifyOnNetworkStatusChange: true,
+  });
+
+  if (summaryLoading) return <p>loading summary...</p>;
+  if (summaryError)
+    return (
+      <p>
+        An unexpected error occurred when fetching your summary. Try again
+        later.
+      </p>
+    );
+
   return (
-    <div className="flex flex-col gap-4 p-6">
-      <h1 className="text-2xl font-bold">
-        Has to be reviewed by asb and approved
-      </h1>
+    <div className="flex flex-col gap-4">
+      <DashboardSummaryBasic club={draftSummary} />
+      <DashboardSummaryMembers club={draftSummary} />
+      <DashboardSummaryLinks links={draftSummary.links} />
     </div>
   );
 };

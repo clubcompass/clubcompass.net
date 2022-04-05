@@ -21,25 +21,10 @@ export const DashboardNewMembers = () => {
 };
 
 const Member = ({ status, name, ccid, email, type, role }) => {
-  const colors = {
-    PENDING: {
-      bg: "#fff6ed",
-      fg: "#FF921B",
-    },
-    ACCEPTED: {
-      bg: "#EDF4FE",
-      fg: "#2575E5",
-    },
-    DECLINED: {
-      bg: "#fef1f1",
-      fg: "#e52525",
-    },
-  };
-
   return (
     <div className="flex flex-col gap-2">
       <div className="w-fit">
-        <StatusTag colors={colors[status]}>{status.toLowerCase()}</StatusTag>
+        <StatusTag label={status} type={status} />
       </div>
       <div className="flex w-[32rem] flex-row items-center justify-between rounded-md border px-3 py-3">
         <div className="flex flex-col gap-2">
@@ -94,8 +79,7 @@ const Members = () => {
 const InviteButton = () => (
   <button
     className="flex flex-row items-center gap-2 rounded-lg border border-[#E4E4E4] bg-white px-5 py-2.5 text-[#727272] shadow-md shadow-black/[0.04] transition duration-200 hover:border-[#b3b3b3] hover:text-black"
-    type="button"
-  >
+    type="button">
     <MdGroupAdd size={22} />
     <span className="font-medium">Invite new member</span>
   </button>

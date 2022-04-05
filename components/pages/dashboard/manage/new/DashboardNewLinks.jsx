@@ -1,7 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { Field, Form, Formik } from "formik";
 import React from "react";
-import Link from "next/link";
 import { useAuthContext, useToastContext } from "../../../../../context";
 import { ADD_LINK, DELETE_LINK, GET_CLUB_LINKS } from "../../../../../lib/docs";
 import { addLinkSchema } from "../../../../../server/utils/validation/schemas/link/addLinkSchema";
@@ -10,11 +9,11 @@ import { ModalProvider, useModalContext } from "../../../../general/Modal";
 import {
   DashboardField as CustomField,
   DashboardDropdown as CustomDropdown,
-  DashboardLinkType,
+  DashboardLinks,
 } from "../components";
 import { BiLink } from "react-icons/bi";
 
-export const DashboardNewSocials = () => {
+export const DashboardNewLinks = () => {
   const { user } = useAuthContext();
   const { addToast } = useToastContext();
 
@@ -26,7 +25,7 @@ export const DashboardNewSocials = () => {
   } = useQuery(GET_CLUB_LINKS, {
     context: { headers: { authorization: `Bearer ${user.token}` } },
     variables: {
-      clubId: "cl1kbbu9220686pv5sccz6gmd",
+      clubId: "cl1lcixvu0026ezv5w9vorzqr",
     },
     onCompleted: (data) => {
       console.log(data);
@@ -70,7 +69,7 @@ export const DashboardNewSocials = () => {
   const handleDelete = async ({ id }) => {
     await deleteLink({
       variables: {
-        clubId: "cl1kbbu9220686pv5sccz6gmd",
+        clubId: "cl1lcixvu0026ezv5w9vorzqr",
         data: {
           linkId: id,
         },
@@ -88,28 +87,7 @@ export const DashboardNewSocials = () => {
         <OpenModal />
         <ActionPage refetch={refetch} />
       </ModalProvider>
-      <div className="flex flex-col justify-items-center gap-6 md:grid md:grid-cols-dashboardCards">
-        {links.map((link, i) => (
-          <div
-            key={i}
-            className="flex w-full flex-col gap-2 rounded-lg border px-4 py-4">
-            <h5 className="text-xl font-semibold">{link.name}</h5>
-            <p className="text-gray-400">{link.link}</p>
-            <div className="mt-1 flex justify-between">
-              <Link href={link.link}>
-                <a target="_blank">
-                  <DashboardLinkType type={link.type} />
-                </a>
-              </Link>
-              <button
-                onClick={() => handleDelete({ id: link.id })}
-                className="rounded-md border px-3 text-gray-600 ">
-                Delete
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+      <DashboardLinks links={links} canDelete />
     </>
   );
 };
@@ -157,7 +135,7 @@ const ActionPage = ({ refetch }) => {
   const handleSubmission = async ({ name, link, type }) => {
     await addLink({
       variables: {
-        clubId: "cl1kbbu9220686pv5sccz6gmd",
+        clubId: "cl1lcixvu0026ezv5w9vorzqr",
         data: {
           name,
           link,

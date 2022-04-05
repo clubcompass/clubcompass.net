@@ -10,21 +10,6 @@ import { DashboardActionModal } from "./DashboardActionModal";
 export const DashboardUserCard = ({ club, refetch }) => {
   const user = useAuthContext();
 
-  const colors = {
-    REVIEW: {
-      bg: "#FFF2E4",
-      fg: "#FF921B",
-    },
-    APPROVED: {
-      bg: "#EDF4FE",
-      fg: "#2575E5",
-    },
-    DRAFT: {
-      bg: "#EDF4FE",
-      fg: "#2575E5",
-    },
-  };
-
   return (
     <div
       key={club.slug}
@@ -45,10 +30,7 @@ export const DashboardUserCard = ({ club, refetch }) => {
             )}
           </InfoContainer>
           <InfoContainer>
-            Status:{" "}
-            <StatusTag colors={colors[club.status]}>
-              {club.status.toLowerCase()}
-            </StatusTag>
+            Status: <StatusTag label={club.status} type={club.status} />
           </InfoContainer>
         </div>
         <div className="flex">
