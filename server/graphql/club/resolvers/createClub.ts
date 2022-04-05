@@ -5,7 +5,8 @@ import { generateSlug } from "../../../utils/generateSlug";
 import { validate } from "../../../utils/validation";
 import { createClubSchema } from "../../../utils/validation/schemas/club";
 
-export interface CreateClubData extends Partial<Omit<Club, "id" | "slug">> {
+export interface CreateClubData
+  extends Partial<Omit<Club, "id" | "slug" | "teacherId">> {
   tags?: Tag[];
 }
 
@@ -49,28 +50,32 @@ export const createClub = async (
   const roles: UserRoles[] = [
     {
       name: "president",
-      color: "#FAFAFA",
+      color: "#C3F4E9",
       type: "LEADER",
-      description: "president description",
+      description:
+        "The president is the leader of the club. The president presides over and conducts meetings according to parliamentary procedures. The president is also responsible for developing agendas, scheduling fundraisers, creating a budget, and working with the club's advisor. The club president must also attend or designate someone to attend the mandatory Inter-Club Meetings and report back to club members.",
       users: { connect: { id: president.id } },
     },
     {
       name: "vicePresident",
-      color: "#FAFAFA",
+      color: "#FFEAB4",
       type: "LEADER",
-      description: "vice president description",
+      description:
+        "The Vice President assists the president in carrying out his/her duties. In the absence of the president, the Vice President presides at club meetings and carries out all additional responsibilities normally done by the president. The most important role of the Vice President is to oversee all committee work.",
     },
     {
       name: "secretary",
-      color: "#FAFAFA",
+      color: "#FFDCE5",
       type: "LEADER",
-      description: "secretary description",
+      description:
+        "The Secretary must take accurate notes at all meetings and prepare minutes. In addition, the Secretary prepares correspondence on behalf of the club. The Secretary assists the President in keeping permanent records for the club and copies of all minutes and committees reports. The secretary maintains a copy of the club constitution and the club handbook for reference when needed.",
     },
     {
       name: "treasurer",
-      color: "#FAFAFA",
+      color: "#F3DCFE",
       type: "LEADER",
-      description: "treasurer description",
+      description:
+        "The club treasurer is responsible for maintaining accurate financial records for all expenditures. The treasurer reports all money spent and collected and of the account balance.",
     },
   ];
 
@@ -96,6 +101,11 @@ export const createClub = async (
       },
       tags: {
         connect: fillerTags,
+      },
+      teacher: {
+        connect: {
+          email: "woodrich@protodyne.com",
+        },
       },
       // ...(data?.tags && { tags: { connect: [...data?.tags] } }),
     },
