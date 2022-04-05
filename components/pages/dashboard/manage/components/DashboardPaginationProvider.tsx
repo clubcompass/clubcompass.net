@@ -12,6 +12,7 @@ import type { ReactNode, ReactChild } from "react";
 export interface PaginationContext {
   next: () => void;
   prev: () => void;
+  direct: (step: number) => void;
   step: number;
   completeSection: (name: string) => void;
   disableSection: (name: string) => void;
@@ -35,6 +36,7 @@ interface PaginationProviderProps {
 const PaginationContext = createContext<PaginationContext>({
   next: (): void => {},
   prev: (): void => {},
+  direct: (step: number): void => {},
   step: 0,
   completeSection: (name: string): void => {},
   disableSection: (name: string): void => {},
@@ -56,6 +58,11 @@ export const PaginationProvider = ({
   const next = (): void => {
     if (step === children.length - 1) return;
     setStep((step) => step + 1);
+    setSection(sections[step]);
+  };
+
+  const direct = (step: number): void => {
+    setStep(step);
     setSection(sections[step]);
   };
 
@@ -81,6 +88,7 @@ export const PaginationProvider = ({
   const value = {
     next,
     prev,
+    direct,
     step,
     completeSection,
     disableSection,
@@ -113,7 +121,7 @@ export const PaginationProvider = ({
 
 const Header = ({ title, subtitle }: Section["header"]) => {
   return (
-    <div className="my-3 flex flex-col gap-1">
+    <div className="my-3 flex w-[640px] flex-col gap-1">
       <h3 className="text-lg font-semibold text-black">{title}</h3>
       <h4 className="text-gray-400">{subtitle}</h4>
     </div>

@@ -4,21 +4,6 @@ import { FiChevronRight } from "react-icons/fi";
 import { StatusTag } from "../../../../general/StatusTag";
 
 export const DashboardOutgoingInvite = ({ invite }) => {
-  const colors = {
-    DECLINED: {
-      bg: "#FDF2F2",
-      fg: "#EC5962",
-    },
-    ACCEPTED: {
-      bg: "#EDF4FE",
-      fg: "#2575E5",
-    },
-    PENDING: {
-      bg: "#FFF2E4",
-      fg: "#FF921B",
-    },
-  };
-
   const date = new Date(invite.createdAt * 1000);
   return (
     <div className="flex h-full w-full flex-col justify-between gap-4 rounded-lg border px-6 py-4">
@@ -34,10 +19,7 @@ export const DashboardOutgoingInvite = ({ invite }) => {
             </span>
           </li>
           <li>
-            Status:{" "}
-            <StatusTag colors={colors[invite.status]}>
-              {invite.status.toLowerCase()}
-            </StatusTag>
+            Status: <StatusTag label={invite.status} type={invite.status} />
           </li>
         </InfoList>
       </div>

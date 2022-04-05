@@ -15,7 +15,11 @@ export const DashboardHeaderContent = () => {
       <PageTitle />
       {!isMobile && <PageMessage />}
       {!router.pathname.includes("admin") &&
-        !router.pathname.includes("new") && <PageButton />}
+      !router.pathname.includes("new") ? (
+        <PageButton />
+      ) : (
+        <span className="h-[32px] w-[65px]"></span>
+      )}
     </Container>
   );
 };
@@ -52,16 +56,13 @@ const PageMessage = () => {
   const { user } = useAuthContext();
   const name = `${user?.firstname} ${user?.lastname}`;
 
-  const count = 7;
-
   return (
     <div className="whitespace-nowrap">
       {router.pathname === "/dashboard" && `Welcome back, ${name}`}
-      {router.pathname === "/dashboard/manage" &&
-        `You have ${count} active drafts`}
       {router.pathname === "/dashboard/activity" &&
-        `You have ${count} pending invites and ${count} outgoing invites`}
-      {router.pathname === "/dashboard/new" && `5 out of 12 steps completed`}
+        `These are your pending and outgoing club invites`}
+      {router.pathname === "/dashboard/new" &&
+        `You are currently creating a club`}
     </div>
   );
 };

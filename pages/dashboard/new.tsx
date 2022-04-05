@@ -4,7 +4,7 @@ import { IoInformationOutline } from "react-icons/io5";
 import {
   DashboardNewBase as Base,
   DashboardNewMembers as Members,
-  DashboardNewSocials as Socials,
+  DashboardNewLinks as Links,
   DashboardNewSummary as Summary,
 } from "../../components/pages/dashboard/manage/new";
 import {
@@ -47,9 +47,9 @@ const New = () => {
       label: "Review and Submit",
       icon: <FaFlagCheckered size={16} />,
       header: {
-        title: "Tell us about your new club.",
+        title: "Review your club.",
         subtitle:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eu malesuada turpis.",
+          "Here's all the information we've gathered. Make sure to look it over before you submit your club for review.",
       },
     },
   ];
@@ -58,7 +58,7 @@ const New = () => {
     <Pagination sections={paginationSections}>
       <Base />
       <Members />
-      <Socials />
+      <Links />
       <Summary />
     </Pagination>
   );

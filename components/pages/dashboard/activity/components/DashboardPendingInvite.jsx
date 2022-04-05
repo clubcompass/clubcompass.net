@@ -127,9 +127,7 @@ export const DashboardPendingInvite = ({ invite, refetch }) => {
         <div className="flex flex-col gap-3">
           <InfoContainer>
             Club Status:
-            <StatusTag colors={colors[invite.club.status]}>
-              {invite.club.status.toLowerCase()}
-            </StatusTag>
+            <StatusTag label={invite.club.status} type={invite.club.status} />
           </InfoContainer>
           <InfoContainer>
             Role:{" "}
