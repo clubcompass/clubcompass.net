@@ -18,9 +18,8 @@ export const DashboardNewMembers = () => {
   const { next, prev } = usePaginationContext();
   const { addToast } = useToastContext();
   const { clubId } = useManagementContext();
-  console.log(clubId);
 
-  const { loading, error, data } = useQuery<
+  const { loading, error, data, refetch } = useQuery<
     { getClubInvites: GetClubInvitesPayload },
     GetClubInvitesArgs
   >(GET_CLUB_INVITES, {
@@ -60,17 +59,19 @@ export const DashboardNewMembers = () => {
 
   return (
     <div className="flex flex-col items-start gap-2">
-      <DashboardAddMemberModal members={members} />
-      <Members members={members} />
+      <DashboardAddMemberModal members={members} refetch={refetch} />
+      <Members members={members} refetch={refetch} />
       <div className="mt-3 grid w-[380px] grid-cols-2 items-center gap-3">
         <button
           onClick={() => prev()}
-          className="rounded-md bg-gray-100 px-9 py-2 duration-100 hover:bg-gray-200">
+          className="rounded-md bg-gray-100 px-9 py-2 duration-100 hover:bg-gray-200"
+        >
           Back
         </button>
         <button
           onClick={() => next()}
-          className="rounded-md bg-cc px-9 py-2 text-white duration-100 hover:bg-ccDark">
+          className="rounded-md bg-cc px-9 py-2 text-white duration-100 hover:bg-ccDark"
+        >
           Continue
         </button>
       </div>
