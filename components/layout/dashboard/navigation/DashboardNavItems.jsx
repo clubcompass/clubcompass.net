@@ -23,12 +23,6 @@ export const DashboardNavItems = () => {
         to: "/dashboard",
         icon: "home",
       },
-      // {
-      //   label: "Manage Clubs",
-      //   to: "/dashboard/manage",
-      //   icon: "manage",
-      //   disabled: !user?.emailVerified || !user?.active,
-      // },
       {
         label: "Activity",
         to: "/dashboard/activity",
@@ -46,11 +40,6 @@ export const DashboardNavItems = () => {
         label: "Dashboard",
         to: "/dashboard",
         icon: "home",
-      },
-      {
-        label: "Manage Clubs",
-        to: "/dashboard/manage",
-        icon: "manage",
       },
       {
         label: "Manage Account",

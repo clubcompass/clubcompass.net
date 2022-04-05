@@ -6,6 +6,7 @@ import type {
   GetClubInvitesArgs,
   GetClubInvitesPayload,
 } from "../../../../../server/graphql/club/types";
+import { usePaginationContext } from "../components";
 import {
   DashboardMembers as Members,
   DashboardAddMemberModal,
@@ -13,6 +14,7 @@ import {
 
 export const DashboardNewMembers = () => {
   const { user } = useAuthContext();
+  const { next, prev } = usePaginationContext();
   const { addToast } = useToastContext();
   const { loading, error, data } = useQuery<
     { getClubInvites: GetClubInvitesPayload },
@@ -56,6 +58,18 @@ export const DashboardNewMembers = () => {
     <div className="flex flex-col items-start gap-2">
       <DashboardAddMemberModal members={members} />
       <Members members={members} />
+      <div className="mt-3 grid w-[380px] grid-cols-2 items-center gap-3">
+        <button
+          onClick={() => prev()}
+          className="rounded-md bg-gray-100 px-9 py-2 duration-100 hover:bg-gray-200">
+          Back
+        </button>
+        <button
+          onClick={() => next()}
+          className="rounded-md bg-cc px-9 py-2 text-white duration-100 hover:bg-ccDark">
+          Continue
+        </button>
+      </div>
     </div>
   );
 };
