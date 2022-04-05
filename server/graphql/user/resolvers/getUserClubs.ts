@@ -149,7 +149,7 @@ export const getUserClubs = async (
       !club.roles.some((role) => role.name === "president")
     ) {
       club.president = false;
-      club.manage = true;
+      club.manage = false;
       return club;
     }
   });
