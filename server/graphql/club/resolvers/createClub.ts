@@ -74,6 +74,13 @@ export const createClub = async (
     },
   ];
 
+  const fillerTags = await prisma.tag.findMany({
+    take: 4,
+    select: {
+      id: true,
+    },
+  });
+
   const club = await prisma.club.create({
     data: {
       name: data?.name,
@@ -87,7 +94,10 @@ export const createClub = async (
           id: president.id,
         },
       },
-      ...(data?.tags && { tags: { connect: [...data?.tags] } }),
+      tags: {
+        connect: fillerTags,
+      },
+      // ...(data?.tags && { tags: { connect: [...data?.tags] } }),
     },
     select: {
       id: true,

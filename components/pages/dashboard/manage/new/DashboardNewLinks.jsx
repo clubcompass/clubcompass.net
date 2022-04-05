@@ -6,10 +6,12 @@ import { DELETE_LINK, GET_CLUB_LINKS } from "../../../../../lib/docs";
 import { ModalProvider } from "../../../../general/Modal";
 import { DashboardLinks, usePaginationContext } from "../components";
 import { LinkAddButton, LinkAddForm } from "../components/links";
+import { useManagementContext } from "../context";
 
 export const DashboardNewLinks = () => {
   const { user } = useAuthContext();
   const { addToast } = useToastContext();
+  const { clubId } = useManagementContext();
   const { next, prev } = usePaginationContext();
 
   const {
@@ -20,7 +22,7 @@ export const DashboardNewLinks = () => {
   } = useQuery(GET_CLUB_LINKS, {
     context: { headers: { authorization: `Bearer ${user.token}` } },
     variables: {
-      clubId: "cl1lmh60y10468xv5r4di76cy",
+      clubId,
     },
     onCompleted: (data) => {
       console.log(data);
@@ -56,12 +58,14 @@ export const DashboardNewLinks = () => {
       <div className="mt-3 grid w-[380px] grid-cols-2 items-center gap-3">
         <button
           onClick={() => prev()}
-          className="rounded-md bg-gray-100 px-9 py-2 duration-100 hover:bg-gray-200">
+          className="rounded-md bg-gray-100 px-9 py-2 duration-100 hover:bg-gray-200"
+        >
           Back
         </button>
         <button
           onClick={() => next()}
-          className="rounded-md bg-cc px-9 py-2 text-white duration-100 hover:bg-ccDark">
+          className="rounded-md bg-cc px-9 py-2 text-white duration-100 hover:bg-ccDark"
+        >
           Continue
         </button>
       </div>

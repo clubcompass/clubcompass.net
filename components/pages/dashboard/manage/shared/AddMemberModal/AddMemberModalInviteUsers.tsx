@@ -28,6 +28,7 @@ import {
   IssueTeacherInvitePayload,
 } from "../../../../../../server/graphql/invite/types";
 import { useAuthContext, useToastContext } from "../../../../../../context";
+import { useManagementContext } from "../../context";
 import { IoMdLock } from "react-icons/io";
 
 type NewUser = ValidateUserPayload & { roles: { id: string }[] };
@@ -35,6 +36,8 @@ type NewUser = ValidateUserPayload & { roles: { id: string }[] };
 export const InviteUsers = () => {
   const { user } = useAuthContext();
   const { addToast } = useToastContext();
+  const { clubId } = useManagementContext();
+
   const [newUser, setNewUser] = useState<NewUser | null>(null);
   const [searchUser, { loading: userSearchLoading }] = useLazyQuery<
     { validateUser: ValidateUserPayload },
@@ -54,7 +57,7 @@ export const InviteUsers = () => {
     GetClubRolesArgs
   >(GET_CLUB_ROLES, {
     variables: {
-      clubId: "cl12yw8sj0026x9pck6j4zgoe",
+      clubId,
     },
     context: {
       headers: {
@@ -146,7 +149,7 @@ export const InviteUsers = () => {
 
       <User {...newUser} roles={allRoles} setNewUserRoles={setNewUserRoles} />
       <InviteButton
-        clubId="cl12yw8tf0126x9pc314sbfw7"
+        clubId={clubId}
         roles={newUser?.roles}
         type={newUser?.type}
         ccid={newUser?.ccid}

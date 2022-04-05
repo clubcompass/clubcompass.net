@@ -8,15 +8,17 @@ import {
 import { GET_CLUB_DRAFT_SUMMARY } from "../../../../../lib/docs";
 import { ModalProvider, useModalContext } from "../../../../general/Modal";
 import { CgSpinner } from "react-icons/cg";
+import { useManagementContext } from "../context";
 
 export const DashboardNewSummary = () => {
+  const { clubId, sendClubForApproval } = useManagementContext();
   const {
     data: { getClubDraftSummary: draftSummary } = {},
     loading: summaryLoading,
     error: summaryError,
   } = useQuery(GET_CLUB_DRAFT_SUMMARY, {
     variables: {
-      clubId: "cl1lcixvu0026ezv5w9vorzqr",
+      clubId,
     },
     onCompleted: (data) => {
       console.log(data);

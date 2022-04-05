@@ -385,6 +385,8 @@ export default gql`
     name: String!
     type: LinkType!
     link: String!
+  }
+
   type GetClubRolePayload {
     id: ID!
     name: String!

@@ -19,25 +19,10 @@ export const DashboardMemberCard = ({
   status,
   roles,
 }: Props) => {
-  const colors = {
-    ACCEPTED: {
-      bg: "#EDF4FE",
-      fg: "#2575E5",
-    },
-    PENDING: {
-      bg: "#FFF2E4",
-      fg: "#FF921B",
-    },
-    DECLINED: {
-      bg: "#FDF2F2",
-      fg: "#EC5962",
-    },
-  };
-
   return (
     <div className="flex w-[26rem] flex-col gap-2">
       <div className="flex w-fit flex-row items-center gap-2">
-        <StatusTag colors={colors[status]}>{status.toLowerCase()}</StatusTag>
+        <StatusTag type={status} label={status} />
         <DeleteInvite id={id} />
       </div>
       <div className="flex w-full flex-row items-center justify-between rounded-lg border px-4 py-3">

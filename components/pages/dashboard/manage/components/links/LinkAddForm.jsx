@@ -11,11 +11,13 @@ import {
   DashboardDropdown as CustomDropdown,
 } from "../../components";
 import { CgSpinner } from "react-icons/cg";
+import { useManagementContext } from "../../context";
 
 export const LinkAddForm = ({ refetch }) => {
   const { user } = useAuthContext();
   const { closeModal } = useModalContext();
   const { addToast } = useToastContext();
+  const { clubId } = useManagementContext();
 
   //   console.log(user);
 
@@ -44,7 +46,7 @@ export const LinkAddForm = ({ refetch }) => {
   const handleSubmission = async ({ name, link, type }) => {
     await addLink({
       variables: {
-        clubId: "cl1lmh60y10468xv5r4di76cy",
+        clubId,
         data: {
           name,
           link,
@@ -71,7 +73,8 @@ export const LinkAddForm = ({ refetch }) => {
         onSubmit={async (values, { setFieldError }) => {
           await handleSubmission(values);
         }}
-        validationSchema={addLinkSchema}>
+        validationSchema={addLinkSchema}
+      >
         <Form className="grid w-full gap-6">
           <Field
             name="name"
@@ -98,13 +101,15 @@ export const LinkAddForm = ({ refetch }) => {
           <div className="grid grid-cols-2 gap-3">
             <button
               onClick={closeModal}
-              className="rounded-md bg-gray-200 py-2">
+              className="rounded-md bg-gray-200 py-2"
+            >
               Cancel
             </button>
             <button
               disabled={loading}
               className="rounded-md bg-black py-2 text-white"
-              type="submit">
+              type="submit"
+            >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
                   <CgSpinner className="animate-spin" /> Adding...
