@@ -67,7 +67,10 @@ export const OnboardingForm = ({
     );
   } else {
     return (
-      <Form className="mx-auto grid w-[90vw] max-w-[495px] grid-cols-6 gap-3">
+      <Form
+        className={`${
+          form.name === "tags" && "max-w-[700px]"
+        } mx-auto grid w-[90vw] max-w-[495px] grid-cols-6 gap-3`}>
         {form.custom ? (
           <div style={{ gridColumn: `span ${form.span}` }}>
             {form.component}
@@ -91,7 +94,7 @@ export const OnboardingForm = ({
             {form.button && (
               <div
                 style={{
-                  gridColumn: `span ${6 - form.span}`,
+                  gridColumn: `span ${form.span}`,
                 }}>
                 <FieldButton
                   primary={form.button.primary}

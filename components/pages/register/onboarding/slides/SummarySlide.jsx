@@ -46,7 +46,9 @@ export const SummarySlide = ({ direct, prev, information, confirm, error }) => {
         <p className="-my-2 text-sm leading-tight text-red-500">{error}</p>
       )}
       <Summary information={information} direct={direct} errors={error} />
-      <Buttons buttons={config.buttons} />
+      <div className="w-[650px]">
+        <Buttons buttons={config.buttons} />
+      </div>
     </Container>
   );
 };

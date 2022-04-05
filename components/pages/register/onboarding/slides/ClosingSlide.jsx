@@ -28,7 +28,9 @@ export const ClosingSlide = ({ firstname, email }) => {
   return (
     <Container>
       <Header {...config.header} />
-      <Buttons buttons={config.buttons} />
+      <div className="w-[600px]">
+        <Buttons buttons={config.buttons} />
+      </div>
     </Container>
   );
 };

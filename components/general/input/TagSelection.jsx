@@ -49,7 +49,7 @@ export const TagSelection = ({ tags, loading, error, limit, initial }) => {
 };
 
 const Container = ({ children }) => (
-  <div className="flex w-full items-center justify-center">
+  <div className="flex items-center justify-center">
     <div className="grid grid-cols-6 gap-2">{children}</div>
   </div>
 );
@@ -79,8 +79,7 @@ export const Tag = ({ tag, select, limitReached, selected }) => {
       onClick={() => {
         setToggled(!toggled);
         select({ tag });
-      }}
-    >
+      }}>
       {tag.name}
     </span>
   );
