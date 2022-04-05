@@ -39,5 +39,12 @@ export const validateUser = async (
       emailVerified: user.emailVerified,
     });
 
+  if (user.type === "ASB" || user.type === "ADMIN")
+    throw new ApolloError(
+      "User is not a student or teacher",
+      "CONSTRAINT_FAILED",
+      { ccid }
+    );
+
   return user;
 };
