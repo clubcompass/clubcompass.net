@@ -26,8 +26,6 @@ import type {
   GetUserLeadershipClubsPayload,
   DeleteUserArgs,
   DeleteUserPayload,
-  ValidateStudentArgs,
-  ValidateStudentPayload,
   ApproveUserArgs,
   ApproveUserPayload,
   GetUsersArgs,
@@ -38,8 +36,6 @@ import type {
   BatchApproveUsersPayload,
   GetUserArgs,
   GetUserPayload,
-  ValidateTeacherArgs,
-  ValidateTeacherPayload,
   GetUserDraftsArgs,
   GetUserDraftsPayload,
   GetAdvisorClubsArgs,
@@ -76,6 +72,8 @@ import type {
   GetClubInvitesPayload,
   GetClubLinksArgs,
   GetClubLinksPayload,
+  GetClubDraftSummaryArgs,
+  GetClubDraftSummaryPayload,
 } from "../club/types";
 import type {
   GetUserInvitesArgs,
@@ -164,8 +162,6 @@ export interface UserResolvers {
     GetUserLeadershipClubsArgs,
     GetUserLeadershipClubsPayload
   >;
-  validateStudent?: Resolver<{}, ValidateStudentArgs, ValidateStudentPayload>;
-  validateTeacher?: Resolver<{}, ValidateTeacherArgs, ValidateTeacherPayload>;
   approveUser?: Resolver<{}, ApproveUserArgs, ApproveUserPayload>;
   getUsers?: Resolver<{}, GetUsersArgs, GetUsersPayload>;
   batchDeleteUsers?: Resolver<
@@ -220,6 +216,11 @@ export interface ClubResolvers {
   >;
   getClubInvites?: Resolver<{}, GetClubInvitesArgs, GetClubInvitesPayload>;
   getClubLinks?: Resolver<{}, GetClubLinksArgs, GetClubLinksPayload>;
+  getClubDraftSummary?: Resolver<
+    {},
+    GetClubDraftSummaryArgs,
+    GetClubDraftSummaryPayload
+  >;
 }
 
 export interface InviteResolvers {

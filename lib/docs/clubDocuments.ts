@@ -211,3 +211,43 @@ export const GET_CLUB_LINKS = gql`
     }
   }
 `;
+
+export const GET_CLUB_DRAFT_SUMMARY = gql`
+  query ($clubId: ID!) {
+    getClubDraftSummary(clubId: $clubId) {
+      id
+      name
+      status
+      email
+      tags {
+        name
+      }
+      meetingDate
+      location
+      description
+      members {
+        id
+        firstname
+        lastname
+        ccid
+        email
+        roles {
+          name
+        }
+      }
+      teacher {
+        id
+        firstname
+        lastname
+        ccid
+        email
+      }
+      links {
+        id
+        name
+        type
+        link
+      }
+    }
+  }
+`;

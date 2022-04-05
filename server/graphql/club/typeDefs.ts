@@ -340,6 +340,44 @@ export default gql`
     type: LinkType!
   }
 
+  type GetClubDraftSummaryPayload {
+    id: ID!
+    name: String!
+    status: ClubStatus!
+    email: String!
+    tags: [TagName!]!
+    meetingDate: String!
+    location: String!
+    description: String!
+    members: [ClubDraftMember!]!
+    teacher: ClubDraftTeacher!
+    links: [ClubDraftLink!]!
+  }
+
+  type ClubDraftMember {
+    id: ID!
+    firstname: String!
+    lastname: String!
+    ccid: String!
+    email: String!
+    roles: [RoleName!]!
+  }
+
+  type ClubDraftTeacher {
+    id: ID!
+    firstname: String!
+    lastname: String!
+    ccid: String!
+    email: String!
+  }
+
+  type ClubDraftLink {
+    id: ID!
+    name: String!
+    type: LinkType!
+    link: String!
+  }
+
   ##### QUERIES + MUTATIONS #####
 
   type Query {
@@ -349,6 +387,7 @@ export default gql`
     getAdminApprovedClubs: [GetAdminApprovedClubsPayload!]!
     getClubInvites(clubId: ID!): [GetClubInvitesPayload!]!
     getClubLinks(clubId: ID!): [GetClubLinkPayload!]!
+    getClubDraftSummary(clubId: ID!): GetClubDraftSummaryPayload!
   }
 
   type Mutation {

@@ -14,6 +14,7 @@ import { requestToJoinClub } from "./resolvers/requestToJoinClub";
 import { getClubInvites } from "./resolvers/getClubInvites";
 import { getAdminApprovedClubs } from "./resolvers/getAdminApprovedClubs";
 import { getClubLinks } from "./resolvers/getClubLinks";
+import { getClubDraftSummary } from "./resolvers/getClubDraftSummary";
 
 const resolvers: Resolvers = {
   Query: {
@@ -23,6 +24,7 @@ const resolvers: Resolvers = {
     getUnapprovedClubs,
     getClubInvites,
     getClubLinks,
+    getClubDraftSummary,
   },
   Mutation: {
     joinClub,
