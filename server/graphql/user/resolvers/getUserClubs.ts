@@ -157,7 +157,8 @@ export const getUserClubs = async (
   const cantEdit = clubs.filter((club) => {
     if (
       !user.canEdit.some((canEdit) => canEdit.id === club.id) &&
-      club.roles.length !== 0
+      club.roles.length !== 0 &&
+      !club.roles.some((role) => role.name === "president")
     ) {
       club.president = false;
       club.manage = false;
