@@ -1,18 +1,19 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("LOCAL_POSTGRES_URL")
-  // url      = env("DATABASE_URL")
+  provider             = "mysql"
+  url                  = env("PLANETSCALE_URL")
+  referentialIntegrity = "prisma"
 }
 
 model Club {
   id              String               @id @default(cuid())
   name            String?              @unique
   slug            String?              @unique
-  description     String?
+  description     String?              @db.LongText
   email           String?
   meetingDate     String?
   location        String?
@@ -78,7 +79,7 @@ model User {
   lastname          String
   email             String      @unique
   emailVerified     Boolean     @default(true)
-  verificationToken String?     @unique // should be moved to a separate table
+  verificationToken String?     @unique
   active            Boolean     @default(false)
   password          String
   grade             Grade
@@ -110,7 +111,7 @@ model Role {
   id          String   @id @default(cuid())
   name        String
   color       String
-  description String
+  description String @db.LongText
   clubId      String
   type        RoleType @default(MEMBER)
   createdAt   DateTime @default(now())
