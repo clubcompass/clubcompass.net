@@ -116,22 +116,24 @@ export const DashboardNewBase = () => {
             ]}
             span={2}
           />
-          <Field
-            name="location"
-            label="Meeting Location"
-            description="A room number works best. If it is outside of school, put where meetings are hosted at."
-            placeholder="A101"
-            span={1}
-            component={CustomField}
-          />
-          <Field
-            name="meetingDate"
-            label="Meeting Date and Time"
-            description="The shorter the better."
-            placeholder="Every other Monday at 3:00pm"
-            span={1}
-            component={CustomField}
-          />
+          <div className="col-span-2 grid grid-cols-4 gap-6">
+            <Field
+              name="location"
+              label="Meeting Location"
+              description="A room number works best."
+              placeholder="A101"
+              span={1}
+              component={CustomField}
+            />
+            <Field
+              name="meetingDate"
+              label="Meeting Date and Time"
+              description="The shorter the better."
+              placeholder="Every other Monday at 3:00pm"
+              span={1}
+              component={CustomField}
+            />
+          </div>
           <div className="mt-3 grid w-[380px] grid-cols-2 items-center gap-3">
             <Link href="/dashboard">
               <a className="rounded-md bg-gray-100 px-9 py-2 text-center duration-100 hover:bg-gray-200">

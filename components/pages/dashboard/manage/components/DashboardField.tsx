@@ -77,7 +77,7 @@ const Label = ({
         <div className="flex flex-col">
           {label && <span className="text-sm">{label}</span>}
           {description && (
-            <span className="text-sm text-gray-300">{description}</span>
+            <span className="text-sm text-gray-400">{description}</span>
           )}
         </div>
       )}
@@ -99,8 +99,7 @@ const Question = ({ question }: { question: string }) => {
       <div
         onMouseEnter={() => setQuestionHovered(true)}
         onMouseLeave={() => setQuestionHovered(false)}
-        className="cursor-help"
-      >
+        className="cursor-help">
         <FaRegQuestionCircle className="z-10 text-xs text-gray-500" />
       </div>
       {questionHovered && <QuestionTooltip question={question} />}
