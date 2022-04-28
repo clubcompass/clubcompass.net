@@ -40,7 +40,7 @@ export const DashboardLinkType = ({ type }) => {
   return (
     <span
       style={{ color: colors[type].fg, background: colors[type].bg }}
-      className="flex items-center gap-2 rounded-md py-1 px-4 capitalize">
+      className="flex items-center gap-2 rounded-md px-3 capitalize">
       <Icon type={type} />
       {type.toLowerCase()}
     </span>

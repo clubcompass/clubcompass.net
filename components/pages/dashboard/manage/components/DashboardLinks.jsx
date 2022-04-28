@@ -8,6 +8,7 @@ import { useAuthContext, useToastContext } from "../../../../../context";
 import { useManagementContext } from "../context";
 
 import { CgSpinner } from "react-icons/cg";
+import { BiTrash } from "react-icons/bi";
 
 export const DashboardLinks = ({ links, canDelete, refetch }) => {
   return (
@@ -61,37 +62,43 @@ const LinkCard = ({ link, canDelete, refetch }) => {
   };
 
   return (
-    <div className="flex w-full flex-col gap-2 rounded-lg border px-4 py-4">
-      <h5 className="text-xl font-semibold">{link.name}</h5>
-      <p className="text-gray-400">{link.link}</p>
-      <div className="mt-1 flex justify-between">
-        <Link href={link.link}>
-          <a target="_blank">
-            <DashboardLinkType type={link.type} />
-          </a>
-        </Link>
+    <div className="flex w-full flex-col gap-2">
+      <div className="w-fit">
         {canDelete ? (
           <button
             onClick={() => handleDelete({ id: link.id })}
             disabled={deleteLoading}
-            className="rounded-md bg-gray-100 px-6 py-1 text-gray-600 duration-100 hover:bg-gray-200"
-          >
+            className={`${
+              deleteLoading
+                ? "animate-pulse cursor-not-allowed bg-gray-50 text-gray-400"
+                : "bg-[#F4F4F4] text-[#3C3D41] hover:bg-red-50 hover:text-red-500"
+            } inline-flex items-center gap-2 rounded-md px-2 capitalize duration-200 `}>
             {deleteLoading ? (
-              <span className="flex items-center gap-2">
-                <CgSpinner className="animate-spin" /> Deleting...
-              </span>
+              <>
+                <CgSpinner size={13} className="animate-spin" />
+                <span>Deleting...</span>
+              </>
             ) : (
-              "Delete"
+              <>
+                <BiTrash size={14} />
+                <span>Delete</span>
+              </>
             )}
           </button>
         ) : (
+          <></>
+        )}
+      </div>
+      <div className="flex flex-col gap-2 rounded-lg border px-4 py-3">
+        <span className="font-medium">{link.name}</span>
+        <div className="flex items-center justify-between gap-2">
+          <span className="break-all text-[#848484]">{link.link}</span>
           <Link href={link.link}>
-            <a className="flex items-center gap-2 rounded-md bg-gray-100 px-4 py-1 text-gray-600 duration-100 hover:bg-gray-200 ">
-              View Link
-              <FiChevronRight />
+            <a target="_blank">
+              <DashboardLinkType type={link.type} />
             </a>
           </Link>
-        )}
+        </div>
       </div>
     </div>
   );

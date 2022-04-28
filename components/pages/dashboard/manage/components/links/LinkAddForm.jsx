@@ -77,7 +77,7 @@ export const LinkAddForm = ({ refetch }) => {
         <Form className="grid w-full gap-6">
           <Field
             name="name"
-            label="Link Name"
+            label="Link Title"
             placeholder="Website"
             span={1}
             required
@@ -105,11 +105,9 @@ export const LinkAddForm = ({ refetch }) => {
             </button>
             <button
               disabled={loading}
-              className={
-                loading
-                  ? `disabled rounded-md bg-gray-500 py-2 text-white`
-                  : `rounded-md bg-black py-2 text-white`
-              }
+              className={`${
+                loading ? `cursor-not-allowed bg-gray-500` : `bg-black`
+              } rounded-md py-2 text-white`}
               type="submit">
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
