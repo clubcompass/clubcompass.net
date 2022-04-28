@@ -73,8 +73,7 @@ export const LinkAddForm = ({ refetch }) => {
         onSubmit={async (values, { setFieldError }) => {
           await handleSubmission(values);
         }}
-        validationSchema={addLinkSchema}
-      >
+        validationSchema={addLinkSchema}>
         <Form className="grid w-full gap-6">
           <Field
             name="name"
@@ -101,15 +100,17 @@ export const LinkAddForm = ({ refetch }) => {
           <div className="grid grid-cols-2 gap-3">
             <button
               onClick={closeModal}
-              className="rounded-md bg-gray-200 py-2"
-            >
+              className="rounded-md bg-gray-200 py-2">
               Cancel
             </button>
             <button
               disabled={loading}
-              className="rounded-md bg-black py-2 text-white"
-              type="submit"
-            >
+              className={
+                loading
+                  ? `disabled rounded-md bg-gray-500 py-2 text-white`
+                  : `rounded-md bg-black py-2 text-white`
+              }
+              type="submit">
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
                   <CgSpinner className="animate-spin" /> Adding...
