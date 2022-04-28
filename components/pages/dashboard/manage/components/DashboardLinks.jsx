@@ -24,6 +24,11 @@ const LinkCard = ({ link, canDelete, refetch }) => {
   const { user } = useAuthContext();
   const { addToast } = useToastContext();
   const { clubId } = useManagementContext();
+  const url = link.link;
+
+  if (!url.includes("https://")) {
+    url = `https://${link.link}`;
+  }
 
   const [deleteLink, { loading: deleteLoading }] = useMutation(DELETE_LINK, {
     context: {
@@ -92,8 +97,8 @@ const LinkCard = ({ link, canDelete, refetch }) => {
       <div className="flex flex-col gap-2 rounded-lg border px-4 py-3">
         <span className="font-medium">{link.name}</span>
         <div className="flex items-center justify-between gap-2">
-          <span className="break-all text-[#848484]">{link.link}</span>
-          <Link href={link.link}>
+          <span className="break-all text-[#848484]">{url}</span>
+          <Link href={url}>
             <a target="_blank">
               <DashboardLinkType type={link.type} />
             </a>
