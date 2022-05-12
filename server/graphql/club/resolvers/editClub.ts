@@ -3,6 +3,7 @@ import { Context } from "../../ctx";
 import { validate } from "../../../utils/validation";
 import { editClubSchema } from "../../../utils/validation/schemas/club";
 import { ApolloError, UserInputError } from "apollo-server-micro";
+import { permissions } from "server/utils/auth/permissions";
 
 type EditClubData = {
   name?: Club["name"];
@@ -23,7 +24,7 @@ export type EditClubPayload = Awaited<ReturnType<typeof editClub>>;
 export const editClub = async (
   _parent: any,
   { clubId, data }: EditClubArgs,
-  { prisma, auth: president }: Context
+  { prisma, auth: member }: Context
 ) => {
   const clubData = {
     ...data,
@@ -46,10 +47,12 @@ export const editClub = async (
     select: {
       id: true,
       roles: {
-        where: {
-          name: "president",
-        },
         select: {
+          permissions: {
+            select: {
+              canManageClubPage: true,
+            },
+          },
           users: {
             select: {
               id: true,
@@ -66,12 +69,14 @@ export const editClub = async (
     });
 
   if (
-    !club.roles.some((role) =>
-      role.users.some((user) => user.id === president.id)
+    !club.roles.some(
+      (role) =>
+        role.permissions.canManageClubPage === true &&
+        role.users.some((user) => user.id === member.id)
     )
   )
     throw new ApolloError(
-      "You are not authorized to edit this club",
+      "You are not authorized to edit this club's page",
       "UNAUTHORIZED_ACCESS",
       { id: clubId }
     );

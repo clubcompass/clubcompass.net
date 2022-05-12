@@ -34,21 +34,58 @@ export const issueInvite = async (
         },
       },
       roles: {
-        where: {
-          name: {
-            equals: "president",
-          },
-        },
         select: {
+          permissions: {
+            select: {
+              canManageInvites: true,
+            },
+          },
           users: {
             select: {
-              id: true,
+              ccid: true,
             },
           },
         },
       },
     },
   });
+
+  const issuer = await prisma.user.findUnique({
+    where: {
+      id: auth.id,
+    },
+    select: {
+      roles: {
+        where: {
+          clubId: clubId,
+        },
+        select: {
+          rank: true,
+        },
+      },
+    },
+  });
+
+  const roles = await prisma.role.findMany({
+    where: {
+      AND: inviteRoles,
+    },
+    select: {
+      rank: true,
+      type: true,
+    },
+  });
+
+  const highestIssuerRank = Math.max(...issuer.roles.map((role) => role.rank));
+
+  const highestRolesRank = Math.max(...roles.map((role) => role.rank));
+
+  if (highestIssuerRank <= highestRolesRank)
+    throw new ApolloError(
+      "Cannot issue invites to other leadership positions",
+      "UNAHORIZED_ACCESS",
+      { inviteRoles: inviteRoles }
+    );
 
   if (!club)
     throw new ApolloError("Club was not found", "RESOURCE_NOT_FOUND", {
@@ -63,14 +100,18 @@ export const issueInvite = async (
     );
   }
 
-  let ids = club.roles[0].users.map((user) => user.id);
-  if (!ids.includes(auth.id)) {
+  if (
+    !club.roles.some(
+      (role) =>
+        role.permissions.canManageInvites === true &&
+        role.users.some((user) => user.ccid === recipientCCID)
+    )
+  )
     throw new ApolloError(
-      "You are not authorized to issue an invite to this club",
-      "UNAUTHORIZED_ACTION",
-      { id: auth.id }
+      "You are not authorized to edit this club's page",
+      "UNAUTHORIZED_ACCESS",
+      { id: clubId }
     );
-  }
 
   if (club.members.length !== 0) {
     throw new ApolloError(
@@ -114,6 +155,46 @@ export const issueInvite = async (
     throw new ApolloError("User is not approved", "UNAUTHORIZED_ACTION", {
       recipientCCID,
     });
+
+  if (user.type === "TEACHER") {
+    if (!roles.some((role) => role.type === "ADVISOR"))
+      throw new ApolloError(
+        "Requested user to invite is a teacher, but the role is not an advisor",
+        "UNAUTHORIZED_ACTION"
+      );
+
+    if (highestIssuerRank !== 2)
+      throw new ApolloError(
+        "Need to be club president to invite an advisor",
+        "UNAUTHORIZED_ACTION",
+        { highestIssuerRank: highestIssuerRank }
+      );
+
+    const invite = await prisma.invite.create({
+      data: {
+        type: "INCOMING",
+        club: {
+          connect: {
+            id: clubId,
+          },
+        },
+        user: {
+          connect: {
+            ccid: recipientCCID,
+          },
+        },
+        roles: {
+          connect: inviteRoles,
+        },
+        status: "PENDING",
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    return invite;
+  }
 
   if (user.type !== "STUDENT")
     throw new ApolloError("User is not a student", "UNAUTHORIZED_ACTION", {

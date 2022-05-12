@@ -1,13 +1,22 @@
-const { CREATE_TAGS } = require("../lib/docs");
-const { GET_TAGS } = require("../lib/docs");
-const { REGISTER } = require("../lib/docs");
-const { client } = require("../server/tests/requestClient");
-const users = require("./data/users.json");
-const clubs = require("./data/clubs.json");
-const teachers = require("./data/teachers.json");
-const inquirer = require("inquirer");
-const { PrismaClient } = require("@prisma/client");
+import { CREATE_TAGS } from "../lib/docs";
+import { GET_TAGS } from "../lib/docs";
+import { REGISTER } from "../lib/docs";
+import { client } from "../server/tests/requestClient";
+import users from "./data/users.json";
+import clubs from "./data/clubs.json";
+import teachers from "./data/teachers.json";
+import { Grade, PrismaClient, User } from "@prisma/client";
 const prisma = new PrismaClient();
+
+type CreateUser = Omit<
+  User,
+  "id" | "verificationToken" | "createdAt" | "updatedAt"
+>;
+
+type CreateTeacher = Omit<
+  User,
+  "id" | "verificationToken" | "createdAt" | "updatedAt"
+>;
 
 const seed_tags = async () => {
   const names = [
@@ -38,42 +47,54 @@ const seed_tags = async () => {
 
   const { createTags: response } = await client.request(CREATE_TAGS, { names });
 
+  console.log("🌱 Created tags 🏷");
+
   return response;
 };
 
 const seed_students = async () => {
-  const { getTags: tags } = await client.request(GET_TAGS);
-
-  const formatted_users = users.map((user) => ({
+  const formatted_users: CreateUser[] = users.map((user) => ({
     firstname: user.name,
     lastname: user.lastname,
     email: user.email,
-    password: "Password123!",
+    password: "$2b$10$HihvZx6IXwiFCdveslht7O3AYaCH5esQ4Y7VjLTIbUyJjOyulNc8G",
     grade: "JUNIOR",
-    interests: [
-      { id: tags[Math.floor(Math.random() * tags.length)].id },
-      { id: tags[Math.floor(Math.random() * tags.length)].id },
-      { id: tags[Math.floor(Math.random() * tags.length)].id },
-      { id: tags[Math.floor(Math.random() * tags.length)].id },
-    ],
+    emailVerified: true,
+    active: true,
+    type: "STUDENT",
+    ccid: "",
+    studentId: "",
   }));
 
   formatted_users.map((user) => {
-    const chars = "1234567890";
+    const chars = "ABCDEFGHJKLMNOPQRSTUVWXYZ";
+    let ccid = "";
+    for (let i = 6; i > 0; --i) {
+      ccid += chars[Math.floor(Math.random() * chars.length)];
+    }
+
+    user.ccid = ccid;
+
+    const charsStudentId = "1234567890";
     let userId = "";
     for (let i = 7; i > 0; --i) {
-      userId += chars[Math.floor(Math.random() * chars.length)];
+      userId +=
+        charsStudentId[Math.floor(Math.random() * charsStudentId.length)];
     }
     user.studentId = userId;
   });
 
-  for (let user of formatted_users) {
-    await client.request(REGISTER, { data: user });
-  }
+  const response = await prisma.user.createMany({
+    data: formatted_users,
+  });
+
+  console.log("🌱 Created students 👶");
+
+  return response;
 };
 
 const seed_teachers = async () => {
-  const formatted_teachers = teachers.map((teacher) => ({
+  const formatted_teachers: CreateUser[] = teachers.map((teacher) => ({
     firstname: teacher.firstname,
     lastname: teacher.lastname,
     email: teacher.email,
@@ -82,6 +103,8 @@ const seed_teachers = async () => {
     type: "TEACHER",
     emailVerified: true,
     active: true,
+    ccid: "",
+    studentId: "",
   }));
 
   formatted_teachers.map((teacher) => {
@@ -96,7 +119,8 @@ const seed_teachers = async () => {
     const charsStudentId = "1234567890";
     let userId = "";
     for (let i = 7; i > 0; --i) {
-      userId += chars[Math.floor(Math.random() * chars.length)];
+      userId +=
+        charsStudentId[Math.floor(Math.random() * charsStudentId.length)];
     }
     teacher.studentId = userId;
   });
@@ -105,276 +129,46 @@ const seed_teachers = async () => {
     data: formatted_teachers,
   });
 
+  console.log("🌱 Created teachers 👨‍🏫");
+
   return response;
 };
 
-const seed_clubs = async () => {
-  const students = await prisma.user.findMany({
-    where: {
-      type: "STUDENT",
-    },
-  });
+const seed_interests = async () => {
+  const users = await prisma.user.findMany();
 
-  const teachers = await prisma.user.findMany({
-    where: {
-      type: "TEACHER",
-    },
-  });
+  users.map(async (user) => {
+    const { getTags: tags } = await client.request(GET_TAGS);
 
-  const { getTags: tags } = await client.request(GET_TAGS);
-
-  const studentUserIds = students.map((student) => student.id);
-
-  const teacherUserIds = teachers.map((teacher) => teacher.id);
-
-  for (let club of clubs) {
-    const presidentId =
-      studentUserIds[Math.floor(Math.random() * studentUserIds.length)];
-    const vicePresidentId =
-      studentUserIds[Math.floor(Math.random() * studentUserIds.length)];
-    const secretaryId =
-      studentUserIds[Math.floor(Math.random() * studentUserIds.length)];
-    const treasurerId =
-      studentUserIds[Math.floor(Math.random() * studentUserIds.length)];
-
-    let clubQuery = {
-      name: club.name,
-      slug: club.name
-        .toString()
-        .toLowerCase()
-        .replace(/\s+/g, "-")
-        .replace(/[^\w\-]+/g, "")
-        .replace(/\-\-+/g, "-")
-        .replace(/^-+/, "")
-        .replace(/-+$/, ""),
-      email: club.email,
-      description: club.description,
-      meetingDate: club.meetingTime,
-      location: club.location,
-      roles: {
-        create: [
-          {
-            name: "president",
-            color: "#C3F4E9",
-            type: "LEADER",
-            description: "president description",
-            users: {
-              connect: {
-                id: presidentId,
-              },
-            },
-          },
-          {
-            name: "vice president",
-            color: "#FFEAB4",
-            type: "LEADER",
-            description: "vice president description",
-            users: {
-              connect: {
-                id: vicePresidentId,
-              },
-            },
-          },
-          {
-            name: "secretary",
-            color: "#FFDCE5",
-            type: "LEADER",
-            description: "secretary description",
-            users: {
-              connect: {
-                id: secretaryId,
-              },
-            },
-          },
-          {
-            name: "treasurer",
-            color: "#F3DCFE",
-            type: "LEADER",
-            description: "treasurer description",
-            users: {
-              connect: {
-                id: treasurerId,
-              },
-            },
-          },
-        ],
-      },
-      members: {
-        connect: [
-          {
-            id: presidentId,
-          },
-          {
-            id: vicePresidentId,
-          },
-          {
-            id: secretaryId,
-          },
-          {
-            id: treasurerId,
-          },
-        ],
-      },
-      tags: {
-        connect: [
-          { id: tags[Math.floor(Math.random() * tags.length)].id },
-          { id: tags[Math.floor(Math.random() * tags.length)].id },
-          { id: tags[Math.floor(Math.random() * tags.length)].id },
-          { id: tags[Math.floor(Math.random() * tags.length)].id },
-        ],
-      },
-      teacher: {
-        connect: {
-          id: teacherUserIds[Math.floor(Math.random() * teacherUserIds.length)],
+    if (user.type === "STUDENT") {
+      await prisma.user.update({
+        where: {
+          id: user.id,
         },
-      },
-      links: {
-        create: [
-          {
-            name: "Instagram",
-            link: "https://www.instagram.com",
-            type: "INSTAGRAM",
+        data: {
+          interests: {
+            connect: [
+              { id: tags[Math.floor(Math.random() * tags.length)].id },
+              { id: tags[Math.floor(Math.random() * tags.length)].id },
+              { id: tags[Math.floor(Math.random() * tags.length)].id },
+              { id: tags[Math.floor(Math.random() * tags.length)].id },
+            ],
           },
-          {
-            name: "Discord",
-            link: "https://www.discord.com",
-            type: "DISCORD",
-          },
-        ],
-      },
-      status: "",
-      approval: false,
-      availability: "",
-      editors: {
-        connect: [
-          { id: presidentId },
-          { id: vicePresidentId },
-          { id: secretaryId },
-        ],
-      },
-      invites: {
-        create: [
-          {
-            user: {
-              connect: {
-                id: studentUserIds[
-                  Math.floor(Math.random() * studentUserIds.length)
-                ],
-              },
-            },
-          },
-          {
-            user: {
-              connect: {
-                id: studentUserIds[
-                  Math.floor(Math.random() * studentUserIds.length)
-                ],
-              },
-            },
-          },
-          {
-            user: {
-              connect: {
-                id: studentUserIds[
-                  Math.floor(Math.random() * studentUserIds.length)
-                ],
-              },
-            },
-          },
-          {
-            user: {
-              connect: {
-                id: studentUserIds[
-                  Math.floor(Math.random() * studentUserIds.length)
-                ],
-              },
-            },
-          },
-          {
-            user: {
-              connect: {
-                id: studentUserIds[
-                  Math.floor(Math.random() * studentUserIds.length)
-                ],
-              },
-            },
-          },
-        ],
-      },
-    };
-
-    const statuses = ["DRAFT", "REVIEW", "APPROVED"];
-
-    const status = statuses[Math.floor(Math.random() * statuses.length)];
-    let approval = null;
-
-    if (status == "DRAFT" || status == "REVIEW") {
-      approval = false;
+        },
+      });
     }
+  });
 
-    if (status == "APPROVED") {
-      approval = true;
-    }
-
-    const availabilities = ["OPEN", "INVITE_ONLY", "CLOSED"];
-    const availability =
-      availabilities[Math.floor(Math.random() * availabilities.length)];
-
-    clubQuery.status = "APPROVED";
-    clubQuery.approval = approval;
-    clubQuery.availability = availability;
-
-    await prisma.club.create({
-      data: clubQuery,
-    });
-  }
+  console.log("🌱 Applied interests 💡");
 };
 
-export const main = async () => {
-  await seed_tags();
-  await seed_students();
-  await seed_teachers();
-  await seed_clubs();
-  // const answer = await inquirer.prompt([
-  //   {
-  //     name: "seed_functions",
-  //     message: "Select an option to seed: ",
-  //     type: "list",
-  //     choices: ["Tags", "Students", "Teachers", "Clubs", "All"],
-  //   },
-  // ]);
-
-  // console.log(answer);
-
-  // switch (answer.seed_functions) {
-  //   case "Tags":
-  //     console.log("Seeding Tags...");
-  //     await seed_tags();
-  //     break;
-
-  //   case "Students":
-  //     console.log("Seeding Students...");
-  //     await seed_students();
-  //     break;
-
-  //   case "Teachers":
-  //     console.log("Seeding Teachers...");
-  //     await seed_teachers();
-  //     break;
-
-  //   case "Clubs":
-  //     console.log("Seeding Clubs...");
-  //     await seed_clubs();
-  //     break;
-
-  //   case "All":
-  //     console.log("Seeding Everything...");
-  //     await seed_tags();
-  //     await seed_students();
-  //     await seed_teachers();
-  //     await seed_clubs();
-  //     break;
-  // }
+const main = async () => {
+  if (process.argv.includes("slim")) {
+    await seed_tags();
+    await seed_students();
+    await seed_teachers();
+    await seed_interests();
+  }
 };
 
 main().catch((e) => {

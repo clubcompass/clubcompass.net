@@ -263,7 +263,7 @@ export default gql`
     meetingDate: String
     location: String
     availability: ClubAvailability
-    tags: [ClubPageTag!]!
+    tags: [TagName!]!
     _count: ClubMembersCount!
     status: ClubStatus!
     approval: Boolean!
@@ -275,7 +275,7 @@ export default gql`
     meetingDate: String
     location: String
     availability: ClubAvailability
-    tags: [InputTags!]!
+    tags: [InputTags!]
   }
 
   type EditClubPayload {
@@ -394,6 +394,10 @@ export default gql`
     color: String!
   }
 
+  type KickMemberPayload {
+    id: ID!
+  }
+
   ##### QUERIES + MUTATIONS #####
 
   type Query {
@@ -419,6 +423,7 @@ export default gql`
     approveClub(clubId: ID!): ApproveClubPayload!
     declineClub(clubId: ID!): DeclineClubPayload!
     requestToJoinClub(clubId: ID!): [RequestToJoinClubPayload!]!
+    kickMember(clubId: ID!, userId: ID!): KickMemberPayload!
   }
 
   ##### END OF QUERIES + MUTATIONS #####

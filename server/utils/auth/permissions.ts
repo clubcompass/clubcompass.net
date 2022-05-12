@@ -3,7 +3,7 @@ import { ApolloError, AuthenticationError } from "apollo-server-micro";
 import { Context } from "../../graphql/ctx";
 
 const isASB = rule({ cache: "contextual" })(
-  async (parent, args, { auth, prisma }, info) => {
+  async (parent, args, { auth, prisma }: Context, info) => {
     const user = await prisma.user.findUnique({
       where: {
         id: auth.id,
@@ -94,7 +94,6 @@ export const permissions = shield(
       getUnapprovedClubs: isASB,
       getUsers: isASB,
       getClubInvites: isStudent,
-      getAdvisorClubs: isTeacher,
     },
     Mutation: {
       approveClub: isASB,

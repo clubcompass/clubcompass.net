@@ -5,32 +5,31 @@ generator client {
 
 datasource db {
   provider             = "mysql"
-  url                  = env("PLANETSCALE_URL")
+  // url                  = env("PLANETSCALE_DEV_URL")
+  // url                  = env("ABHI_DEV_URL")
+  url                  = env("LOCAL_DEV_URL")
   referentialIntegrity = "prisma"
 }
 
 model Club {
-  id              String               @id @default(cuid())
-  name            String?              @unique
-  slug            String?              @unique
-  description     String?              @db.LongText
-  email           String?
-  meetingDate     String?
-  location        String?
-  approval        Boolean?             @default(false)
-  status          ClubStatus           @default(DRAFT)
-  availability    ClubAvailability     @default(OPEN)
-  teacherId       String?
-  createdAt       DateTime             @default(now())
-  updatedAt       DateTime             @updatedAt
-  teacher         User?                @relation("advisor", fields: [teacherId], references: [id])
-  applicationInfo ClubApplicationInfo?
-  invites         Invite[]
-  links           Link[]
-  roles           Role[]
-  tags            Tag[]
-  editors         User[]               @relation("editors")
-  members         User[]               @relation("members")
+  id           String           @id @default(cuid())
+  name         String?          @unique
+  slug         String?          @unique
+  description  String?          @db.LongText
+  email        String?
+  meetingDate  String?
+  location     String?
+  approval     Boolean?         @default(false)
+  status       ClubStatus       @default(DRAFT)
+  availability ClubAvailability @default(OPEN)
+  teacherId    String?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  invites      Invite[]
+  links        Link[]
+  roles        Role[]
+  tags         Tag[]
+  members      User[]           @relation("members")
 }
 
 model Link {
@@ -42,24 +41,6 @@ model Link {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   club      Club     @relation(fields: [clubId], references: [id], onDelete: Cascade)
-}
-
-model ClubApplicationInfo {
-  id                                  String              @id @default(cuid())
-  clubId                              String?             @unique
-  purpose                             String?
-  membershipRequirements              String?
-  dutiesOfMembers                     String?
-  titlesAndDutiesOfOfficers           String?
-  selectionOfOfficers                 String?
-  officerMinimumGPA                   Float?
-  percentAttendanceForOfficialMeeting Int?
-  percentAttendanceToApproveDecision  Int?
-  createdAt                           DateTime            @default(now())
-  updatedAt                           DateTime            @updatedAt
-  club                                Club?               @relation(fields: [clubId], references: [id])
-  projectedExpenses                   ProjectedExpenses[]
-  projectedRevenue                    ProjectedRevenue[]
 }
 
 model Tag {
@@ -86,11 +67,9 @@ model User {
   type              AccountType @default(STUDENT)
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
-  advisor           Club[]      @relation("advisor")
   invites           Invite[]
   roles             Role[]
   interests         Tag[]
-  canEdit           Club[]      @relation("editors")
   clubs             Club[]      @relation("members")
 }
 
@@ -108,39 +87,36 @@ model Invite {
 }
 
 model Role {
-  id          String   @id @default(cuid())
+  id          String           @id @default(cuid())
   name        String
   color       String
-  description String @db.LongText
+  description String           @db.LongText
   clubId      String
-  type        RoleType @default(MEMBER)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  club        Club     @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  type        RoleType         @default(MEMBER)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  club        Club             @relation(fields: [clubId], references: [id], onDelete: Cascade)
   invites     Invite[]
   users       User[]
+  permanent   Boolean          @default(false)
+  permissions RolePermissions?
+  rank        Int?             @default(0)
 }
 
-model ProjectedRevenue {
-  id        String               @id @default(cuid())
-  clubId    String?
-  name      String?
-  amount    Float?
-  date      String?
-  createdAt DateTime             @default(now())
-  updatedAt DateTime             @updatedAt
-  club      ClubApplicationInfo? @relation(fields: [clubId], references: [id])
+model RolePermissions {
+  id                String  @id @default(cuid())
+  role              Role    @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  roleId            String
+  canManageClubPage Boolean @default(false)
+  canManageInvites  Boolean @default(false)
+  canManageMembers  Boolean @default(false)
 }
 
-model ProjectedExpenses {
-  id        String               @id @default(cuid())
-  clubId    String?
-  name      String?
-  amount    Float?
-  date      String?
-  createdAt DateTime             @default(now())
-  updatedAt DateTime             @updatedAt
-  club      ClubApplicationInfo? @relation(fields: [clubId], references: [id])
+enum RoleType {
+  MEMBER
+  LEADER
+  PRESIDENT
+  ADVISOR
 }
 
 enum Grade {
@@ -149,11 +125,6 @@ enum Grade {
   JUNIOR
   SENIOR
   TEACHER
-}
-
-enum RoleType {
-  MEMBER
-  LEADER
 }
 
 enum InviteStatus {

@@ -115,42 +115,6 @@ export default gql`
 
   ##### END OF GET USERS #####
 
-  ##### GET USER LEADERSHIP CLUBS #####
-
-  type GetUserLeadershipClubsPayload {
-    isPresidentOf: [LeadershipClubs!]!
-    hasLeadershipIn: [LeadershipClubs!]!
-    hasEditorIn: [EditorClubs!]!
-  }
-
-  type LeadershipClubs {
-    id: ID!
-    name: String!
-    slug: String!
-    description: String!
-    availability: ClubAvailability!
-    tags: [ClubPageTag!]!
-    _count: ClubMembersCount!
-    roles: [LeadershipRoles!]!
-  }
-
-  type EditorClubs {
-    id: ID!
-    name: String!
-    slug: String!
-    description: String!
-    availability: ClubAvailability!
-    tags: [ClubPageTag!]!
-    _count: ClubMembersCount!
-  }
-
-  type LeadershipRoles {
-    name: String!
-    type: RoleType!
-  }
-
-  ##### END OF GET USER LEADERSHIP CLUBS #####
-
   ##### BATCH DELETE USERS #####
 
   type BatchDeleteUserPayload {
@@ -212,19 +176,6 @@ export default gql`
   }
 
   ##### END OF GET USER DRAFTS #####
-
-  ##### GET ADVISOR CLUBS #####
-
-  type GetAdvisorClubPayload {
-    id: ID!
-    slug: String!
-    name: String!
-    status: ClubStatus!
-    location: String!
-    meetingDate: String!
-  }
-
-  ##### END OF GET ADVISOR CLUBS #####
 
   ##### GET USER PROFILE #####
 
@@ -295,11 +246,9 @@ export default gql`
     getUsers(active: Boolean): [GetUsersPayload!]!
     # getUserClubs: [GetUserClubPayload!]!
     getUserClubs: GetUserClubsPayload!
-    getUserLeadershipClubs: GetUserLeadershipClubsPayload!
     validateUser(ccid: String!): ValidateUserPayload!
     getUser(identifier: GetUserIdentifierArgs!, type: UserType): GetUserPayload!
     getUserDrafts: [GetUserDraftsPayload!]!
-    getAdvisorClubs: [GetAdvisorClubPayload!]!
     getUserProfile: GetUserProfilePayload!
   }
 

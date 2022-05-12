@@ -21,7 +21,7 @@ export type AddLinkPayload = Awaited<ReturnType<typeof addLink>>;
 export const addLink = async (
   _parent: any,
   { clubId, data }: AddLinkArgs,
-  { auth: president, prisma }: Context
+  { auth: member, prisma }: Context
 ): Promise<typeof response> => {
   const { valid, errors } = await validate({
     schema: addLinkSchema,
@@ -37,10 +37,12 @@ export const addLink = async (
     select: {
       id: true,
       roles: {
-        where: {
-          name: "president",
-        },
         select: {
+          permissions: {
+            select: {
+              canManageClubPage: true,
+            },
+          },
           users: {
             select: {
               id: true,
@@ -57,12 +59,14 @@ export const addLink = async (
     });
 
   if (
-    !club.roles.some((role) =>
-      role.users.some((user) => user.id === president.id)
+    !club.roles.some(
+      (role) =>
+        role.permissions.canManageClubPage === true &&
+        role.users.some((user) => user.id === member.id)
     )
   )
     throw new ApolloError(
-      "You are not authorized to edit this club",
+      "You are not authorized to edit this club's page",
       "UNAUTHORIZED_ACCESS",
       { id: clubId }
     );
@@ -82,14 +86,6 @@ export const addLink = async (
     },
     select: {
       id: true,
-      // links: {
-      //   select: {
-      //     id: true,
-      //     name: true,
-      //     link: true,
-      //     type: true,
-      //   },
-      // },
     },
   });
 

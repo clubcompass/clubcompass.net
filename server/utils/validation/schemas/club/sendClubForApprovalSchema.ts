@@ -11,9 +11,11 @@ export const sendClubForApprovalSchema = object().shape({
   availability: string()
     .oneOf(["OPEN", "INVITE_ONLY", "CLOSED"], "Invalid availability.")
     .required("Club must have an availability status"),
-  tags: array().of(
-    object().shape({
-      name: string().required("Tag name is required"),
-    })
-  ),
+  tags: array()
+    .of(
+      object().shape({
+        name: string().required("Tag name is required"),
+      })
+    )
+    .max(4, "no more than 4 tags"),
 });

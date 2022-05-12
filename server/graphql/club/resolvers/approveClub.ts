@@ -13,8 +13,19 @@ export const approveClub = async (
   { clubId }: ApproveClubArgs,
   { prisma }: Context
 ): Promise<typeof club> => {
-  // only asb
-  const club = await prisma.club.update({
+  const club = await prisma.club.findUnique({
+    where: {
+      id: clubId,
+    },
+    select: {
+      status: true,
+    },
+  });
+
+  if (club.status !== "REVIEW")
+    throw new ApolloError("Club is not available for review");
+
+  const approvedClub = await prisma.club.update({
     where: {
       id: clubId,
     },
@@ -25,11 +36,11 @@ export const approveClub = async (
     select: {
       id: true,
       name: true,
-      approval: true,
+      status: true,
     },
   });
 
   if (!club) throw new ApolloError("Club was not found", "NO_CLUB", { clubId });
 
-  return club;
+  return approvedClub;
 };

@@ -17,31 +17,4 @@ export const createClubSchema = object().shape({
       })
     )
     .max(4, "no more than 4 tags"),
-  // links: array().of(
-  //   object().shape({
-  //     name: string().required("name of link is required"),
-  //     type: string()
-  //       .required("type of link required")
-  //       .oneOf(
-  //         [
-  //           "EMAIL",
-  //           "TWITTER",
-  //           "INSTAGRAM",
-  //           "DISCORD",
-  //           "YOUTUBE",
-  //           "FACEBOOK",
-  //           "REMIND",
-  //           "SNAPCHAT",
-  //           "WEBSITE",
-  //         ],
-  //         "Invalid link type."
-  //       ),
-  //     link: string()
-  //       .required("link content required")
-  //       .matches(
-  //         /^((http|https):\/\/)?(www.)?(?!.*(http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+(\/)?.([\w\?[a-zA-Z-_%\/@?]+)*([^\/\w\?[a-zA-Z0-9_-]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/,
-  //         "Website should be a valid URL"
-  //       ),
-  //   })
-  // ),
 });

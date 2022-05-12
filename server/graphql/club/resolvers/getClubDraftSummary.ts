@@ -43,17 +43,9 @@ export const getClubDraftSummary = async (
             },
             select: {
               name: true,
+              type: true,
             },
           },
-        },
-      },
-      teacher: {
-        select: {
-          id: true,
-          firstname: true,
-          lastname: true,
-          ccid: true,
-          email: true,
         },
       },
       links: {
@@ -67,6 +59,12 @@ export const getClubDraftSummary = async (
     },
   });
 
+  const teacher = club.members.find((member) =>
+    member.roles.find((role) => role.type === "ADVISOR")
+  );
+
+  const summary = { ...club, ...teacher };
+
   if (!club)
     throw new ApolloError("Club not found", "RESOURCE_NOT_FOUND", { clubId });
 
@@ -77,5 +75,5 @@ export const getClubDraftSummary = async (
       { clubId }
     );
 
-  return club;
+  return summary;
 };

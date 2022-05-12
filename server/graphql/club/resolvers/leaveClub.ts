@@ -1,4 +1,4 @@
-import type { Club } from "@prisma/client";
+import { Club } from "@prisma/client";
 import { Context } from "../../ctx";
 import { ApolloError } from "apollo-server-micro";
 
@@ -81,11 +81,6 @@ export const leaveClub = async (
       roles: {
         set: [],
         connect: newRoles,
-      },
-      canEdit: {
-        disconnect: {
-          id: clubId,
-        },
       },
     },
     select: {

@@ -16,6 +16,7 @@ import { getAdminApprovedClubs } from "./resolvers/getAdminApprovedClubs";
 import { getClubLinks } from "./resolvers/getClubLinks";
 import { getClubDraftSummary } from "./resolvers/getClubDraftSummary";
 import { getClubRoles } from "./resolvers/getClubRoles";
+import { kickMember } from "./resolvers/kickMember";
 
 const resolvers: Resolvers = {
   Query: {
@@ -38,6 +39,7 @@ const resolvers: Resolvers = {
     approveClub,
     declineClub,
     requestToJoinClub,
+    kickMember,
   },
 };
 export default resolvers;

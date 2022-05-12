@@ -3,6 +3,7 @@ import { Club } from "@prisma/client";
 import { ApolloError } from "apollo-server-micro";
 import { validate } from "../../../utils/validation";
 import { sendClubForApprovalSchema } from "../../../utils/validation/schemas/club";
+import { roles } from "lib/db";
 
 export type SendClubForApprovalArgs = {
   clubId: Club["id"];
@@ -25,32 +26,15 @@ export const sendClubForApproval = async (
       id: true,
       name: true,
       description: true,
+      status: true,
       email: true,
       meetingDate: true,
       location: true,
       availability: true,
       tags: true,
-      teacher: {
-        select: {
-          id: true,
-        },
-      },
-      members: {
-        select: {
-          roles: {
-            select: {
-              name: true,
-            },
-          },
-        },
-      },
       roles: {
-        where: {
-          name: {
-            equals: "president",
-          },
-        },
         select: {
+          name: true,
           users: {
             select: {
               id: true,
@@ -62,6 +46,23 @@ export const sendClubForApproval = async (
   });
 
   if (!club) throw new ApolloError("Club not found", "RESOURCE_NOT_FOUND");
+
+  if (club.status !== "DRAFT")
+    throw new ApolloError("Club status is not draft", "CONSTRAINT_FAILED");
+
+  console.log(club.roles);
+
+  club.roles.map((role) => console.log(role));
+
+  if (
+    !club.roles
+      .find((role) => role.name === "President")
+      .users.find((user) => user.id === president.id)
+  )
+    throw new ApolloError(
+      "You are not a president of this club",
+      "UNAUTHORIZED_ACTION"
+    );
 
   const { valid, errors } = await validate({
     schema: sendClubForApprovalSchema,
@@ -75,38 +76,14 @@ export const sendClubForApproval = async (
       { errors }
     );
 
-  let ids = club.roles[0].users.map((user) => user.id);
-  if (!ids.includes(president.id)) {
-    throw new ApolloError(
-      "You are not the president of this club",
-      "UNAUTHORIZED"
-    );
-  }
-
-  let requiredRoles = {
-    "vice president": 0,
-    secretary: 0,
-    treasurer: 0,
-  };
-
-  club.members.forEach((member) => {
-    if (member.roles.length === 0) return;
-    member.roles.forEach((role) => {
-      if (role.name in requiredRoles) {
-        requiredRoles[role.name]++;
-      }
-    });
+  club.roles.map((role) => {
+    if (role.users.length === 0)
+      throw new ApolloError(
+        `You must assign a member to the ${role.name} role`,
+        "CONSTRAINT_FAILED",
+        { roleName: role.name }
+      );
   });
-
-  Object.keys(requiredRoles).forEach((role) => {
-    if (requiredRoles[role] === 0) {
-      throw new ApolloError(`Missing user with role ${role}`, "MISSING_ROLE");
-    }
-  });
-
-  if (!club.teacher) {
-    throw new ApolloError("Club has no teacher", "NO_TEACHER");
-  }
 
   const updatedClub = await prisma.club.update({
     where: {

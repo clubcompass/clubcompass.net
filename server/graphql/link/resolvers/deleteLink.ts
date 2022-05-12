@@ -16,7 +16,7 @@ export type DeleteLinkPayload = Awaited<ReturnType<typeof deleteLink>>;
 export const deleteLink = async (
   _parent: any,
   { clubId, data }: DeleteLinkArgs,
-  { auth: president, prisma }: Context
+  { auth: member, prisma }: Context
 ): Promise<typeof response> => {
   const club = await prisma.club.findUnique({
     where: {
@@ -25,10 +25,12 @@ export const deleteLink = async (
     select: {
       id: true,
       roles: {
-        where: {
-          name: "president",
-        },
         select: {
+          permissions: {
+            select: {
+              canManageClubPage: true,
+            },
+          },
           users: {
             select: {
               id: true,
@@ -54,12 +56,14 @@ export const deleteLink = async (
   }
 
   if (
-    !club.roles.some((role) =>
-      role.users.some((user) => user.id === president.id)
+    !club.roles.some(
+      (role) =>
+        role.permissions.canManageClubPage === true &&
+        role.users.some((user) => user.id === member.id)
     )
   )
     throw new ApolloError(
-      "You are not authorized to edit this club",
+      "You are not authorized to edit this club's page",
       "UNAUTHORIZED_ACCESS",
       { id: clubId }
     );

@@ -16,6 +16,7 @@ export default gql`
   enum RoleType {
     MEMBER
     LEADER
+    ADVISOR
   }
 
   ##### END OF SHARED #####

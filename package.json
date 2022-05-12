@@ -14,7 +14,8 @@
     "test:unit": "jest --testPathPattern=unit.\\spec\\.ts$ --watch",
     "test:club": "jest -i ./tests/unit/club/club.unit.spec.ts --watch",
     "test:int": "jest --testPathPattern=int.\\spec\\.ts$ --watch",
-    "test:all": "jest --watchAll"
+    "test:all": "jest --watchAll",
+    "seed:slim": "ts-node ./prisma/seed.ts slim"
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",

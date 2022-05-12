@@ -17,8 +17,18 @@ export interface CreateClubArgs {
 export type CreateClubPayload = Awaited<ReturnType<typeof createClub>>;
 
 interface UserRoles
-  extends Pick<Role, "name" | "color" | "type" | "description"> {
+  extends Pick<
+    Role,
+    "name" | "color" | "type" | "description" | "permanent" | "rank"
+  > {
   users?: { connect: { id: User["id"] } };
+  permissions: {
+    create: {
+      canManageClubPage: boolean;
+      canManageInvites: boolean;
+      canManageMembers: boolean;
+    };
+  };
 }
 
 export const createClub = async (
@@ -49,42 +59,87 @@ export const createClub = async (
 
   const roles: UserRoles[] = [
     {
-      name: "president",
+      name: "President",
       color: "#C3F4E9",
-      type: "LEADER",
+      type: "PRESIDENT",
       description:
         "The president is the leader of the club. The president presides over and conducts meetings according to parliamentary procedures. The president is also responsible for developing agendas, scheduling fundraisers, creating a budget, and working with the club's advisor. The club president must also attend or designate someone to attend the mandatory Inter-Club Meetings and report back to club members.",
       users: { connect: { id: president.id } },
+      permanent: true,
+      rank: 2,
+      permissions: {
+        create: {
+          canManageClubPage: true,
+          canManageInvites: true,
+          canManageMembers: true,
+        },
+      },
     },
     {
-      name: "vicePresident",
+      name: "Vice President",
       color: "#FFEAB4",
       type: "LEADER",
       description:
         "The Vice President assists the president in carrying out his/her duties. In the absence of the president, the Vice President presides at club meetings and carries out all additional responsibilities normally done by the president. The most important role of the Vice President is to oversee all committee work.",
+      permanent: true,
+      rank: 1,
+      permissions: {
+        create: {
+          canManageClubPage: true,
+          canManageInvites: true,
+          canManageMembers: true,
+        },
+      },
     },
     {
-      name: "secretary",
+      name: "Secretary",
       color: "#FFDCE5",
       type: "LEADER",
       description:
         "The Secretary must take accurate notes at all meetings and prepare minutes. In addition, the Secretary prepares correspondence on behalf of the club. The Secretary assists the President in keeping permanent records for the club and copies of all minutes and committees reports. The secretary maintains a copy of the club constitution and the club handbook for reference when needed.",
+      permanent: true,
+      rank: 1,
+      permissions: {
+        create: {
+          canManageClubPage: true,
+          canManageInvites: true,
+          canManageMembers: true,
+        },
+      },
     },
     {
-      name: "treasurer",
+      name: "Treasurer",
       color: "#F3DCFE",
       type: "LEADER",
       description:
         "The club treasurer is responsible for maintaining accurate financial records for all expenditures. The treasurer reports all money spent and collected and of the account balance.",
+      permanent: true,
+      rank: 1,
+      permissions: {
+        create: {
+          canManageClubPage: false,
+          canManageInvites: false,
+          canManageMembers: false,
+        },
+      },
+    },
+    {
+      name: "Teacher",
+      color: "#D5FECB",
+      type: "ADVISOR",
+      description:
+        "The club advisor is responsible for advising the club on matters of interest to the club.",
+      permanent: true,
+      rank: 3,
+      permissions: {
+        create: {
+          canManageClubPage: false,
+          canManageInvites: false,
+          canManageMembers: false,
+        },
+      },
     },
   ];
-
-  const fillerTags = await prisma.tag.findMany({
-    take: 4,
-    select: {
-      id: true,
-    },
-  });
 
   const club = await prisma.club.create({
     data: {
@@ -100,14 +155,8 @@ export const createClub = async (
         },
       },
       tags: {
-        connect: fillerTags,
+        connect: data.tags,
       },
-      teacher: {
-        connect: {
-          email: "woodrich@protodyne.com",
-        },
-      },
-      // ...(data?.tags && { tags: { connect: [...data?.tags] } }),
     },
     select: {
       id: true,

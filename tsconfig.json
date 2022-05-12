@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    // "baseUrl": ".",
     "target": "ESNext",
+    "module": "esnext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -10,18 +10,26 @@
     "noEmit": true,
     "incremental": true,
     "esModuleInterop": true,
-    "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "baseUrl": ".",
     "jsx": "preserve",
-    "typeRoots": ["node_modules/@types", "src/@types"]
-    // "paths": {
-    //   "@/components/*": ["components/*"]
-    // }
+    "typeRoots": ["node_modules/@types"]
   },
-
-  "files": ["server/graphql/graphql.d.ts"],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/**/*", "graphql"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    },
+    "esm": true
+  },
+  "include": [
+    "./node_modules/@sanity/base/types/**/*.ts",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "./**/*.ts",
+    "./**/*.tsx"
+  ],
+  "exclude": ["node_modules", "./prisma/seed/applications.seed.ts"]
 }
