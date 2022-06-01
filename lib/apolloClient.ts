@@ -6,8 +6,6 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
-// import { setContext } from "@apollo/client/link/context";
-// import Cookies from "js-cookie";
 import { concatPagination } from "@apollo/client/utilities";
 import merge from "deepmerge";
 import isEqual from "lodash/isEqual";
@@ -16,48 +14,13 @@ export const APOLLO_STATE_PROP_NAME = "__APOLLO_STATE__";
 
 let apolloClient: ApolloClient<any> | null = null;
 
-// const authLink = setContext((_, { headers }) => {
-//   if (typeof window === "undefined") {
-//     console.log("running on ssr");
-//     return {
-//       headers,
-//     };
-//   }
-
-//   const token = Cookies.get("token"); // cookies not visible on client
-
-//   return {
-//     headers: {
-//       ...headers,
-//       authorization: token ? `Bearer ${token}` : "",
-//     },
-//   };
-// });
-
 const errorLink = onError(
   ({ graphQLErrors, networkError, operation, forward }) => {
     if (graphQLErrors) {
       for (let err of graphQLErrors) {
         console.log(err);
-        // switch (err.extensions.code) {
-        //   // Apollo Server sets code to UNAUTHENTICATED
-        //   // when an AuthenticationError is thrown in a resolver
-        //   case 'UNAUTHENTICATED':
-
-        //     // Modify the operation context with a new token
-        //     const oldHeaders = operation.getContext().headers;
-        //     operation.setContext({
-        //       headers: {
-        //         ...oldHeaders,
-        //         authorization: getNewToken(),
-        //       },
-        //     });
-        //     // Retry the request, returning the new observable
-        //     return forward(operation);
-        // }
       }
     }
-    // use RetryLink to retry the request
     if (networkError) {
       console.log(`[Network error]: ${networkError}`);
     }
@@ -69,7 +32,7 @@ const httpLink = createHttpLink({
   credentials: "same-origin",
 });
 
-const appLink = from([errorLink, httpLink]); // from([authLink, errorLink, httpLink]);
+const appLink = from([errorLink, httpLink]);
 
 export const client = new ApolloClient({
   ssrMode: typeof window === "undefined",

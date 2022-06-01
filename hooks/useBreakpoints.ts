@@ -1,6 +1,6 @@
 import { useMediaQuery } from ".";
 
-export const useBreakpoints = () => {
+export const useBreakpoints = (): { [key: string]: string | boolean } => {
   const breakpoints = {
     isXs: useMediaQuery("(max-width: 639px)"),
     isSm: useMediaQuery("(min-width: 640px) and (max-width: 767px)"),

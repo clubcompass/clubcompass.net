@@ -33,6 +33,7 @@
     "bcrypt": "^5.0.1",
     "blobs": "^2.2.1-beta.1",
     "class-validator": "^0.13.2",
+    "classnames": "^2.3.1",
     "cookie": "^0.4.2",
     "formik": "^2.2.9",
     "graphql": "^15.8.0",
