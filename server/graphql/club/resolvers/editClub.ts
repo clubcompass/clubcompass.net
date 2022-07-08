@@ -3,7 +3,6 @@ import { Context } from "../../ctx";
 import { validate } from "../../../utils/validation";
 import { editClubSchema } from "../../../utils/validation/schemas/club";
 import { ApolloError, UserInputError } from "apollo-server-micro";
-import { permissions } from "server/utils/auth/permissions";
 
 type EditClubData = {
   name?: Club["name"];

@@ -27,6 +27,7 @@ interface UserRoles
       canManageClubPage: boolean;
       canManageInvites: boolean;
       canManageMembers: boolean;
+      canManageMeetings: boolean;
     };
   };
 }
@@ -72,6 +73,7 @@ export const createClub = async (
           canManageClubPage: true,
           canManageInvites: true,
           canManageMembers: true,
+          canManageMeetings: true,
         },
       },
     },
@@ -88,6 +90,7 @@ export const createClub = async (
           canManageClubPage: true,
           canManageInvites: true,
           canManageMembers: true,
+          canManageMeetings: true,
         },
       },
     },
@@ -104,6 +107,7 @@ export const createClub = async (
           canManageClubPage: true,
           canManageInvites: true,
           canManageMembers: true,
+          canManageMeetings: true,
         },
       },
     },
@@ -120,6 +124,7 @@ export const createClub = async (
           canManageClubPage: false,
           canManageInvites: false,
           canManageMembers: false,
+          canManageMeetings: false,
         },
       },
     },
@@ -136,6 +141,7 @@ export const createClub = async (
           canManageClubPage: false,
           canManageInvites: false,
           canManageMembers: false,
+          canManageMeetings: false,
         },
       },
     },

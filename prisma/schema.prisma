@@ -5,8 +5,6 @@ generator client {
 
 datasource db {
   provider             = "mysql"
-  // url                  = env("PLANETSCALE_DEV_URL")
-  // url                  = env("ABHI_DEV_URL")
   url                  = env("LOCAL_DEV_URL")
   referentialIntegrity = "prisma"
 }
@@ -30,6 +28,7 @@ model Club {
   roles        Role[]
   tags         Tag[]
   members      User[]           @relation("members")
+  meetings     Meeting[]
 }
 
 model Link {
@@ -71,6 +70,31 @@ model User {
   roles             Role[]
   interests         Tag[]
   clubs             Club[]      @relation("members")
+  meetings          Meeting[]
+}
+
+model Meeting {
+  id              String        @id @default(cuid())
+  code            String        @unique
+  location        String
+  agenda          String?
+  minutes         String?
+  actionsTaken    String?
+  resultOfVotes   String?
+  oldBusiness     String?
+  newBusiness     String?
+  additionalNotes String?
+  signedBy        String?
+  status          MeetingStatus @default(DRAFT)
+  club            Club          @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  clubId          String
+  attendees       User[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  scheduledFor    DateTime?
+  startTime       DateTime?
+  endTime         DateTime?
+  duration        Float?
 }
 
 model Invite {
@@ -106,10 +130,11 @@ model Role {
 model RolePermissions {
   id                String  @id @default(cuid())
   role              Role    @relation(fields: [roleId], references: [id], onDelete: Cascade)
-  roleId            String
+  roleId            String  @unique
   canManageClubPage Boolean @default(false)
   canManageInvites  Boolean @default(false)
   canManageMembers  Boolean @default(false)
+  canManageMeetings Boolean @default(false)
 }
 
 enum RoleType {
@@ -168,4 +193,12 @@ enum LinkType {
   REMIND
   SNAPCHAT
   WEBSITE
+}
+
+enum MeetingStatus {
+  DRAFT
+  SCHEDULED
+  OPEN
+  CLOSED
+  PUBLISHED
 }

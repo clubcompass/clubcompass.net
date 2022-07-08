@@ -3,7 +3,6 @@ import { Club } from "@prisma/client";
 import { ApolloError } from "apollo-server-micro";
 import { validate } from "../../../utils/validation";
 import { sendClubForApprovalSchema } from "../../../utils/validation/schemas/club";
-import { roles } from "lib/db";
 
 export type SendClubForApprovalArgs = {
   clubId: Club["id"];

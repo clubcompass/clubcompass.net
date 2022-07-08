@@ -154,10 +154,20 @@ const seed_clubs = async () => {
       roles: {
         create: [
           {
-            name: "president",
+            name: "President",
             color: "#C3F4E9",
-            type: "LEADER",
-            description: "president description",
+            type: "PRESIDENT",
+            description:
+              "The president is the leader of the club. The president presides over and conducts meetings according to parliamentary procedures. The president is also responsible for developing agendas, scheduling fundraisers, creating a budget, and working with the club's advisor. The club president must also attend or designate someone to attend the mandatory Inter-Club Meetings and report back to club members.",
+            permanent: true,
+            rank: 2,
+            permissions: {
+              create: {
+                canManageClubPage: true,
+                canManageInvites: true,
+                canManageMembers: true,
+              },
+            },
             users: {
               connect: {
                 id: presidentId,
@@ -165,10 +175,20 @@ const seed_clubs = async () => {
             },
           },
           {
-            name: "vice president",
+            name: "Vice President",
             color: "#FFEAB4",
             type: "LEADER",
-            description: "vice president description",
+            description:
+              "The Vice President assists the president in carrying out his/her duties. In the absence of the president, the Vice President presides at club meetings and carries out all additional responsibilities normally done by the president. The most important role of the Vice President is to oversee all committee work.",
+            permanent: true,
+            rank: 1,
+            permissions: {
+              create: {
+                canManageClubPage: true,
+                canManageInvites: true,
+                canManageMembers: true,
+              },
+            },
             users: {
               connect: {
                 id: vicePresidentId,
@@ -176,10 +196,20 @@ const seed_clubs = async () => {
             },
           },
           {
-            name: "secretary",
+            name: "Secretary",
             color: "#FFDCE5",
             type: "LEADER",
-            description: "secretary description",
+            description:
+              "The Secretary must take accurate notes at all meetings and prepare minutes. In addition, the Secretary prepares correspondence on behalf of the club. The Secretary assists the President in keeping permanent records for the club and copies of all minutes and committees reports. The secretary maintains a copy of the club constitution and the club handbook for reference when needed.",
+            permanent: true,
+            rank: 1,
+            permissions: {
+              create: {
+                canManageClubPage: true,
+                canManageInvites: true,
+                canManageMembers: true,
+              },
+            },
             users: {
               connect: {
                 id: secretaryId,
@@ -187,13 +217,46 @@ const seed_clubs = async () => {
             },
           },
           {
-            name: "treasurer",
+            name: "Treasurer",
             color: "#F3DCFE",
             type: "LEADER",
-            description: "treasurer description",
+            description:
+              "The club treasurer is responsible for maintaining accurate financial records for all expenditures. The treasurer reports all money spent and collected and of the account balance.",
+            permanent: true,
+            rank: 1,
+            permissions: {
+              create: {
+                canManageClubPage: false,
+                canManageInvites: false,
+                canManageMembers: false,
+              },
+            },
             users: {
               connect: {
                 id: treasurerId,
+              },
+            },
+          },
+          {
+            name: "Teacher",
+            color: "#D5FECB",
+            type: "ADVISOR",
+            description:
+              "The club advisor is responsible for advising the club on matters of interest to the club.",
+            permanent: true,
+            rank: 3,
+            permissions: {
+              create: {
+                canManageClubPage: false,
+                canManageInvites: false,
+                canManageMembers: false,
+              },
+            },
+            users: {
+              connect: {
+                id: teacherUserIds[
+                  Math.floor(Math.random() * teacherUserIds.length)
+                ],
               },
             },
           },
